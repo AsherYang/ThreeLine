@@ -1,12 +1,13 @@
 apply plugin: 'com.android.application'
+apply from: '../deps.gradle'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion compileSdkVer
+    buildToolsVersion buildToolsVer
     defaultConfig {
         applicationId "com.asher.threeline"
-        minSdkVersion 15
-        targetSdkVersion 25
+        minSdkVersion minSdkVer
+        targetSdkVersion targetSdkVer
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -17,12 +18,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile(testEspresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testCompile 'junit:junit:4.12'
+    testCompile junit
+    compile butterKnife
+    annotationProcessor butterKnifeCompiler
+    compile dagger2
+    annotationProcessor dagger2Compiler
 }
