@@ -44,7 +44,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         int adapterPosition = holder.getAdapterPosition();
         int layoutPosition = holder.getLayoutPosition();
 
-        Log.i("TAG", "adapter Pos = " + adapterPosition + " , layout pos = " +
+        Log.i("TAG", "adapter pos = " + adapterPosition + " , layout pos = " +
                 layoutPosition + " , last pos = " + mLastPosition);
 
         if (adapterPosition > mLastPosition) {
