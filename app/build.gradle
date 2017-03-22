@@ -34,4 +34,5 @@ dependencies {
     annotationProcessor butterKnifeCompiler
     compile dagger2
     annotationProcessor dagger2Compiler
+    compile 'com.android.support:recyclerview-v7:23.1.1'
 }

@@ -1,6 +1,8 @@
 package com.asher.threeline.ui.main;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -8,6 +10,9 @@ import android.widget.Toast;
 import com.asher.threeline.AppComponent;
 import com.asher.threeline.R;
 import com.asher.threeline.ui.base.BaseActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -19,15 +24,31 @@ public class MainActivity extends BaseActivity implements MainView {
 
     @BindView(R.id.tv_show)
     TextView tvShow;
+    @BindView(R.id.rv_show)
+    RecyclerView rvShow;
 
     @Inject
     MainPresenter mainPresenter;
+
+    private MainAdapter mainAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        initData();
+    }
+
+    private void initData() {
+        List<String> data = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            data.add("name = " + i);
+        }
+        mainAdapter = new MainAdapter(this, data);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        rvShow.setLayoutManager(layoutManager);
+        rvShow.setAdapter(mainAdapter);
     }
 
     /**
