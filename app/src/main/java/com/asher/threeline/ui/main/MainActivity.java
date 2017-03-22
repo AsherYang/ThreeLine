@@ -1,10 +1,12 @@
-package com.asher.threeline;
+package com.asher.threeline.ui.main;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.asher.threeline.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
