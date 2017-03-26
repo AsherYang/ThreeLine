@@ -5,6 +5,7 @@ ext {
     buildToolsVer = '25.0.2'
     sourceCompatibilityVer = JavaVersion.VERSION_1_7
     targetCompatibilityVer = JavaVersion.VERSION_1_7
+    recyclerView = 'com.android.support:recyclerview-v7:23.1.1'
 
     butterKnife = 'com.jakewharton:butterknife:8.5.1'
     butterKnifeCompiler = 'com.jakewharton:butterknife-compiler:8.5.1'

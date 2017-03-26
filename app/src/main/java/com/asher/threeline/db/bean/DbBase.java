@@ -2,6 +2,7 @@ package com.asher.threeline.db.bean;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
 /**
  * Created by ouyangfan on 17/3/26.
@@ -18,7 +19,9 @@ class DbBase extends RealmObject {
 
     /**
      * 同步KEY
+     * Required 数据不能为null
      */
+    @Required
     private Long syncKey;
 
     /**
