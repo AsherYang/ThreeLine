@@ -24,6 +24,11 @@ public class DbMusic extends DbBase {
     private String brief;
 
     /**
+     * 配图
+     */
+    private String imagePath;
+
+    /**
      * downloadManager downloadId
      * 下载ID
      */
@@ -53,6 +58,14 @@ public class DbMusic extends DbBase {
         this.brief = brief;
     }
 
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
     public Long getDownloadId() {
         return downloadId;
     }
@@ -67,6 +80,7 @@ public class DbMusic extends DbBase {
                 "songName='" + songName + '\'' +
                 ", singer='" + singer + '\'' +
                 ", brief='" + brief + '\'' +
+                ", imagePath='" + imagePath + '\'' +
                 ", downloadId=" + downloadId +
                 '}';
     }
