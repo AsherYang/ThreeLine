@@ -1,6 +1,20 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        // 服务器maven仓库地址
+//        maven { url "http://172.28.10.222:8081/nexus/content/groups/android_public/" }
+        //本地Maven仓库地址
+        maven {url uri('../repo') }
+    }
+    dependencies {
+//        classpath 'com.asher.aop:threeLine-plugin:0.0.1-Dev'
+    }
+}
+
 apply plugin: 'com.android.application'
 apply from: '../deps.gradle'
 apply plugin: 'realm-android'
+//apply plugin: 'asher'
 
 android {
     compileSdkVersion compileSdkVer
@@ -35,5 +49,8 @@ dependencies {
     annotationProcessor butterKnifeCompiler
     compile dagger2
     annotationProcessor dagger2Compiler
+    compile rxAndroid2
     compile recyclerView
+
+    compile aspectjrt
 }
