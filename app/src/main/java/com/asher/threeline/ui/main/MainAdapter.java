@@ -1,7 +1,6 @@
 package com.asher.threeline.ui.main;
 
 import android.animation.Animator;
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -48,9 +47,9 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 layoutPosition + " , last pos = " + mLastPosition);
 
         if (adapterPosition > mLastPosition) {
-            startAnimator(holder.itemView, true);
+            startAnimator(((MyViewHolder) holder).name, true);
         } else {
-            startAnimator(holder.itemView, false);
+            startAnimator(((MyViewHolder) holder).name, false);
         }
         mLastPosition = adapterPosition;
     }
@@ -76,8 +75,8 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             height = -height;
         }
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            ObjectAnimator rotationX = ObjectAnimator.ofFloat(view, "translationY", height, 0);
-            rotationX.addListener(new Animator.AnimatorListener() {
+            ObjectAnimator animator = ObjectAnimator.ofFloat(view, "translationY", height, 0);
+            animator.addListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animator) {
                     Log.i("TAG", "---- onAnimationStart ----");
@@ -86,6 +85,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 @Override
                 public void onAnimationEnd(Animator animator) {
                     Log.i("TAG", "---- onAnimationEnd ----");
+                    view.setTranslationY(0);
                 }
 
                 @Override
@@ -99,11 +99,9 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 }
             });
             PathInterpolator interpolator = new PathInterpolator(0f, 0f, 0.40f, 1f);
-            AnimatorSet animSet = new AnimatorSet();
-            animSet.setInterpolator(interpolator);
-            animSet.setDuration(400);
-            animSet.play(rotationX);
-            animSet.start();
+            animator.setInterpolator(interpolator);
+            animator.setDuration(400);
+            animator.start();
         }
 
     }

@@ -1,12 +1,34 @@
 package com.asher.threeline.db.bean;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
+
 /**
  * Created by ouyangfan on 2017/3/22.
  *
  * 类型为music的数据
  * music database
  */
-public class DbMusic extends DbBase {
+public class DbMusic extends RealmObject {
+
+    /**
+     * 主键
+     */
+    @PrimaryKey
+    private String id;
+
+    /**
+     * 同步KEY
+     * Required 数据不能为null
+     */
+    @Required
+    private Long syncKey;
+
+    /**
+     * 创建时间
+     */
+    private Long createTime;
 
     /**
      * 歌曲名称
@@ -33,6 +55,30 @@ public class DbMusic extends DbBase {
      * 下载ID
      */
     private Long downloadId;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Long getSyncKey() {
+        return syncKey;
+    }
+
+    public void setSyncKey(Long syncKey) {
+        this.syncKey = syncKey;
+    }
+
+    public Long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
+    }
 
     public String getSongName() {
         return songName;
@@ -77,7 +123,10 @@ public class DbMusic extends DbBase {
     @Override
     public String toString() {
         return "DbMusic{" +
-                "songName='" + songName + '\'' +
+                "id='" + id + '\'' +
+                ", syncKey=" + syncKey +
+                ", createTime=" + createTime +
+                ", songName='" + songName + '\'' +
                 ", singer='" + singer + '\'' +
                 ", brief='" + brief + '\'' +
                 ", imagePath='" + imagePath + '\'' +
