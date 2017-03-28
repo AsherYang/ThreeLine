@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,9 +42,6 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         int adapterPosition = holder.getAdapterPosition();
         int layoutPosition = holder.getLayoutPosition();
 
-        Log.i("TAG", "adapter pos = " + adapterPosition + " , layout pos = " +
-                layoutPosition + " , last pos = " + mLastPosition);
-
         if (adapterPosition > mLastPosition) {
             startAnimator(((MyViewHolder) holder).name, true);
         } else {
@@ -79,12 +75,10 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             animator.addListener(new Animator.AnimatorListener() {
                 @Override
                 public void onAnimationStart(Animator animator) {
-                    Log.i("TAG", "---- onAnimationStart ----");
                 }
 
                 @Override
                 public void onAnimationEnd(Animator animator) {
-                    Log.i("TAG", "---- onAnimationEnd ----");
                     view.setTranslationY(0);
                 }
 

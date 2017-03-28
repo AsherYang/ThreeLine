@@ -7,14 +7,14 @@ buildscript {
         maven {url uri('../repo') }
     }
     dependencies {
-//        classpath 'com.asher.aop:threeLine-plugin:0.0.1-Dev'
+        classpath 'com.asher.aop:threeline-plugin:0.0.1-Dev'
     }
 }
 
 apply plugin: 'com.android.application'
 apply from: '../deps.gradle'
 apply plugin: 'realm-android'
-//apply plugin: 'asher'
+apply plugin: 'asher'
 
 android {
     compileSdkVersion compileSdkVer
