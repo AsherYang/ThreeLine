@@ -6,5 +6,5 @@ package com.asher.threeline.ui.main;
  * MVP 中view 层
  */
 public interface MainView {
-    void showClick();
+    void showClick(String showText);
 }

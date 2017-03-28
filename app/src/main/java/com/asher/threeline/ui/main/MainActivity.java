@@ -3,12 +3,15 @@ package com.asher.threeline.ui.main;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.asher.threeline.AppComponent;
 import com.asher.threeline.R;
+import com.asher.threeline.db.bean.DbMusic;
+import com.asher.threeline.serve.music.DbMusicServeModule;
 import com.asher.threeline.ui.base.BaseActivity;
 
 import java.util.ArrayList;
@@ -31,6 +34,7 @@ public class MainActivity extends BaseActivity implements MainView {
     MainPresenter mainPresenter;
 
     private MainAdapter mainAdapter;
+    private List<DbMusic> dbMusics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,17 +42,23 @@ public class MainActivity extends BaseActivity implements MainView {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initData();
+        getDataFromDb();
     }
 
     private void initData() {
-        List<String> data = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            data.add("name = " + i);
-        }
-        mainAdapter = new MainAdapter(this, data);
+        mainPresenter.prepareMusicToDb();
+        dbMusics = new ArrayList<>();
+        mainAdapter = new MainAdapter(this, dbMusics);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvShow.setLayoutManager(layoutManager);
         rvShow.setAdapter(mainAdapter);
+    }
+
+    private void getDataFromDb() {
+        List<DbMusic> musics = mainPresenter.getAllMusicsFromDb();
+        dbMusics.clear();
+        dbMusics.addAll(musics);
+        mainAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -60,6 +70,7 @@ public class MainActivity extends BaseActivity implements MainView {
         DaggerMainComponent.builder()
                 .appComponent(appComponent)
                 .mainModule(new MainModule(this))
+                .dbMusicServeModule(new DbMusicServeModule())
                 .build()
                 .inject(this);
     }
@@ -76,7 +87,10 @@ public class MainActivity extends BaseActivity implements MainView {
     }
 
     @Override
-    public void showClick() {
-        Toast.makeText(this, "Hello Asher", Toast.LENGTH_SHORT).show();
+    public void showClick(String showText) {
+        if (TextUtils.isEmpty(showText)) {
+            return;
+        }
+        Toast.makeText(this, showText, Toast.LENGTH_SHORT).show();
     }
 }

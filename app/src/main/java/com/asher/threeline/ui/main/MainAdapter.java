@@ -11,6 +11,7 @@ import android.view.animation.PathInterpolator;
 import android.widget.TextView;
 
 import com.asher.threeline.R;
+import com.asher.threeline.db.bean.DbMusic;
 
 import java.util.List;
 
@@ -21,10 +22,10 @@ import java.util.List;
 public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private List<String> mData;
+    private List<DbMusic> mData;
     private int mLastPosition = -1;
 
-    public MainAdapter(Context context, List<String> list) {
+    public MainAdapter(Context context, List<DbMusic> list) {
         this.mContext = context;
         mData = list;
     }
@@ -37,7 +38,7 @@ public class MainAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((MyViewHolder) holder).name.setText(mData.get(position));
+        ((MyViewHolder) holder).name.setText(mData.get(position).getSongName());
 
         int adapterPosition = holder.getAdapterPosition();
         int layoutPosition = holder.getLayoutPosition();
