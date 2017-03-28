@@ -3,7 +3,8 @@
 ## 总体概况
 
 1. 创建时间：2017年3月18日
-2. 项目结构：mvp + dagger2
+2. 项目结构：mvp + dagger2 + rxJava + realm
+3. 1句话就可以插入数据, 数据库操作从未如此简单
 ```
 ThreeLine
     -- app
