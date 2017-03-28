@@ -1,5 +1,6 @@
 buildscript {
     repositories {
+        jcenter()
         mavenCentral()
         //本地Maven仓库地址
         maven {url uri('../repo') }
