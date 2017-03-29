@@ -1,6 +1,6 @@
 package com.asher.threeline.ui.main;
 
-import com.asher.threeline.serve.music.IDbMusicServe;
+import com.asher.threeline.serve.data.music.IDbMusicServe;
 
 import dagger.Module;
 import dagger.Provides;

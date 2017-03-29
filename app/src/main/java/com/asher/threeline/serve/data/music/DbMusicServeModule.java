@@ -1,4 +1,4 @@
-package com.asher.threeline.serve.music;
+package com.asher.threeline.serve.data.music;
 
 import dagger.Module;
 import dagger.Provides;

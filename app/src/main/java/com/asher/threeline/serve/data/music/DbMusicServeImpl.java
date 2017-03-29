@@ -1,4 +1,4 @@
-package com.asher.threeline.serve.music;
+package com.asher.threeline.serve.data.music;
 
 import com.asher.threeline.aop.annotation.DbRealm;
 import com.asher.threeline.db.bean.DbMusic;
