@@ -17,13 +17,13 @@ public class DbMusicServeImpl implements IDbMusicServe {
     @DbRealm
     @Override
     public void addMusicList(List<DbMusic> musicList) {
-
+        // you need do nothing. just do it auto.
     }
 
     @DbRealm
     @Override
     public void addMusic(DbMusic music) {
-
+        // you need do nothing. just do it auto.
     }
 
     @Override
