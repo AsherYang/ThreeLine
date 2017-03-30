@@ -1,5 +1,6 @@
 package com.asher.threeline.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import com.asher.threeline.R;
 import com.asher.threeline.db.bean.DbMusic;
 import com.asher.threeline.serve.data.music.DbMusicServeModule;
 import com.asher.threeline.ui.base.BaseActivity;
+import com.asher.threeline.ui.test.TestActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,5 +94,7 @@ public class MainActivity extends BaseActivity implements MainView {
             return;
         }
         Toast.makeText(this, showText, Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, TestActivity.class);
+        startActivity(intent);
     }
 }
