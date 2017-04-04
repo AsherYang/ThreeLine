@@ -46,6 +46,8 @@ dependencies {
     testCompile junit
     compile butterKnife
     annotationProcessor butterKnifeCompiler
+    compile retrofit2
+    compile okhttp3
     compile dagger2
     annotationProcessor dagger2Compiler
     compile rxAndroid2
