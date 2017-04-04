@@ -35,6 +35,9 @@ android {
 
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
     }
 }
 
@@ -47,10 +50,16 @@ dependencies {
     compile butterKnife
     annotationProcessor butterKnifeCompiler
     compile retrofit2
+    compile retrofit2JacksonConverter
+    compile retrofit2RxJavaAdapter
     compile okhttp3
+    compile okhttpLog
     compile dagger2
     annotationProcessor dagger2Compiler
     compile rxAndroid2
+    compile jacksonDatabind
+    compile jacksonCore
+    compile jacksonAnnotation
     compile recyclerView
     compile aspectjrt
 }

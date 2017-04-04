@@ -12,9 +12,15 @@ ext {
     dagger2 = 'com.google.dagger:dagger:2.5'
     dagger2Compiler = 'com.google.dagger:dagger-compiler:2.5'
     retrofit2 = 'com.squareup.retrofit2:retrofit:2.2.0'
+    retrofit2JacksonConverter = 'com.squareup.retrofit2:converter-jackson:2.2.0'
+    retrofit2RxJavaAdapter = 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
     okhttp3 = 'com.squareup.okhttp3:okhttp:3.6.0'
+    okhttpLog = 'com.squareup.okhttp3:logging-interceptor:3.6.0'
     rxJava2 = 'io.reactivex.rxjava2:rxjava:2.0.1'
     rxAndroid2 = 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    jacksonDatabind = 'com.fasterxml.jackson.core:jackson-databind:2.8.7'
+    jacksonCore = 'com.fasterxml.jackson.core:jackson-core:2.8.7'
+    jacksonAnnotation = 'com.fasterxml.jackson.core:jackson-annotations:2.8.7'
 
     aspectjrt = 'org.aspectj:aspectjrt:1.8.9'
 
