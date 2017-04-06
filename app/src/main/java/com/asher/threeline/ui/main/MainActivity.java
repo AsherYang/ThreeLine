@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,7 +12,12 @@ import android.widget.Toast;
 import com.asher.threeline.AppComponent;
 import com.asher.threeline.R;
 import com.asher.threeline.db.bean.DbMusic;
+import com.asher.threeline.serve.data.music.DaggerDbMusicServeComponent;
+import com.asher.threeline.serve.data.music.DbMusicServeComponent;
 import com.asher.threeline.serve.data.music.DbMusicServeModule;
+import com.asher.threeline.serve.net.github.DaggerGitUserNetServeComponent;
+import com.asher.threeline.serve.net.github.GitUserNetServeComponent;
+import com.asher.threeline.serve.net.github.GitUserNetServeModule;
 import com.asher.threeline.ui.base.BaseActivity;
 
 import java.util.ArrayList;
@@ -39,10 +45,12 @@ public class MainActivity extends BaseActivity implements MainView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("TAG", "onCreate");
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initData();
         getDataFromDb();
+        getGitHubUser();
     }
 
     private void initData() {
@@ -54,6 +62,28 @@ public class MainActivity extends BaseActivity implements MainView {
         rvShow.setAdapter(mainAdapter);
     }
 
+    /**
+     * 每个界面必须的初始化component操作.已经在基类BaseActivity中提供方法.
+     */
+    @Override
+    protected void setupComponent(AppComponent appComponent) {
+        Log.i("TAG", "setupComponent");
+        // 关键的就是这句话,将appComponent和Module关联起来
+        DbMusicServeComponent dbMusicServeComponent = DaggerDbMusicServeComponent.builder()
+                .dbMusicServeModule(new DbMusicServeModule())
+                .build();
+        GitUserNetServeComponent userNetServeComponent = DaggerGitUserNetServeComponent.builder()
+                .gitUserNetServeModule(new GitUserNetServeModule())
+                .build();
+        DaggerMainComponent.builder()
+                .appComponent(appComponent)
+                .mainModule(new MainModule(this))
+                .dbMusicServeComponent(dbMusicServeComponent)
+                .gitUserNetServeComponent(userNetServeComponent)
+                .build()
+                .inject(this);
+    }
+
     private void getDataFromDb() {
         List<DbMusic> musics = mainPresenter.getAllMusicsFromDb();
         dbMusics.clear();
@@ -61,18 +91,9 @@ public class MainActivity extends BaseActivity implements MainView {
         mainAdapter.notifyDataSetChanged();
     }
 
-    /**
-     * 每个界面必须的初始化component操作.已经在基类BaseActivity中提供方法.
-     */
-    @Override
-    protected void setupComponent(AppComponent appComponent) {
-        // 关键的就是这句话,将appComponent和Module关联起来
-        DaggerMainComponent.builder()
-                .appComponent(appComponent)
-                .mainModule(new MainModule(this))
-                .dbMusicServeModule(new DbMusicServeModule())
-                .build()
-                .inject(this);
+    private void getGitHubUser() {
+        String userName = "AsherYang";
+        mainPresenter.getGitHubUser(userName);
     }
 
     @OnClick(R.id.tv_show)

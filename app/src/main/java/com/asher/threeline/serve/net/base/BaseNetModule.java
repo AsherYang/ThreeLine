@@ -27,8 +27,9 @@ import retrofit2.converter.jackson.JacksonConverterFactory;
 /**
  * Created by ouyangfan on 17/4/4.
  * <p>
- * 基础封装
+ * 基础网络封装
  * Retrofit2 + Dagger2 + RxJava2
+ * 本基础module不提供component，且为全局单例模式，直接由applicationComponent处理提供
  */
 @Module
 public class BaseNetModule {
@@ -36,7 +37,6 @@ public class BaseNetModule {
     /**
      * 使用缓存,离线缓存,在线请求数据
      *
-     * @param context context
      * @return okHttpClient
      */
     @Provides
