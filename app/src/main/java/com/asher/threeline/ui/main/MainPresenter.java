@@ -18,6 +18,4 @@ public interface MainPresenter {
     DbMusic getMusicFromDb(Integer syncKey);
 
     List<DbMusic> getAllMusicsFromDb();
-
-    void getGitHubUser(String userName);
 }

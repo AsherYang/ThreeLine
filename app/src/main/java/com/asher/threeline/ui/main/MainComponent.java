@@ -2,7 +2,6 @@ package com.asher.threeline.ui.main;
 
 import com.asher.threeline.ActivityScope;
 import com.asher.threeline.serve.data.music.DbMusicServeComponent;
-import com.asher.threeline.serve.net.github.GitUserNetServeComponent;
 
 import dagger.Component;
 
@@ -13,7 +12,7 @@ import dagger.Component;
  */
 @ActivityScope
 @Component(
-        dependencies = {DbMusicServeComponent.class, GitUserNetServeComponent.class},
+        dependencies = {DbMusicServeComponent.class},
         modules = {MainModule.class}
 )
 public interface MainComponent {

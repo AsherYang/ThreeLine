@@ -1,5 +1,6 @@
 package com.asher.threeline.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,10 +16,8 @@ import com.asher.threeline.db.bean.DbMusic;
 import com.asher.threeline.serve.data.music.DaggerDbMusicServeComponent;
 import com.asher.threeline.serve.data.music.DbMusicServeComponent;
 import com.asher.threeline.serve.data.music.DbMusicServeModule;
-import com.asher.threeline.serve.net.github.DaggerGitUserNetServeComponent;
-import com.asher.threeline.serve.net.github.GitUserNetServeComponent;
-import com.asher.threeline.serve.net.github.GitUserNetServeModule;
 import com.asher.threeline.ui.base.BaseActivity;
+import com.asher.threeline.ui.github.GithubActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +49,6 @@ public class MainActivity extends BaseActivity implements MainView {
         ButterKnife.bind(this);
         initData();
         getDataFromDb();
-        getGitHubUser();
     }
 
     private void initData() {
@@ -72,14 +70,9 @@ public class MainActivity extends BaseActivity implements MainView {
         DbMusicServeComponent dbMusicServeComponent = DaggerDbMusicServeComponent.builder()
                 .dbMusicServeModule(new DbMusicServeModule())
                 .build();
-        GitUserNetServeComponent userNetServeComponent = DaggerGitUserNetServeComponent.builder()
-                .gitUserNetServeModule(new GitUserNetServeModule())
-                .appComponent(appComponent)
-                .build();
         DaggerMainComponent.builder()
                 .mainModule(new MainModule(this))
                 .dbMusicServeComponent(dbMusicServeComponent)
-                .gitUserNetServeComponent(userNetServeComponent)
                 .build()
                 .inject(this);
     }
@@ -91,16 +84,13 @@ public class MainActivity extends BaseActivity implements MainView {
         mainAdapter.notifyDataSetChanged();
     }
 
-    private void getGitHubUser() {
-        String userName = "AsherYang";
-        mainPresenter.getGitHubUser(userName);
-    }
-
     @OnClick(R.id.tv_show)
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_show:
                 mainPresenter.onBtnClick();
+                Intent intent = new Intent(MainActivity.this, GithubActivity.class);
+                startActivity(intent);
                 break;
             default:
                 break;

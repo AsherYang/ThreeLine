@@ -1,12 +1,7 @@
 package com.asher.threeline.ui.main;
 
-import android.util.Log;
-
 import com.asher.threeline.db.bean.DbMusic;
 import com.asher.threeline.serve.data.music.IDbMusicServe;
-import com.asher.threeline.serve.net.github.IGitHubNetServe;
-import com.asher.threeline.serve.net.github.NetGitUser;
-import com.asher.threeline.serve.net.github.OnGetGitUserCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +15,10 @@ public class MainPresenterImpl implements MainPresenter {
 
     private MainView mainView;
     private IDbMusicServe dbMusicServe;
-    private IGitHubNetServe gitHubNetServe;
 
-    public MainPresenterImpl(MainView mainView, IDbMusicServe dbMusicServe, IGitHubNetServe gitHubNetServe) {
+    public MainPresenterImpl(MainView mainView, IDbMusicServe dbMusicServe) {
         this.mainView = mainView;
         this.dbMusicServe = dbMusicServe;
-        this.gitHubNetServe = gitHubNetServe;
     }
 
     @Override
@@ -56,21 +49,4 @@ public class MainPresenterImpl implements MainPresenter {
     public List<DbMusic> getAllMusicsFromDb() {
         return dbMusicServe.getAllMusic();
     }
-
-    @Override
-    public void getGitHubUser(String userName) {
-        gitHubNetServe.getUser(userName, mUserCallBack);
-    }
-
-    private OnGetGitUserCallBack mUserCallBack = new OnGetGitUserCallBack() {
-        @Override
-        public void onSuccess(NetGitUser gitUser) {
-            Log.i("TAG", "getUser success = " + gitUser);
-        }
-
-        @Override
-        public void onFail(Throwable throwable) {
-            Log.i("TAG", "getUser fail = " + throwable);
-        }
-    };
 }
