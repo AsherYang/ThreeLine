@@ -8,10 +8,13 @@ import com.asher.threeline.serve.net.base.BaseNetModule;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 
 /**
  * Created by ouyangfan on 2017/3/22.
+ * <p>
+ * application component
  */
 @Singleton
 @Component(
@@ -23,6 +26,8 @@ public interface AppComponent {
 
     // 这里不需要设置context形参，因为这是component暴露给子组件的对象
     Resources provideResources();
+
+    OkHttpClient provideOkHttpClient();
 
     Retrofit provideRetrofit();
 

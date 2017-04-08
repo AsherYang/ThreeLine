@@ -2,8 +2,6 @@ package com.asher.threeline.serve.net.github;
 
 import com.asher.threeline.api.IGetDataHttp;
 
-import javax.inject.Inject;
-
 import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
@@ -16,16 +14,13 @@ import retrofit2.Retrofit;
 @Module
 public class GitUserNetServeModule {
 
-    @Inject
-    Retrofit mRetrofit;
-
     @Provides
-    IGetDataHttp provideHttpService() {
-        return mRetrofit.create(IGetDataHttp.class);
+    IGetDataHttp provideHttpService(Retrofit retrofit) {
+        return retrofit.create(IGetDataHttp.class);
     }
 
     @Provides
-    IGitHubNetServe provideGitHubNetServe() {
-        return new GitHubNetServeImpl();
+    IGitHubNetServe provideGitHubNetServe(IGetDataHttp dataHttp) {
+        return new GitHubNetServeImpl(dataHttp);
     }
 }

@@ -3,10 +3,6 @@ package com.asher.threeline.serve.net.github;
 import android.util.Log;
 
 import com.asher.threeline.api.IGetDataHttp;
-import com.asher.threeline.serve.net.base.BaseHttpResultPrep;
-import com.asher.threeline.serve.net.base.NetBaseResult;
-
-import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -23,14 +19,16 @@ import static android.content.ContentValues.TAG;
  */
 public class GitHubNetServeImpl implements IGitHubNetServe {
 
-    @Inject
-    IGetDataHttp mGetDataHttp;
+    private IGetDataHttp mGetDataHttp;
+
+    public GitHubNetServeImpl(IGetDataHttp getDataHttp) {
+        this.mGetDataHttp = getDataHttp;
+    }
 
     @Override
     public void getUser(final String user, final OnGetGitUserCallBack userCallBack) {
-        Observable<NetBaseResult<NetGitUser>> observable = mGetDataHttp.getUser(user);
-        observable.map(new BaseHttpResultPrep<NetGitUser>())
-                .subscribeOn(Schedulers.io())
+        Observable<NetGitUser> observable = mGetDataHttp.getUser(user);
+        observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<NetGitUser>() {
                     @Override

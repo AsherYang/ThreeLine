@@ -74,9 +74,9 @@ public class MainActivity extends BaseActivity implements MainView {
                 .build();
         GitUserNetServeComponent userNetServeComponent = DaggerGitUserNetServeComponent.builder()
                 .gitUserNetServeModule(new GitUserNetServeModule())
+                .appComponent(appComponent)
                 .build();
         DaggerMainComponent.builder()
-                .appComponent(appComponent)
                 .mainModule(new MainModule(this))
                 .dbMusicServeComponent(dbMusicServeComponent)
                 .gitUserNetServeComponent(userNetServeComponent)

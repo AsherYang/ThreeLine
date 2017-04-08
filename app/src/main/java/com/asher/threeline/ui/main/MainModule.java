@@ -3,8 +3,6 @@ package com.asher.threeline.ui.main;
 import com.asher.threeline.serve.data.music.IDbMusicServe;
 import com.asher.threeline.serve.net.github.IGitHubNetServe;
 
-import javax.inject.Inject;
-
 import dagger.Module;
 import dagger.Provides;
 
@@ -18,13 +16,6 @@ import dagger.Provides;
 public class MainModule {
 
     private MainView mainView;
-
-    @Inject
-    IDbMusicServe dbMusicServe;
-
-    @Inject
-    IGitHubNetServe gitHubNetServe;
-
 
     public MainModule(MainView mainView) {
         this.mainView = mainView;
@@ -42,7 +33,7 @@ public class MainModule {
      * 2. 如果将IDbMusicServe 放在本类全局变量的话，是需要进行另外实例化的，这样就显式依赖了
      */
     @Provides
-    MainPresenter providePresenter() {
+    MainPresenter providePresenter(IDbMusicServe dbMusicServe, IGitHubNetServe gitHubNetServe) {
         return new MainPresenterImpl(mainView, dbMusicServe, gitHubNetServe);
     }
 }

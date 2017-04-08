@@ -1,5 +1,8 @@
 package com.asher.threeline.serve.net.github;
 
+import com.asher.threeline.AppComponent;
+import com.asher.threeline.AppScope;
+
 import dagger.Component;
 
 /**
@@ -7,7 +10,9 @@ import dagger.Component;
  * <p>
  * github net server component
  */
+@AppScope
 @Component(
+        dependencies = {AppComponent.class},
         modules = {GitUserNetServeModule.class}
 )
 public interface GitUserNetServeComponent {
