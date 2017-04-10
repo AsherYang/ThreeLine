@@ -33,8 +33,7 @@ class OtherHandler(tornado.web.RequestHandler):
 
 """
 [{"a": "A", "c": 3.0, "b": [2, 4], "d": "AsherYang"}]
-["200", "successfully", "AsherYang", 10010, "2017/04/11"]
-
+[{"syncKey": 10010, "code": "200", "data": "AsherYang", "createTime": "2017/04/11", "desc": "successfully"}]
 """
 class LastDataHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
