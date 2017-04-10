@@ -1,5 +1,7 @@
 package com.asher.threeline.api;
 
+import com.asher.threeline.serve.net.base.NetBaseResult;
+import com.asher.threeline.serve.net.bean.NetContent;
 import com.asher.threeline.serve.net.github.NetGitUser;
 
 import io.reactivex.Observable;
@@ -25,4 +27,8 @@ public interface IGetDataHttp {
     // 测试接口，使用github user 来测试整体网络框架
     @GET("/users/{user}")
     Observable<NetGitUser> getUser(@Path("user") String user);
+
+    // 拿到最新的数据
+    @GET("/getlastdata")
+    Observable<NetBaseResult<NetContent>> getLastData();
 }
