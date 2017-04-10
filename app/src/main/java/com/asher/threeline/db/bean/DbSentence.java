@@ -14,6 +14,7 @@ public class DbSentence extends RealmObject {
 
     /**
      * 主键
+     * 可以对应服务器serverId
      */
     @PrimaryKey
     private String id;
