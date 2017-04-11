@@ -8,6 +8,7 @@ Date:   2017/4/11
 Desc:   base content to response to client
 """
 
+# extends BaseResponse
 class BaseResponse():
 
     def __init__(self):
@@ -32,11 +33,4 @@ class BaseResponse():
     def desc(self, value):
         self.desc = value
 
-    @property
-    def data(self):
-        return self.data
-
-    @property
-    def data(self, value):
-        self.data = value
 

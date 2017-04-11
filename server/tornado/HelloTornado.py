@@ -7,7 +7,8 @@ Email:  1181830457@qq.com
 Date:   2017/4/10
 Desc:   hello world for tornado
 """
-
+import sys
+sys.path.append("../../")
 import tornado.ioloop
 import tornado.web
 import tornado.options
@@ -15,6 +16,8 @@ import tornado.httpserver
 import tornado.autoreload
 from tornado.options import define, options
 import json
+from tornado_json.routes import get_routes
+from tornado_json.application import Application
 
 from ContentData import ContentData
 from JSONEncoder import JSONEncoder
@@ -39,10 +42,10 @@ class LastDataHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
         # data = [{'a':"A", 'b':(2,4), 'c':3.0, 'd':"AsherYang"}]
         contentData = ContentData()
+        contentData.code = "200"
+        contentData.desc = "successfully"
         contentData.syncKey = 10010
         contentData.createTime = '2017/04/11'
-        contentData.desc = "successfully"
-        contentData.data = "AsherYang"
         json_str = json.dumps(contentData, cls=JSONEncoder)
         self.write(json_str)
 
@@ -58,7 +61,7 @@ class CustomApplication(tornado.web.Application):
             "xsrf_cookies": True,
             "debug": debug,
         }
-        super(CustomApplication, self).__init__(handlers, **settings)
+        super(CustomApplication, self).__init__(handlers=handlers, **settings)
 
 
 def main():
