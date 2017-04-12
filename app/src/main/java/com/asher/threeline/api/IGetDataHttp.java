@@ -4,6 +4,8 @@ import com.asher.threeline.serve.net.base.NetBaseResult;
 import com.asher.threeline.serve.net.bean.NetContent;
 import com.asher.threeline.serve.net.github.NetGitUser;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -30,5 +32,5 @@ public interface IGetDataHttp {
 
     // 拿到最新的数据
     @GET("/getlastdata")
-    Observable<NetBaseResult<NetContent>> getLastData();
+    Observable<NetBaseResult<List<NetContent>>> getLastData();
 }

@@ -22,9 +22,9 @@ class ContentData(BaseResponse):
         self.syncKey = value
 
     @property
-    def createTime(self):
+    def updateTime(self):
         return self.createTime
 
     @property
-    def createTime(self, value):
+    def updateTime(self, value):
         self.createTime = value

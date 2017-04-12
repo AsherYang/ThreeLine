@@ -15,6 +15,6 @@ class JSONEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, ContentData):
             return {'code': obj.code, 'desc': obj.desc,
-                     'data': [{'syncKey': obj.syncKey, 'createTime': obj.createTime}]}
+                     'data': [{'syncKey': obj.syncKey, 'updateTime': obj.createTime}]}
         else:
             return json.JSONEncoder.default(self, obj)

@@ -1,6 +1,5 @@
 package com.asher.threeline.ui.main;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,8 +15,10 @@ import com.asher.threeline.db.bean.DbMusic;
 import com.asher.threeline.serve.data.music.DaggerDbMusicServeComponent;
 import com.asher.threeline.serve.data.music.DbMusicServeComponent;
 import com.asher.threeline.serve.data.music.DbMusicServeModule;
+import com.asher.threeline.serve.net.content.ContentNetServeComponent;
+import com.asher.threeline.serve.net.content.ContentNetServeModule;
+import com.asher.threeline.serve.net.content.DaggerContentNetServeComponent;
 import com.asher.threeline.ui.base.BaseActivity;
-import com.asher.threeline.ui.github.GithubActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,9 +71,14 @@ public class MainActivity extends BaseActivity implements MainView {
         DbMusicServeComponent dbMusicServeComponent = DaggerDbMusicServeComponent.builder()
                 .dbMusicServeModule(new DbMusicServeModule())
                 .build();
+        ContentNetServeComponent contentNetServeComponent = DaggerContentNetServeComponent.builder()
+                .appComponent(appComponent)
+                .contentNetServeModule(new ContentNetServeModule())
+                .build();
         DaggerMainComponent.builder()
                 .mainModule(new MainModule(this))
                 .dbMusicServeComponent(dbMusicServeComponent)
+                .contentNetServeComponent(contentNetServeComponent)
                 .build()
                 .inject(this);
     }
@@ -89,8 +95,9 @@ public class MainActivity extends BaseActivity implements MainView {
         switch (view.getId()) {
             case R.id.tv_show:
                 mainPresenter.onBtnClick();
-                Intent intent = new Intent(MainActivity.this, GithubActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(MainActivity.this, GithubActivity.class);
+//                startActivity(intent);
+                mainPresenter.getDataFromNet();
                 break;
             default:
                 break;

@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS music;
 CREATE TABLE music (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     syncKey VARCHAR(100) NOT NULL,
-    createTime VARCHAR(60),
+    updateTime VARCHAR(60),
     songName VARCHAR(100),
     singer VARCHAR(100),
     brief VARCHAR(512),
@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS article;
 CREATE TABLE article (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     syncKey VARCHAR(100) NOT NULL,
-    createTime VARCHAR(60),
+    updateTime VARCHAR(60),
     title VARCHAR(100),
     content VARCHAR(512),
     author VARCHAR(100),

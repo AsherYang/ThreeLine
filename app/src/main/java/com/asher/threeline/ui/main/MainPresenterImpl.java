@@ -2,6 +2,9 @@ package com.asher.threeline.ui.main;
 
 import com.asher.threeline.db.bean.DbMusic;
 import com.asher.threeline.serve.data.music.IDbMusicServe;
+import com.asher.threeline.serve.net.base.OnNetCallBack;
+import com.asher.threeline.serve.net.bean.NetContent;
+import com.asher.threeline.serve.net.content.IContentNetServe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +18,13 @@ public class MainPresenterImpl implements MainPresenter {
 
     private MainView mainView;
     private IDbMusicServe dbMusicServe;
+    private IContentNetServe contentNetServe;
 
-    public MainPresenterImpl(MainView mainView, IDbMusicServe dbMusicServe) {
+    public MainPresenterImpl(MainView mainView, IDbMusicServe dbMusicServe,
+                             IContentNetServe contentNetServe) {
         this.mainView = mainView;
         this.dbMusicServe = dbMusicServe;
+        this.contentNetServe = contentNetServe;
     }
 
     @Override
@@ -49,4 +55,25 @@ public class MainPresenterImpl implements MainPresenter {
     public List<DbMusic> getAllMusicsFromDb() {
         return dbMusicServe.getAllMusic();
     }
+
+    @Override
+    public void getDataFromNet() {
+        contentNetServe.getLastData(mCallBack);
+    }
+
+    private OnNetCallBack<List<NetContent>> mCallBack = new OnNetCallBack<List<NetContent>>() {
+        @Override
+        public void onSuccess(List<NetContent> contents) {
+            StringBuilder str = new StringBuilder();
+            for (NetContent content : contents) {
+                str.append(content.toString());
+            }
+            mainView.showClick(contents.size() + " \n " + str.toString());
+        }
+
+        @Override
+        public void onFail(Throwable throwable) {
+            mainView.showClick(throwable.getMessage());
+        }
+    };
 }

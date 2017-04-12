@@ -32,6 +32,11 @@ public class NetContent {
      */
     private Long updateTime;
 
+    /**
+     * sync key
+     */
+    private Long syncKey;
+
     public int getType() {
         return type;
     }
@@ -72,6 +77,14 @@ public class NetContent {
         this.updateTime = updateTime;
     }
 
+    public Long getSyncKey() {
+        return syncKey;
+    }
+
+    public void setSyncKey(Long syncKey) {
+        this.syncKey = syncKey;
+    }
+
     @Override
     public String toString() {
         return "NetContent{" +
@@ -80,6 +93,7 @@ public class NetContent {
                 ", content='" + content + '\'' +
                 ", author='" + author + '\'' +
                 ", updateTime=" + updateTime +
+                ", syncKey=" + syncKey +
                 '}';
     }
 }

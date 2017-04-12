@@ -16,8 +16,6 @@ import tornado.httpserver
 import tornado.autoreload
 from tornado.options import define, options
 import json
-from tornado_json.routes import get_routes
-from tornado_json.application import Application
 
 from ContentData import ContentData
 from JSONEncoder import JSONEncoder
@@ -36,16 +34,16 @@ class OtherHandler(tornado.web.RequestHandler):
 
 """
 [{"a": "A", "c": 3.0, "b": [2, 4], "d": "AsherYang"}]
-[{"syncKey": 10010, "code": "200", "data": "AsherYang", "createTime": "2017/04/11", "desc": "successfully"}]
+{"code": "000001", "data": [{"syncKey": 10010, "updateTime": 1492017462}], "desc": "successfully"}
 """
 class LastDataHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
         # data = [{'a':"A", 'b':(2,4), 'c':3.0, 'd':"AsherYang"}]
         contentData = ContentData()
-        contentData.code = "200"
+        contentData.code = "000001"
         contentData.desc = "successfully"
         contentData.syncKey = 10010
-        contentData.createTime = '2017/04/11'
+        contentData.createTime = 1492017462
         json_str = json.dumps(contentData, cls=JSONEncoder)
         self.write(json_str)
 
