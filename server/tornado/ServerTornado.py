@@ -33,6 +33,7 @@ class OtherHandler(tornado.web.RequestHandler):
         raise tornado.web.HTTPError(status_code=416, log_message="test other", reason="unKnow request, please wait for 127.0.0.1")
 
 """
+usefully
 [{"a": "A", "c": 3.0, "b": [2, 4], "d": "AsherYang"}]
 {"code": "000001", "data": [{"syncKey": 10010, "updateTime": 1492017462}], "desc": "successfully"}
 """

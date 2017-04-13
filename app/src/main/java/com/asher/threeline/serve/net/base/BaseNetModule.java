@@ -108,7 +108,7 @@ public class BaseNetModule {
      */
     private Interceptor getLogInterceptor() {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         return logging;
     }
 
