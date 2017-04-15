@@ -16,7 +16,6 @@ class BaseResponse():
         self.desc = ''
         self.data = ''
 
-
     @property
     def code(self):
         return self.code

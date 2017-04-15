@@ -50,18 +50,21 @@ class LastDataHandler(tornado.web.RequestHandler):
         contentData = ContentData()
         contentData.code = "000001"
         contentData.desc = "successfully"
-        contentData.syncKey = 10010
-        contentData.createTime = 1492017462
-        json_str = json.dumps(contentData, cls=JSONEncoder)
         # load from db
         insert = 'insert into articles (syncKey, updateTime, title, content, author, imagePath) values("%s", "%s", "%s", "%s", "%s", "%s")' %("1", datetime.datetime.now(), 'test', 'this is a test msg', 'Asher', '/image')
         self.application.db.execute(insert)
         cmd = 'select * from articles'
         articles = self.application.db.query(cmd)
         # print articles
-        # for article in articles:
-        #     print article["title"]
-        self.write(json.dumps(articles))
+        for article in articles:
+            contentData.syncKey = article["syncKey"]
+            contentData.updateTime = article["updateTime"]
+            contentData.title = article["title"]
+            contentData.content = article["content"]
+            contentData.author = article["author"]
+            contentData.imagePath = article["imagePath"]
+        json_str = json.dumps(contentData, cls=JSONEncoder)
+        self.write(json_str)
 
 class CustomApplication(tornado.web.Application):
     def __init__(self, debug=False):

@@ -23,8 +23,40 @@ class ContentData(BaseResponse):
 
     @property
     def updateTime(self):
-        return self.createTime
+        return self.updateTime
 
     @property
     def updateTime(self, value):
-        self.createTime = value
+        self.updateTime = value
+
+    @property
+    def imagePath(self):
+        return self.imagePath
+
+    @property
+    def imagePath(self, value):
+        self.imagePath = value
+
+    @property
+    def author(self):
+        return self.author
+
+    @property
+    def author(self, value):
+        self.author = value
+
+    @property
+    def title(self):
+        return self.title
+
+    @property
+    def title(self, value):
+        self.title = value
+
+    @property
+    def content(self):
+        return self.content
+
+    @property
+    def content(self, value):
+        self.content = value
