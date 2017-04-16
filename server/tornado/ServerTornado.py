@@ -22,6 +22,7 @@ import MySQLdb
 import datetime
 
 from ContentData import ContentData
+from BaseResponse import BaseResponse
 from JSONEncoder import JSONEncoder
 
 define("debug", default=False, help='Set debug mode', type=bool)
@@ -47,9 +48,9 @@ usefully
 class LastDataHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
         # data = [{'a':"A", 'b':(2,4), 'c':3.0, 'd':"AsherYang"}]
-        contentData = ContentData()
-        contentData.code = "000001"
-        contentData.desc = "successfully"
+        baseResponse = BaseResponse()
+        baseResponse.code = "000001"
+        baseResponse.desc = "successfully"
         # load from db
         insert = 'insert into articles (syncKey, updateTime, title, content, author, imagePath) values("%s", "%s", "%s", "%s", "%s", "%s")' %("1", datetime.datetime.now(), 'test', 'this is a test msg', 'Asher', '/image')
         self.application.db.execute(insert)
@@ -57,13 +58,16 @@ class LastDataHandler(tornado.web.RequestHandler):
         articles = self.application.db.query(cmd)
         # print articles
         for article in articles:
+            contentData = ContentData()
             contentData.syncKey = article["syncKey"]
             contentData.updateTime = article["updateTime"]
             contentData.title = article["title"]
             contentData.content = article["content"]
             contentData.author = article["author"]
             contentData.imagePath = article["imagePath"]
-        json_str = json.dumps(contentData, cls=JSONEncoder)
+            baseResponse.data.append(contentData)
+        json_str = json.dumps(baseResponse, cls=JSONEncoder)
+        # print json_str
         self.write(json_str)
 
 class CustomApplication(tornado.web.Application):

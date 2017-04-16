@@ -11,10 +11,11 @@ Desc:   base content to response to client
 # extends BaseResponse
 class BaseResponse():
 
+    # define init method
     def __init__(self):
         self.code = '200'
         self.desc = ''
-        self.data = ''
+        self.data =[]
 
     @property
     def code(self):
@@ -31,5 +32,23 @@ class BaseResponse():
     @property
     def desc(self, value):
         self.desc = value
+
+    @property
+    def data(self):
+        return self.data
+
+    @property
+    def data(self, value):
+        self.data = value
+
+    # append to data,
+    # @see http://stackoverflow.com/questions/16380575/python-decorating-property-setter-with-list
+    def append(self, value):
+        return self.data + [value]
+
+    # extend 只能是一个列表
+    def extend(self, value):
+        return self.data.extend(value)
+
 
 

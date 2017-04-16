@@ -8,10 +8,7 @@ Date:   2017/4/11
 Desc:   Content to response to client
 """
 
-from BaseResponse import BaseResponse
-
-# extends BaseResponse
-class ContentData(BaseResponse):
+class ContentData():
 
     @property
     def syncKey(self):
