@@ -30,12 +30,17 @@ public class NetContent {
     /**
      * time
      */
-    private Long updateTime;
+    private String updateTime;
 
     /**
      * sync key
      */
     private Long syncKey;
+
+    /**
+     * image path
+     */
+    private String imagePath;
 
     public int getType() {
         return type;
@@ -69,11 +74,11 @@ public class NetContent {
         this.author = author;
     }
 
-    public Long getUpdateTime() {
+    public String getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(Long updateTime) {
+    public void setUpdateTime(String updateTime) {
         this.updateTime = updateTime;
     }
 
@@ -85,6 +90,14 @@ public class NetContent {
         this.syncKey = syncKey;
     }
 
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
     @Override
     public String toString() {
         return "NetContent{" +
@@ -92,8 +105,9 @@ public class NetContent {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", author='" + author + '\'' +
-                ", updateTime=" + updateTime +
+                ", updateTime='" + updateTime + '\'' +
                 ", syncKey=" + syncKey +
+                ", imagePath='" + imagePath + '\'' +
                 '}';
     }
 }

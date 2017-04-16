@@ -5,6 +5,10 @@ import android.content.Context;
 import com.asher.threeline.api.ApiConstant;
 import com.asher.threeline.util.FileUtil;
 import com.asher.threeline.util.NetWorkUtil;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -115,9 +119,16 @@ public class BaseNetModule {
     @Provides
     @Singleton
     Retrofit provideRetrofit(OkHttpClient okHttpClient) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        // 对于为null的字段不进行序列化
+        objectMapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false);
+        // 对于未知属性不进行反序列化
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        // 无论对象中的值只有不为null的才进行序列化
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         return new Retrofit.Builder()
                 .baseUrl(ApiConstant.BASE_URL)
-                .addConverterFactory(JacksonConverterFactory.create())
+                .addConverterFactory(JacksonConverterFactory.create(objectMapper))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
                 .build();

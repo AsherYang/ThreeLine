@@ -52,7 +52,8 @@ class LastDataHandler(tornado.web.RequestHandler):
         baseResponse.code = "000001"
         baseResponse.desc = "successfully"
         # load from db
-        insert = 'insert into articles (syncKey, updateTime, title, content, author, imagePath) values("%s", "%s", "%s", "%s", "%s", "%s")' %("1", datetime.datetime.now(), 'test', 'this is a test msg', 'Asher', '/image')
+        self.application.syncKey = self.application.syncKey + 1
+        insert = 'insert into articles (syncKey, updateTime, title, content, author, imagePath) values("%s", "%s", "%s", "%s", "%s", "%s")' %(self.application.syncKey, datetime.datetime.now(), 'test', 'this is a test msg', 'Asher', '/image')
         self.application.db.execute(insert)
         cmd = 'select * from articles'
         articles = self.application.db.query(cmd)
@@ -87,6 +88,8 @@ class CustomApplication(tornado.web.Application):
         self.db = torndb.Connection(host=options.mysql_host, database=options.mysql_database, user=options.mysql_user,
                                     password=options.mysql_password)
         self.create_tables()
+        # 定义一个临时变量
+        self.syncKey = 0
 
     """
       在application中调用，先进行查询，如果报异常说明表没有创建，则进行创建表结构。

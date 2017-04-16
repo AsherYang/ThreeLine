@@ -1,5 +1,7 @@
 package com.asher.threeline.ui.main;
 
+import android.util.Log;
+
 import com.asher.threeline.db.bean.DbMusic;
 import com.asher.threeline.serve.data.music.IDbMusicServe;
 import com.asher.threeline.serve.net.base.OnNetCallBack;
@@ -68,6 +70,7 @@ public class MainPresenterImpl implements MainPresenter {
             for (NetContent content : contents) {
                 str.append(content.toString());
             }
+            Log.i("MainPresenterImpl", " OnNetCallBack = " + str);
             mainView.showClick(contents.size() + " \n " + str.toString());
         }
 
