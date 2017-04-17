@@ -1,6 +1,7 @@
 package com.asher.threeline.serve.net.content;
 
 import com.asher.threeline.api.IGetDataHttp;
+import com.asher.threeline.serve.data.content.IDbContentServe;
 
 import dagger.Module;
 import dagger.Provides;
@@ -12,7 +13,7 @@ import retrofit2.Retrofit;
  * 网络操作module
  */
 @Module
-public class ContentNetServeModule {
+public class NetContentServeModule {
 
     @Provides
     IGetDataHttp provideHttpService(Retrofit retrofit) {
@@ -20,7 +21,7 @@ public class ContentNetServeModule {
     }
 
     @Provides
-    IContentNetServe provideNetServe(IGetDataHttp dataHttp) {
-        return new ContentNetServeImpl(dataHttp);
+    INetContentServe provideNetServe(IGetDataHttp dataHttp, IDbContentServe dbContentServe) {
+        return new NetContentServeImpl(dataHttp, dbContentServe);
     }
 }

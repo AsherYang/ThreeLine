@@ -11,13 +11,11 @@ import android.widget.Toast;
 
 import com.asher.threeline.AppComponent;
 import com.asher.threeline.R;
-import com.asher.threeline.db.bean.DbMusic;
-import com.asher.threeline.serve.data.music.DaggerDbMusicServeComponent;
-import com.asher.threeline.serve.data.music.DbMusicServeComponent;
-import com.asher.threeline.serve.data.music.DbMusicServeModule;
-import com.asher.threeline.serve.net.content.ContentNetServeComponent;
-import com.asher.threeline.serve.net.content.ContentNetServeModule;
-import com.asher.threeline.serve.net.content.DaggerContentNetServeComponent;
+import com.asher.threeline.db.bean.DbContent;
+import com.asher.threeline.serve.data.content.DbContentServeModule;
+import com.asher.threeline.serve.net.content.DaggerNetContentServeComponent;
+import com.asher.threeline.serve.net.content.NetContentServeComponent;
+import com.asher.threeline.serve.net.content.NetContentServeModule;
 import com.asher.threeline.ui.base.BaseActivity;
 
 import java.util.ArrayList;
@@ -40,7 +38,7 @@ public class MainActivity extends BaseActivity implements MainView {
     MainPresenter mainPresenter;
 
     private MainAdapter mainAdapter;
-    private List<DbMusic> dbMusics;
+    private List<DbContent> dbContents;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +51,9 @@ public class MainActivity extends BaseActivity implements MainView {
     }
 
     private void initData() {
-        mainPresenter.prepareMusicToDb();
-        dbMusics = new ArrayList<>();
-        mainAdapter = new MainAdapter(this, dbMusics);
+//        mainPresenter.prepareContentToDb();
+        dbContents = new ArrayList<>();
+        mainAdapter = new MainAdapter(this, dbContents);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvShow.setLayoutManager(layoutManager);
         rvShow.setAdapter(mainAdapter);
@@ -68,26 +66,20 @@ public class MainActivity extends BaseActivity implements MainView {
     protected void setupComponent(AppComponent appComponent) {
         Log.i("TAG", "setupComponent");
         // 关键的就是这句话,将appComponent和Module关联起来
-        DbMusicServeComponent dbMusicServeComponent = DaggerDbMusicServeComponent.builder()
-                .dbMusicServeModule(new DbMusicServeModule())
-                .build();
-        ContentNetServeComponent contentNetServeComponent = DaggerContentNetServeComponent.builder()
+        NetContentServeComponent netContentServeComponent = DaggerNetContentServeComponent.builder()
                 .appComponent(appComponent)
-                .contentNetServeModule(new ContentNetServeModule())
+                .netContentServeModule(new NetContentServeModule())
+                .dbContentServeModule(new DbContentServeModule())
                 .build();
         DaggerMainComponent.builder()
                 .mainModule(new MainModule(this))
-                .dbMusicServeComponent(dbMusicServeComponent)
-                .contentNetServeComponent(contentNetServeComponent)
+                .netContentServeComponent(netContentServeComponent)
                 .build()
                 .inject(this);
     }
 
     private void getDataFromDb() {
-        List<DbMusic> musics = mainPresenter.getAllMusicsFromDb();
-        dbMusics.clear();
-        dbMusics.addAll(musics);
-        mainAdapter.notifyDataSetChanged();
+        refreshAdapter(mainPresenter.getAllContentsFromDb());
     }
 
     @OnClick(R.id.tv_show)
@@ -110,5 +102,15 @@ public class MainActivity extends BaseActivity implements MainView {
             return;
         }
         Toast.makeText(this, showText, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void refreshAdapter(List<DbContent> contents) {
+        if (null == contents || contents.isEmpty()) {
+            return;
+        }
+        dbContents.clear();
+        dbContents.addAll(contents);
+        mainAdapter.notifyDataSetChanged();
     }
 }

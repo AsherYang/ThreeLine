@@ -1,8 +1,7 @@
 package com.asher.threeline.ui.main;
 
 import com.asher.threeline.ActivityScope;
-import com.asher.threeline.serve.data.music.DbMusicServeComponent;
-import com.asher.threeline.serve.net.content.ContentNetServeComponent;
+import com.asher.threeline.serve.net.content.NetContentServeComponent;
 
 import dagger.Component;
 
@@ -13,7 +12,7 @@ import dagger.Component;
  */
 @ActivityScope
 @Component(
-        dependencies = {DbMusicServeComponent.class, ContentNetServeComponent.class},
+        dependencies = {NetContentServeComponent.class},
         modules = {MainModule.class}
 )
 public interface MainComponent {

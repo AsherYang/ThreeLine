@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 
 """
 Author: AsherYang
@@ -21,8 +21,9 @@ class JSONEncoder(json.JSONEncoder):
             realContent = []
             for data in contentData:
                 if isinstance(data, ContentData):
-                    string = {'syncKey': data.syncKey, 'updateTime': data.updateTime, 'title': data.title,
-                            'content': data.content, 'author': data.author, 'imagePath': data.imagePath}
+                    string = {'id': data.id, 'syncKey': data.syncKey, 'updateTime': data.updateTime,
+                              'title': data.title, 'content': data.content, 'author': data.author,
+                              'imagePath': data.imagePath, 'songName': data.songName, 'singer': data.singer}
                     realContent.append(string)
                 else:
                     realContent.append('unknown data type')

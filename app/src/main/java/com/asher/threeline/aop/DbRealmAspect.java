@@ -22,12 +22,12 @@ import io.realm.RealmObject;
 public class DbRealmAspect {
 
     //方法切入点
-    @Pointcut("execution(@com.asher.threeline.aop.annotation.DbRealm * *(..))")
-    public void methodAnnotated() {
+    @Pointcut("execution(@com.asher.threeline.aop.annotation.DbRealmAdd * *(..))")
+    public void addDbMethodAnnotated() {
     }
 
     // 定义通知，织入代码
-    @Around("methodAnnotated()")
+    @Around("addDbMethodAnnotated()")
     public void doJointPoint(ProceedingJoinPoint joinPoint) throws Throwable {
         // 执行原方法
         joinPoint.proceed();

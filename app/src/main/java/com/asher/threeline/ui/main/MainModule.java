@@ -1,7 +1,8 @@
 package com.asher.threeline.ui.main;
 
+import com.asher.threeline.serve.data.content.IDbContentServe;
 import com.asher.threeline.serve.data.music.IDbMusicServe;
-import com.asher.threeline.serve.net.content.IContentNetServe;
+import com.asher.threeline.serve.net.content.INetContentServe;
 
 import dagger.Module;
 import dagger.Provides;
@@ -33,7 +34,7 @@ public class MainModule {
      * 2. 如果将IDbMusicServe 放在本类全局变量的话，是需要进行另外实例化的，这样就显式依赖了
      */
     @Provides
-    MainPresenter providePresenter(IDbMusicServe dbMusicServe, IContentNetServe contentNetServe) {
-        return new MainPresenterImpl(mainView, dbMusicServe, contentNetServe);
+    MainPresenter providePresenter(IDbContentServe dbContentServe, INetContentServe contentNetServe) {
+        return new MainPresenterImpl(mainView, dbContentServe, contentNetServe);
     }
 }

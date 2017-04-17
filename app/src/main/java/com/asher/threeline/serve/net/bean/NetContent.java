@@ -6,11 +6,17 @@ package com.asher.threeline.serve.net.bean;
  * 网络数据
  */
 public class NetContent {
+
+    /**
+     * sever id
+     */
+    private Long id;
+
     /**
      * type：music|sentence|article
      * {@link com.asher.threeline.db.IType}
      */
-    private int type;
+    private Integer type;
 
     /**
      * title
@@ -42,11 +48,29 @@ public class NetContent {
      */
     private String imagePath;
 
-    public int getType() {
+    /**
+     * 歌曲名称
+     */
+    private String songName;
+
+    /**
+     * 歌手
+     */
+    private String singer;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
@@ -98,16 +122,35 @@ public class NetContent {
         this.imagePath = imagePath;
     }
 
+    public String getSongName() {
+        return songName;
+    }
+
+    public void setSongName(String songName) {
+        this.songName = songName;
+    }
+
+    public String getSinger() {
+        return singer;
+    }
+
+    public void setSinger(String singer) {
+        this.singer = singer;
+    }
+
     @Override
     public String toString() {
         return "NetContent{" +
-                "type=" + type +
+                "id=" + id +
+                ", type=" + type +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", author='" + author + '\'' +
                 ", updateTime='" + updateTime + '\'' +
                 ", syncKey=" + syncKey +
                 ", imagePath='" + imagePath + '\'' +
+                ", songName='" + songName + '\'' +
+                ", singer='" + singer + '\'' +
                 '}';
     }
 }

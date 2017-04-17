@@ -1,6 +1,6 @@
 package com.asher.threeline.ui.main;
 
-import com.asher.threeline.db.bean.DbMusic;
+import com.asher.threeline.db.bean.DbContent;
 
 import java.util.List;
 
@@ -13,11 +13,11 @@ public interface MainPresenter {
 
     void onBtnClick();
 
-    void prepareMusicToDb();
+    void prepareContentToDb();
 
-    DbMusic getMusicFromDb(Integer syncKey);
+    DbContent getContentFromDb(Integer syncKey);
 
-    List<DbMusic> getAllMusicsFromDb();
+    List<DbContent> getAllContentsFromDb();
 
     void getDataFromNet();
 }

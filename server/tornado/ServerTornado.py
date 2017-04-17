@@ -53,19 +53,22 @@ class LastDataHandler(tornado.web.RequestHandler):
         baseResponse.desc = "successfully"
         # load from db
         self.application.syncKey = self.application.syncKey + 1
-        insert = 'insert into articles (syncKey, updateTime, title, content, author, imagePath) values("%s", "%s", "%s", "%s", "%s", "%s")' %(self.application.syncKey, datetime.datetime.now(), 'test', 'this is a test msg', 'Asher', '/image')
+        insert = 'insert into contents (syncKey, updateTime, title, content, author, imagePath, songName, singer) values("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s")' %(self.application.syncKey, datetime.datetime.now(), 'test', 'this is a test msg', 'Asher', '/image', 'what fuck', 'AsherYang')
         self.application.db.execute(insert)
-        cmd = 'select * from articles'
-        articles = self.application.db.query(cmd)
+        cmd = 'select * from contents'
+        contents = self.application.db.query(cmd)
         # print articles
-        for article in articles:
+        for content in contents:
             contentData = ContentData()
-            contentData.syncKey = article["syncKey"]
-            contentData.updateTime = article["updateTime"]
-            contentData.title = article["title"]
-            contentData.content = article["content"]
-            contentData.author = article["author"]
-            contentData.imagePath = article["imagePath"]
+            contentData.id = content["id"]
+            contentData.syncKey = content["syncKey"]
+            contentData.updateTime = content["updateTime"]
+            contentData.title = content["title"]
+            contentData.content = content["content"]
+            contentData.author = content["author"]
+            contentData.imagePath = content["imagePath"]
+            contentData.songName = content['songName']
+            contentData.singer = content['singer']
             baseResponse.data.append(contentData)
         json_str = json.dumps(baseResponse, cls=JSONEncoder)
         # print json_str
@@ -97,7 +100,7 @@ class CustomApplication(tornado.web.Application):
     """
     def create_tables(self):
         try:
-            self.db.get('select count(*) from articles')
+            self.db.get('select count(*) from contents')
         except MySQLdb.ProgrammingError:
             subprocess.check_call([
                 'mysql',

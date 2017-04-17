@@ -1,12 +1,9 @@
 package com.asher.threeline.ui.main;
 
-import android.util.Log;
-
-import com.asher.threeline.db.bean.DbMusic;
-import com.asher.threeline.serve.data.music.IDbMusicServe;
+import com.asher.threeline.db.bean.DbContent;
+import com.asher.threeline.serve.data.content.IDbContentServe;
 import com.asher.threeline.serve.net.base.OnNetCallBack;
-import com.asher.threeline.serve.net.bean.NetContent;
-import com.asher.threeline.serve.net.content.IContentNetServe;
+import com.asher.threeline.serve.net.content.INetContentServe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,43 +16,41 @@ import java.util.List;
 public class MainPresenterImpl implements MainPresenter {
 
     private MainView mainView;
-    private IDbMusicServe dbMusicServe;
-    private IContentNetServe contentNetServe;
+    private IDbContentServe dbContentServe;
+    private INetContentServe contentNetServe;
 
-    public MainPresenterImpl(MainView mainView, IDbMusicServe dbMusicServe,
-                             IContentNetServe contentNetServe) {
+    public MainPresenterImpl(MainView mainView, IDbContentServe dbContentServe,
+                             INetContentServe contentNetServe) {
         this.mainView = mainView;
-        this.dbMusicServe = dbMusicServe;
+        this.dbContentServe = dbContentServe;
         this.contentNetServe = contentNetServe;
     }
 
     @Override
     public void onBtnClick() {
-        String songName = getMusicFromDb(9).getSongName();
-        mainView.showClick(songName);
+        // TODO: 2017/4/17 do what you want to do.
     }
 
     @Override
-    public void prepareMusicToDb() {
-        List<DbMusic> dbMusics = new ArrayList<>();
+    public void prepareContentToDb() {
+        List<DbContent> dbContents = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            DbMusic music = new DbMusic();
-            music.setSongName("song name = " + i);
-            music.setId(String.valueOf(i));
-            music.setSyncKey((long) i);
-            dbMusics.add(music);
+            DbContent content = new DbContent();
+            content.setSongName("song name = " + i);
+            content.setSyncKey((long) i);
+            dbContents.add(content);
         }
-        dbMusicServe.addMusicList(dbMusics);
+        dbContentServe.addContentList(dbContents);
     }
 
     @Override
-    public DbMusic getMusicFromDb(Integer syncKey) {
-        return dbMusicServe.getMusic(syncKey);
+    public DbContent getContentFromDb(Integer syncKey) {
+        return dbContentServe.getContent(syncKey);
     }
 
     @Override
-    public List<DbMusic> getAllMusicsFromDb() {
-        return dbMusicServe.getAllMusic();
+    public List<DbContent> getAllContentsFromDb() {
+        return dbContentServe.getAllContents();
     }
 
     @Override
@@ -63,15 +58,13 @@ public class MainPresenterImpl implements MainPresenter {
         contentNetServe.getLastData(mCallBack);
     }
 
-    private OnNetCallBack<List<NetContent>> mCallBack = new OnNetCallBack<List<NetContent>>() {
+    private OnNetCallBack<List<DbContent>> mCallBack = new OnNetCallBack<List<DbContent>>() {
         @Override
-        public void onSuccess(List<NetContent> contents) {
-            StringBuilder str = new StringBuilder();
-            for (NetContent content : contents) {
-                str.append(content.toString());
+        public void onSuccess(List<DbContent> contents) {
+            if (null == contents || contents.isEmpty()) {
+                return;
             }
-            Log.i("MainPresenterImpl", " OnNetCallBack = " + str);
-            mainView.showClick(contents.size() + " \n " + str.toString());
+            mainView.refreshAdapter(contents);
         }
 
         @Override

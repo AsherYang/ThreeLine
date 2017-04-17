@@ -23,3 +23,16 @@ CREATE TABLE articles (
     author VARCHAR(100),
     imagePath VARCHAR(100)
 );
+
+DROP TABLE IF EXISTS contents;
+CREATE TABLE contents (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    syncKey VARCHAR(100) NOT NULL,
+    updateTime VARCHAR(60),
+    title VARCHAR(100),
+    content VARCHAR(512),
+    author VARCHAR(100),
+    imagePath VARCHAR(100),
+    songName VARCHAR(100),
+    singer VARCHAR(100)
+);

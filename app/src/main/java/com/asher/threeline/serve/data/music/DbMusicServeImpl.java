@@ -1,6 +1,6 @@
 package com.asher.threeline.serve.data.music;
 
-import com.asher.threeline.aop.annotation.DbRealm;
+import com.asher.threeline.aop.annotation.DbRealmAdd;
 import com.asher.threeline.db.bean.DbMusic;
 
 import java.util.List;
@@ -14,13 +14,13 @@ import io.realm.Realm;
  */
 public class DbMusicServeImpl implements IDbMusicServe {
 
-    @DbRealm
+    @DbRealmAdd
     @Override
     public void addMusicList(List<DbMusic> musicList) {
         // you need do nothing. just do it auto.
     }
 
-    @DbRealm
+    @DbRealmAdd
     @Override
     public void addMusic(DbMusic music) {
         // you need do nothing. just do it auto.

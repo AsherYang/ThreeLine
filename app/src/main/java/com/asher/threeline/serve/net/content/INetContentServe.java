@@ -1,7 +1,7 @@
 package com.asher.threeline.serve.net.content;
 
+import com.asher.threeline.db.bean.DbContent;
 import com.asher.threeline.serve.net.base.OnNetCallBack;
-import com.asher.threeline.serve.net.bean.NetContent;
 
 import java.util.List;
 
@@ -10,12 +10,12 @@ import java.util.List;
  * <p>
  * 获取服务器数据网络接口
  */
-public interface IContentNetServe {
+public interface INetContentServe {
 
     /**
      * 获取最新内容数据
      *
      * @param callBack 回调
      */
-    void getLastData(OnNetCallBack<List<NetContent>> callBack);
+    void getLastData(OnNetCallBack<List<DbContent>> callBack);
 }
