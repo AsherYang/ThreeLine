@@ -1,0 +1,48 @@
+package com.asher.threeline.ui.theme;
+
+import android.os.Bundle;
+import android.view.View;
+
+import com.asher.threeline.ui.base.BaseActivity;
+import com.asher.threeline.util.PreferenceUtil;
+import com.asher.threeline.util.ViewUtil;
+
+/**
+ * Created by ouyangfan on 17/4/19.
+ *
+ * theme base activity
+ */
+public abstract class ThemeActivity extends BaseActivity {
+
+    private ThemeHelper themeHelper;
+    private PreferenceUtil SP;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        themeHelper = new ThemeHelper(getApplicationContext());
+        SP = PreferenceUtil.getInstance(getApplicationContext());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateTheme();
+    }
+
+    public void updateTheme() {
+        themeHelper.updateTheme();
+        for (View view : ViewUtil.getAllChildren(findViewById(android.R.id.content))) {
+            if (view instanceof IThemeable) {
+                ((IThemeable) view).refreshTheme(getThemeHelper());
+            }
+        }
+        updateUiElements();
+    }
+
+    public abstract void updateUiElements();
+
+    public ThemeHelper getThemeHelper() {
+        return themeHelper;
+    }
+}

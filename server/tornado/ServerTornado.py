@@ -5,7 +5,7 @@
 Author: AsherYang
 Email:  1181830457@qq.com
 Date:   2017/4/10
-Desc:   hello world for tornado
+Desc:   server on tornado
 """
 
 import os
