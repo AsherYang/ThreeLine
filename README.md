@@ -9,7 +9,7 @@
 才可运行，因为使用了自定义gradle插件
 ```
 ThreeLine
-    -- app
+    --app
         --src
             --aop
             --api
@@ -26,18 +26,25 @@ ThreeLine
                 --main
                 --login
             --util
+    --server
+        --tornado
+    --wx
+        --client
             
 说明:
 a. aop 包下放置切面编程相关处理
 b. api 包下放置与服务器定义api,以及一些网络相关常量
 c. db 包下放置数据库初始化,以及数据库实体bean，数据常量
-d. serve包下放置各个模块数据库操作以及网络操作，基础网络封装
+d. serve 包下放置各个模块数据库操作以及网络操作，基础网络封装
 e. ui 包下放置界面相关类，以module模块名划分，包含presenter|view 层
 f. util 包下放置工具类相关
+g. server 包下放置服务器端程序，使用Python编写
+h. wx 包下放置微信小程序端程序
 ```
 
 ## TODO
 - [ ] 换肤
 - [ ] 推送
 - [ ] 服务器数据库
-- [ ] 数据爬虫 
+- [ ] 数据爬虫
+- [ ] 小程序端
