@@ -1,6 +1,8 @@
 package com.asher.threeline.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -16,7 +18,9 @@ import com.asher.threeline.serve.data.content.DbContentServeModule;
 import com.asher.threeline.serve.net.content.DaggerNetContentServeComponent;
 import com.asher.threeline.serve.net.content.NetContentServeComponent;
 import com.asher.threeline.serve.net.content.NetContentServeModule;
-import com.asher.threeline.ui.base.BaseActivity;
+import com.asher.threeline.ui.github.GithubActivity;
+import com.asher.threeline.ui.theme.Theme;
+import com.asher.threeline.ui.theme.ThemeActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +31,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity implements MainView {
+public class MainActivity extends ThemeActivity implements MainView {
 
     @BindView(R.id.tv_show)
     TextView tvShow;
+    @BindView(R.id.tv_change_theme)
+    TextView tvChangeTheme;
     @BindView(R.id.rv_show)
     RecyclerView rvShow;
 
@@ -46,8 +52,17 @@ public class MainActivity extends BaseActivity implements MainView {
         Log.i("TAG", "onCreate");
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        updateUiElements();
         initData();
         getDataFromDb();
+    }
+
+    @Override
+    public void updateUiElements() {
+        super.updateUiElements();
+        rvShow.setBackgroundColor(getThemeHelper().getBackgroundColor());
+        tvShow.setTextColor(getThemeHelper().getTextColor());
+        tvChangeTheme.setTextColor(getThemeHelper().getTextColor());
     }
 
     private void initData() {
@@ -82,18 +97,41 @@ public class MainActivity extends BaseActivity implements MainView {
         refreshAdapter(mainPresenter.getAllContentsFromDb());
     }
 
-    @OnClick(R.id.tv_show)
+    @OnClick({R.id.tv_show, R.id.tv_change_theme})
     void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_show:
                 mainPresenter.onBtnClick();
-//                Intent intent = new Intent(MainActivity.this, GithubActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(MainActivity.this, GithubActivity.class);
+                startActivity(intent);
                 mainPresenter.getDataFromNet();
+                break;
+            case R.id.tv_change_theme:
+                // 为了验证改变主题对其他页面的影响,这里延迟5S用于测试
+                changeThemeDelay();
                 break;
             default:
                 break;
         }
+    }
+
+    private void changeThemeDelay() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                changeTheme();
+            }
+        }, 5000);
+    }
+
+    private void changeTheme() {
+        if (getThemeHelper().getBaseTheme() == Theme.DARK) {
+            getThemeHelper().setBaseTheme(Theme.LIGHT);
+        } else {
+            getThemeHelper().setBaseTheme(Theme.DARK);
+        }
+        updateUiElements();
+        Log.i("TAG", "MainActivity changeTheme");
     }
 
     @Override

@@ -16,6 +16,16 @@
         android:layout_height="wrap_content"
         android:text="Hello World!" />
 
+    <TextView
+        android:id="@+id/tv_change_theme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_show"
+        android:layout_toEndOf="@id/tv_show"
+        android:layout_marginLeft="20dp"
+        android:text="change theme"
+        />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_show"
         android:layout_below="@id/tv_show"

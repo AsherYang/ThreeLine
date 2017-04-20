@@ -1,6 +1,8 @@
 package com.asher.threeline.ui.theme;
 
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
+import android.util.Log;
 import android.view.View;
 
 import com.asher.threeline.ui.base.BaseActivity;
@@ -20,7 +22,7 @@ public abstract class ThemeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        themeHelper = new ThemeHelper(getApplicationContext());
+        themeHelper = ThemeHelper.getThemeHelper(getApplicationContext());
         SP = PreferenceUtil.getInstance(getApplicationContext());
     }
 
@@ -32,15 +34,18 @@ public abstract class ThemeActivity extends BaseActivity {
 
     public void updateTheme() {
         themeHelper.updateTheme();
+        updateUiElements();
+    }
+
+    @CallSuper
+    public void updateUiElements() {
         for (View view : ViewUtil.getAllChildren(findViewById(android.R.id.content))) {
             if (view instanceof IThemeable) {
                 ((IThemeable) view).refreshTheme(getThemeHelper());
             }
         }
-        updateUiElements();
+        Log.i("TAG", "ThemeActivity changeTheme");
     }
-
-    public abstract void updateUiElements();
 
     public ThemeHelper getThemeHelper() {
         return themeHelper;
