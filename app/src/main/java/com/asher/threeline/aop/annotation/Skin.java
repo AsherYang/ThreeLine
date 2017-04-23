@@ -14,7 +14,17 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface Skin {
 
-    int backgroundResId() default -1;
+    /**
+     * 日间模式
+     */
+    int lightBackgroundColorResId() default -1;
 
-    int colorResId() default -1;
+    int lightColorResId() default -1;
+
+    /**
+     * 夜间模式
+     */
+    int darkBackgroundColorResId() default -1;
+
+    int darkColorResId() default -1;
 }
