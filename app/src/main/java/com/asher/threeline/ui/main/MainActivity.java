@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.asher.threeline.AppComponent;
 import com.asher.threeline.R;
+import com.asher.threeline.aop.annotation.Skin;
 import com.asher.threeline.db.bean.DbContent;
 import com.asher.threeline.serve.data.content.DbContentServeModule;
 import com.asher.threeline.serve.net.content.DaggerNetContentServeComponent;
@@ -21,6 +22,7 @@ import com.asher.threeline.serve.net.content.NetContentServeModule;
 import com.asher.threeline.ui.github.GithubActivity;
 import com.asher.threeline.ui.theme.Theme;
 import com.asher.threeline.ui.theme.ThemeActivity;
+import com.asher.threeline.ui.theme.ThemeHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,8 @@ import butterknife.OnClick;
 
 public class MainActivity extends ThemeActivity implements MainView {
 
+    @Skin(darkBackgroundColorResId = R.color.colorPrimary, lightBackgroundColorResId = R.color.colorAccent,
+            darkTextColorResId = R.color.grey_200, lightTextColorResId = R.color.grey_800)
     @BindView(R.id.tv_show)
     TextView tvShow;
     @BindView(R.id.tv_change_theme)
@@ -60,9 +64,12 @@ public class MainActivity extends ThemeActivity implements MainView {
     @Override
     public void updateUiElements() {
         super.updateUiElements();
-        rvShow.setBackgroundColor(getThemeHelper().getBackgroundColor());
-        tvShow.setTextColor(getThemeHelper().getTextColor());
-        tvChangeTheme.setTextColor(getThemeHelper().getTextColor());
+        Theme theme = ThemeHelper.getBaseTheme(this);
+        if (theme == Theme.DARK) {
+            getThemeHelper().setBaseTheme(Theme.LIGHT);
+        } else {
+            getThemeHelper().setBaseTheme(Theme.DARK);
+        }
     }
 
     private void initData() {

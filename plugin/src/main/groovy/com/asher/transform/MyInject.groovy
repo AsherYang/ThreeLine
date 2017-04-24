@@ -2,7 +2,6 @@ package com.asher.transform
 
 import com.asher.util.Utils
 import javassist.*
-import javassist.bytecode.annotation.StringMemberValue
 import org.gradle.api.Project
 
 import java.lang.annotation.Annotation
@@ -37,36 +36,49 @@ public class MyInject {
                             for (Annotation annotation : ctField.getAnnotations()) {
                                 String annoName = annotation.annotationType().canonicalName
                                 if (annoName.equals(Utils.SkinAnnotation)) {
-                                    generateLightTheme(annotation, c, ctField, project)
+                                    generateLightTheme(annotation, c, ctField)
                                     generateDarkTheme(annotation, c, ctField)
+                                    ThemeViewCollector.getInstance().addActivity($c.simpleName);
                                 }
                             }
                         }
-                        /*for (CtMethod ctMethod : c.getDeclaredMethods()) {
-                            String methodName = Utils.getSimpleName(ctMethod, project);
-                            for (Annotation mAnnotation : ctMethod.getAnnotations()) {
-                                String annoName = mAnnotation.annotationType().canonicalName
-                                project.logger.error "----> annoName = $annoName"
-                                if (mAnnotation.annotationType().canonicalName.equals(Utils.SkinAnnotation)) {
-                                    project.logger.error "==== @Time 方法正在修改 ===="
-                                    String insertStr = "{Log.i(\"-- TAG --\", \"Time插入代码成功\");}\n"
-                                    ctMethod.insertBefore(insertStr)
+                        // updateUiElements
+                        project.logger.error "----> 11 = $c.simpleName"
+                        if (ThemeViewCollector.getInstance().hasContainActivity($c.simpleName)) {
+                            project.logger.error "----> annoName = $c.simpleName"
+                            for (CtMethod ctMethod : c.getDeclaredMethods()) {
+                                String methodName = Utils.getSimpleName(ctMethod, project);
+                                /* for (Annotation mAnnotation : ctMethod.getAnnotations()) {
+                                     String annoName = mAnnotation.annotationType().canonicalName
+                                     project.logger.error "----> annoName = $annoName"
+                                     if (mAnnotation.annotationType().canonicalName.equals(Utils.SkinAnnotation)) {
+                                         project.logger.error "==== @Time 方法正在修改 ===="
+                                         String insertStr = "{Log.i(\"-- TAG --\", \"Time插入代码成功\");}\n"
+                                         ctMethod.insertBefore(insertStr)
+                                     }
+                                 }*/
+                                if (Utils.UPDATE_UI_ELEMENTS.contains(methodName)) {
+                                    project.logger.error "==== updateUiElements 方法正在修改 ===="
+                                    StringBuffer buffer2 = new StringBuffer();
+                                    buffer2.append("Theme theme = ThemeHelper.getBaseTheme(this);\n")
+                                    buffer2.append("Log.i(\"TAG\", \"Theme=\" + theme);\n")
+                                    buffer2.append("if (theme == Theme.DARK) {\n")
+                                    buffer2.append("    setDarkTheme();\n")
+                                    buffer2.append("} else {\n")
+                                    buffer2.append("    setLightTheme();\n")
+                                    buffer2.append("}");
+                                    ctMethod.insertBefore(buffer2.toString())
                                 }
                             }
-                            if (Utils.ON_CREATE.contains(methodName)) {
-                                project.logger.error "==== onCreate 方法正在修改 ===="
-                                ctMethod.insertBefore("{Log.i(\"-- TAG --\", \"onCreate插入代码成功\");}\n")
-                            }
-                        }*/
-//                        c.writeFile()
-                        project.logger.error "path -> $path"
+                        }
+
                         c.writeFile(path)
                         //用完一定记得要卸载，否则pool里的永远是旧的代码
                         c.detach()
                     }
                 }
-
             }
+
         }
     }
 
@@ -76,27 +88,45 @@ public class MyInject {
      * @param ctClass
      * @param ctField
      */
-    private static void generateLightTheme(Annotation annotation, CtClass ctClass, CtField ctField, Project project) {
+    private
+    static void generateLightTheme(Annotation annotation, CtClass ctClass, CtField ctField) {
         //获取注解的值
-        // TODO: 17/4/23 set default background and color
+        // set light background and color
         int backgroundColorResId = annotation.lightBackgroundColorResId()
-        int colorResId =((StringMemberValue) annotation.getMemberValue("lightColorResId")).getValue() ;
-        project.logger.error "backgroundResId = $backgroundColorResId, colorResId = $colorResId"
-        //添加自定义方法
-        CtMethod ctMethod = new CtMethod(CtClass.voidType, "set"+upperFirstCase(ctField.name)+"Light",
-                new CtClass[""]{}, ctClass);
-        //为自定义方法设置修饰符
-        ctMethod.setModifiers(Modifier.PUBLIC);
-        //为自定义方法设置函数体
-        StringBuffer buffer2 = new StringBuffer();
-        // todo 这里的colorResId还要想一下,并不一定是TextColor
-        buffer2.append("{\nctField.name.setBackgroundColor($backgroundColorResId);\n")
-                .append("ctField.name.setTextColor($colorResId);\n")
-                .append("System.out.println(eno);\n")
-                .append("System.out.println(\"over!\");\n")
-                .append("}");
-        ctMethod.setBody(buffer2.toString());
-        ctClass.addMethod(ctMethod);
+        int textColorResId = annotation.lightTextColorResId()
+        CtMethod lightMethod;
+        try {
+            // 找到就使用原来的setLightTheme()方法
+            lightMethod = ctClass.getDeclaredMethod("setLightTheme");
+            if (backgroundColorResId != -1) {
+                lightMethod.insertBefore("($ctField.name).setBackgroundColor($backgroundColorResId);\n")
+            }
+            if (textColorResId != -1 && ctField.fieldInfo.toString().contains("TextView")) {
+                lightMethod.insertBefore("($ctField.name).setTextColor($textColorResId);\n")
+            }
+        } catch (NotFoundException e) {
+            // do nothing
+        }
+        if (null == lightMethod) {
+            // 没有找到就创建一个
+            //添加自定义方法
+            lightMethod = new CtMethod(CtClass.voidType, "setLightTheme",
+                    null, ctClass);
+            //为自定义方法设置修饰符
+            lightMethod.setModifiers(Modifier.PUBLIC);
+            //为自定义方法设置函数体
+            StringBuffer buffer2 = new StringBuffer();
+            buffer2.append("{\n ");
+            if (backgroundColorResId != -1) {
+                buffer2.append("($ctField.name).setBackgroundColor($backgroundColorResId);\n")
+            }
+            if (textColorResId != -1 && ctField.fieldInfo.toString().contains("TextView")) {
+                buffer2.append("($ctField.name).setTextColor($textColorResId);\n")
+            }
+            buffer2.append("}");
+            lightMethod.setBody(buffer2.toString());
+            ctClass.addMethod(lightMethod);
+        }
     }
 
     /**
@@ -106,16 +136,42 @@ public class MyInject {
      * @param ctField
      */
     private static void generateDarkTheme(Annotation annotation, CtClass ctClass, CtField ctField) {
-        // todo generate dark theme
-        // TODO: 17/4/23 generate the night background and color, but not called
-    }
-
-
-    private static String upperFirstCase(String str) {
-        char[] ch = str.toCharArray();
-        if (ch[0] >= 'a' && ch[0] <= 'z') {
-            ch[0] = (char) (ch[0] - 32);
+        //获取注解的值
+        // set light background and color
+        int backgroundColorResId = annotation.darkBackgroundColorResId()
+        int textColorResId = annotation.darkTextColorResId()
+        CtMethod darkMethod;
+        try {
+            // 找到就使用原来的setLightTheme()方法
+            darkMethod = ctClass.getDeclaredMethod("setDarkTheme");
+            if (backgroundColorResId != -1) {
+                darkMethod.insertBefore("($ctField.name).setBackgroundColor($backgroundColorResId);\n")
+            }
+            if (textColorResId != -1 && ctField.fieldInfo.toString().contains("TextView")) {
+                darkMethod.insertBefore("($ctField.name).setTextColor($textColorResId);\n")
+            }
+        } catch (NotFoundException e) {
+            // do nothing
         }
-        return String.valueOf(ch);
+        if (null == darkMethod) {
+            // 没有找到就创建一个
+            //添加自定义方法
+            darkMethod = new CtMethod(CtClass.voidType, "setDarkTheme",
+                    null, ctClass);
+            //为自定义方法设置修饰符
+            darkMethod.setModifiers(Modifier.PUBLIC);
+            //为自定义方法设置函数体
+            StringBuffer buffer2 = new StringBuffer();
+            buffer2.append("{\n ");
+            if (backgroundColorResId != -1) {
+                buffer2.append("($ctField.name).setBackgroundColor($backgroundColorResId);\n")
+            }
+            if (textColorResId != -1 && ctField.fieldInfo.toString().contains("TextView")) {
+                buffer2.append("($ctField.name).setTextColor($textColorResId);\n")
+            }
+            buffer2.append("}");
+            darkMethod.setBody(buffer2.toString());
+            ctClass.addMethod(darkMethod);
+        }
     }
 }

@@ -46,29 +46,17 @@ public class ThemeViewCollector {
         mActivityList.clear();
     }
 
-    // TODO: 17/4/24 可该用javassist实现
     public void themeChanged(Context context) {
-        Theme theme = ThemeHelper.getBaseTheme(context);
-        switch (theme) {
-            case DARK:
-                showDarkTheme();
-                break;
-            case LIGHT:
-            default:
-                showLightTheme();
-                break;
-        }
-    }
-
-    private void showDarkTheme() {
         for (ThemeActivity activity : mActivityList) {
             activity.updateUiElements();
         }
     }
 
-    private void showLightTheme() {
-        for (ThemeActivity activity : mActivityList) {
-            activity.updateUiElements();
+    public boolean hasContainActivity(ThemeActivity activity) {
+        if (null == mActivityList || mActivityList.isEmpty()) {
+            return false;
         }
+        return mActivityList.contains(activity);
     }
+
 }

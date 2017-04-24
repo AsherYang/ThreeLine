@@ -8,6 +8,7 @@ public class Utils {
 
     final static String SkinAnnotation = "com.asher.threeline.aop.annotation.Skin"
     static def ON_CREATE = ['onCreate', "onActivityCreated"] as String[]
+    static def UPDATE_UI_ELEMENTS = 'updateUiElements'
     static def ON_DESTROY = 'onDestroy'
 
     /**
@@ -19,14 +20,15 @@ public class Utils {
         pool.importPackage("com.asher.debug.util.ClassTagUtil")
         pool.importPackage("android.util.Log")
         pool.importPackage("android.os.Bundle")
-        pool.importPackage("com.base.event.OkBus")
-        pool.importPackage("com.base.event.Event")
         pool.importPackage("android.os.Message")
+        pool.importPackage("com.asher.threeline.ui.theme.ThemeHelper")
+        pool.importPackage("com.asher.threeline.ui.theme.Theme")
+        pool.importPackage("com.asher.threeline.ui.theme.ThemeViewCollector")
     }
 
     static String getSimpleName(CtMethod ctMethod, Project project) {
         def methodName = ctMethod.getName();
-        project.logger.error "------ methodName = $methodName"
+//        project.logger.error "------ methodName = $methodName"
         return methodName.substring(
                 methodName.lastIndexOf('.') + 1, methodName.length());
     }

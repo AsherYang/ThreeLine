@@ -19,12 +19,12 @@ public @interface Skin {
      */
     int lightBackgroundColorResId() default -1;
 
-    int lightColorResId() default -1;
+    int lightTextColorResId() default -1;
 
     /**
      * 夜间模式
      */
     int darkBackgroundColorResId() default -1;
 
-    int darkColorResId() default -1;
+    int darkTextColorResId() default -1;
 }
