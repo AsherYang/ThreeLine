@@ -16,6 +16,10 @@ public class MyInject {
         pool.appendClassPath(project.android.bootClasspath[0].toString())
         Utils.importBaseClass(pool);
         File dir = new File(path)
+        project.logger.error "----> theme ======"
+        CtClass themeViewCollectorCls = pool.getCtClass(Utils.ThemeViewCollector)
+        CtMethod themeViewAdd = themeViewCollectorCls.getDeclaredField(Utils.ADD_ACTIVITY)
+        project.logger.error "----> theme = $themeViewCollectorCls.name, $themeViewAdd.name"
         if (dir.isDirectory()) {
             dir.eachFileRecurse { File file ->
                 String filePath = file.absolutePath
@@ -38,7 +42,7 @@ public class MyInject {
                                 if (annoName.equals(Utils.SkinAnnotation)) {
                                     generateLightTheme(annotation, c, ctField)
                                     generateDarkTheme(annotation, c, ctField)
-                                    ThemeViewCollector.getInstance().addActivity($c.simpleName);
+                                    themeViewAdd.insertBefore($c.simpleName)
                                 }
                             }
                         }

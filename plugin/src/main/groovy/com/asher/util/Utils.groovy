@@ -7,9 +7,11 @@ import org.gradle.api.Project
 public class Utils {
 
     final static String SkinAnnotation = "com.asher.threeline.aop.annotation.Skin"
+    final static String ThemeViewCollector = " com.asher.threeline.ui.theme.ThemeViewCollector"
     static def ON_CREATE = ['onCreate', "onActivityCreated"] as String[]
     static def UPDATE_UI_ELEMENTS = 'updateUiElements'
     static def ON_DESTROY = 'onDestroy'
+    static def ADD_ACTIVITY = 'addActivity'
 
     /**
      * 事先载入相关类
