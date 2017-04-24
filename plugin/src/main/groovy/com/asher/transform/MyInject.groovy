@@ -1,5 +1,6 @@
 package com.asher.transform
 
+import com.asher.helper.ThemeViewInfo
 import com.asher.util.Utils
 import javassist.*
 import org.gradle.api.Project
@@ -15,11 +16,8 @@ public class MyInject {
         // project.android.bootClassPath 加入android.jar，否则找不到android相关的所有类
         pool.appendClassPath(project.android.bootClasspath[0].toString())
         Utils.importBaseClass(pool);
+        ThemeViewInfo themeViewInfo = new ThemeViewInfo(project)
         File dir = new File(path)
-        project.logger.error "----> theme ======"
-        CtClass themeViewCollectorCls = pool.getCtClass(Utils.ThemeViewCollector)
-        CtMethod themeViewAdd = themeViewCollectorCls.getDeclaredField(Utils.ADD_ACTIVITY)
-        project.logger.error "----> theme = $themeViewCollectorCls.name, $themeViewAdd.name"
         if (dir.isDirectory()) {
             dir.eachFileRecurse { File file ->
                 String filePath = file.absolutePath
@@ -42,14 +40,16 @@ public class MyInject {
                                 if (annoName.equals(Utils.SkinAnnotation)) {
                                     generateLightTheme(annotation, c, ctField)
                                     generateDarkTheme(annotation, c, ctField)
-                                    themeViewAdd.insertBefore($c.simpleName)
+                                    project.logger.error "----> 22 = $c.simpleName"
+                                    themeViewInfo.invokeAddActivity(c)
                                 }
                             }
                         }
                         // updateUiElements
                         project.logger.error "----> 11 = $c.simpleName"
-                        if (ThemeViewCollector.getInstance().hasContainActivity($c.simpleName)) {
+                        if (themeViewInfo.invokeHasContainActivity(c)) {
                             project.logger.error "----> annoName = $c.simpleName"
+                            // todo use getDeclaredMethod to get Utils.UPDATE_UI_ELEMENTS method
                             for (CtMethod ctMethod : c.getDeclaredMethods()) {
                                 String methodName = Utils.getSimpleName(ctMethod, project);
                                 /* for (Annotation mAnnotation : ctMethod.getAnnotations()) {
