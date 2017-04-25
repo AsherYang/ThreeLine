@@ -2,7 +2,6 @@ package com.asher.util
 
 import javassist.ClassPool
 import javassist.CtMethod
-import org.gradle.api.Project
 
 public class Utils {
 
@@ -11,6 +10,7 @@ public class Utils {
     final static String ThemeHelper = "com.asher.threeline.ui.theme.ThemeHelper"
     static def UPDATE_UI_ELEMENTS = 'updateUiElements'
     static def CHANGE_THEME = 'changeTheme'
+    static def NOTIFY_UI_REFRESH = "notifyUiRefresh"
     static def ON_CREATE = ['onCreate', "onActivityCreated"] as String[]
     static def ON_DESTROY = 'onDestroy'
     static def ADD_ACTIVITY = 'addActivity'
@@ -32,9 +32,8 @@ public class Utils {
         pool.importPackage("com.asher.threeline.ui.main.MainView")
     }
 
-    static String getSimpleName(CtMethod ctMethod, Project project) {
+    static String getSimpleName(CtMethod ctMethod) {
         def methodName = ctMethod.getName();
-//        project.logger.error "------ methodName = $methodName"
         return methodName.substring(
                 methodName.lastIndexOf('.') + 1, methodName.length());
     }
@@ -42,5 +41,9 @@ public class Utils {
     static String getClassName(int index, String filePath) {
         int end = filePath.length() - 6 // .class = 6
         return filePath.substring(index, end).replace('\\', '.').replace('/', '.')
+    }
+
+    static String getClassFileDir(String filePath) {
+        return filePath.substring(0, filePath.lastIndexOf("\\"))
     }
 }

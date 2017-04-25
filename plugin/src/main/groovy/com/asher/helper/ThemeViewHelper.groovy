@@ -3,6 +3,7 @@ package com.asher.helper
 import javassist.CtClass
 import org.gradle.api.Project
 
+// todo delete
 public class ThemeViewHelper {
 
     static void addClass(CtClass ctClass, Project project) {
@@ -29,9 +30,10 @@ public class ThemeViewHelper {
                     ctClazz.defrost()
                 }
                 project.logger.error "----- cz $ctClazz.name ------"
-                Class clazz = ctClazz.toClass()
+//                Class clazz = ctClazz.toClass()
                 project.logger.error "-----cc ------ ------"
-                buffer2.append("($clazz).updateUiElements()")
+                buffer2.append("Class cls = Class.")
+                buffer2.append("new ($ctClazz.name)().updateUiElements();\n")
                 project.logger.error "----- ctClassList clazz ------"
             } catch (Exception e) {
                 // do nothing

@@ -22,6 +22,7 @@ import com.asher.threeline.serve.net.content.NetContentServeModule;
 import com.asher.threeline.ui.github.GithubActivity;
 import com.asher.threeline.ui.theme.Theme;
 import com.asher.threeline.ui.theme.ThemeActivity;
+import com.asher.threeline.ui.theme.ThemeHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +109,8 @@ public class MainActivity extends ThemeActivity implements MainView {
                 break;
             case R.id.tv_change_theme:
                 // 为了验证改变主题对其他页面的影响,这里延迟5S用于测试
-                changeThemeDelay();
+//                changeThemeDelay();
+                ThemeHelper.getThemeHelper(this).changeTheme(exchangeTheme());
                 break;
             default:
                 break;
@@ -132,6 +134,14 @@ public class MainActivity extends ThemeActivity implements MainView {
         }
         updateUiElements();
         Log.i("TAG", "MainActivity changeTheme");
+    }
+
+    private Theme exchangeTheme() {
+        if (getThemeHelper().getBaseTheme() == Theme.DARK) {
+            return Theme.LIGHT;
+        } else {
+            return Theme.DARK;
+        }
     }
 
     @Override

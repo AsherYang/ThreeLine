@@ -50,7 +50,7 @@ class JavassistTransform extends Transform {
             try {
                 input.jarInputs.each {
                     // inject code
-                    MyInject.injectDir(it.file.getAbsolutePath(), "com", project)
+                    MyInject.injectDir(it.file.getAbsolutePath(), "com.asher", project)
                     String outputFileName = it.name.replace(".jar", "") + "-" + it.file.path.hashCode()
                     def output = tfOutputProvider.getContentLocation(outputFileName, it.contentTypes, it.scopes, Format.JAR)
                     FileUtils.copyFile(it.file, output)
@@ -63,7 +63,7 @@ class JavassistTransform extends Transform {
             input.directoryInputs.each { DirectoryInput directoryInput ->
                 // inject code
                 // 文件夹里面包含的是我们手写的类，以及R.class|BuildConfig.class以及R$xxx.class等
-                MyInject.injectDir(directoryInput.file.absolutePath, "com", project)
+                MyInject.injectDir(directoryInput.file.absolutePath, "com.asher", project)
                 // 获取output目录
                 def dest = tfOutputProvider.getContentLocation(directoryInput.name,
                         directoryInput.contentTypes, directoryInput.scopes, Format.DIRECTORY)

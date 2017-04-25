@@ -1,6 +1,5 @@
 package com.asher.transform
 
-import com.asher.helper.ThemeViewHelper
 import com.asher.util.Utils
 import javassist.*
 import org.gradle.api.Project
@@ -40,8 +39,10 @@ public class MyInject {
                                     generateLightTheme(annotation, c, ctField)
                                     generateDarkTheme(annotation, c, ctField)
                                     modifyUpdateUiElementMethod(c)
-                                    // add to ThemeViewInfo
-                                    ThemeViewHelper.addClass(c, project)
+                                    // after modifyUpdateUiElementMethod
+                                    generateThemeViewCollector(c, path, project)
+                                    // add to ThemeViewInfo todo delete
+//                                    ThemeViewHelper.addClass(c, project)
                                 }
                             }
                         }
@@ -102,7 +103,7 @@ public class MyInject {
     }
 
     /**
-     * generate Light Theme
+     * generate Light Theme to activity
      * @param annotation
      * @param ctClass
      * @param ctField
@@ -149,7 +150,7 @@ public class MyInject {
     }
 
     /**
-     * generate dark Theme
+     * generate dark Theme to activity
      * @param annotation
      * @param ctClass
      * @param ctField
@@ -195,7 +196,7 @@ public class MyInject {
     }
 
     /**
-     * modify updateUiElements method
+     * modify updateUiElements method to activity
      * @param ctClass
      */
     private static void modifyUpdateUiElementMethod(CtClass ctClass) {
@@ -233,23 +234,100 @@ public class MyInject {
      */
     private
     static void modifyChangeThemeMethodToNotify(CtClass ctClass, Project project) {
-        if (!Utils.ThemeHelper.equals(ctClass.name)){
+        if (!Utils.ThemeHelper.equals(ctClass.name)) {
             return
         }
-        project.logger.error "---------3333333"
-        String cmd = ThemeViewHelper.invokeRefreshUiCmd(project)
-        project.logger.error "---------5555"
-        if (null == cmd || "".equals(cmd)) {
-            project.logger.error "---------6666"
-            return
+        project.logger.error "----- 456----"
+        if (ctClass.isFrozen()) {
+            ctClass.defrost()
         }
+        CtMethod notifyUiMethod
         CtMethod changeThemeMethod
+        project.logger.error "----- 111 ---"
+        try {
+            notifyUiMethod = ctClass.getDeclaredMethod(Utils.NOTIFY_UI_REFRESH)
+        } catch (Exception e) {
+            // do nothing
+            project.logger.error "----- 222 ---"
+        }
         try {
             changeThemeMethod = ctClass.getDeclaredMethod(Utils.CHANGE_THEME)
-            changeThemeMethod.insertBefore(cmd)
-            project.logger.error "---------4444"
-        } catch (NotFoundException e) {
+        } catch (Exception e1) {
             // do nothing
+            project.logger.error "----- 333 ---"
+        }
+
+        // 没有就创建
+        if (null == changeThemeMethod) {
+            changeThemeMethod = CtMethod.make("public void changeTheme(Theme toTheme) {\n" +
+                    "setBaseTheme(toTheme);\n}", ctClass)
+            ctClass.addMethod(changeThemeMethod)
+            project.logger.error "----- 444 ---"
+        }
+        if (null == notifyUiMethod) {
+            notifyUiMethod = CtMethod.make("public void notifyUiRefresh() {\n" +
+                    "ThemeViewCollector.getInstance().themeChanged();\n}", ctClass)
+            ctClass.addMethod(notifyUiMethod)
+            // insert into changeThemeMethod
+            changeThemeMethod.insertAfter("notifyUiRefresh();")
+            project.logger.error "----- 555 ---"
+        }
+
+    }
+
+    private static void generateThemeViewCollector(CtClass ctClassWithSkin, String path, Project project) {
+        if (ctClassWithSkin.isFrozen()) {
+            ctClassWithSkin.defrost()
+        }
+project.logger.error "----- 123----"
+        CtClass themeViewCtClass
+        try {
+            themeViewCtClass = pool.getCtClass(Utils.ThemeViewCollector)
+        } catch (Exception e) {
+            // do nothing
+        }
+        // 没有ThemeViewCollector 类就新建
+        if (null == themeViewCtClass) {
+            themeViewCtClass = pool.makeClass(Utils.ThemeViewCollector)
+            // create constructor
+            CtConstructor constructor = new CtConstructor(null, themeViewCtClass)
+            constructor.setBody("{mActivityList = new ArrayList<>();}")
+            constructor.setModifiers(Modifier.PRIVATE)
+            themeViewCtClass.addConstructor(constructor)
+            // create fields
+            CtField ctF1 = CtField.make("private static ThemeViewCollector instance;", themeViewCtClass)
+            CtField ctF2 = CtField.make("private List<Activity> mActivityList;", themeViewCtClass)
+            themeViewCtClass.addField(ctF1)
+            themeViewCtClass.addField(ctF2)
+            // create methods
+            CtMethod ctM1 = CtMethod.make("public static ThemeViewCollector getInstance() {\n " +
+                    "if (instance == null) {\n synchronized (ThemeViewCollector.class) {\n  " +
+                    "if (instance == null) \n instance = new ThemeViewCollector();\n  }\n }\n" +
+                    " return instance;\n}", themeViewCtClass)
+            CtMethod ctM2 = CtMethod.make("public void addActivity(Activity activity) {\n " +
+                    "if (mActivityList.contains(activity)) {\nreturn;\n}\n mActivityList.add(activity);}\n",
+                    themeViewCtClass)
+            CtMethod ctM3 = CtMethod.make("public void themeChanged() {\n if (null == mActivityList " +
+                    "|| mActivityList.isEmpty()) {\n return;\n}\n for (Activity activity : mActivityList) " +
+                    "{\n activity.updateUiElements();\n}\n", themeViewCtClass)
+            themeViewCtClass.addMethod(ctM1)
+            themeViewCtClass.addMethod(ctM2)
+            themeViewCtClass.addMethod(ctM3)
+            // write file
+            project.logger.error "---- create themeViewCollector $path"
+            themeViewCtClass.writeFile(path)
+        }
+
+        if (null != themeViewCtClass && themeViewCtClass.isFrozen()) {
+            themeViewCtClass.defrost()
+        }
+
+        // insert add activity to ThemeViewCollector
+        for (CtMethod ctMethod : ctClassWithSkin.getDeclaredMethods()) {
+            String methodName = Utils.getSimpleName(ctMethod);
+            if (Utils.ON_CREATE.contains(methodName)) {
+                ctMethod.insertAfter("ThemeViewCollector.getInstance().addActivity(this);\n")
+            }
         }
     }
 }
