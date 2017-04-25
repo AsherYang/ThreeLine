@@ -1,6 +1,6 @@
 package com.asher.transform
 
-import com.asher.helper.ThemeViewInfo
+import com.asher.helper.ThemeViewHelper
 import com.asher.util.Utils
 import javassist.*
 import org.gradle.api.Project
@@ -16,7 +16,6 @@ public class MyInject {
         // project.android.bootClassPath 加入android.jar，否则找不到android相关的所有类
         pool.appendClassPath(project.android.bootClasspath[0].toString())
         Utils.importBaseClass(pool);
-        ThemeViewInfo themeViewInfo = new ThemeViewInfo(project)
         File dir = new File(path)
         if (dir.isDirectory()) {
             dir.eachFileRecurse { File file ->
@@ -40,19 +39,35 @@ public class MyInject {
                                 if (annoName.equals(Utils.SkinAnnotation)) {
                                     generateLightTheme(annotation, c, ctField)
                                     generateDarkTheme(annotation, c, ctField)
-                                    project.logger.error "----> 22 = $c.simpleName"
-                                    themeViewInfo.invokeAddActivity(c)
+                                    modifyUpdateUiElementMethod(c)
+                                    // add to ThemeViewInfo
+                                    ThemeViewHelper.addClass(c, project)
                                 }
                             }
                         }
+                        modifyChangeThemeMethodToNotify(c, project)
                         // updateUiElements
-                        project.logger.error "----> 11 = $c.simpleName"
-                        if (themeViewInfo.invokeHasContainActivity(c)) {
-                            project.logger.error "----> annoName = $c.simpleName"
-                            // todo use getDeclaredMethod to get Utils.UPDATE_UI_ELEMENTS method
-                            for (CtMethod ctMethod : c.getDeclaredMethods()) {
-                                String methodName = Utils.getSimpleName(ctMethod, project);
-                                /* for (Annotation mAnnotation : ctMethod.getAnnotations()) {
+                        /* project.logger.error "----> 11 = $c.simpleName"
+                         if (themeViewInfo.invokeHasContainActivity(c.toClass())) {
+                             project.logger.error "----> annoName = $c.simpleName"
+                             CtMethod m = c.getDeclaredMethod(Utils.ADD_ACTIVITY)
+                             String methodName = Utils.getSimpleName(m, project);
+                             if (Utils.UPDATE_UI_ELEMENTS.contains(methodName)) {
+                                 project.logger.error "==== updateUiElements 方法正在修改 ===="
+                                 StringBuffer buffer2 = new StringBuffer();
+                                 buffer2.append("Theme theme = ThemeHelper.getBaseTheme(this);\n")
+                                 buffer2.append("Log.i(\"TAG\", \"Theme=\" + theme);\n")
+                                 buffer2.append("if (theme == Theme.DARK) {\n")
+                                 buffer2.append("    setDarkTheme();\n")
+                                 buffer2.append("} else {\n")
+                                 buffer2.append("    setLightTheme();\n")
+                                 buffer2.append("}");
+                                 ctMethod.insertBefore(buffer2.toString())
+                             }
+
+                             *//*for (CtMethod ctMethod : c.getDeclaredMethods()) {
+                                 String methodName = Utils.getSimpleName(ctMethod, project);
+                                 *//**//* for (Annotation mAnnotation : ctMethod.getAnnotations()) {
                                      String annoName = mAnnotation.annotationType().canonicalName
                                      project.logger.error "----> annoName = $annoName"
                                      if (mAnnotation.annotationType().canonicalName.equals(Utils.SkinAnnotation)) {
@@ -60,7 +75,7 @@ public class MyInject {
                                          String insertStr = "{Log.i(\"-- TAG --\", \"Time插入代码成功\");}\n"
                                          ctMethod.insertBefore(insertStr)
                                      }
-                                 }*/
+                                 }*//**//*
                                 if (Utils.UPDATE_UI_ELEMENTS.contains(methodName)) {
                                     project.logger.error "==== updateUiElements 方法正在修改 ===="
                                     StringBuffer buffer2 = new StringBuffer();
@@ -73,8 +88,8 @@ public class MyInject {
                                     buffer2.append("}");
                                     ctMethod.insertBefore(buffer2.toString())
                                 }
-                            }
-                        }
+                            }*//*
+                        }*/
 
                         c.writeFile(path)
                         //用完一定记得要卸载，否则pool里的永远是旧的代码
@@ -176,6 +191,65 @@ public class MyInject {
             buffer2.append("}");
             darkMethod.setBody(buffer2.toString());
             ctClass.addMethod(darkMethod);
+        }
+    }
+
+    /**
+     * modify updateUiElements method
+     * @param ctClass
+     */
+    private static void modifyUpdateUiElementMethod(CtClass ctClass) {
+        StringBuffer buffer2 = new StringBuffer()
+        buffer2.append("Theme theme = ThemeHelper.getBaseTheme(this);\n")
+        buffer2.append("Log.i(\"TAG\", \"Theme=\" + theme);\n")
+        buffer2.append("if (theme == Theme.DARK) {\n")
+        buffer2.append("    setDarkTheme();\n")
+        buffer2.append("} else {\n")
+        buffer2.append("    setLightTheme();\n")
+        buffer2.append("}");
+        CtMethod updateUiElementMethod;
+        try {
+            updateUiElementMethod = ctClass.getDeclaredMethod(Utils.UPDATE_UI_ELEMENTS);
+            updateUiElementMethod.insertBefore(buffer2.toString())
+        } catch (NotFoundException e) {
+            // do nothing
+        }
+
+        if (null == updateUiElementMethod) {
+            // 没有找到就创建一个
+            //添加自定义方法
+            updateUiElementMethod = new CtMethod(CtClass.voidType, "setDarkTheme",
+                    null, ctClass);
+            //为自定义方法设置修饰符
+            updateUiElementMethod.setModifiers(Modifier.PUBLIC);
+            //为自定义方法设置函数体
+            updateUiElementMethod.setBody(buffer2.toString());
+            ctClass.addMethod(updateUiElementMethod);
+        }
+    }
+
+    /**
+     * modify changeTheme method to notify all activity update
+     */
+    private
+    static void modifyChangeThemeMethodToNotify(CtClass ctClass, Project project) {
+        if (!Utils.ThemeHelper.equals(ctClass.name)){
+            return
+        }
+        project.logger.error "---------3333333"
+        String cmd = ThemeViewHelper.invokeRefreshUiCmd(project)
+        project.logger.error "---------5555"
+        if (null == cmd || "".equals(cmd)) {
+            project.logger.error "---------6666"
+            return
+        }
+        CtMethod changeThemeMethod
+        try {
+            changeThemeMethod = ctClass.getDeclaredMethod(Utils.CHANGE_THEME)
+            changeThemeMethod.insertBefore(cmd)
+            project.logger.error "---------4444"
+        } catch (NotFoundException e) {
+            // do nothing
         }
     }
 }

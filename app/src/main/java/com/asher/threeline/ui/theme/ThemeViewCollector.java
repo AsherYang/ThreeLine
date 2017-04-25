@@ -11,6 +11,8 @@ import java.util.List;
  * Created by ouyangfan on 17/4/24.
  *
  * 装入随Theme改变的Activity
+ *
+ * todo 删除
  */
 public class ThemeViewCollector {
 

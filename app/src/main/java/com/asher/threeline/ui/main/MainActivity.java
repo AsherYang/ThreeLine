@@ -22,7 +22,6 @@ import com.asher.threeline.serve.net.content.NetContentServeModule;
 import com.asher.threeline.ui.github.GithubActivity;
 import com.asher.threeline.ui.theme.Theme;
 import com.asher.threeline.ui.theme.ThemeActivity;
-import com.asher.threeline.ui.theme.ThemeHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,12 +63,6 @@ public class MainActivity extends ThemeActivity implements MainView {
     @Override
     public void updateUiElements() {
         super.updateUiElements();
-        Theme theme = ThemeHelper.getBaseTheme(this);
-        if (theme == Theme.DARK) {
-            getThemeHelper().setBaseTheme(Theme.LIGHT);
-        } else {
-            getThemeHelper().setBaseTheme(Theme.DARK);
-        }
     }
 
     private void initData() {

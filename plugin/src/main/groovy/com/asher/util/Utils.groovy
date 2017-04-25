@@ -8,8 +8,10 @@ public class Utils {
 
     final static String SkinAnnotation = "com.asher.threeline.aop.annotation.Skin"
     final static String ThemeViewCollector = "com.asher.threeline.ui.theme.ThemeViewCollector"
-    static def ON_CREATE = ['onCreate', "onActivityCreated"] as String[]
+    final static String ThemeHelper = "com.asher.threeline.ui.theme.ThemeHelper"
     static def UPDATE_UI_ELEMENTS = 'updateUiElements'
+    static def CHANGE_THEME = 'changeTheme'
+    static def ON_CREATE = ['onCreate', "onActivityCreated"] as String[]
     static def ON_DESTROY = 'onDestroy'
     static def ADD_ACTIVITY = 'addActivity'
     static def HAS_CONTAIN_ACTIVITY = 'hasContainActivity'
@@ -27,6 +29,7 @@ public class Utils {
         pool.importPackage("com.asher.threeline.ui.theme.ThemeHelper")
         pool.importPackage("com.asher.threeline.ui.theme.Theme")
         pool.importPackage("com.asher.threeline.ui.theme.ThemeViewCollector")
+        pool.importPackage("com.asher.threeline.ui.main.MainView")
     }
 
     static String getSimpleName(CtMethod ctMethod, Project project) {

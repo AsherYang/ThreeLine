@@ -48,6 +48,18 @@ public class ThemeHelper {
         return Theme.fromValue(SP.getInt(IPreferenceKey.BASE_THEME, Theme.LIGHT.value));
     }
 
+    /**
+     * change theme to `toTheme`
+     * <p>
+     * 请注意： 这个方法不要删除，用于暴露给外部调用
+     *
+     * @param toTheme theme
+     */
+    public void changeTheme(Theme toTheme) {
+        setBaseTheme(toTheme);
+        // notice: the other notification code completed in javassist which named MyInject.groovy
+    }
+
     private int getColor(@ColorRes int color) {
         return ContextCompat.getColor(context, color);
     }

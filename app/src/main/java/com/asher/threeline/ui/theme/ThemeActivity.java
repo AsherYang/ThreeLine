@@ -13,6 +13,8 @@ import com.asher.threeline.util.ViewUtil;
  * Created by ouyangfan on 17/4/19.
  *
  * theme base activity
+ *
+ * TODO 可以删除, MyInject.groovy 已处理
  */
 public abstract class ThemeActivity extends BaseActivity {
 
