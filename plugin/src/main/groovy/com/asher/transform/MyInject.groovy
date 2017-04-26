@@ -283,7 +283,7 @@ project.logger.error "-----xxx 123 xx----"
         CtClass themeViewCtClass
         CtMethod instanceMethod
         try {
-            themeViewCtClass = pool.getCtClass(Utils.ThemeViewCollector)
+            themeViewCtClass = pool.get(Utils.ThemeViewCollector)
             project.logger.error "----- 12333----"
             instanceMethod = themeViewCtClass.getDeclaredMethod("getInstance")
             project.logger.error "----- 12344----$themeViewCtClass.name, $instanceMethod.name"
