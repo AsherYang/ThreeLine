@@ -279,24 +279,35 @@ public class MyInject {
         if (ctClassWithSkin.isFrozen()) {
             ctClassWithSkin.defrost()
         }
-project.logger.error "----- 123----"
+project.logger.error "-----xxx 123 xx----"
         CtClass themeViewCtClass
+        CtMethod instanceMethod
         try {
             themeViewCtClass = pool.getCtClass(Utils.ThemeViewCollector)
+            project.logger.error "----- 12333----"
+            instanceMethod = themeViewCtClass.getDeclaredMethod("getInstance")
+            project.logger.error "----- 12344----$themeViewCtClass.name, $instanceMethod.name"
         } catch (Exception e) {
             // do nothing
+            project.logger.error "----- 12355----"
         }
         // 没有ThemeViewCollector 类就新建
-        if (null == themeViewCtClass) {
+        if (null == instanceMethod) {
+            project.logger.error "----- 12366--XXX--"
             themeViewCtClass = pool.makeClass(Utils.ThemeViewCollector)
+            project.logger.error "----- 12366111----"
             // create constructor
-            CtConstructor constructor = new CtConstructor(null, themeViewCtClass)
-            constructor.setBody("{mActivityList = new ArrayList<>();}")
-            constructor.setModifiers(Modifier.PRIVATE)
-            themeViewCtClass.addConstructor(constructor)
+//            CtClass[] param = {};
+//            project.logger.error "----- 12366222----"
+//            CtConstructor constructor = new CtConstructor(param, themeViewCtClass)
+//            project.logger.error "----- 12377----"
+//            constructor.setBody("{mActivityList = new ArrayList<>();}")
+//            constructor.setModifiers(Modifier.PRIVATE)
+//            themeViewCtClass.addConstructor(constructor)
+            project.logger.error "----- 12388----"
             // create fields
-            CtField ctF1 = CtField.make("private static ThemeViewCollector instance;", themeViewCtClass)
-            CtField ctF2 = CtField.make("private List<Activity> mActivityList;", themeViewCtClass)
+            CtField ctF1 = CtField.make("private static ThemeViewCollector instance;\n", themeViewCtClass)
+            CtField ctF2 = CtField.make("private List<Activity> mActivityList;\n", themeViewCtClass)
             themeViewCtClass.addField(ctF1)
             themeViewCtClass.addField(ctF2)
             // create methods
@@ -326,6 +337,7 @@ project.logger.error "----- 123----"
         for (CtMethod ctMethod : ctClassWithSkin.getDeclaredMethods()) {
             String methodName = Utils.getSimpleName(ctMethod);
             if (Utils.ON_CREATE.contains(methodName)) {
+                project.logger.error "----- 12377----"
                 ctMethod.insertAfter("ThemeViewCollector.getInstance().addActivity(this);\n")
             }
         }
