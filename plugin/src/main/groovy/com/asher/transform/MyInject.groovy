@@ -264,14 +264,14 @@ public class MyInject {
             ctClass.addMethod(changeThemeMethod)
             project.logger.error "----- 444 ---"
         }
-        if (null == notifyUiMethod) {
-            notifyUiMethod = CtMethod.make("public void notifyUiRefresh() {\n" +
-                    "ThemeViewCollector.getInstance().themeChanged();\n}", ctClass)
-            ctClass.addMethod(notifyUiMethod)
-            // insert into changeThemeMethod
-            changeThemeMethod.insertAfter("notifyUiRefresh();")
-            project.logger.error "----- 555 ---"
-        }
+//        if (null == notifyUiMethod) {
+//            notifyUiMethod = CtMethod.make("public void notifyUiRefresh() {\n" +
+//                    "ThemeViewCollector.getInstance().themeChanged();\n}", ctClass)
+//            ctClass.addMethod(notifyUiMethod)
+//            // insert into changeThemeMethod
+//            changeThemeMethod.insertAfter("notifyUiRefresh();")
+//            project.logger.error "----- 555 ---"
+//        }
 
     }
 
@@ -279,23 +279,17 @@ public class MyInject {
         if (ctClassWithSkin.isFrozen()) {
             ctClassWithSkin.defrost()
         }
-project.logger.error "-----xxx 123 xx----"
         CtClass themeViewCtClass
         CtMethod instanceMethod
         try {
             themeViewCtClass = pool.get(Utils.ThemeViewCollector)
-            project.logger.error "----- 12333----"
             instanceMethod = themeViewCtClass.getDeclaredMethod("getInstance")
-            project.logger.error "----- 12344----$themeViewCtClass.name, $instanceMethod.name"
         } catch (Exception e) {
             // do nothing
-            project.logger.error "----- 12355----"
         }
         // 没有ThemeViewCollector 类就新建
         if (null == instanceMethod) {
-            project.logger.error "----- 12366--XXX--"
             themeViewCtClass = pool.makeClass(Utils.ThemeViewCollector)
-            project.logger.error "----- 12366111----"
             // create constructor
 //            CtClass[] param = {};
 //            project.logger.error "----- 12366222----"
@@ -307,23 +301,28 @@ project.logger.error "-----xxx 123 xx----"
             project.logger.error "----- 12388----"
             // create fields
             CtField ctF1 = CtField.make("private static ThemeViewCollector instance;\n", themeViewCtClass)
-            CtField ctF2 = CtField.make("private List<Activity> mActivityList;\n", themeViewCtClass)
+            project.logger.error "----- 123333---"
+//            CtField ctF2 = CtField.make("private List<Activity> mActivityList;\n", themeViewCtClass)
+            project.logger.error "----- 124444---"
             themeViewCtClass.addField(ctF1)
-            themeViewCtClass.addField(ctF2)
+//            themeViewCtClass.addField(ctF2)
             // create methods
-            CtMethod ctM1 = CtMethod.make("public static ThemeViewCollector getInstance() {\n " +
-                    "if (instance == null) {\n synchronized (ThemeViewCollector.class) {\n  " +
-                    "if (instance == null) \n instance = new ThemeViewCollector();\n  }\n }\n" +
-                    " return instance;\n}", themeViewCtClass)
-            CtMethod ctM2 = CtMethod.make("public void addActivity(Activity activity) {\n " +
-                    "if (mActivityList.contains(activity)) {\nreturn;\n}\n mActivityList.add(activity);}\n",
-                    themeViewCtClass)
-            CtMethod ctM3 = CtMethod.make("public void themeChanged() {\n if (null == mActivityList " +
-                    "|| mActivityList.isEmpty()) {\n return;\n}\n for (Activity activity : mActivityList) " +
-                    "{\n activity.updateUiElements();\n}\n", themeViewCtClass)
-            themeViewCtClass.addMethod(ctM1)
-            themeViewCtClass.addMethod(ctM2)
-            themeViewCtClass.addMethod(ctM3)
+//            CtMethod ctM1 = CtMethod.make("public static ThemeViewCollector getInstance() {\n " +
+//                    "if (instance == null) {\n synchronized (ThemeViewCollector.class) {\n  " +
+//                    "if (instance == null) \n instance = new ThemeViewCollector();\n  }\n }\n" +
+//                    " return instance;\n}", themeViewCtClass)
+//            CtMethod ctM2 = CtMethod.make("public void addActivity(Activity activity) {\n " +
+//                    "if (mActivityList.contains(activity)) {\nreturn;\n}\n mActivityList.add(activity);}\n",
+//                    themeViewCtClass)
+//            CtMethod ctM3 = CtMethod.make("public void themeChanged() {\n if (null == mActivityList " +
+//                    "|| mActivityList.isEmpty()) {\n return;\n}\n for (Activity activity : mActivityList) " +
+//                    "{\n activity.updateUiElements();\n}\n", themeViewCtClass)
+//            themeViewCtClass.addMethod(ctM1)
+//            themeViewCtClass.addMethod(ctM2)
+//            themeViewCtClass.addMethod(ctM3)
+
+            CtMethod ctTestMethod = CtMethod.make("public String test(String a, String b){\n return a+b;\n} ", themeViewCtClass)
+            themeViewCtClass.addMethod(ctTestMethod)
             // write file
             project.logger.error "---- create themeViewCollector $path"
             themeViewCtClass.writeFile(path)
@@ -338,7 +337,9 @@ project.logger.error "-----xxx 123 xx----"
             String methodName = Utils.getSimpleName(ctMethod);
             if (Utils.ON_CREATE.contains(methodName)) {
                 project.logger.error "----- 12377----"
-                ctMethod.insertAfter("ThemeViewCollector.getInstance().addActivity(this);\n")
+//                ctMethod.insertAfter("ThemeViewCollector.getInstance().addActivity(this);\n")
+                ctMethod.insertAfter("String str = new ThemeViewCollector().test(\"a\", \"b\");\n" +
+                        "System.out.println(\"str = \" + str);\n")
             }
         }
     }
