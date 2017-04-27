@@ -95,4 +95,5 @@ def isDevOrBetaBuild(String version) {
 //        archives androidJavadocsJar
 //    }
 //}
-uploadArchives.mustRunAfter 'cleanDir'
+//uploadArchives.mustRunAfter 'cleanDir'
+uploadArchives.mustRunAfter 'clean'

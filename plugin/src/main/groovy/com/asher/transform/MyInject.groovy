@@ -301,11 +301,12 @@ public class MyInject {
             project.logger.error "----- 12388----"
             // create fields
             CtField ctF1 = CtField.make("private static ThemeViewCollector instance;\n", themeViewCtClass)
-            project.logger.error "----- 123333---"
+            project.logger.error "----- 12333---"
+            CtField ctF2 = CtField.make("private static ThemeViewCollector instance2;\n", themeViewCtClass)
 //            CtField ctF2 = CtField.make("private List<Activity> mActivityList;\n", themeViewCtClass)
             project.logger.error "----- 124444---"
             themeViewCtClass.addField(ctF1)
-//            themeViewCtClass.addField(ctF2)
+            themeViewCtClass.addField(ctF2)
             // create methods
 //            CtMethod ctM1 = CtMethod.make("public static ThemeViewCollector getInstance() {\n " +
 //                    "if (instance == null) {\n synchronized (ThemeViewCollector.class) {\n  " +
