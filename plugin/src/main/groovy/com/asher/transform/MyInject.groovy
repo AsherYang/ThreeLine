@@ -6,6 +6,11 @@ import org.gradle.api.Project
 
 import java.lang.annotation.Annotation
 
+/**
+ * use javassist
+ *
+ * http://jboss-javassist.github.io/javassist/tutorial/tutorial2.html
+ */
 public class MyInject {
     public final static ClassPool pool = ClassPool.getDefault();
 
