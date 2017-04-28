@@ -14,7 +14,8 @@ import com.asher.threeline.util.ViewUtil;
  *
  * theme base activity
  *
- * TODO 可以删除, MyInject.groovy 已处理
+ * TODO 需要删除, MyInject.groovy 已处理，
+ * TODO 还需要生成一个ITheme的接口，注入到每个带@skin的activity上去
  */
 public abstract class ThemeActivity extends BaseActivity {
 

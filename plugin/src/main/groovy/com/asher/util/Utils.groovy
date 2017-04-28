@@ -8,6 +8,7 @@ public class Utils {
     final static String SkinAnnotation = "com.asher.threeline.aop.annotation.Skin"
     final static String ThemeViewCollector = "com.asher.threeline.ui.theme.ThemeViewCollector"
     final static String ThemeHelper = "com.asher.threeline.ui.theme.ThemeHelper"
+    final static String ITheme = "com.asher.threeline.ui.theme.ITheme"
     static def UPDATE_UI_ELEMENTS = 'updateUiElements'
     static def CHANGE_THEME = 'changeTheme'
     static def NOTIFY_UI_REFRESH = "notifyUiRefresh"

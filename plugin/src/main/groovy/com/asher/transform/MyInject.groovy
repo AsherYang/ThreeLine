@@ -43,6 +43,8 @@ public class MyInject {
                                 if (annoName.equals(Utils.SkinAnnotation)) {
                                     generateLightTheme(annotation, c, ctField)
                                     generateDarkTheme(annotation, c, ctField)
+                                    generateITheme(path)
+                                    modifyToImplITheme(c)
                                     modifyUpdateUiElementMethod(c)
                                     // after modifyUpdateUiElementMethod
                                     generateThemeViewCollector(c, path, project)
@@ -113,8 +115,10 @@ public class MyInject {
      * @param ctClass
      * @param ctField
      */
-    private
     static void generateLightTheme(Annotation annotation, CtClass ctClass, CtField ctField) {
+        if (ctClass.isFrozen()) {
+            ctClass.defrost()
+        }
         //获取注解的值
         // set light background and color
         int backgroundColorResId = annotation.lightBackgroundColorResId()
@@ -160,7 +164,10 @@ public class MyInject {
      * @param ctClass
      * @param ctField
      */
-    private static void generateDarkTheme(Annotation annotation, CtClass ctClass, CtField ctField) {
+    static void generateDarkTheme(Annotation annotation, CtClass ctClass, CtField ctField) {
+        if (ctClass.isFrozen()) {
+            ctClass.defrost()
+        }
         //获取注解的值
         // set light background and color
         int backgroundColorResId = annotation.darkBackgroundColorResId()
@@ -204,7 +211,10 @@ public class MyInject {
      * modify updateUiElements method to activity
      * @param ctClass
      */
-    private static void modifyUpdateUiElementMethod(CtClass ctClass) {
+    static void modifyUpdateUiElementMethod(CtClass ctClass) {
+        if (ctClass.isFrozen()) {
+            ctClass.defrost()
+        }
         StringBuffer buffer2 = new StringBuffer()
         buffer2.append("Theme theme = ThemeHelper.getBaseTheme(this);\n")
         buffer2.append("Log.i(\"TAG\", \"Theme=\" + theme);\n")
@@ -224,7 +234,7 @@ public class MyInject {
         if (null == updateUiElementMethod) {
             // 没有找到就创建一个
             //添加自定义方法
-            updateUiElementMethod = new CtMethod(CtClass.voidType, "setDarkTheme",
+            updateUiElementMethod = new CtMethod(CtClass.voidType, Utils.UPDATE_UI_ELEMENTS,
                     null, ctClass);
             //为自定义方法设置修饰符
             updateUiElementMethod.setModifiers(Modifier.PUBLIC);
@@ -237,12 +247,10 @@ public class MyInject {
     /**
      * modify changeTheme method to notify all activity update
      */
-    private
     static void modifyChangeThemeMethodToNotify(CtClass ctClass, Project project) {
         if (!Utils.ThemeHelper.equals(ctClass.name)) {
             return
         }
-        project.logger.error "----- 456----"
         if (ctClass.isFrozen()) {
             ctClass.defrost()
         }
@@ -269,6 +277,7 @@ public class MyInject {
             ctClass.addMethod(changeThemeMethod)
             project.logger.error "----- 444 ---"
         }
+        // todo open this when themeViewCollector finish
 //        if (null == notifyUiMethod) {
 //            notifyUiMethod = CtMethod.make("public void notifyUiRefresh() {\n" +
 //                    "ThemeViewCollector.getInstance().themeChanged();\n}", ctClass)
@@ -280,7 +289,15 @@ public class MyInject {
 
     }
 
-    private static void generateThemeViewCollector(CtClass ctClassWithSkin, String path, Project project) {
+    /**
+     * generate ThemeViewCollector class
+     * the ThemeViewCollector class possess the activity which annotation by @skin
+     *
+     * @param ctClassWithSkin
+     * @param path
+     * @param project
+     */
+    static void generateThemeViewCollector(CtClass ctClassWithSkin, String path, Project project) {
         if (ctClassWithSkin.isFrozen()) {
             ctClassWithSkin.defrost()
         }
@@ -295,6 +312,7 @@ public class MyInject {
         // 没有ThemeViewCollector 类就新建
         if (null == instanceMethod) {
             themeViewCtClass = pool.makeClass(Utils.ThemeViewCollector)
+            // todo need to create
             // create constructor
 //            CtClass[] param = {};
 //            project.logger.error "----- 12366222----"
@@ -348,5 +366,51 @@ public class MyInject {
                         "System.out.println(\"str = \" + str);\n")
             }
         }
+    }
+
+    /**
+     * generate ITheme interface
+     *
+     * public interface ITheme {
+     *      void updateUiElements();
+     * }
+     *
+     * @param path
+     * @param project
+     */
+    static void generateITheme(path) {
+        CtClass iThemeInterface
+        CtMethod updateUiElementMethod
+        try {
+            iThemeInterface = pool.get(Utils.ITheme)
+            updateUiElementMethod = iThemeInterface.getDeclaredMethod(Utils.UPDATE_UI_ELEMENTS)
+        } catch (Exception e) {
+            // do nothing
+        }
+
+        // 没有ITheme 类就新建
+        if (null == updateUiElementMethod) {
+            iThemeInterface = pool.makeInterface(Utils.ITheme)
+            updateUiElementMethod = CtMethod.make("void updateUiElements();", iThemeInterface)
+            iThemeInterface.addMethod(updateUiElementMethod)
+            // write file
+            iThemeInterface.writeFile(path)
+        }
+    }
+
+    /**
+     * modify class to implements ITheme
+     * @param ctClass
+     */
+    static void modifyToImplITheme(CtClass ctClass) {
+        if (ctClass.isFrozen()) {
+            ctClass.defrost()
+        }
+        CtClass iThemeInterface = pool.get(Utils.ITheme)
+        if (iThemeInterface.isFrozen()) {
+            iThemeInterface.defrost()
+        }
+        ctClass.addInterface(iThemeInterface)
+        ctClass.writeFile()
     }
 }
