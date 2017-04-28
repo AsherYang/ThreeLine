@@ -321,7 +321,7 @@ public class MyInject {
 //            constructor.setBody("{mList = new ArrayList<>();}")
 //            constructor.setModifiers(Modifier.PRIVATE)
 //            themeViewCtClass.addConstructor(constructor)
-            project.logger.error "----- 12388----"
+            project.logger.error "----- 123888----"
             // create fields
             CtField ctF1 = CtField.make("private static ThemeViewCollector instance;\n", themeViewCtClass)
             project.logger.error "----- 12333---"
