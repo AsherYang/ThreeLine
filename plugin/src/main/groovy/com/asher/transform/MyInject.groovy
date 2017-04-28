@@ -341,7 +341,9 @@ public class MyInject {
 //                    "if (mList.contains(themeClass)) {\n return;\n}\n mList.add(themeClass);}\n",
 //                    themeViewCtClass)
             project.logger.error "----- 55555---"
-//            String themeMethodSrc = "public void themeChanged() {if(null == mList || mList.isEmpty()) {return;}for(ITheme theme : mList) {theme.updateUiElements();}}"
+            // 写if 判断逻辑,尽量使用正向逻辑,比如 !isEmpty(),
+            // 同时由于javassist 使用的是由低版本Java(1.4)改造。导致很多新功能不可用。比如增强for循环,不支持范型等,需要自己强制转换。
+            // 使用增强for循环,会造成编译不过,提示缺少";",其实是for循环条件导致
             String themeMethodSrc = "public void themeChanged() { if(null != mList" +
                     "&& !mList.isEmpty()) {\n for(int i = 0; i < mList.size(); i++) { Object obj = mList.get(i); \n " +
                     "if(obj instanceof ITheme) {((ITheme)obj).updateUiElements();} } } }"
