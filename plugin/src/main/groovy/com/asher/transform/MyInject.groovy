@@ -44,7 +44,7 @@ public class MyInject {
                                     generateLightTheme(annotation, c, ctField)
                                     generateDarkTheme(annotation, c, ctField)
                                     generateITheme(path)
-                                    modifyToImplITheme(c)
+                                    modifyToImplITheme(c, path)
                                     modifyUpdateUiElementMethod(c)
                                     // after modifyUpdateUiElementMethod
                                     generateThemeViewCollector(c, path, project)
@@ -318,15 +318,17 @@ public class MyInject {
 //            project.logger.error "----- 12366222----"
 //            CtConstructor constructor = new CtConstructor(param, themeViewCtClass)
 //            project.logger.error "----- 12377----"
-//            constructor.setBody("{mActivityList = new ArrayList<>();}")
+//            constructor.setBody("{mList = new ArrayList<>();}")
 //            constructor.setModifiers(Modifier.PRIVATE)
 //            themeViewCtClass.addConstructor(constructor)
             project.logger.error "----- 12388----"
             // create fields
             CtField ctF1 = CtField.make("private static ThemeViewCollector instance;\n", themeViewCtClass)
             project.logger.error "----- 12333---"
-            CtField ctF2 = CtField.make("private static ThemeViewCollector instance2;\n", themeViewCtClass)
-//            CtField ctF2 = CtField.make("private List<Activity> mActivityList;\n", themeViewCtClass)
+            CtClass arrListClazz = ClassPool.getDefault().get("java.util.ArrayList");
+//            CtField ctF2 = CtField.make("private static ThemeViewCollector instance2;\n", themeViewCtClass)
+//            CtField ctF2 = CtField.make("private List<ITheme> mList;\n", themeViewCtClass)
+            CtField ctF2 = new CtField(arrListClazz, "mList", themeViewCtClass);
             project.logger.error "----- 124444---"
             themeViewCtClass.addField(ctF1)
             themeViewCtClass.addField(ctF2)
@@ -335,15 +337,20 @@ public class MyInject {
 //                    "if (instance == null) {\n synchronized (ThemeViewCollector.class) {\n  " +
 //                    "if (instance == null) \n instance = new ThemeViewCollector();\n  }\n }\n" +
 //                    " return instance;\n}", themeViewCtClass)
-//            CtMethod ctM2 = CtMethod.make("public void addActivity(Activity activity) {\n " +
-//                    "if (mActivityList.contains(activity)) {\nreturn;\n}\n mActivityList.add(activity);}\n",
+//            CtMethod ctM2 = CtMethod.make("public void addThemeClass(ITheme themeClass) {\n " +
+//                    "if (mList.contains(themeClass)) {\n return;\n}\n mList.add(themeClass);}\n",
 //                    themeViewCtClass)
-//            CtMethod ctM3 = CtMethod.make("public void themeChanged() {\n if (null == mActivityList " +
-//                    "|| mActivityList.isEmpty()) {\n return;\n}\n for (Activity activity : mActivityList) " +
-//                    "{\n activity.updateUiElements();\n}\n", themeViewCtClass)
+            project.logger.error "----- 55555---"
+            String themeMethodSrc = "public void themeChanged() {if(null == mList || mList.isEmpty()) {return;}for(ITheme theme : mList) {theme.updateUiElements();}}"
+//            CtMethod ctM3 = CtMethod.make("public void themeChanged() { if(null == mList" +
+//                    "|| mList.isEmpty()) {\n return;\n}\n for (ITheme theme : mList) " +
+//                    "{\n theme.updateUiElements();\n}\n}", themeViewCtClass)
 //            themeViewCtClass.addMethod(ctM1)
 //            themeViewCtClass.addMethod(ctM2)
-//            themeViewCtClass.addMethod(ctM3)
+            CtMethod ctM3 = CtMethod.make(themeMethodSrc, themeViewCtClass)
+            project.logger.error "----- 666666---"
+            themeViewCtClass.addMethod(ctM3)
+            project.logger.error "----- 777777---"
 
             CtMethod ctTestMethod = CtMethod.make("public String test(String a, String b){\n return a+b;\n} ", themeViewCtClass)
             themeViewCtClass.addMethod(ctTestMethod)
@@ -371,14 +378,12 @@ public class MyInject {
     /**
      * generate ITheme interface
      *
-     * public interface ITheme {
-     *      void updateUiElements();
-     * }
-     *
+     * public interface ITheme {*      void updateUiElements();
+     *}*
      * @param path
      * @param project
      */
-    static void generateITheme(path) {
+    static void generateITheme(String path) {
         CtClass iThemeInterface
         CtMethod updateUiElementMethod
         try {
@@ -402,7 +407,7 @@ public class MyInject {
      * modify class to implements ITheme
      * @param ctClass
      */
-    static void modifyToImplITheme(CtClass ctClass) {
+    static void modifyToImplITheme(CtClass ctClass, String path) {
         if (ctClass.isFrozen()) {
             ctClass.defrost()
         }
@@ -411,6 +416,6 @@ public class MyInject {
             iThemeInterface.defrost()
         }
         ctClass.addInterface(iThemeInterface)
-        ctClass.writeFile()
+        ctClass.writeFile(path)
     }
 }
