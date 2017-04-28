@@ -29,6 +29,7 @@ public class Utils {
         pool.importPackage("android.os.Message")
         pool.importPackage("com.asher.threeline.ui.theme.ThemeHelper")
         pool.importPackage("com.asher.threeline.ui.theme.Theme")
+        pool.importPackage("com.asher.threeline.ui.theme.ITheme")
         pool.importPackage("com.asher.threeline.ui.theme.ThemeViewCollector")
         pool.importPackage("com.asher.threeline.ui.main.MainView")
     }

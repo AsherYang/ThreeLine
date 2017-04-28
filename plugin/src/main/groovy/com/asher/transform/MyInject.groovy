@@ -329,7 +329,7 @@ public class MyInject {
 //            CtField ctF2 = CtField.make("private static ThemeViewCollector instance2;\n", themeViewCtClass)
 //            CtField ctF2 = CtField.make("private List<ITheme> mList;\n", themeViewCtClass)
             CtField ctF2 = new CtField(arrListClazz, "mList", themeViewCtClass);
-            project.logger.error "----- 124444---"
+            ctF2.setModifiers(Modifier.PRIVATE)
             themeViewCtClass.addField(ctF1)
             themeViewCtClass.addField(ctF2)
             // create methods
@@ -341,13 +341,13 @@ public class MyInject {
 //                    "if (mList.contains(themeClass)) {\n return;\n}\n mList.add(themeClass);}\n",
 //                    themeViewCtClass)
             project.logger.error "----- 55555---"
-            String themeMethodSrc = "public void themeChanged() {if(null == mList || mList.isEmpty()) {return;}for(ITheme theme : mList) {theme.updateUiElements();}}"
-//            CtMethod ctM3 = CtMethod.make("public void themeChanged() { if(null == mList" +
-//                    "|| mList.isEmpty()) {\n return;\n}\n for (ITheme theme : mList) " +
-//                    "{\n theme.updateUiElements();\n}\n}", themeViewCtClass)
+//            String themeMethodSrc = "public void themeChanged() {if(null == mList || mList.isEmpty()) {return;}for(ITheme theme : mList) {theme.updateUiElements();}}"
+            String themeMethodSrc = "public void themeChanged() { if(null != mList" +
+                    "&& !mList.isEmpty()) {\n for(int i = 0; i < mList.size(); i++) { Object obj = mList.get(i); \n " +
+                    "if(obj instanceof ITheme) {((ITheme)obj).updateUiElements();} } } }"
+            CtMethod ctM3 = CtMethod.make(themeMethodSrc, themeViewCtClass)
 //            themeViewCtClass.addMethod(ctM1)
 //            themeViewCtClass.addMethod(ctM2)
-            CtMethod ctM3 = CtMethod.make(themeMethodSrc, themeViewCtClass)
             project.logger.error "----- 666666---"
             themeViewCtClass.addMethod(ctM3)
             project.logger.error "----- 777777---"
@@ -378,8 +378,9 @@ public class MyInject {
     /**
      * generate ITheme interface
      *
-     * public interface ITheme {*      void updateUiElements();
-     *}*
+     * public interface ITheme {
+     *    void updateUiElements();
+     * }
      * @param path
      * @param project
      */
