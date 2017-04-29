@@ -2,7 +2,6 @@ package com.asher.threeline.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -19,9 +18,9 @@ import com.asher.threeline.serve.data.content.DbContentServeModule;
 import com.asher.threeline.serve.net.content.DaggerNetContentServeComponent;
 import com.asher.threeline.serve.net.content.NetContentServeComponent;
 import com.asher.threeline.serve.net.content.NetContentServeModule;
+import com.asher.threeline.ui.base.BaseActivity;
 import com.asher.threeline.ui.github.GithubActivity;
 import com.asher.threeline.ui.theme.Theme;
-import com.asher.threeline.ui.theme.ThemeActivity;
 import com.asher.threeline.ui.theme.ThemeHelper;
 
 import java.util.ArrayList;
@@ -33,10 +32,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends ThemeActivity implements MainView {
+import static com.asher.threeline.ui.theme.ThemeHelper.getThemeHelper;
 
-    @Skin(darkBackgroundColorResId = R.color.colorPrimary, lightBackgroundColorResId = R.color.colorAccent,
-            darkTextColorResId = R.color.grey_200, lightTextColorResId = R.color.grey_800)
+public class MainActivity extends BaseActivity implements MainView {
+
+    @Skin(darkBackgroundColorResId = R.color.green, lightBackgroundColorResId = R.color.yellow,
+            darkTextColorResId = R.color.colorPrimaryDark, lightTextColorResId = R.color.theme_light_background)
     @BindView(R.id.tv_show)
     TextView tvShow;
     @BindView(R.id.tv_change_theme)
@@ -56,15 +57,10 @@ public class MainActivity extends ThemeActivity implements MainView {
         Log.i("TAG", "onCreate");
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        updateUiElements();
         initData();
         getDataFromDb();
     }
 
-    @Override
-    public void updateUiElements() {
-        super.updateUiElements();
-    }
 
     private void initData() {
 //        mainPresenter.prepareContentToDb();
@@ -110,38 +106,19 @@ public class MainActivity extends ThemeActivity implements MainView {
             case R.id.tv_change_theme:
                 // 为了验证改变主题对其他页面的影响,这里延迟5S用于测试
 //                changeThemeDelay();
-                ThemeHelper.getThemeHelper(this).changeTheme(exchangeTheme());
+                getThemeHelper(this).changeTheme(exchangeTheme());
                 break;
             default:
                 break;
         }
     }
 
-    private void changeThemeDelay() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                changeTheme();
-            }
-        }, 5000);
-    }
-
-    private void changeTheme() {
-        if (getThemeHelper().getBaseTheme() == Theme.DARK) {
-            getThemeHelper().setBaseTheme(Theme.LIGHT);
-        } else {
-            getThemeHelper().setBaseTheme(Theme.DARK);
-        }
-        updateUiElements();
-        Log.i("TAG", "MainActivity changeTheme");
-    }
-
-    private Theme exchangeTheme() {
-        if (getThemeHelper().getBaseTheme() == Theme.DARK) {
-            return Theme.LIGHT;
-        } else {
+    public Theme exchangeTheme() {
+        ThemeHelper helper = getThemeHelper(this);
+        if (helper.getBaseTheme() == Theme.LIGHT) {
             return Theme.DARK;
         }
+        return Theme.LIGHT;
     }
 
     @Override

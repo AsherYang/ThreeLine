@@ -10,4 +10,7 @@
     <color name="grey_200">#EEEEEE</color>
     <color name="grey_400">#BDBDBD</color>
     <color name="grey_800">#424242</color>
+
+    <color name="green">#00FF00</color>
+    <color name="yellow">#FFFF00</color>
 </resources>

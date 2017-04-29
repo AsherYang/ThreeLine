@@ -1,7 +1,6 @@
 package com.asher.threeline.ui.github;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,7 +11,7 @@ import com.asher.threeline.R;
 import com.asher.threeline.serve.net.github.DaggerGitUserNetServeComponent;
 import com.asher.threeline.serve.net.github.GitUserNetServeComponent;
 import com.asher.threeline.serve.net.github.GitUserNetServeModule;
-import com.asher.threeline.ui.theme.ThemeActivity;
+import com.asher.threeline.ui.base.BaseActivity;
 
 import javax.inject.Inject;
 
@@ -25,7 +24,7 @@ import butterknife.OnClick;
  * <p>
  * github activity
  */
-public class GithubActivity extends ThemeActivity implements GithubView {
+public class GithubActivity extends BaseActivity implements GithubView {
 
     @BindView(R.id.et_name)
     EditText etName;
@@ -42,16 +41,6 @@ public class GithubActivity extends ThemeActivity implements GithubView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_github);
         ButterKnife.bind(this);
-        updateUiElements();
-    }
-
-    @Override
-    public void updateUiElements() {
-        super.updateUiElements();
-        etName.setBackgroundColor(getThemeHelper().getTextColor());
-        tvMsg.setTextColor(getThemeHelper().getTextColor());
-        btnSearch.setBackgroundColor(getThemeHelper().getBackgroundColor());
-        Log.i("TAG", "githubActivity changeTheme");
     }
 
     @Override
