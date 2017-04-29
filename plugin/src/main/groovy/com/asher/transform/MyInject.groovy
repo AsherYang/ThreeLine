@@ -81,10 +81,10 @@ public class MyInject {
             // 找到就使用原来的setLightTheme()方法
             lightMethod = ctClass.getDeclaredMethod("setLightTheme");
             if (backgroundColorResId != -1) {
-                lightMethod.insertBefore("($ctField.name).setBackgroundColor($backgroundColorResId);\n")
+                lightMethod.insertBefore("($ctField.name).setBackgroundColor(getResources().getColor($backgroundColorResId));\n")
             }
             if (textColorResId != -1 && ctField.fieldInfo.toString().contains("TextView")) {
-                lightMethod.insertBefore("($ctField.name).setTextColor($textColorResId);\n")
+                lightMethod.insertBefore("($ctField.name).setTextColor(getResources().getColor($textColorResId));\n")
             }
         } catch (NotFoundException e) {
             // do nothing
@@ -100,10 +100,10 @@ public class MyInject {
             StringBuffer buffer2 = new StringBuffer();
             buffer2.append("{\n ");
             if (backgroundColorResId != -1) {
-                buffer2.append("($ctField.name).setBackgroundColor($backgroundColorResId);\n")
+                buffer2.append("($ctField.name).setBackgroundColor(getResources().getColor($backgroundColorResId));\n")
             }
             if (textColorResId != -1 && ctField.fieldInfo.toString().contains("TextView")) {
-                buffer2.append("($ctField.name).setTextColor($textColorResId);\n")
+                buffer2.append("($ctField.name).setTextColor(getResources().getColor($textColorResId));\n")
             }
             buffer2.append("}");
             lightMethod.setBody(buffer2.toString());
@@ -130,10 +130,10 @@ public class MyInject {
             // 找到就使用原来的setLightTheme()方法
             darkMethod = ctClass.getDeclaredMethod("setDarkTheme");
             if (backgroundColorResId != -1) {
-                darkMethod.insertBefore("($ctField.name).setBackgroundColor($backgroundColorResId);\n")
+                darkMethod.insertBefore("($ctField.name).setBackgroundColor(getResources().getColor($backgroundColorResId));\n")
             }
             if (textColorResId != -1 && ctField.fieldInfo.toString().contains("TextView")) {
-                darkMethod.insertBefore("($ctField.name).setTextColor($textColorResId);\n")
+                darkMethod.insertBefore("($ctField.name).setTextColor(getResources().getColor($textColorResId));\n")
             }
         } catch (NotFoundException e) {
             // do nothing
@@ -149,10 +149,10 @@ public class MyInject {
             StringBuffer buffer2 = new StringBuffer();
             buffer2.append("{\n ");
             if (backgroundColorResId != -1) {
-                buffer2.append("($ctField.name).setBackgroundColor($backgroundColorResId);\n")
+                buffer2.append("($ctField.name).setBackgroundColor(getResources().getColor($backgroundColorResId));\n")
             }
             if (textColorResId != -1 && ctField.fieldInfo.toString().contains("TextView")) {
-                buffer2.append("($ctField.name).setTextColor($textColorResId);\n")
+                buffer2.append("($ctField.name).setTextColor(getResources().getColor($textColorResId));\n")
             }
             buffer2.append("}");
             darkMethod.setBody(buffer2.toString());
@@ -172,7 +172,7 @@ public class MyInject {
         // method/constructor body must be surrounded by {}
         buffer2.append("{");
         buffer2.append("Theme theme = ThemeHelper.getBaseTheme(this);\n")
-        buffer2.append("Log.i(\"TAG\", \"Theme=\" + theme);\n")
+//        buffer2.append("Log.i(\"TAG\", \"Theme=\" + theme);\n")
         buffer2.append("if (theme == Theme.DARK) {\n")
         buffer2.append("    setDarkTheme();\n")
         buffer2.append("} else {\n")
@@ -299,8 +299,6 @@ public class MyInject {
             CtMethod ctM3 = CtMethod.make(themeMethodSrc, themeViewCtClass)
             themeViewCtClass.addMethod(ctM3)
 
-            CtMethod ctTestMethod = CtMethod.make("public String test(String a, String b){\n return a+b;\n} ", themeViewCtClass)
-            themeViewCtClass.addMethod(ctTestMethod)
             // write file
             project.logger.error "---- create themeViewCollector $path"
             themeViewCtClass.writeFile(path)
@@ -315,6 +313,8 @@ public class MyInject {
             String methodName = Utils.getSimpleName(ctMethod);
             if (Utils.ON_CREATE.contains(methodName)) {
                 ctMethod.insertAfter("ThemeViewCollector.getInstance().addThemeClass(this);\n")
+                // 同时刷新一下，设置第一次加载默认的主题
+                ctMethod.insertAfter("updateUiElements();\n")
             }
         }
     }
