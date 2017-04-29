@@ -32,6 +32,7 @@ public class Utils {
         pool.importPackage("com.asher.threeline.ui.theme.ITheme")
         pool.importPackage("com.asher.threeline.ui.theme.ThemeViewCollector")
         pool.importPackage("com.asher.threeline.ui.main.MainView")
+        pool.importPackage("java.util.ArrayList")
     }
 
     static String getSimpleName(CtMethod ctMethod) {

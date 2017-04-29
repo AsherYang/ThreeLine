@@ -5,7 +5,6 @@ import javassist.*
 import org.gradle.api.Project
 
 import java.lang.annotation.Annotation
-
 /**
  * use javassist
  *
@@ -44,61 +43,15 @@ public class MyInject {
                                     generateLightTheme(annotation, c, ctField)
                                     generateDarkTheme(annotation, c, ctField)
                                     generateITheme(path)
+                                    // after generateITheme
                                     modifyToImplITheme(c, path)
                                     modifyUpdateUiElementMethod(c)
                                     // after modifyUpdateUiElementMethod
                                     generateThemeViewCollector(c, path, project)
-                                    // add to ThemeViewInfo todo delete
-//                                    ThemeViewHelper.addClass(c, project)
                                 }
                             }
                         }
                         modifyChangeThemeMethodToNotify(c, project)
-                        // updateUiElements
-                        /* project.logger.error "----> 11 = $c.simpleName"
-                         if (themeViewInfo.invokeHasContainActivity(c.toClass())) {
-                             project.logger.error "----> annoName = $c.simpleName"
-                             CtMethod m = c.getDeclaredMethod(Utils.ADD_ACTIVITY)
-                             String methodName = Utils.getSimpleName(m, project);
-                             if (Utils.UPDATE_UI_ELEMENTS.contains(methodName)) {
-                                 project.logger.error "==== updateUiElements 方法正在修改 ===="
-                                 StringBuffer buffer2 = new StringBuffer();
-                                 buffer2.append("Theme theme = ThemeHelper.getBaseTheme(this);\n")
-                                 buffer2.append("Log.i(\"TAG\", \"Theme=\" + theme);\n")
-                                 buffer2.append("if (theme == Theme.DARK) {\n")
-                                 buffer2.append("    setDarkTheme();\n")
-                                 buffer2.append("} else {\n")
-                                 buffer2.append("    setLightTheme();\n")
-                                 buffer2.append("}");
-                                 ctMethod.insertBefore(buffer2.toString())
-                             }
-
-                             *//*for (CtMethod ctMethod : c.getDeclaredMethods()) {
-                                 String methodName = Utils.getSimpleName(ctMethod, project);
-                                 *//**//* for (Annotation mAnnotation : ctMethod.getAnnotations()) {
-                                     String annoName = mAnnotation.annotationType().canonicalName
-                                     project.logger.error "----> annoName = $annoName"
-                                     if (mAnnotation.annotationType().canonicalName.equals(Utils.SkinAnnotation)) {
-                                         project.logger.error "==== @Time 方法正在修改 ===="
-                                         String insertStr = "{Log.i(\"-- TAG --\", \"Time插入代码成功\");}\n"
-                                         ctMethod.insertBefore(insertStr)
-                                     }
-                                 }*//**//*
-                                if (Utils.UPDATE_UI_ELEMENTS.contains(methodName)) {
-                                    project.logger.error "==== updateUiElements 方法正在修改 ===="
-                                    StringBuffer buffer2 = new StringBuffer();
-                                    buffer2.append("Theme theme = ThemeHelper.getBaseTheme(this);\n")
-                                    buffer2.append("Log.i(\"TAG\", \"Theme=\" + theme);\n")
-                                    buffer2.append("if (theme == Theme.DARK) {\n")
-                                    buffer2.append("    setDarkTheme();\n")
-                                    buffer2.append("} else {\n")
-                                    buffer2.append("    setLightTheme();\n")
-                                    buffer2.append("}");
-                                    ctMethod.insertBefore(buffer2.toString())
-                                }
-                            }*//*
-                        }*/
-
                         c.writeFile(path)
                         //用完一定记得要卸载，否则pool里的永远是旧的代码
                         c.detach()
@@ -246,6 +199,8 @@ public class MyInject {
 
     /**
      * modify changeTheme method to notify all activity update
+     *
+     * modify ThemeHelper class
      */
     static void modifyChangeThemeMethodToNotify(CtClass ctClass, Project project) {
         if (!Utils.ThemeHelper.equals(ctClass.name)) {
@@ -256,18 +211,15 @@ public class MyInject {
         }
         CtMethod notifyUiMethod
         CtMethod changeThemeMethod
-        project.logger.error "----- 111 ---"
         try {
             notifyUiMethod = ctClass.getDeclaredMethod(Utils.NOTIFY_UI_REFRESH)
         } catch (Exception e) {
             // do nothing
-            project.logger.error "----- 222 ---"
         }
         try {
             changeThemeMethod = ctClass.getDeclaredMethod(Utils.CHANGE_THEME)
         } catch (Exception e1) {
             // do nothing
-            project.logger.error "----- 333 ---"
         }
 
         // 没有就创建
@@ -275,18 +227,15 @@ public class MyInject {
             changeThemeMethod = CtMethod.make("public void changeTheme(Theme toTheme) {\n" +
                     "setBaseTheme(toTheme);\n}", ctClass)
             ctClass.addMethod(changeThemeMethod)
-            project.logger.error "----- 444 ---"
         }
-        // todo open this when themeViewCollector finish
-//        if (null == notifyUiMethod) {
-//            notifyUiMethod = CtMethod.make("public void notifyUiRefresh() {\n" +
-//                    "ThemeViewCollector.getInstance().themeChanged();\n}", ctClass)
-//            ctClass.addMethod(notifyUiMethod)
-//            // insert into changeThemeMethod
-//            changeThemeMethod.insertAfter("notifyUiRefresh();")
-//            project.logger.error "----- 555 ---"
-//        }
 
+        if (null == notifyUiMethod) {
+            notifyUiMethod = CtMethod.make("public void notifyUiRefresh() {\n" +
+                    "ThemeViewCollector.getInstance().themeChanged();\n}", ctClass)
+            ctClass.addMethod(notifyUiMethod)
+            // insert into changeThemeMethod
+            changeThemeMethod.insertAfter("notifyUiRefresh();")
+        }
     }
 
     /**
@@ -312,47 +261,40 @@ public class MyInject {
         // 没有ThemeViewCollector 类就新建
         if (null == instanceMethod) {
             themeViewCtClass = pool.makeClass(Utils.ThemeViewCollector)
-            // todo need to create
-            // create constructor
-//            CtClass[] param = {};
-//            project.logger.error "----- 12366222----"
-//            CtConstructor constructor = new CtConstructor(param, themeViewCtClass)
-//            project.logger.error "----- 12377----"
-//            constructor.setBody("{mList = new ArrayList<>();}")
-//            constructor.setModifiers(Modifier.PRIVATE)
-//            themeViewCtClass.addConstructor(constructor)
-            project.logger.error "----- 123888----"
             // create fields
             CtField ctF1 = CtField.make("private static ThemeViewCollector instance;\n", themeViewCtClass)
-            project.logger.error "----- 12333---"
+            // List 方式需要使用这种pool.get()方式，因为javassist由低版本Java改造。没有List泛型等高级特性。
+            // 故需要手动引入List, Java编译器正常编译源码后List里面也是存Object，然后转换的，
+            // 所以这里我们泛型也可以是Object默认。然后在使用时进行强转
             CtClass arrListClazz = ClassPool.getDefault().get("java.util.ArrayList");
-//            CtField ctF2 = CtField.make("private static ThemeViewCollector instance2;\n", themeViewCtClass)
-//            CtField ctF2 = CtField.make("private List<ITheme> mList;\n", themeViewCtClass)
             CtField ctF2 = new CtField(arrListClazz, "mList", themeViewCtClass);
             ctF2.setModifiers(Modifier.PRIVATE)
             themeViewCtClass.addField(ctF1)
             themeViewCtClass.addField(ctF2)
+
+            // create constructor ， 本来想传无参，但是发现new CtClass[] {} 编译不了，就随便传一个int 类型算了
+            CtClass[] param = CtClass.intType;
+            CtConstructor constructor = new CtConstructor(param, themeViewCtClass)
+            constructor.setBody("{mList = new ArrayList();}")
+            constructor.setModifiers(Modifier.PRIVATE)
+            themeViewCtClass.addConstructor(constructor)
             // create methods
-//            CtMethod ctM1 = CtMethod.make("public static ThemeViewCollector getInstance() {\n " +
-//                    "if (instance == null) {\n synchronized (ThemeViewCollector.class) {\n  " +
-//                    "if (instance == null) \n instance = new ThemeViewCollector();\n  }\n }\n" +
-//                    " return instance;\n}", themeViewCtClass)
-//            CtMethod ctM2 = CtMethod.make("public void addThemeClass(ITheme themeClass) {\n " +
-//                    "if (mList.contains(themeClass)) {\n return;\n}\n mList.add(themeClass);}\n",
-//                    themeViewCtClass)
-            project.logger.error "----- 55555---"
-            // 写if 判断逻辑,尽量使用正向逻辑,比如 !isEmpty(),
+            CtMethod ctM1 = CtMethod.make("public static ThemeViewCollector getInstance() { " +
+                    "if(instance == null) {instance = new ThemeViewCollector(1);} return instance;}",
+                    themeViewCtClass)
+            themeViewCtClass.addMethod(ctM1)
+            CtMethod ctM2 = CtMethod.make("public void addThemeClass(ITheme themeClass) {\n " +
+                    "if (!mList.contains(themeClass)) {\n mList.add(themeClass);\n}}",
+                    themeViewCtClass)
+            themeViewCtClass.addMethod(ctM2)
+            // 写if 判断逻辑,尽量使用正向逻辑,比如 !isEmpty(), 因为编译器编译后class就是这个逻辑
             // 同时由于javassist 使用的是由低版本Java(1.4)改造。导致很多新功能不可用。比如增强for循环,不支持范型等,需要自己强制转换。
             // 使用增强for循环,会造成编译不过,提示缺少";",其实是for循环条件导致
             String themeMethodSrc = "public void themeChanged() { if(null != mList" +
                     "&& !mList.isEmpty()) {\n for(int i = 0; i < mList.size(); i++) { Object obj = mList.get(i); \n " +
-                    "if(obj instanceof ITheme) {((ITheme)obj).updateUiElements();} } } }"
+                    "if(obj instanceof ITheme) {((ITheme)obj).updateUiElements();}}}}"
             CtMethod ctM3 = CtMethod.make(themeMethodSrc, themeViewCtClass)
-//            themeViewCtClass.addMethod(ctM1)
-//            themeViewCtClass.addMethod(ctM2)
-            project.logger.error "----- 666666---"
             themeViewCtClass.addMethod(ctM3)
-            project.logger.error "----- 777777---"
 
             CtMethod ctTestMethod = CtMethod.make("public String test(String a, String b){\n return a+b;\n} ", themeViewCtClass)
             themeViewCtClass.addMethod(ctTestMethod)
@@ -369,10 +311,7 @@ public class MyInject {
         for (CtMethod ctMethod : ctClassWithSkin.getDeclaredMethods()) {
             String methodName = Utils.getSimpleName(ctMethod);
             if (Utils.ON_CREATE.contains(methodName)) {
-                project.logger.error "----- 12377----"
-//                ctMethod.insertAfter("ThemeViewCollector.getInstance().addActivity(this);\n")
-                ctMethod.insertAfter("String str = new ThemeViewCollector().test(\"a\", \"b\");\n" +
-                        "System.out.println(\"str = \" + str);\n")
+                ctMethod.insertAfter("ThemeViewCollector.getInstance().addThemeClass(this);\n")
             }
         }
     }
