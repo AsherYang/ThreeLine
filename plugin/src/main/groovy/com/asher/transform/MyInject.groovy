@@ -169,12 +169,15 @@ public class MyInject {
             ctClass.defrost()
         }
         StringBuffer buffer2 = new StringBuffer()
+        // method/constructor body must be surrounded by {}
+        buffer2.append("{");
         buffer2.append("Theme theme = ThemeHelper.getBaseTheme(this);\n")
         buffer2.append("Log.i(\"TAG\", \"Theme=\" + theme);\n")
         buffer2.append("if (theme == Theme.DARK) {\n")
         buffer2.append("    setDarkTheme();\n")
         buffer2.append("} else {\n")
         buffer2.append("    setLightTheme();\n")
+        buffer2.append("}");
         buffer2.append("}");
         CtMethod updateUiElementMethod;
         try {
