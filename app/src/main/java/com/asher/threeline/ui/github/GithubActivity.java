@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.asher.threeline.AppComponent;
 import com.asher.threeline.R;
+import com.asher.threeline.aop.annotation.Skin;
 import com.asher.threeline.serve.net.github.DaggerGitUserNetServeComponent;
 import com.asher.threeline.serve.net.github.GitUserNetServeComponent;
 import com.asher.threeline.serve.net.github.GitUserNetServeModule;
@@ -26,6 +27,8 @@ import butterknife.OnClick;
  */
 public class GithubActivity extends BaseActivity implements GithubView {
 
+    @Skin(darkBackgroundColorResId = R.color.colorAccent, lightBackgroundColorResId = R.color.colorPrimary,
+            darkTextColorResId = R.color.green, lightTextColorResId = R.color.yellow)
     @BindView(R.id.et_name)
     EditText etName;
     @BindView(R.id.tv_msg)
