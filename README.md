@@ -4,9 +4,10 @@
 
 1. 创建时间：2017年3月18日
 2. 项目结构：mvp + dagger2 + rxJava + realm
-3. 1句话就可以插入数据, 数据库操作从未如此简单
+3. 一句话就可以插入数据, 数据库操作从未如此简单
 4. 运行程序需要注意先要在gradle task中选择uploadArchives进行上传插件库文件，然后再sync build
 才可运行，因为使用了自定义gradle插件
+5. 项目结构说明：
 ```
 ThreeLine
     --app
