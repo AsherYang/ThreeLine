@@ -74,13 +74,16 @@ public class MyInject {
         }
         //获取注解的值
         // set light background and color
+        int backgroundDrawableResId = annotation.lightBackgroundDrawableResId()
         int backgroundColorResId = annotation.lightBackgroundColorResId()
         int textColorResId = annotation.lightTextColorResId()
         CtMethod lightMethod;
         try {
             // 找到就使用原来的setLightTheme()方法
             lightMethod = ctClass.getDeclaredMethod("setLightTheme");
-            if (backgroundColorResId != -1) {
+            if (backgroundDrawableResId != -1) {
+                lightMethod.insertBefore("($ctField.name).setBackgroundDrawable(getResources().getDrawable($backgroundDrawableResId));\n")
+            } else if (backgroundColorResId != -1) {
                 lightMethod.insertBefore("($ctField.name).setBackgroundColor(getResources().getColor($backgroundColorResId));\n")
             }
             if (textColorResId != -1 && ctField.fieldInfo.toString().contains("TextView")) {
@@ -99,7 +102,9 @@ public class MyInject {
             //为自定义方法设置函数体
             StringBuffer buffer2 = new StringBuffer();
             buffer2.append("{\n ");
-            if (backgroundColorResId != -1) {
+            if (backgroundDrawableResId != -1) {
+                buffer2.append("($ctField.name).setBackgroundDrawable(getResources().getDrawable($backgroundDrawableResId));\n")
+            } else if (backgroundColorResId != -1) {
                 buffer2.append("($ctField.name).setBackgroundColor(getResources().getColor($backgroundColorResId));\n")
             }
             if (textColorResId != -1 && ctField.fieldInfo.toString().contains("TextView")) {
@@ -122,14 +127,17 @@ public class MyInject {
             ctClass.defrost()
         }
         //获取注解的值
-        // set light background and color
+        // set dark background and color
+        int backgroundDrawableResId = annotation.darkBackgroundDrawableResId()
         int backgroundColorResId = annotation.darkBackgroundColorResId()
         int textColorResId = annotation.darkTextColorResId()
         CtMethod darkMethod;
         try {
             // 找到就使用原来的setLightTheme()方法
             darkMethod = ctClass.getDeclaredMethod("setDarkTheme");
-            if (backgroundColorResId != -1) {
+            if (backgroundDrawableResId != -1) {
+                darkMethod.insertBefore("($ctField.name).setBackgroundDrawable(getResources().getDrawable($backgroundDrawableResId));\n")
+            } else if (backgroundColorResId != -1) {
                 darkMethod.insertBefore("($ctField.name).setBackgroundColor(getResources().getColor($backgroundColorResId));\n")
             }
             if (textColorResId != -1 && ctField.fieldInfo.toString().contains("TextView")) {
@@ -148,7 +156,9 @@ public class MyInject {
             //为自定义方法设置函数体
             StringBuffer buffer2 = new StringBuffer();
             buffer2.append("{\n ");
-            if (backgroundColorResId != -1) {
+            if (backgroundDrawableResId != -1) {
+                buffer2.append("($ctField.name).setBackgroundDrawable(getResources().getDrawable($backgroundDrawableResId));\n")
+            } else if (backgroundColorResId != -1) {
                 buffer2.append("($ctField.name).setBackgroundColor(getResources().getColor($backgroundColorResId));\n")
             }
             if (textColorResId != -1 && ctField.fieldInfo.toString().contains("TextView")) {

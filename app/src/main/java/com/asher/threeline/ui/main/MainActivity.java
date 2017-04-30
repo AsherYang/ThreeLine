@@ -36,8 +36,11 @@ import static com.asher.threeline.ui.theme.ThemeHelper.getThemeHelper;
 
 public class MainActivity extends BaseActivity implements MainView {
 
-    @Skin(darkBackgroundColorResId = R.color.green, lightBackgroundColorResId = R.color.yellow,
-            darkTextColorResId = R.color.colorPrimaryDark, lightTextColorResId = R.color.theme_light_background)
+    @Skin(darkBackgroundDrawableResId = R.mipmap.ic_launcher,
+            darkBackgroundColorResId = R.color.green,
+            lightBackgroundColorResId = R.color.yellow,
+            darkTextColorResId = R.color.colorPrimaryDark,
+            lightTextColorResId = R.color.theme_light_background)
     @BindView(R.id.tv_show)
     TextView tvShow;
     @BindView(R.id.tv_change_theme)

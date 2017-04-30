@@ -16,14 +16,22 @@ public @interface Skin {
 
     /**
      * 日间模式
+     * 如果设置了backgroundDrawable, backgroundColor会无效，
+     * backgroundDrawable与backgroundColor只有效一个
      */
+    int lightBackgroundDrawableResId() default -1;
+
     int lightBackgroundColorResId() default -1;
 
     int lightTextColorResId() default -1;
 
     /**
      * 夜间模式
+     * 如果设置了backgroundDrawable, backgroundColor会无效，
+     * backgroundDrawable与backgroundColor只有效一个
      */
+    int darkBackgroundDrawableResId() default -1;
+
     int darkBackgroundColorResId() default -1;
 
     int darkTextColorResId() default -1;
