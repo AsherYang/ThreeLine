@@ -29,6 +29,8 @@ ThreeLine
             --util
     --server
         --tornado
+        --crawler
+        --im
     --wx
         --client
             
