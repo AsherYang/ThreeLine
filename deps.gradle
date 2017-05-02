@@ -24,6 +24,9 @@ ext {
 
     aspectjrt = 'org.aspectj:aspectjrt:1.8.9'
 
+    jpush = 'cn.jiguang.sdk:jpush:3.0.5'
+    jpushCore = 'cn.jiguang.sdk:jcore:1.1.2'
+
     junit = 'junit:junit:4.12'
     testEspresso = 'com.android.support.test.espresso:espresso-core:2.2.2'
 }

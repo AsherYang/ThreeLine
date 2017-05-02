@@ -26,6 +26,16 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        // 配置jpush
+        ndk {
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+        }
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : applicationId,
+                JPUSH_APPKEY : "c92fb59c0c47b397d4c91804",          //JPush上注册的包名对应的appkey.
+                JPUSH_CHANNEL : "developer-default",                //暂时填写默认值即可.
+        ]
     }
     buildTypes {
         debug {
@@ -66,4 +76,6 @@ dependencies {
     compile jacksonAnnotation
     compile recyclerView
     compile aspectjrt
+    compile jpush
+    compile jpushCore
 }

@@ -3,6 +3,7 @@ package com.asher.threeline;
 import android.app.Application;
 import android.content.Context;
 
+import cn.jpush.android.api.JPushInterface;
 import io.realm.Realm;
 
 /**
@@ -22,6 +23,7 @@ public class App extends Application {
         super.onCreate();
         setupGraph();
         initRealm();
+        initJPush();
     }
 
     /**
@@ -39,6 +41,14 @@ public class App extends Application {
      */
     private void initRealm() {
         Realm.init(this);
+    }
+
+    /**
+     * 初始化极光推送
+     */
+    private void initJPush() {
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
     }
 
     public AppComponent component() {
