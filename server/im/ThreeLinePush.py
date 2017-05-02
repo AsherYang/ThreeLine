@@ -19,7 +19,7 @@ push = _jpush.create_push()
 # set debug logging
 _jpush.set_logging("DEBUG")
 push.audience = jpush.all_
-push.notification = jpush.notification(alert="hello asher yang congratulation !")
+push.notification = jpush.notification(alert="hello asher yang test22 !")
 push.platform = jpush.all_
 try:
     response = push.send()
