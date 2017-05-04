@@ -51,3 +51,7 @@ h. wx 包下放置微信小程序端程序
 - [ ] 服务器数据库
 - [ ] 数据爬虫
 - [ ] 小程序端
+
+## 交流
+QQ 群 ThreeLine <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=6c6e583b86c4b57c2e36c8a93366a4e38ab974f912a8ad1c1e154b205ea8d5f0"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="ThreeLine" title="ThreeLine"></a>
+
