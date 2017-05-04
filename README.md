@@ -47,11 +47,13 @@ h. wx 包下放置微信小程序端程序
 
 ## TODO
 - [x] 换肤 --- 20170430 Finished
-- [ ] 推送
+- [x] 推送 --- 20170504 Finished
 - [ ] 服务器数据库
 - [ ] 数据爬虫
 - [ ] 小程序端
 
 ## 交流
+目前项目正在紧急开发中,高速发展。
+欢迎交流意见。
 QQ 群 ThreeLine <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=6c6e583b86c4b57c2e36c8a93366a4e38ab974f912a8ad1c1e154b205ea8d5f0"><img border="0" src="https://camo.githubusercontent.com/615c9901677f501582b6057efc9396b3ed27dc29/687474703a2f2f7075622e69647171696d672e636f6d2f7770612f696d616765732f67726f75702e706e67" alt="ThreeLine" title="ThreeLine"></a>
 
