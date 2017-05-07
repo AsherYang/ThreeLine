@@ -26,10 +26,8 @@ from BaseResponse import BaseResponse
 from JSONEncoder import JSONEncoder
 
 define("debug", default=False, help='Set debug mode', type=bool)
+# 服务器使用Supervisor＋nginx 配置多端口：8888｜8889｜8890｜8891
 define("port", default=8888, help='Run on the give port', type=int)
-define("port2", default=8889, help='Run on the give port', type=int)
-define("port3", default=8890, help='Run on the give port', type=int)
-define("port4", default=8891, help='Run on the give port', type=int)
 define("mysql_host", default='127.0.0.1', help='mysql host IP')
 define("mysql_user", default='root', help='db user name')
 define("mysql_password", default='ouyangfan', help='db user password')
@@ -115,6 +113,9 @@ class CustomApplication(tornado.web.Application):
 
 
 def main():
+    # 解析命令行参数，比如设置了port会使用命令行port配置覆盖，若没有设置，则使用define中默认值
+    # python ServerTornado.py --port=8889，会启用实例监听8889端口，浏览器等访问8889端口会被监听
+    # 所以服务器配置了4端口运行命令，都可以监听运行
     tornado.options.parse_command_line()
     http_server = tornado.httpserver.HTTPServer(CustomApplication(debug=options.debug))
     http_server.listen(options.port)
