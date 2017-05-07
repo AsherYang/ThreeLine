@@ -10,8 +10,9 @@ public class ApiConstant {
      * BASE_URL
      */
 //    public static final String BASE_URL = "http://192.168.31.143:8888";
-    public static final String BASE_URL = "http://172.28.10.175:8888";
+//    public static final String BASE_URL = "http://172.28.10.175:8888";
 //    public static final String BASE_URL = "https://api.github.com";
+    public static final String BASE_URL = "http://www.fansdroid.net";
 
     /**
      * 连接超时时间

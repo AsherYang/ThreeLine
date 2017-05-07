@@ -27,6 +27,9 @@ from JSONEncoder import JSONEncoder
 
 define("debug", default=False, help='Set debug mode', type=bool)
 define("port", default=8888, help='Run on the give port', type=int)
+define("port2", default=8889, help='Run on the give port', type=int)
+define("port3", default=8890, help='Run on the give port', type=int)
+define("port4", default=8891, help='Run on the give port', type=int)
 define("mysql_host", default='127.0.0.1', help='mysql host IP')
 define("mysql_user", default='root', help='db user name')
 define("mysql_password", default='ouyangfan', help='db user password')
