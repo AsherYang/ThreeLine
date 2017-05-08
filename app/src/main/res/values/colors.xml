@@ -13,4 +13,8 @@
 
     <color name="green">#00FF00</color>
     <color name="yellow">#FFFF00</color>
+
+    <color name="gray_translucent">#7f474747</color>
+    <color name="defalutStatusBarColor">#3F51B5</color>
+    <color name="defalutTitleColor">#303F9F</color>
 </resources>

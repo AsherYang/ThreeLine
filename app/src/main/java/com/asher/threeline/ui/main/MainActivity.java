@@ -35,8 +35,8 @@ import butterknife.OnClick;
 import static com.asher.threeline.ui.theme.ThemeHelper.getThemeHelper;
 
 public class MainActivity extends BaseActivity implements MainView {
-
-    @Skin(darkBackgroundDrawableResId = R.mipmap.ic_launcher,
+    @Skin(
+            darkBackgroundDrawableResId = R.drawable.title_bar_back_normal,
             darkBackgroundColorResId = R.color.green,
             lightBackgroundColorResId = R.color.yellow,
             darkTextColorResId = R.color.colorPrimaryDark,
