@@ -7,11 +7,12 @@ CREATE TABLE devices (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     deviceType VARCHAR(2) NOT NULL,
     deviceName VARCHAR(30),
-    firstReigsterTime VARCHAR(60),
-    lastOnlineTime VARCHAR(60),
-    singer VARCHAR(100),
-    brief VARCHAR(512),
-    imagePath VARCHAR(100)
+    deviceId VARCHAR(10),
+    phoneBrand VARCHAR(10),
+    androidBuildVersion VARCHAR(5),
+    androidBuildLevel VARCHAR(5),
+    firstRegisterTime VARCHAR(60),
+    lastOnlineTime VARCHAR(60)
 );
 
 DROP TABLE IF EXISTS articles;
