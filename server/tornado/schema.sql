@@ -2,12 +2,13 @@ SET SESSION default_storage_engine = "InnoDB";
 SET SESSION time_zone = "+8:00";
 ALTER DATABASE CHARACTER SET "utf8";
 
-DROP TABLE IF EXISTS musics;
-CREATE TABLE musics (
+DROP TABLE IF EXISTS devices;
+CREATE TABLE devices (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    syncKey VARCHAR(100) NOT NULL,
-    updateTime VARCHAR(60),
-    songName VARCHAR(100),
+    deviceType VARCHAR(2) NOT NULL,
+    deviceName VARCHAR(30),
+    firstReigsterTime VARCHAR(60),
+    lastOnlineTime VARCHAR(60),
     singer VARCHAR(100),
     brief VARCHAR(512),
     imagePath VARCHAR(100)
