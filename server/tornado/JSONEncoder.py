@@ -18,15 +18,19 @@ class JSONEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, BaseResponse):
             contentData = obj.data
+            # print type(contentData)
             realContent = []
-            for data in contentData:
-                if isinstance(data, ContentData):
-                    string = {'id': data.id, 'syncKey': data.syncKey, 'updateTime': data.updateTime,
-                              'title': data.title, 'content': data.content, 'author': data.author,
-                              'imagePath': data.imagePath, 'songName': data.songName, 'singer': data.singer}
-                    realContent.append(string)
-                else:
-                    realContent.append('unknown data type')
+            if isinstance(contentData, list):
+                for data in contentData:
+                    if isinstance(data, ContentData):
+                        string = {'id': data.id, 'syncKey': data.syncKey, 'updateTime': data.updateTime,
+                                  'title': data.title, 'content': data.content, 'author': data.author,
+                                  'imagePath': data.imagePath, 'songName': data.songName, 'singer': data.singer}
+                        realContent.append(string)
+            elif isinstance(contentData, basestring):
+                realContent = contentData
+            else:
+                realContent.append('unknown data type')
             return {'code': obj.code, 'desc': obj.desc,
                     'data': realContent}
             # if isinstance(contentData, list):

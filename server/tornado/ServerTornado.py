@@ -39,7 +39,7 @@ class MainHandler(tornado.web.RequestHandler):
 
 class OtherHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
-        raise tornado.web.HTTPError(status_code=416, log_message="test other", reason="unKnow request, please wait for 127.0.0.1")
+        raise tornado.web.HTTPError(status_code=416, log_message="test other", reason="unKnow request, please wait for http://www.fansdroid.net")
 
 """
 usefully
@@ -75,24 +75,49 @@ class LastDataHandler(tornado.web.RequestHandler):
         # print json_str
         self.write(json_str)
 
+
+"""
+ insert data to database
+"""
+class InsertDataHandler(tornado.web.RequestHandler):
+    def get(self, *args, **kwargs):
+        self.render('html/a.html')
+
+    def post(self, *args, **kwargs):
+        baseResponse = BaseResponse()
+        baseResponse.code = "000002"
+        email_address = self.get_argument('email', '')
+        password = self.get_argument('password', '')
+        if not email_address:
+            baseResponse.desc = "email address is null ."
+        elif not password:
+            baseResponse.desc = "password is null ."
+        else:
+            baseResponse.code = "000001"
+            baseResponse.data = email_address
+            baseResponse.desc = "successfully ."
+        json_str = json.dumps(baseResponse, cls=JSONEncoder)
+        self.write(json_str)
+
+
 class CustomApplication(tornado.web.Application):
     def __init__(self, debug=False):
         handlers = [
             (r"/", MainHandler),
             (r'/getlastdata', LastDataHandler),
+            (r'/adddata', InsertDataHandler),
             (r"/.*", OtherHandler),
         ]
         settings = {
             "cookie_secret": '61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=',
             "xsrf_cookies": True,
             "debug": debug,
-
         }
         super(CustomApplication, self).__init__(handlers=handlers, **settings)
         self.db = torndb.Connection(host=options.mysql_host, database=options.mysql_database, user=options.mysql_user,
                                     password=options.mysql_password)
         self.create_tables()
-        # 定义一个临时变量
+        # 定义一个临时变量,syncKey is wrong, because of multiprocess application
         self.syncKey = 0
 
     """
