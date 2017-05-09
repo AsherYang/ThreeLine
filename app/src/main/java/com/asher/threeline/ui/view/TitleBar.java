@@ -19,6 +19,7 @@ import com.asher.threeline.R;
  * Created by ouyangfan on 17/5/9.
  * <p>
  * titleBar
+ * 沉浸式状态栏
  */
 public class TitleBar extends LinearLayout {
 
@@ -52,21 +53,21 @@ public class TitleBar extends LinearLayout {
     private void init(Context context, AttributeSet attrs) {
         //获取属性值
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TitleBar);
-        statusBarColor = a.getColor(R.styleable.TitleBar_statusBarColor, getResources().getColor(R.color.defalutStatusBarColor));
-        titleBarColor = a.getColor(R.styleable.TitleBar_titleBarColor, getResources().getColor(R.color.defalutTitleColor));
+        statusBarColor = a.getColor(R.styleable.TitleBar_statusBarColor, getResources().getColor(R.color.colorPrimary));
+        titleBarColor = a.getColor(R.styleable.TitleBar_titleBarColor, getResources().getColor(R.color.colorPrimaryDark));
         titleBarTextColor = a.getColor(R.styleable.TitleBar_titleBarTextColor, Color.WHITE);
-        titleBarTitleHeight = a.getDimension(R.styleable.TitleBar_titleBarTitleHeight,getResources().getDimension(R.dimen.defalut_titlebar_height));
+        titleBarTitleHeight = a.getDimension(R.styleable.TitleBar_titleBarTitleHeight, getResources().getDimension(R.dimen.defalut_titlebar_height));
         titleBarTitle = a.getString(R.styleable.TitleBar_titleBarTitle);
         a.recycle();
 
+        // 设置沉浸式statusBar，以及颜色
         setFitsSystemWindows(true);
         setClipToPadding(true);
         setOrientation(VERTICAL);
         setBackgroundColor(statusBarColor);
 
         ViewGroup.LayoutParams title_lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                (int)titleBarTitleHeight);
-
+                (int) titleBarTitleHeight);
 
         View titleBarView = LayoutInflater.from(context).inflate(R.layout.layout_title_bar, null, false);
         titleBarView.setBackgroundColor(titleBarColor);
@@ -106,44 +107,48 @@ public class TitleBar extends LinearLayout {
 
     /**
      * 只显示标题
+     *
      * @param title
      */
-    public void setTitleBar(String title){
-        setTitleBar(title,null,null,NO_RES_ID,NO_RES_ID);
+    public void setTitleBar(String title) {
+        setTitleBar(title, null, null, NO_RES_ID, NO_RES_ID);
     }
 
     /**
      * 标题加返回
+     *
      * @param title
      */
-    public void setTitleBarWithBack(String title){
-        setTitleBar(title,null,null,R.drawable.title_bar_left_back,NO_RES_ID);
+    public void setTitleBarWithBack(String title) {
+        setTitleBar(title, null, null, R.drawable.title_bar_left_back, NO_RES_ID);
     }
 
-    public void setTitleBar(String title,int leftResId,int rightResId){
-        setTitleBar(title,null,null,leftResId,rightResId);
+    public void setTitleBar(String title, int leftResId, int rightResId) {
+        setTitleBar(title, null, null, leftResId, rightResId);
     }
 
-    public void setTitleBar(String title,String leftText,String rightText){
-        setTitleBar(title,leftText,rightText,NO_RES_ID,NO_RES_ID);
+    public void setTitleBar(String title, String leftText, String rightText) {
+        setTitleBar(title, leftText, rightText, NO_RES_ID, NO_RES_ID);
     }
 
     /**
      * 返回按钮+右边文字
+     *
      * @param title
      * @param rightText
      */
-    public void setTitleBar(String title,String rightText){
-        setTitleBar(title,null,rightText,NO_RES_ID,NO_RES_ID);
+    public void setTitleBar(String title, String rightText) {
+        setTitleBar(title, null, rightText, NO_RES_ID, NO_RES_ID);
     }
 
     /**
      * 返回按钮+右边图标
+     *
      * @param title
      * @param rightResId
      */
-    public void setTitleBar(String title,int rightResId){
-        setTitleBar(title,null,null,NO_RES_ID,rightResId);
+    public void setTitleBar(String title, int rightResId) {
+        setTitleBar(title, null, null, NO_RES_ID, rightResId);
     }
 
     /**

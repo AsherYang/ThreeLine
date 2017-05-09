@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="AppTheme" parent="android:Theme.Holo.Light.NoActionBar.TranslucentDecor">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@null</item>
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
+        <!--设置为false , 解决如果为true虚拟按键的问题：那虚拟按键会被透明，并且覆盖在内容区域上-->
+        <item name="android:windowTranslucentNavigation">false</item>
     </style>
 </resources>

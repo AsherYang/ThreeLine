@@ -3,6 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="color_FFFF256F">#FFFF256F</color>
 
     <color name="theme_dark_background">#303030</color>
     <color name="theme_light_background">#EEEEEE</color>
@@ -15,6 +16,4 @@
     <color name="yellow">#FFFF00</color>
 
     <color name="gray_translucent">#7f474747</color>
-    <color name="defalutStatusBarColor">#3F51B5</color>
-    <color name="defalutTitleColor">#303F9F</color>
 </resources>
