@@ -4,4 +4,10 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="defalut_titlebar_height">46dp</dimen>
+    
+    <dimen name="dimen_16dp">16dp</dimen>
+    <dimen name="dimen_18dp">18dp</dimen>
+    <dimen name="dimen_47dp">47dp</dimen>
+    
+    <dimen name="dimen_15sp">15sp</dimen>
 </resources>

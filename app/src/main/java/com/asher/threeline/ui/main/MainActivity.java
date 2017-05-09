@@ -20,6 +20,7 @@ import com.asher.threeline.serve.net.content.NetContentServeComponent;
 import com.asher.threeline.serve.net.content.NetContentServeModule;
 import com.asher.threeline.ui.base.BaseActivity;
 import com.asher.threeline.ui.github.GithubActivity;
+import com.asher.threeline.ui.setting.SettingActivity;
 import com.asher.threeline.ui.theme.Theme;
 import com.asher.threeline.ui.theme.ThemeHelper;
 
@@ -109,6 +110,8 @@ public class MainActivity extends BaseActivity implements MainView {
             case R.id.tv_change_theme:
                 // 为了验证改变主题对其他页面的影响,这里延迟5S用于测试
 //                changeThemeDelay();
+                Intent intent2 = new Intent(MainActivity.this, SettingActivity.class);
+                startActivity(intent2);
                 getThemeHelper(this).changeTheme(exchangeTheme());
                 break;
             default:

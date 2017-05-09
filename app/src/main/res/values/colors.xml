@@ -5,12 +5,12 @@
     <color name="colorAccent">#FF4081</color>
     <color name="color_FFFF256F">#FFFF256F</color>
 
-    <color name="theme_dark_background">#303030</color>
-    <color name="theme_light_background">#EEEEEE</color>
+    <color name="theme_dark_background">#1d1f3e</color>
+    <color name="theme_light_background">#fafafa</color>
 
-    <color name="grey_200">#EEEEEE</color>
-    <color name="grey_400">#BDBDBD</color>
-    <color name="grey_800">#424242</color>
+    <color name="color_f4f4f4">#f4f4f4</color>
+    <color name="color_ebebeb">#ebebeb</color>
+    <color name="color_e3e3e3">#e3e3e3</color>
 
     <color name="green">#00FF00</color>
     <color name="yellow">#FFFF00</color>

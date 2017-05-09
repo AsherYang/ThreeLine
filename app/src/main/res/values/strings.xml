@@ -3,4 +3,10 @@
 
     <string name="cancel">取消</string>
     <string name="title">标题</string>
+
+    <string name="setting">设置</string>
+    <string name="look_up_collect">查看收藏</string>
+    <string name="night_model">夜间模式</string>
+    <string name="control_music">控制音乐</string>
+    <string name="mark_app">为疯人院评分</string>
 </resources>

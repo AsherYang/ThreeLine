@@ -4,21 +4,29 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent">
+    android:background="@color/color_f4f4f4">
 
     <com.asher.threeline.ui.view.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:statusBarColor="@color/colorPrimary"
-        app:titleBarColor="@color/colorPrimaryDark"
-        app:titleBarTitle="@string/app_name"/>
+        app:statusBarColor="@color/colorPrimaryDark"
+        app:titleBarColor="@color/theme_light_background"
+        app:titleBarTitle="@string/app_name" />
+
+    <View
+        android:id="@+id/title_bar_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/title_bar"
+        android:background="@color/color_e3e3e3" />
 
     <TextView
         android:id="@+id/tv_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/title_bar"
+        android:layout_marginTop="@dimen/dimen_16dp"
         android:text="Hello World!" />
 
     <TextView
@@ -26,11 +34,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/title_bar"
-        android:layout_toRightOf="@id/tv_show"
-        android:layout_toEndOf="@id/tv_show"
         android:layout_marginLeft="20dp"
-        android:text="change theme"
-        />
+        android:layout_toEndOf="@id/tv_show"
+        android:layout_toRightOf="@id/tv_show"
+        android:text="change theme" />
 
     <TextView
         android:id="@+id/txt"
@@ -38,12 +45,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_show"
         android:layout_centerHorizontal="true"
-        android:text="111111"/>
+        android:text="111111" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_show"
-        android:layout_below="@id/txt"
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/txt"
+        android:layout_marginTop="10dp" />
 </RelativeLayout>

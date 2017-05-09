@@ -1,28 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/color_f4f4f4">
 
-    <Button
-        android:id="@+id/btn_search"
-        android:layout_width="wrap_content"
+    <com.asher.threeline.ui.view.TitleBar
+        android:id="@+id/setting_title_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:text="Search"/>
+        app:statusBarColor="@color/colorPrimaryDark"
+        app:titleBarTitle="@string/setting"
+        app:titleBarTextColor="@color/theme_dark_background"
+        app:titleBarColor="@color/theme_light_background" />
+
+    <View
+        android:id="@+id/title_bar_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/setting_title_bar"
+        android:background="@color/color_e3e3e3" />
+
+    <View
+        android:id="@+id/title_bar_divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/setting_title_bar"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        android:background="@color/color_e3e3e3" />
 
     <TextView
-        android:id="@+id/tv_msg"
+        android:id="@+id/tv_collect"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_below="@id/et_name" />
+        android:layout_height="@dimen/dimen_47dp"
+        android:layout_below="@id/title_bar_divider2"
+        android:background="@color/theme_light_background"
+        android:drawableEnd="@drawable/next"
+        android:drawableRight="@drawable/next"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/dimen_18dp"
+        android:paddingLeft="@dimen/dimen_18dp"
+        android:paddingRight="@dimen/dimen_18dp"
+        android:paddingStart="@dimen/dimen_18dp"
+        android:text="@string/look_up_collect"
+        android:textColor="@color/theme_dark_background"
+        android:textSize="@dimen/dimen_15sp" />
 
-    <EditText
-        android:id="@+id/et_name"
+    <View
+        android:id="@+id/view_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/tv_collect"
+        android:background="@color/color_ebebeb" />
+
+    <RelativeLayout
+        android:id="@+id/rl_choose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="input your github name"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@id/tv_collect"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        android:background="@color/theme_light_background">
+
+        <View
+            android:id="@+id/view_divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@id/title_bar"
+            android:background="@color/color_e3e3e3" />
+
+        <TextView
+            android:id="@+id/tv_night_model"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_47dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dimen_18dp"
+            android:paddingStart="@dimen/dimen_18dp"
+            android:text="@string/night_model"
+            android:textColor="@color/theme_dark_background"
+            android:textSize="@dimen/dimen_15sp" />
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tv_night_model"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true" />
+
+        <View
+            android:id="@+id/view_divider3"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@id/tv_night_model"
+            android:layout_marginLeft="@dimen/dimen_18dp"
+            android:layout_marginStart="@dimen/dimen_18dp"
+            android:background="@color/color_ebebeb" />
+
+        <TextView
+            android:id="@+id/tv_control_music"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_47dp"
+            android:layout_below="@id/view_divider3"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dimen_18dp"
+            android:paddingStart="@dimen/dimen_18dp"
+            android:text="@string/control_music"
+            android:textColor="@color/theme_dark_background"
+            android:textSize="@dimen/dimen_15sp" />
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tv_control_music"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true" />
+
+        <View
+            android:id="@+id/view_divider4"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_below="@id/tv_control_music"
+            android:background="@color/color_ebebeb" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view_divider5"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/rl_choose"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        android:background="@color/color_ebebeb" />
+
+    <TextView
+        android:id="@+id/tv_mark_app"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_47dp"
+        android:layout_below="@id/view_divider5"
+        android:background="@color/theme_light_background"
+        android:drawableEnd="@drawable/next"
+        android:drawableRight="@drawable/next"
+        android:gravity="center_vertical"
+        android:paddingEnd="@dimen/dimen_18dp"
+        android:paddingLeft="@dimen/dimen_18dp"
+        android:paddingRight="@dimen/dimen_18dp"
+        android:paddingStart="@dimen/dimen_18dp"
+        android:text="@string/mark_app"
+        android:textColor="@color/theme_dark_background"
+        android:textSize="@dimen/dimen_15sp" />
+
+    <View
+        android:id="@+id/view_divider6"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/tv_mark_app"
+        android:background="@color/color_ebebeb" />
+
 </RelativeLayout>

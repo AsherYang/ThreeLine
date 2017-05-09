@@ -23,6 +23,7 @@ import com.asher.threeline.R;
  */
 public class TitleBar extends LinearLayout {
 
+    // TODO: 17/5/10 add textSize
     private int statusBarColor;
     private int titleBarColor;
     private int titleBarTextColor;
@@ -158,7 +159,7 @@ public class TitleBar extends LinearLayout {
      * @param leftTitle  左侧按钮文字 不显示为null
      * @param rightTitle 右侧按钮文字 不显示为null
      * @param leftResId  左侧按钮图片 不显示为 {@link TitleBar#NO_RES_ID}
-     * @param rightResId 右侧按钮图片 不显示为 {@link TitleBar    #NO_RES_ID}
+     * @param rightResId 右侧按钮图片 不显示为 {@link TitleBar#NO_RES_ID}
      */
     public void setTitleBar(String title, String leftTitle, String rightTitle, int leftResId, int rightResId) {
 
