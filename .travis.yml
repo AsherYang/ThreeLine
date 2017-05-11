@@ -2,6 +2,8 @@ language: android
 
 notifications:
     email: true
+        recipients:
+            - 1181830457@qq.com
 
 # open Travis CI task
 sudo: false
@@ -30,10 +32,11 @@ before_script:
 #    - emulator -avd test -no-audio -no-window &
 #    - android-wait-for-emulator
 #    - adb shell input keyenvent 82 &
-    - ./gradlew clean build uploadArchives --info
+#    - ./gradlew clean build uploadArchives --info
 
 script:
-    - ./gradlew assembleRelease
+#    - ./gradlew assembleRelease
+    - ./gradlew -q -s -Dscan -PbuildInfo.build.number=$TRAVIS_BUILD_NUMBER -PbuildInfo.buildUrl=https://travis-ci.org/${TRAVIS_REPO_SLUG}/builds/${TRAVIS_JOB_ID} -PbuildInfo.buildAgent.name=$USER -PbuildInfo.principal=$USER --debug --info clean assemble check fullTest artifactoryPublish
 
 # clean
 before_cache:
