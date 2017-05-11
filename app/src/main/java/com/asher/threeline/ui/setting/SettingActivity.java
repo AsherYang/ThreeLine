@@ -32,6 +32,7 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     protected void setupComponent(AppComponent appComponent) {
+        // TODO: 2017/5/11
 
     }
 
