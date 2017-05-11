@@ -1,5 +1,7 @@
 # 三行情书
 
+[![Build Status](https://travis-ci.org/AsherYang/ThreeLine.svg?branch=master)](https://travis-ci.org/AsherYang/ThreeLine)
+
 ## 总体概况
 
 1. 创建时间：2017年3月18日

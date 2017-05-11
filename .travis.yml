@@ -27,6 +27,7 @@ before_script:
 #    - adb shell input keyenvent 82 &
 
 script:
+    - ./gradlew -p plugin clean build uploadArchives --info
     - ./gradlew assembleRelease
 
 # clean
