@@ -1,6 +1,7 @@
 # 三行情书
 
 [![Build Status](https://travis-ci.org/AsherYang/ThreeLine.svg?branch=master)](https://travis-ci.org/AsherYang/ThreeLine)
+[![License](https://img.shields.io/badge/License-Apache%202.0-orange.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 
 ## 总体概况
 
