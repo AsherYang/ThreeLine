@@ -8,15 +8,20 @@ sudo: false
 
 android:
     components:
-      - build-tools-25.0.2
       - tools
+      - platform-tools
+      - build-tools-25.0.2
       - android-25
+      - extra-google-m2repository
       - extra-android-m2repository
       - extra-android-support
 
     licenses:
       - 'Apache 2.0'
       - 'android-sdk-license-.+'
+
+jdk:
+    - oraclejdk8
 
 # Emulator Management: Create, Start and Wait
 before_script:
@@ -25,9 +30,9 @@ before_script:
 #    - emulator -avd test -no-audio -no-window &
 #    - android-wait-for-emulator
 #    - adb shell input keyenvent 82 &
+    - ./gradlew clean build uploadArchives --info
 
 script:
-    - ./gradlew -p plugin clean build uploadArchives --info
     - ./gradlew assembleRelease
 
 # clean
