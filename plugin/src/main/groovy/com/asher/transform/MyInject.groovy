@@ -5,6 +5,7 @@ import javassist.*
 import org.gradle.api.Project
 
 import java.lang.annotation.Annotation
+
 /**
  * use javassist
  *
@@ -48,6 +49,8 @@ public class MyInject {
                                     modifyUpdateUiElementMethod(c)
                                     // after modifyUpdateUiElementMethod
                                     generateThemeViewCollector(c, path, project)
+                                    // after generateThemeViewCollector
+                                    modifyActivityLife(c, path, project);
                                 }
                             }
                         }
@@ -300,14 +303,18 @@ public class MyInject {
                     "if (!mList.contains(themeClass)) {\n mList.add(themeClass);\n}}",
                     themeViewCtClass)
             themeViewCtClass.addMethod(ctM2)
+            CtMethod ctM3 = CtMethod.make("public void removeThemeClass(ITheme themeClass) {\n " +
+                    "mList.remove(themeClass);}",
+                    themeViewCtClass)
+            themeViewCtClass.addMethod(ctM3)
             // 写if 判断逻辑,尽量使用正向逻辑,比如 !isEmpty(), 因为编译器编译后class就是这个逻辑
             // 同时由于javassist 使用的是由低版本Java(1.4)改造。导致很多新功能不可用。比如增强for循环,不支持范型等,需要自己强制转换。
             // 使用增强for循环,会造成编译不过,提示缺少";",其实是for循环条件导致
             String themeMethodSrc = "public void themeChanged() { if(null != mList" +
                     "&& !mList.isEmpty()) {\n for(int i = 0; i < mList.size(); i++) { Object obj = mList.get(i); \n " +
                     "if(obj instanceof ITheme) {((ITheme)obj).updateUiElements();}}}}"
-            CtMethod ctM3 = CtMethod.make(themeMethodSrc, themeViewCtClass)
-            themeViewCtClass.addMethod(ctM3)
+            CtMethod ctM4 = CtMethod.make(themeMethodSrc, themeViewCtClass)
+            themeViewCtClass.addMethod(ctM4)
 
             // write file
             project.logger.error "---- create themeViewCollector $path"
@@ -318,15 +325,44 @@ public class MyInject {
             themeViewCtClass.defrost()
         }
 
-        // insert add activity to ThemeViewCollector
-        for (CtMethod ctMethod : ctClassWithSkin.getDeclaredMethods()) {
-            String methodName = Utils.getSimpleName(ctMethod);
-            if (Utils.ON_CREATE.contains(methodName)) {
-                ctMethod.insertAfter("ThemeViewCollector.getInstance().addThemeClass(this);\n")
-                // 同时刷新一下，设置第一次加载默认的主题
-                ctMethod.insertAfter("updateUiElements();\n")
-            }
+    }
+
+    /**
+     * modify activity life method
+     *
+     * @param ctClassWithSkin
+     * @param path
+     */
+    static void modifyActivityLife(CtClass ctClassWithSkin, String path, Project project) {
+        if (ctClassWithSkin.isFrozen()) {
+            ctClassWithSkin.defrost()
         }
+
+        CtClass activityClazz = pool.get(Utils.ACTIVITY_CLASS)
+        if (!ctClassWithSkin.subclassOf(activityClazz)) {
+            return
+        }
+        CtMethod onCreateMethod = ctClassWithSkin.getDeclaredMethod(Utils.ON_CREATE)
+        // insert add activity to ThemeViewCollector
+        onCreateMethod.insertAfter("ThemeViewCollector.getInstance().addThemeClass(this);\n")
+        // 同时刷新一下，设置第一次加载默认的主题
+        onCreateMethod.insertAfter("updateUiElements();\n")
+
+        CtMethod onDestroyMethod
+        try {
+            onDestroyMethod = ctClassWithSkin.getDeclaredMethod(Utils.ON_DESTROY)
+        } catch (Exception e) {
+            // do nothing
+        }
+        if (null == onDestroyMethod) {
+            // 没有就新建
+            // create methods
+            onDestroyMethod = CtMethod.make("protected void onDestroy() {super.onDestroy();}", ctClassWithSkin)
+            ctClassWithSkin.addMethod(onDestroyMethod)
+        }
+        // onDestroy 时释放,防止内存泄漏
+        onDestroyMethod.insertAfter("ThemeViewCollector.getInstance().removeThemeClass(this);\n")
+        ctClassWithSkin.writeFile(path)
     }
 
     /**

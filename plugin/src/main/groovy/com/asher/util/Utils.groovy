@@ -12,8 +12,10 @@ public class Utils {
     static def UPDATE_UI_ELEMENTS = 'updateUiElements'
     static def CHANGE_THEME = 'changeTheme'
     static def NOTIFY_UI_REFRESH = "notifyUiRefresh"
-    static def ON_CREATE = ['onCreate', "onActivityCreated"] as String[]
+    static def ON_CREATE = "onCreate"
+    static def ON_ACTIVITY_CREATE = "onActivityCreated"
     static def ON_DESTROY = 'onDestroy'
+    static def ACTIVITY_CLASS = 'android.app.Activity'
     static def ADD_ACTIVITY = 'addActivity'
     static def HAS_CONTAIN_ACTIVITY = 'hasContainActivity'
 
