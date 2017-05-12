@@ -8,6 +8,9 @@
     <color name="theme_dark_background">#1d1f3e</color>
     <color name="theme_light_background">#fafafa</color>
 
+    <color name="color_fafafa">#fafafa</color>
+    <color name="color_0d000000">#0D000000</color>
+
     <color name="color_f4f4f4">#f4f4f4</color>
     <color name="color_ebebeb">#ebebeb</color>
     <color name="color_e3e3e3">#e3e3e3</color>

@@ -3,6 +3,9 @@ package com.asher.threeline;
 import android.app.Application;
 import android.content.Context;
 
+import com.github.moduth.blockcanary.BlockCanary;
+import com.squareup.leakcanary.LeakCanary;
+
 import cn.jpush.android.api.JPushInterface;
 import io.realm.Realm;
 
@@ -24,6 +27,7 @@ public class App extends Application {
         setupGraph();
         initRealm();
         initJPush();
+        initCanary();
     }
 
     /**
@@ -49,6 +53,16 @@ public class App extends Application {
     private void initJPush() {
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
+    }
+
+    private void initCanary() {
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
+        BlockCanary.install(this, new AppBlockCanaryContext()).start();
     }
 
     public AppComponent component() {

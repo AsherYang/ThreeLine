@@ -65,7 +65,7 @@ QQ 群 ThreeLine <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=6c6e58
 
 ## License
 
-    Copyright (C) 2015 AsherYang
+    Copyright (C) 2017 AsherYang
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

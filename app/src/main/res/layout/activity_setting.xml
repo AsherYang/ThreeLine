@@ -10,9 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:statusBarColor="@color/colorPrimaryDark"
-        app:titleBarTitle="@string/setting"
+        app:titleBarColor="@color/theme_light_background"
         app:titleBarTextColor="@color/theme_dark_background"
-        app:titleBarColor="@color/theme_light_background" />
+        app:titleBarTitle="@string/setting" />
 
     <View
         android:id="@+id/title_bar_divider"
@@ -27,14 +27,14 @@
         android:layout_height="1px"
         android:layout_below="@id/setting_title_bar"
         android:layout_marginTop="@dimen/dimen_16dp"
-        android:background="@color/color_e3e3e3" />
+        android:background="@color/color_ebebeb" />
 
     <TextView
         android:id="@+id/tv_collect"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_47dp"
         android:layout_below="@id/title_bar_divider2"
-        android:background="@color/theme_light_background"
+        android:background="@drawable/setting_txt_selector"
         android:drawableEnd="@drawable/next"
         android:drawableRight="@drawable/next"
         android:gravity="center_vertical"
@@ -53,25 +53,26 @@
         android:layout_below="@id/tv_collect"
         android:background="@color/color_ebebeb" />
 
+    <View
+        android:id="@+id/view_divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/view_divider"
+        android:layout_marginTop="@dimen/dimen_16dp"
+        android:background="@color/color_ebebeb" />
+
     <RelativeLayout
         android:id="@+id/rl_choose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_collect"
-        android:layout_marginTop="@dimen/dimen_16dp"
+        android:layout_below="@id/view_divider2"
         android:background="@color/theme_light_background">
-
-        <View
-            android:id="@+id/view_divider2"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_below="@id/title_bar"
-            android:background="@color/color_e3e3e3" />
 
         <TextView
             android:id="@+id/tv_night_model"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_47dp"
+            android:background="@drawable/setting_txt_selector"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/dimen_18dp"
             android:paddingStart="@dimen/dimen_18dp"
@@ -100,6 +101,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_47dp"
             android:layout_below="@id/view_divider3"
+            android:background="@drawable/setting_txt_selector"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/dimen_18dp"
             android:paddingStart="@dimen/dimen_18dp"
@@ -135,7 +137,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_47dp"
         android:layout_below="@id/view_divider5"
-        android:background="@color/theme_light_background"
+        android:background="@drawable/setting_txt_selector"
         android:drawableEnd="@drawable/next"
         android:drawableRight="@drawable/next"
         android:gravity="center_vertical"

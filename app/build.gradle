@@ -88,4 +88,9 @@ dependencies {
     compile aspectjrt
     compile jpush
     compile jpushCore
+
+    debugCompile debugLeakcanary
+    releaseCompile releaseLeakcanary
+    testCompile testLeakcanary
+    compile blockcanary
 }
