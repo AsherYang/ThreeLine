@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.asher.threeline.App;
 import com.asher.threeline.AppComponent;
 import com.asher.threeline.R;
 import com.asher.threeline.ui.base.BaseActivity;
@@ -28,6 +29,13 @@ public class SettingActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 观察内存泄露情况
+        App.getRefWatcher(this).watch(this);
     }
 
     @Override

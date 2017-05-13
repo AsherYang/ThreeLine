@@ -5,6 +5,7 @@ import android.content.Context;
 
 import com.github.moduth.blockcanary.BlockCanary;
 import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 import cn.jpush.android.api.JPushInterface;
 import io.realm.Realm;
@@ -20,6 +21,7 @@ import io.realm.Realm;
 public class App extends Application {
 
     private AppComponent component;
+    private RefWatcher mRefWatcher;
 
     @Override
     public void onCreate() {
@@ -61,7 +63,7 @@ public class App extends Application {
             // You should not init your app in this process.
             return;
         }
-        LeakCanary.install(this);
+        mRefWatcher = LeakCanary.install(this);
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
     }
 
@@ -71,5 +73,11 @@ public class App extends Application {
 
     public static App get(Context context) {
         return (App) context.getApplicationContext();
+    }
+
+    // 提供检测内存泄漏watcher
+    public static RefWatcher getRefWatcher(Context context) {
+        App app = (App) context.getApplicationContext();
+        return app.mRefWatcher;
     }
 }
