@@ -37,6 +37,8 @@ public class TitleBar extends LinearLayout {
     private ImageView rightImage;
 
     public static final int NO_RES_ID = -1;
+    private int leftImgVisible = NO_RES_ID;
+    private int rightImgVisible = NO_RES_ID;
 
     public TitleBar(Context context) {
         this(context, null);
@@ -59,6 +61,8 @@ public class TitleBar extends LinearLayout {
         titleBarTextColor = a.getColor(R.styleable.TitleBar_titleBarTextColor, Color.WHITE);
         titleBarTitleHeight = a.getDimension(R.styleable.TitleBar_titleBarTitleHeight, getResources().getDimension(R.dimen.defalut_titlebar_height));
         titleBarTitle = a.getString(R.styleable.TitleBar_titleBarTitle);
+        leftImgVisible = a.getInteger(R.styleable.TitleBar_leftImgVisible, View.GONE);
+        rightImgVisible = a.getInteger(R.styleable.TitleBar_rightImgVisible, View.GONE);
         a.recycle();
 
         // 设置沉浸式statusBar，以及颜色
@@ -82,6 +86,14 @@ public class TitleBar extends LinearLayout {
         rightText.setTextColor(titleBarTextColor);
         centerText.setTextColor(titleBarTextColor);
         centerText.setText(titleBarTitle);
+
+        if (leftImgVisible != NO_RES_ID) {
+            setLeftImageVisible(leftImgVisible);
+        }
+
+        if (rightImgVisible != NO_RES_ID) {
+            setRightImageVisible(rightImgVisible);
+        }
 
         addView(titleBarView, title_lp);
     }
@@ -201,6 +213,28 @@ public class TitleBar extends LinearLayout {
             centerText.setVisibility(View.GONE);
         }
 
+    }
+
+    /**
+     * 设置左边图标的显示
+     *
+     * @param visibility
+     */
+    public void setLeftImageVisible(int visibility) {
+        if (null != leftImage) {
+            leftImage.setVisibility(visibility);
+        }
+    }
+
+    /**
+     * 设置右边图标的显示
+     *
+     * @param visibility
+     */
+    public void setRightImageVisible(int visibility) {
+        if (null != rightImage) {
+            rightImage.setVisibility(visibility);
+        }
     }
 
 

@@ -23,6 +23,8 @@ import com.asher.threeline.ui.github.GithubActivity;
 import com.asher.threeline.ui.setting.SettingActivity;
 import com.asher.threeline.ui.theme.Theme;
 import com.asher.threeline.ui.theme.ThemeHelper;
+import com.asher.threeline.ui.view.TitleBar;
+import com.asher.viewflow.ViewFlow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +50,10 @@ public class MainActivity extends BaseActivity implements MainView {
     TextView tvChangeTheme;
     @BindView(R.id.rv_show)
     RecyclerView rvShow;
+    @BindView(R.id.title_bar)
+    TitleBar titleBar;
+    @BindView(R.id.view_flow)
+    ViewFlow viewFlow;
 
     @Inject
     MainPresenter mainPresenter;
@@ -61,10 +67,14 @@ public class MainActivity extends BaseActivity implements MainView {
         Log.i("TAG", "onCreate");
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        initView();
         initData();
         getDataFromDb();
     }
 
+    private void initView() {
+        viewFlow.setAdapter(new ImageAdapter(this));
+    }
 
     private void initData() {
 //        mainPresenter.prepareContentToDb();

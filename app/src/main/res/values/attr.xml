@@ -11,5 +11,12 @@
         <attr name="titleBarTitleHeight" format="dimension" />
         <!--activity标题文字-->
         <attr name="titleBarTitle" format="string" />
+        <!--是否显示左右图标-->
+        <attr name="leftImgVisible" format="enum|reference">
+            <enum name="GONE" value="8" />
+            <enum name="VISIBLE" value="0" />
+            <enum name="INVISIBLE" value="4" />
+        </attr>
+        <attr name="rightImgVisible" format="reference|integer" />
     </declare-styleable>
 </resources>

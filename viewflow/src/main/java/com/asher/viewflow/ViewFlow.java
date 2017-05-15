@@ -26,7 +26,6 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Scroller;
-import org.taptwo.android.widget.viewflow.R;
 
 import java.util.EnumSet;
 import java.util.LinkedList;

@@ -47,10 +47,17 @@
         android:layout_centerHorizontal="true"
         android:text="111111" />
 
+    <com.asher.viewflow.ViewFlow
+        android:id="@+id/view_flow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt"
+        android:layout_marginTop="10dp" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_show"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/txt"
+        android:layout_below="@id/view_flow"
         android:layout_marginTop="10dp" />
 </RelativeLayout>

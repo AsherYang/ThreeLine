@@ -70,6 +70,7 @@ dependencies {
     androidTestCompile(testEspresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile project(':viewflow')
     testCompile junit
     compile butterKnife
     annotationProcessor butterKnifeCompiler
