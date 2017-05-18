@@ -26,19 +26,22 @@ public class TitleBar extends LinearLayout {
     // TODO: 17/5/10 add textSize
     private int statusBarColor;
     private int titleBarColor;
-    private int titleBarTextColor;
     private float titleBarTitleHeight;
     private String titleBarTitle;
+    private int titleBarTextColor;
+    private float titleBarTextSize;
+    private String leftText;
+    private String rightText;
+    private int leftImgResId;
+    private int rightImgResId;
 
-    private TextView leftText;
-    private ImageView leftImage;
-    private TextView centerText;
-    private TextView rightText;
-    private ImageView rightImage;
+    private TextView tvLeft;
+    private ImageView ivLeft;
+    private TextView tvCenterTitle;
+    private TextView tvRight;
+    private ImageView ivRight;
 
     public static final int NO_RES_ID = -1;
-    private int leftImgVisible = NO_RES_ID;
-    private int rightImgVisible = NO_RES_ID;
 
     public TitleBar(Context context) {
         this(context, null);
@@ -58,11 +61,14 @@ public class TitleBar extends LinearLayout {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TitleBar);
         statusBarColor = a.getColor(R.styleable.TitleBar_statusBarColor, getResources().getColor(R.color.colorPrimary));
         titleBarColor = a.getColor(R.styleable.TitleBar_titleBarColor, getResources().getColor(R.color.colorPrimaryDark));
-        titleBarTextColor = a.getColor(R.styleable.TitleBar_titleBarTextColor, Color.WHITE);
-        titleBarTitleHeight = a.getDimension(R.styleable.TitleBar_titleBarTitleHeight, getResources().getDimension(R.dimen.defalut_titlebar_height));
+        titleBarTitleHeight = a.getDimension(R.styleable.TitleBar_titleBarTitleHeight, getResources().getDimension(R.dimen.default_titlebar_height));
         titleBarTitle = a.getString(R.styleable.TitleBar_titleBarTitle);
-        leftImgVisible = a.getInteger(R.styleable.TitleBar_leftImgVisible, View.GONE);
-        rightImgVisible = a.getInteger(R.styleable.TitleBar_rightImgVisible, View.GONE);
+        titleBarTextColor = a.getColor(R.styleable.TitleBar_titleBarTextColor, Color.WHITE);
+        titleBarTextSize = a.getDimension(R.styleable.TitleBar_titleBarTextSize, getResources().getDimension(R.dimen.default_titlebar_title_size));
+        leftText = a.getString(R.styleable.TitleBar_leftText);
+        rightText = a.getString(R.styleable.TitleBar_rightText);
+        leftImgResId = a.getResourceId(R.styleable.TitleBar_leftImg, NO_RES_ID);
+        rightImgResId = a.getResourceId(R.styleable.TitleBar_rightImg, NO_RES_ID);
         a.recycle();
 
         // 设置沉浸式statusBar，以及颜色
@@ -76,46 +82,40 @@ public class TitleBar extends LinearLayout {
 
         View titleBarView = LayoutInflater.from(context).inflate(R.layout.layout_title_bar, null, false);
         titleBarView.setBackgroundColor(titleBarColor);
-        leftText = (TextView) titleBarView.findViewById(R.id.left_text);
-        leftImage = (ImageView) titleBarView.findViewById(R.id.left_image);
-        centerText = (TextView) titleBarView.findViewById(R.id.center_text);
-        rightText = (TextView) titleBarView.findViewById(R.id.right_text);
-        rightImage = (ImageView) titleBarView.findViewById(R.id.right_image);
+        tvLeft = (TextView) titleBarView.findViewById(R.id.left_text);
+        ivLeft = (ImageView) titleBarView.findViewById(R.id.left_image);
+        tvCenterTitle = (TextView) titleBarView.findViewById(R.id.center_text);
+        tvRight = (TextView) titleBarView.findViewById(R.id.right_text);
+        ivRight = (ImageView) titleBarView.findViewById(R.id.right_image);
 
-        leftText.setTextColor(titleBarTextColor);
-        rightText.setTextColor(titleBarTextColor);
-        centerText.setTextColor(titleBarTextColor);
-        centerText.setText(titleBarTitle);
-
-        if (leftImgVisible != NO_RES_ID) {
-            setLeftImageVisible(leftImgVisible);
-        }
-
-        if (rightImgVisible != NO_RES_ID) {
-            setRightImageVisible(rightImgVisible);
-        }
+        tvLeft.setTextColor(titleBarTextColor);
+        tvRight.setTextColor(titleBarTextColor);
+        tvCenterTitle.setText(titleBarTitle);
+        tvCenterTitle.setTextColor(titleBarTextColor);
+        tvCenterTitle.setTextSize(titleBarTextSize);
 
         addView(titleBarView, title_lp);
+        setTitleBar(titleBarTitle, leftText, rightText, leftImgResId, rightImgResId);
     }
 
-    public TextView getLeftText() {
-        return leftText;
+    public TextView getTvLeft() {
+        return tvLeft;
     }
 
-    public ImageView getLeftImage() {
-        return leftImage;
+    public ImageView getIvLeft() {
+        return ivLeft;
     }
 
-    public TextView getCenterText() {
-        return centerText;
+    public TextView getTvCenterTitle() {
+        return tvCenterTitle;
     }
 
-    public TextView getRightText() {
-        return rightText;
+    public TextView getTvRight() {
+        return tvRight;
     }
 
-    public ImageView getRightImage() {
-        return rightImage;
+    public ImageView getIvRight() {
+        return ivRight;
     }
 
     /**
@@ -133,7 +133,7 @@ public class TitleBar extends LinearLayout {
      * @param title
      */
     public void setTitleBarWithBack(String title) {
-        setTitleBar(title, null, null, R.drawable.title_bar_left_back, NO_RES_ID);
+        setTitleBar(title, null, null, R.drawable.title_bar_left_back_selector, NO_RES_ID);
     }
 
     public void setTitleBar(String title, int leftResId, int rightResId) {
@@ -175,42 +175,41 @@ public class TitleBar extends LinearLayout {
      */
     public void setTitleBar(String title, String leftTitle, String rightTitle, int leftResId, int rightResId) {
 
-
         //左标题文字为空,则不显示
         if (TextUtils.isEmpty(leftTitle)) {
-            leftText.setVisibility(View.GONE);
+            tvLeft.setVisibility(View.GONE);
         } else {
-            leftText.setVisibility(View.VISIBLE);
-            leftText.setText(leftTitle);
+            tvLeft.setVisibility(View.VISIBLE);
+            tvLeft.setText(leftTitle);
         }
 
         //右标题文字为空,则不显示
-        if (TextUtils.isEmpty(leftTitle)) {
-            rightText.setVisibility(View.GONE);
+        if (TextUtils.isEmpty(rightTitle)) {
+            tvRight.setVisibility(View.GONE);
         } else {
-            rightText.setVisibility(View.VISIBLE);
-            rightText.setText(rightTitle);
+            tvRight.setVisibility(View.VISIBLE);
+            tvRight.setText(rightTitle);
         }
 
         if (leftResId != NO_RES_ID) {
-            leftImage.setVisibility(View.VISIBLE);
-            leftImage.setImageResource(leftResId);
+            ivLeft.setVisibility(View.VISIBLE);
+            ivLeft.setImageResource(leftResId);
         } else {
-            leftImage.setVisibility(View.GONE);
+            ivLeft.setVisibility(View.GONE);
         }
 
         if (rightResId != NO_RES_ID) {
-            rightImage.setVisibility(View.VISIBLE);
-            rightImage.setImageResource(rightResId);
+            ivRight.setVisibility(View.VISIBLE);
+            ivRight.setImageResource(rightResId);
         } else {
-            rightImage.setVisibility(View.GONE);
+            ivRight.setVisibility(View.GONE);
         }
 
         if (!TextUtils.isEmpty(title)) {
-            centerText.setVisibility(View.VISIBLE);
-            centerText.setText(title);
+            tvCenterTitle.setVisibility(View.VISIBLE);
+            tvCenterTitle.setText(title);
         } else {
-            centerText.setVisibility(View.GONE);
+            tvCenterTitle.setVisibility(View.GONE);
         }
 
     }
@@ -221,8 +220,8 @@ public class TitleBar extends LinearLayout {
      * @param visibility
      */
     public void setLeftImageVisible(int visibility) {
-        if (null != leftImage) {
-            leftImage.setVisibility(visibility);
+        if (null != ivLeft) {
+            ivLeft.setVisibility(visibility);
         }
     }
 
@@ -232,8 +231,8 @@ public class TitleBar extends LinearLayout {
      * @param visibility
      */
     public void setRightImageVisible(int visibility) {
-        if (null != rightImage) {
-            rightImage.setVisibility(visibility);
+        if (null != ivRight) {
+            ivRight.setVisibility(visibility);
         }
     }
 
@@ -244,10 +243,10 @@ public class TitleBar extends LinearLayout {
      * @param listener
      */
     public void setLeftOnClickListener(View.OnClickListener listener) {
-        if (leftText.getVisibility() == View.VISIBLE) {
-            leftText.setOnClickListener(listener);
+        if (tvLeft.getVisibility() == View.VISIBLE) {
+            tvLeft.setOnClickListener(listener);
         } else {
-            leftImage.setOnClickListener(listener);
+            ivLeft.setOnClickListener(listener);
         }
 
     }
@@ -259,10 +258,10 @@ public class TitleBar extends LinearLayout {
      * @param listener
      */
     public void setRightOnClickListener(View.OnClickListener listener) {
-        if (rightText.getVisibility() == View.VISIBLE) {
-            rightText.setOnClickListener(listener);
+        if (tvRight.getVisibility() == View.VISIBLE) {
+            tvRight.setOnClickListener(listener);
         } else {
-            rightImage.setOnClickListener(listener);
+            ivRight.setOnClickListener(listener);
         }
     }
 
@@ -272,8 +271,8 @@ public class TitleBar extends LinearLayout {
      * @param listener
      */
     public void setCenterOnClickListener(View.OnClickListener listener) {
-        if (centerText.getVisibility() == View.VISIBLE) {
-            centerText.setOnClickListener(listener);
+        if (tvCenterTitle.getVisibility() == View.VISIBLE) {
+            tvCenterTitle.setOnClickListener(listener);
         }
     }
 

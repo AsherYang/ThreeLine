@@ -12,9 +12,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="@string/cancel"
-        android:textSize="14sp"
-        android:visibility="gone"
-        />
+        android:textSize="14sp" />
 
     <ImageView
         android:id="@+id/left_image"
@@ -25,8 +23,7 @@
         android:layout_centerVertical="true"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:src="@drawable/title_bar_left_back"
-        android:visibility="gone"/>
+        android:src="@drawable/title_bar_left_back_selector" />
 
     <TextView
         android:id="@+id/center_text"
@@ -35,30 +32,28 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="@string/title"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/right_text"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:gravity="center"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:textSize="14sp"
-        android:visibility="gone"/>
+        android:textSize="14sp" />
 
     <ImageView
         android:id="@+id/right_image"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:visibility="gone"/>
+        android:layout_marginEnd="@dimen/dimen_16dp"
+        android:layout_marginRight="@dimen/dimen_16dp" />
 
 </RelativeLayout>

@@ -12,21 +12,16 @@
         android:layout_height="wrap_content"
         app:statusBarColor="@color/colorPrimaryDark"
         app:titleBarColor="@color/theme_light_background"
-        app:titleBarTitle="@string/app_name" />
-
-    <View
-        android:id="@+id/title_bar_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_below="@id/title_bar"
-        android:background="@color/color_ebebeb" />
-
+        app:titleBarTextColor="@color/theme_dark_background"
+        app:titleBarTextSize="10sp"
+        app:titleBarTitle="@string/app_name"
+        app:rightImg="@drawable/title_bar_menu_selector"/>
 
     <com.asher.viewflow.ViewFlow
         android:id="@+id/view_flow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title_bar_divider"
+        android:layout_below="@id/title_bar"
         android:layout_marginTop="10dp" />
 
 </RelativeLayout>

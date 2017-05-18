@@ -12,7 +12,7 @@
         app:statusBarColor="@color/colorPrimaryDark"
         app:titleBarColor="@color/theme_light_background"
         app:titleBarTextColor="@color/theme_dark_background"
-        app:leftImgVisible="VISIBLE"
+        app:leftImg="@drawable/title_bar_left_back_selector"
         app:titleBarTitle="@string/setting" />
 
     <View

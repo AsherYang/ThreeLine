@@ -3,7 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="defalut_titlebar_height">46dp</dimen>
+    <dimen name="default_titlebar_height">46dp</dimen>
+    <dimen name="default_titlebar_title_size">10sp</dimen>
     
     <dimen name="dimen_16dp">16dp</dimen>
     <dimen name="dimen_18dp">18dp</dimen>

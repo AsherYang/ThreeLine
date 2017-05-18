@@ -5,18 +5,19 @@
         <attr name="statusBarColor" format="color" />
         <!--activity标题背景颜色-->
         <attr name="titleBarColor" format="color" />
-        <!--activity标题文字颜色-->
-        <attr name="titleBarTextColor" format="color" />
         <!--activity标题高度-->
         <attr name="titleBarTitleHeight" format="dimension" />
         <!--activity标题文字-->
         <attr name="titleBarTitle" format="string" />
-        <!--是否显示左右图标-->
-        <attr name="leftImgVisible" format="enum|reference">
-            <enum name="GONE" value="8" />
-            <enum name="VISIBLE" value="0" />
-            <enum name="INVISIBLE" value="4" />
-        </attr>
-        <attr name="rightImgVisible" format="reference|integer" />
+        <!--activity标题文字颜色-->
+        <attr name="titleBarTextColor" format="color" />
+        <!--activity标题文字大小-->
+        <attr name="titleBarTextSize" format="dimension" />
+        <!--左侧-->
+        <attr name="leftText" format="string" />
+        <attr name="leftImg" format="reference" />
+        <!--右侧-->
+        <attr name="rightText" format="string" />
+        <attr name="rightImg" format="reference" />
     </declare-styleable>
 </resources>

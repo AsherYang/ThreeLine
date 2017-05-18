@@ -1,8 +1,10 @@
 package com.asher.threeline.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.asher.threeline.AppComponent;
@@ -13,6 +15,7 @@ import com.asher.threeline.serve.net.content.DaggerNetContentServeComponent;
 import com.asher.threeline.serve.net.content.NetContentServeComponent;
 import com.asher.threeline.serve.net.content.NetContentServeModule;
 import com.asher.threeline.ui.base.BaseActivity;
+import com.asher.threeline.ui.setting.SettingActivity;
 import com.asher.threeline.ui.theme.Theme;
 import com.asher.threeline.ui.theme.ThemeHelper;
 import com.asher.threeline.ui.view.TitleBar;
@@ -54,6 +57,7 @@ public class MainActivity extends BaseActivity implements MainView {
 
     private void initView() {
         viewFlow.setAdapter(new ImageAdapter(this));
+        titleBar.setRightOnClickListener(mRightMenuOnClickListener);
     }
 
     private void initData() {
@@ -105,6 +109,14 @@ public class MainActivity extends BaseActivity implements MainView {
 //                break;
 //        }
 //    }
+
+    private View.OnClickListener mRightMenuOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent intent2 = new Intent(MainActivity.this, SettingActivity.class);
+            startActivity(intent2);
+        }
+    };
 
     public Theme exchangeTheme() {
         ThemeHelper helper = getThemeHelper(this);
