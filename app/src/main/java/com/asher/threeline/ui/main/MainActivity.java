@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.asher.threeline.AppComponent;
@@ -28,6 +29,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.asher.threeline.ui.theme.ThemeHelper.getThemeHelper;
 
@@ -37,12 +39,15 @@ public class MainActivity extends BaseActivity implements MainView {
     TitleBar titleBar;
     @BindView(R.id.view_flow)
     ViewFlow viewFlow;
+    @BindView(R.id.iv_star)
+    ImageView ivStar;
 
     @Inject
     MainPresenter mainPresenter;
 
     private MainAdapter mainAdapter;
     private List<DbContent> dbContents;
+    private boolean isStar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,26 +94,36 @@ public class MainActivity extends BaseActivity implements MainView {
         refreshAdapter(mainPresenter.getAllContentsFromDb());
     }
 
-//    @OnClick({R.id.tv_show, R.id.tv_change_theme})
-//    void onClick(View view) {
-//        switch (view.getId()) {
-//            case R.id.tv_show:
+    @OnClick({R.id.ll_star, R.id.ll_share})
+    void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ll_star:
 //                mainPresenter.onBtnClick();
 //                Intent intent = new Intent(MainActivity.this, GithubActivity.class);
 //                startActivity(intent);
 //                mainPresenter.getDataFromNet();
-//                break;
-//            case R.id.tv_change_theme:
-//                // 为了验证改变主题对其他页面的影响,这里延迟5S用于测试
-////                changeThemeDelay();
+                changeStarImage(isStar);
+                isStar = !isStar;
+                break;
+            case R.id.ll_share:
+                // 为了验证改变主题对其他页面的影响,这里延迟5S用于测试
+//                changeThemeDelay();
 //                Intent intent2 = new Intent(MainActivity.this, SettingActivity.class);
 //                startActivity(intent2);
 //                getThemeHelper(this).changeTheme(exchangeTheme());
-//                break;
-//            default:
-//                break;
-//        }
-//    }
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void changeStarImage(boolean isStared) {
+        if (isStared) {
+            ivStar.setImageResource(R.drawable.star_press);
+        } else {
+            ivStar.setImageResource(R.drawable.star_normal);
+        }
+    }
 
     private View.OnClickListener mRightMenuOnClickListener = new View.OnClickListener() {
         @Override

@@ -23,7 +23,6 @@ import com.asher.threeline.R;
  */
 public class TitleBar extends LinearLayout {
 
-    // TODO: 17/5/10 add textSize
     private int statusBarColor;
     private int titleBarColor;
     private float titleBarTitleHeight;
