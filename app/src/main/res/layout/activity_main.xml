@@ -20,8 +20,9 @@
     <com.asher.viewflow.ViewFlow
         android:id="@+id/view_flow"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@id/title_bar"
+        android:background="@color/color_fafafa"
         android:layout_marginTop="10dp" />
 
 </RelativeLayout>

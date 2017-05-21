@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:isScrollContainer="true"
+    android:scrollbarAlwaysDrawVerticalTrack="true"
+    android:background="@color/color_fafafa"
+    android:scrollbars="vertical">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_music_cover"
+                android:layout_width="105dp"
+                android:layout_height="105dp"
+                android:layout_marginTop="27dp"
+                android:src="@drawable/ic_launcher" />
+
+            <TextView
+                android:id="@+id/tv_music_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="远方的那么一个人"
+                android:layout_marginTop="35dp"
+                android:textSize="@dimen/dimen_18sp"
+                android:textColor="@color/theme_dark_background" />
+
+            <TextView
+                android:id="@+id/tv_music_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dimen_14sp"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/theme_dark_background"
+                android:text="春山"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

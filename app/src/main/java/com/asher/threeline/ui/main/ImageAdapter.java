@@ -52,9 +52,9 @@ public class ImageAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.layout_image_item, null);
+			convertView = mInflater.inflate(R.layout.layout_music_item, null);
 		}
-		((ImageView) convertView.findViewById(R.id.imgView)).setImageResource(ids[position]);
+		((ImageView) convertView.findViewById(R.id.iv_music_cover)).setImageResource(ids[position]);
 		return convertView;
 	}
 
