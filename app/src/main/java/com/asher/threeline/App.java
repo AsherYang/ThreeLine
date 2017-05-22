@@ -28,7 +28,7 @@ public class App extends Application {
         super.onCreate();
         setupGraph();
         initRealm();
-        initJPush();
+//        initJPush();
         initCanary();
     }
 
