@@ -7,7 +7,6 @@ import com.github.moduth.blockcanary.BlockCanary;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
-import cn.jpush.android.api.JPushInterface;
 import io.realm.Realm;
 
 /**
@@ -52,11 +51,10 @@ public class App extends Application {
     /**
      * 初始化极光推送
      */
-    private void initJPush() {
+/*    private void initJPush() {
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
-    }
-
+    }*/
     private void initCanary() {
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
