@@ -87,8 +87,8 @@ dependencies {
     compile jacksonAnnotation
     compile recyclerView
     compile aspectjrt
-    compile jpush
-    compile jpushCore
+//    compile jpush
+//    compile jpushCore
 
     debugCompile debugLeakcanary
     releaseCompile releaseLeakcanary

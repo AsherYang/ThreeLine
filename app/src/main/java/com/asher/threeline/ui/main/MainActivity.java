@@ -94,10 +94,10 @@ public class MainActivity extends BaseActivity implements MainView {
         refreshAdapter(mainPresenter.getAllContentsFromDb());
     }
 
-    @OnClick({R.id.ll_star, R.id.ll_share})
+    @OnClick({R.id.iv_star, R.id.iv_share})
     void onClick(View view) {
         switch (view.getId()) {
-            case R.id.ll_star:
+            case R.id.iv_star:
 //                mainPresenter.onBtnClick();
 //                Intent intent = new Intent(MainActivity.this, GithubActivity.class);
 //                startActivity(intent);
@@ -105,7 +105,7 @@ public class MainActivity extends BaseActivity implements MainView {
                 changeStarImage(isStar);
                 isStar = !isStar;
                 break;
-            case R.id.ll_share:
+            case R.id.iv_share:
                 // 为了验证改变主题对其他页面的影响,这里延迟5S用于测试
 //                changeThemeDelay();
 //                Intent intent2 = new Intent(MainActivity.this, SettingActivity.class);
