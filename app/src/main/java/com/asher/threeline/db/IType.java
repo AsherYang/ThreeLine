@@ -8,17 +8,28 @@ package com.asher.threeline.db;
 public interface IType {
 
     /**
+     * invalid type
+     */
+    int TYPE_INVALID = -1;
+
+    /**
      * music type
      */
-    int type_music = 0;
+    int TYPE_MUSIC = 0;
 
     /**
      * sentence type
      */
-    int type_sentence = 1;
+    int TYPE_SENTENCE = 1;
 
     /**
      * article type
      */
-    int type_article = 2;
+    int TYPE_ARTICLE = 2;
+
+    /**
+     * image type
+     * image cover whole page
+     */
+    int TYPE_IMAGE = 3;
 }

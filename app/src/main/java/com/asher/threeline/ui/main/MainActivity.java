@@ -46,6 +46,7 @@ public class MainActivity extends BaseActivity implements MainView {
     MainPresenter mainPresenter;
 
     private MainAdapter mainAdapter;
+    private ImageAdapter imageAdapter;
     private List<DbContent> dbContents;
     private boolean isStar;
 
@@ -61,14 +62,15 @@ public class MainActivity extends BaseActivity implements MainView {
     }
 
     private void initView() {
-        viewFlow.setAdapter(new ImageAdapter(this));
         titleBar.setRightOnClickListener(mRightMenuOnClickListener);
     }
 
     private void initData() {
-//        mainPresenter.prepareContentToDb();
+        mainPresenter.prepareContentToDb();
         dbContents = new ArrayList<>();
-        mainAdapter = new MainAdapter(this, dbContents);
+//        mainAdapter = new MainAdapter(this, dbContents);
+        imageAdapter = new ImageAdapter(this, dbContents);
+        viewFlow.setAdapter(imageAdapter);
     }
 
     /**
@@ -156,6 +158,7 @@ public class MainActivity extends BaseActivity implements MainView {
         }
         dbContents.clear();
         dbContents.addAll(contents);
-        mainAdapter.notifyDataSetChanged();
+        imageAdapter.notifyDataSetChanged();
+//        mainAdapter.notifyDataSetChanged();
     }
 }

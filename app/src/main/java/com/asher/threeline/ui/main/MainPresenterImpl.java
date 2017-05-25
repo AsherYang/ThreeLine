@@ -37,6 +37,8 @@ public class MainPresenterImpl implements MainPresenter {
         for (int i = 0; i < 10; i++) {
             DbContent content = new DbContent();
             content.setSongName("song name = " + i);
+            content.setTitle("title name = " + i);
+            content.setAuthor("author name = " + i);
             content.setSyncKey((long) i);
             dbContents.add(content);
         }

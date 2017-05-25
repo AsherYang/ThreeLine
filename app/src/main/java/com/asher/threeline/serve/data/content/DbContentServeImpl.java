@@ -28,17 +28,19 @@ public class DbContentServeImpl implements IDbContentServe {
 
     @Override
     public void delContent(DbContent content) {
-
+        // todo doInBackground
     }
 
     @Override
     public DbContent getContent(Integer syncKey) {
+        // todo need doInBackground
         Realm realm = Realm.getDefaultInstance();
         return realm.where(DbContent.class).equalTo("syncKey", syncKey).findFirst();
     }
 
     @Override
     public List<DbContent> getAllContents() {
+        // todo need doInBackground
         Realm realm = Realm.getDefaultInstance();
         return realm.where(DbContent.class).findAll();
     }
