@@ -14,33 +14,44 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
+            android:layout_marginLeft="27dp"
+            android:layout_marginRight="27dp"
             android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/iv_article_item_cover"
-                android:layout_width="105dp"
-                android:layout_height="105dp"
-                android:layout_marginTop="27dp"
-                android:src="@drawable/ic_launcher" />
 
             <TextView
                 android:id="@+id/tv_article_item_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
-                android:text="article"
+                android:layout_marginTop="16dp"
+                android:text="故乡的味道--四月洋槐香"
                 android:textColor="@color/theme_dark_background"
-                android:textSize="@dimen/dimen_18sp" />
+                android:textSize="@dimen/dimen_15sp" />
 
             <TextView
                 android:id="@+id/tv_article_item_author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="article"
+                android:text="by 紫罗兰"
                 android:textColor="@color/theme_dark_background"
                 android:textSize="@dimen/dimen_14sp" />
+
+            <ImageView
+                android:id="@+id/iv_article_item_cover"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:scaleType="fitXY"
+                android:layout_marginTop="18dp"
+                android:src="@drawable/ic_launcher" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="18dp"
+                android:textSize="@dimen/dimen_15sp"
+                android:textColor="@color/theme_dark_background"
+                android:text="我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。"
+                android:lineSpacingExtra="12sp"/>
 
         </LinearLayout>
 

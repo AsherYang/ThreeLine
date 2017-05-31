@@ -8,6 +8,7 @@
     <color name="theme_dark_background">#1d1f3e</color>
     <color name="theme_light_background">#fafafa</color>
 
+    <color name="color_1d1f3e">#1d1f3e</color>
     <color name="color_fafafa">#fafafa</color>
     <color name="color_0d000000">#0D000000</color>
 
