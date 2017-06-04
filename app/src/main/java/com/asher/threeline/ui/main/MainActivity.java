@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.asher.threeline.AppComponent;
 import com.asher.threeline.R;
+import com.asher.threeline.db.IType;
 import com.asher.threeline.db.bean.DbContent;
 import com.asher.threeline.serve.data.content.DbContentServeModule;
 import com.asher.threeline.serve.net.content.DaggerNetContentServeComponent;
@@ -68,6 +69,20 @@ public class MainActivity extends BaseActivity implements MainView {
     private void initData() {
         mainPresenter.prepareContentToDb();
         dbContents = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            DbContent dbContent = new DbContent();
+            dbContent.setAuthor("author = %s" + i);
+            dbContent.setTitle("title = %s " + i);
+            dbContent.setContent("content = %s " + i);
+            if (i % 2 == 0) {
+                dbContent.setType(IType.TYPE_ARTICLE);
+            } else if (i % 2 == 1) {
+                dbContent.setType(IType.TYPE_MUSIC);
+            } else {
+                dbContent.setType(IType.TYPE_ARTICLE);
+            }
+            dbContents.add(dbContent);
+        }
 //        mainAdapter = new MainAdapter(this, dbContents);
         imageAdapter = new ImageAdapter(this, dbContents);
         viewFlow.setAdapter(imageAdapter);

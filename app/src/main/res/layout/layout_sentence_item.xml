@@ -19,6 +19,7 @@
             android:orientation="vertical">
 
             <com.asher.threeline.ui.view.VerticalTextView
+                android:id="@+id/vtv_sentence_item_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="27dp"

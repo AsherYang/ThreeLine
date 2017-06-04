@@ -96,6 +96,7 @@
         android:layout_above="@id/bottom_divider"
         android:layout_below="@id/title_bar"
         android:layout_marginTop="10dp"
-        android:background="@color/color_fafafa" />
+        android:background="@color/color_fafafa"
+        app:sidebuffer="5" />
 
 </RelativeLayout>

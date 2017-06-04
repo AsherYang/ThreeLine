@@ -1,6 +1,7 @@
 package com.asher.threeline.ui.main;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,23 +53,20 @@ public class ImageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         DbContent dbContent = mDbContentList.get(position);
         int currentType = getItemViewType(position);
-        switch (currentType) {
-            case IType.TYPE_ARTICLE:
-                recycleArticleViewHolder(dbContent, convertView, parent);
-                break;
-            case IType.TYPE_SENTENCE:
-                recycleSentenceViewHolder(dbContent, convertView, parent);
-                break;
-            case IType.TYPE_MUSIC:
-                recycleMusicViewHolder(dbContent, convertView, parent);
-                break;
-            case IType.TYPE_IMAGE:
-                recycleImageViewHolder(dbContent, convertView, parent);
-                break;
-            default:
-                break;
-        }
-        return convertView;
+        Log.i("TAG", "currentType = " + currentType);
+        return recycleArticleViewHolder(dbContent, convertView, parent);
+//        switch (currentType) {
+//            case IType.TYPE_ARTICLE:
+//                return recycleArticleViewHolder(dbContent, convertView, parent);
+//            case IType.TYPE_SENTENCE:
+//                return recycleSentenceViewHolder(dbContent, convertView, parent);
+//            case IType.TYPE_MUSIC:
+//                return recycleMusicViewHolder(dbContent, convertView, parent);
+//            case IType.TYPE_IMAGE:
+//                return recycleImageViewHolder(dbContent, convertView, parent);
+//            default:
+//                return recycleImageViewHolder(dbContent, convertView, parent);
+//        }
     }
 
     /**
@@ -78,57 +76,61 @@ public class ImageAdapter extends BaseAdapter {
      * @param convertView
      * @param parent
      */
-    private void recycleArticleViewHolder(DbContent dbContent, View convertView,
+    private View recycleArticleViewHolder(DbContent dbContent, View convertView,
                                           ViewGroup parent) {
         ArticleViewHolder articleViewHolder = null;
         // 第一次没有加载convertView
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.layout_article_item, parent, false);
-            articleViewHolder = new ArticleViewHolder();
+            articleViewHolder = new ArticleViewHolder(convertView);
             convertView.setTag(articleViewHolder);
         } else {
             articleViewHolder = (ArticleViewHolder) convertView.getTag();
         }
         setArticleData(dbContent, articleViewHolder);
+       return convertView;
     }
 
-    private void recycleSentenceViewHolder(DbContent dbContent, View convertView,
+    private View recycleSentenceViewHolder(DbContent dbContent, View convertView,
                                            ViewGroup parent) {
         SentenceViewHolder sentenceViewHolder = null;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.layout_sentence_item, parent, false);
-            sentenceViewHolder = new SentenceViewHolder();
+            sentenceViewHolder = new SentenceViewHolder(convertView);
             convertView.setTag(sentenceViewHolder);
         } else {
             sentenceViewHolder = (SentenceViewHolder) convertView.getTag();
         }
         setSentenceData(dbContent, sentenceViewHolder);
+        return convertView;
     }
 
-    private void recycleMusicViewHolder(DbContent dbContent, View convertView,
+    private View recycleMusicViewHolder(DbContent dbContent, View convertView,
                                         ViewGroup parent) {
         MusicViewHolder musicViewHolder = null;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.layout_music_item, parent, false);
-            musicViewHolder = new MusicViewHolder();
+            musicViewHolder = new MusicViewHolder(convertView);
             convertView.setTag(musicViewHolder);
         } else {
             musicViewHolder = (MusicViewHolder) convertView.getTag();
         }
         setMusicData(dbContent, musicViewHolder);
+        return convertView;
     }
 
-    private void recycleImageViewHolder(DbContent dbContent, View convertView,
+    private View recycleImageViewHolder(DbContent dbContent, View convertView,
                                         ViewGroup parent) {
         ImageViewHolder imageViewHolder = null;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.layout_image_item, parent, false);
-            imageViewHolder = new ImageViewHolder();
+            imageViewHolder = new ImageViewHolder(convertView);
             convertView.setTag(imageViewHolder);
         } else {
             imageViewHolder = (ImageViewHolder) convertView.getTag();
         }
         setImageData(dbContent, imageViewHolder);
+        return convertView;
     }
 
     /**
@@ -143,8 +145,7 @@ public class ImageAdapter extends BaseAdapter {
     }
 
     private void setSentenceData(DbContent sentence, SentenceViewHolder viewHolder) {
-        viewHolder.sentenceAuthor.setText(sentence.getAuthor());
-        viewHolder.sentenceTitle.setText(sentence.getTitle());
+        viewHolder.sentenceContent.setText(sentence.getContent());
     }
 
     private void setMusicData(DbContent music, MusicViewHolder viewHolder) {
@@ -160,20 +161,42 @@ public class ImageAdapter extends BaseAdapter {
     private class ArticleViewHolder {
         private TextView articleTitle;
         private TextView articleAuthor;
+        private ImageView articleCover;
+        private TextView articleContent;
+
+        ArticleViewHolder(View convertView) {
+            articleTitle = (TextView) convertView.findViewById(R.id.tv_article_item_title);
+            articleAuthor = (TextView) convertView.findViewById(R.id.tv_article_item_author);
+            articleCover = (ImageView) convertView.findViewById(R.id.iv_article_item_cover);
+            articleContent = (TextView) convertView.findViewById(R.id.tv_article_item_content);
+        }
     }
 
     private class SentenceViewHolder {
-        private TextView sentenceTitle;
-        private TextView sentenceAuthor;
+        private TextView sentenceContent;
+
+        SentenceViewHolder(View convertView) {
+            sentenceContent = (TextView) convertView.findViewById(R.id.vtv_sentence_item_content);
+        }
     }
 
     private class MusicViewHolder {
         private ImageView musicCover;
         private TextView musicTitle;
         private TextView musicAuthor;
+
+        MusicViewHolder(View convertView) {
+            musicCover = (ImageView) convertView.findViewById(R.id.iv_music_item_cover);
+            musicTitle = (TextView) convertView.findViewById(R.id.tv_music_item_title);
+            musicAuthor = (TextView) convertView.findViewById(R.id.tv_music_item_author);
+        }
     }
 
     private class ImageViewHolder {
         private ImageView coverImg;
+
+        ImageViewHolder(View convertView) {
+            coverImg = (ImageView) convertView.findViewById(R.id.iv_image_item_cover);
+        }
     }
 }
