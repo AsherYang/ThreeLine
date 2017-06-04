@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    xmlns:vtv="http://schemas.android.com/apk/res-auto"
     android:background="@color/color_fafafa"
     android:isScrollContainer="true"
     android:scrollbarAlwaysDrawVerticalTrack="true"
@@ -17,30 +18,17 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/iv_sentence_item_cover"
-                android:layout_width="105dp"
-                android:layout_height="105dp"
+            <com.asher.threeline.ui.view.VerticalTextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_marginTop="27dp"
-                android:src="@drawable/ic_launcher" />
-
-            <TextView
-                android:id="@+id/tv_sentence_item_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
-                android:text="sentence"
-                android:textColor="@color/theme_dark_background"
-                android:textSize="@dimen/dimen_18sp" />
-
-            <TextView
-                android:id="@+id/tv_sentence_item_author"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="sentence"
-                android:textColor="@color/theme_dark_background"
-                android:textSize="@dimen/dimen_14sp" />
+                android:layout_marginLeft="27dp"
+                android:layout_marginRight="27dp"
+                android:layout_marginBottom="43dp"
+                vtv:textDirection="UP_TO_DOWN"
+                android:textSize="15sp"
+                android:textColor="@color/color_1d1f3e"
+                android:text="--《山月》席慕容--\n 曾踏月而来,\n只因您在山中,\n山风拂发,\n拂颈,拂裸露的肩膀\n而月光衣我以华裳。"/>
 
         </LinearLayout>
 
