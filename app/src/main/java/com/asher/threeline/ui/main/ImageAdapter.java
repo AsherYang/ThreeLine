@@ -19,6 +19,7 @@ public class ImageAdapter extends BaseAdapter {
 
     private LayoutInflater mInflater;
     private List<DbContent> mDbContentList;
+    private final int TYPE_COUNT = 4;
 
     public ImageAdapter(Context context, List<DbContent> dbContents) {
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -42,12 +43,16 @@ public class ImageAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-//        if (null == mDbContentList || mDbContentList.isEmpty()) {
-//            return super.getItemViewType(position);
-//        }
-//        return mDbContentList.get(position).getType() == null ? IType.TYPE_INVALID :
-//                mDbContentList.get(position).getType();
-        return IType.TYPE_ARTICLE;
+        if (null == mDbContentList || mDbContentList.isEmpty()) {
+            return super.getItemViewType(position);
+        }
+        return mDbContentList.get(position).getType() == null ? IType.TYPE_INVALID :
+                mDbContentList.get(position).getType();
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return TYPE_COUNT;
     }
 
     @Override
