@@ -46,4 +46,3 @@ class ZhilianJob():
         pprint.pprint(data)
         
         return
-
