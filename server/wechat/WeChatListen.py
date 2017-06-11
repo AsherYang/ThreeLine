@@ -15,7 +15,7 @@ from wechat_sender import *
 token = 'd9218b046dde43147ea6c889ea67ede8437ff696'
 port = '9091'
 
-bot = Bot('bot.pkl', console_qr=True)
+bot = Bot('bot.pkl', console_qr=1)
 bot.enable_puid()
 
 # for friend in bot.friends():
