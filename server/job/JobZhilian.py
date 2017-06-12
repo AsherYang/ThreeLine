@@ -44,5 +44,5 @@ class ZhilianJob():
         data['loginname'] = self.name
         data['Password'] = self.pwd
         pprint.pprint(data)
-        
+
         return

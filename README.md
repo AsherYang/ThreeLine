@@ -2,6 +2,9 @@
 
 [![Build Status](https://travis-ci.org/AsherYang/ThreeLine.svg?branch=master)](https://travis-ci.org/AsherYang/ThreeLine)
 [![License](https://img.shields.io/badge/License-Apache%202.0-orange.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
+[![star this repo](http://github-svg-buttons.herokuapp.com/star.svg?user=asheryang&repo=threeline&style=flat&background=1081C1)](https://github.com/AsherYang/ThreeLine) 
+[![fork this repo](http://github-svg-buttons.herokuapp.com/fork.svg?user=asheryang&repo=threeline&style=flat&background=1081C1)](https://github.com/AsherYang/ThreeLine/fork) \
+![python](https://img.shields.io/badge/python-2.7-ff69b4.svg)
 
 ## 总体概况
 
@@ -53,6 +56,7 @@ h. wx 包下放置微信小程序端程序
 - [x] 换肤 --- 20170430 Finished
 - [x] 推送 --- 20170504 Finished
 - [x] 服务器部署 --- 20170514 Finished
+- [x] 微信报警 --- 20170612 Finished
 - [ ] 完成界面
 - [ ] 服务器数据库
 - [ ] 数据爬虫
