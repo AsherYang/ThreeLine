@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/AsherYang/ThreeLine.svg?branch=master)](https://travis-ci.org/AsherYang/ThreeLine)
 [![License](https://img.shields.io/badge/License-Apache%202.0-orange.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![star this repo](http://github-svg-buttons.herokuapp.com/star.svg?user=asheryang&repo=threeline&style=flat&background=1081C1)](https://github.com/AsherYang/ThreeLine) 
-[![fork this repo](http://github-svg-buttons.herokuapp.com/fork.svg?user=asheryang&repo=threeline&style=flat&background=1081C1)](https://github.com/AsherYang/ThreeLine/fork) \
+[![fork this repo](http://github-svg-buttons.herokuapp.com/fork.svg?user=asheryang&repo=threeline&style=flat&background=1081C1)](https://github.com/AsherYang/ThreeLine/fork)
 ![gradle version](https://img.shields.io/badge/gradle-2.2.3-green.svg)
 ![python](https://img.shields.io/badge/python-2.7-ff69b4.svg)
 

@@ -1,10 +1,7 @@
 #! /usr/bin/python
 # - * - coding:utf-8 -*-
-import urllib2
-import urllib
-import cookielib
-import lxml.html
-import pprint
+from selenium import webdriver
+from selenium.webdriver.support.ui import  WebDriverWait
 
 """
 Author: AsherYang
@@ -13,36 +10,36 @@ Date:   2017/5/23
 Desc:   智联招聘类
 """
 ZHILIAN_HOST_URL = 'https://www.zhaopin.com/'
-ZHILIAN_LOGIN_URL = ''
 
 class ZhilianJob():
 
     def __init__(self):
+        self.driver = webdriver.Chrome(r'D:/program_file/python/chromedriver.exe')
+        self.driver.get(ZHILIAN_HOST_URL)
         self.name = ''
         self.pwd = ''
-        self.cj = ''
-        self.handler = ''
-        self.opener = ''
 
-    def initCookie(self):
-        self.cj = cookielib.CookieJar()
-        self.handler = urllib2.HTTPCookieProcessor(self.cj)
-        self.opener = urllib2.build_opener(self.handler)
-
-    def parse_form(self, html):
-        tree = lxml.html.fromstring(html)
-        data = {}
-        for e in tree.cssselect('form input'):
-            if e.get('name'):
-                data[e.get('name')] = e.get('value')
-        return data
+    def setLoginInfo(self, name, password):
+        self.name = name
+        self.pwd = password
 
     def login(self):
-        self.initCookie()
-        html = self.opener.open(ZHILIAN_HOST_URL).read()
-        data = self.parse_form(html)
-        data['loginname'] = self.name
-        data['Password'] = self.pwd
-        pprint.pprint(data)
+        driver = self.driver
+        userNameFieldCssSelect = '#loginname'
+        passwordFieldCssSelect = '#password'
+        loginBtnFieldCssSelect = 'div.logbtn > button'
 
-        return
+        userNameFieldElement = WebDriverWait(driver, 10).until(lambda driver : driver.find_elements_by_css_selector(userNameFieldCssSelect))
+        passwordFieldElement = WebDriverWait(driver, 10).until(lambda driver : driver.find_elements_by_css_selector(passwordFieldCssSelect))
+        loginBtnFieldElement = WebDriverWait(driver, 10).until(lambda driver : driver.find_elements_by_css_selector(loginBtnFieldCssSelect))
+
+        userNameFieldElement.clear()
+        userNameFieldElement.send_keys(self.name)
+        passwordFieldElement.clear()
+        passwordFieldElement.send_keys(self.pwd)
+        loginBtnFieldElement.click()
+
+if __name__ == "__main__":
+    zhilian = ZhilianJob()
+    zhilian.setLoginInfo('1181830457@qq.com', '1991429ouyangfan')
+    zhilian.login()

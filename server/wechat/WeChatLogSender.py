@@ -32,4 +32,4 @@ if __name__ == '__main__':
     # sender = Sender(token=token, receiver='fen', host=host, port=port)
     sender = Sender(token=token, host=host, port=port)
     # sender.send('HELLO ASHER345')
-    sender.send_to('hello asher, 睡觉啦', 'fen')
+    sender.send_to('我是自动发送的', 'fen')
