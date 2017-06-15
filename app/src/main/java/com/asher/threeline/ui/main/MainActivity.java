@@ -85,7 +85,8 @@ public class MainActivity extends BaseActivity implements MainView {
         }
 //        mainAdapter = new MainAdapter(this, dbContents);
         imageAdapter = new ImageAdapter(this, dbContents);
-        viewFlow.setAdapter(imageAdapter);
+        DiffAdapter diffAdapter  = new DiffAdapter(this);
+        viewFlow.setAdapter(diffAdapter);
     }
 
     /**
