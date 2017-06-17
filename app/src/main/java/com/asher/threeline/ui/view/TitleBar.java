@@ -97,23 +97,23 @@ public class TitleBar extends LinearLayout {
         setTitleBar(titleBarTitle, leftText, rightText, leftImgResId, rightImgResId);
     }
 
-    public TextView getTvLeft() {
+    public TextView getLeftTxt() {
         return tvLeft;
     }
 
-    public ImageView getIvLeft() {
+    public ImageView getLeftImg() {
         return ivLeft;
     }
 
-    public TextView getTvCenterTitle() {
+    public TextView getTitleTxt() {
         return tvCenterTitle;
     }
 
-    public TextView getTvRight() {
+    public TextView getRightTxt() {
         return tvRight;
     }
 
-    public ImageView getIvRight() {
+    public ImageView getRightImg() {
         return ivRight;
     }
 
@@ -248,6 +248,15 @@ public class TitleBar extends LinearLayout {
             ivLeft.setOnClickListener(listener);
         }
 
+    }
+
+    public void setTitleTxt(String title) {
+        if (!TextUtils.isEmpty(title)) {
+            tvCenterTitle.setVisibility(View.VISIBLE);
+            tvCenterTitle.setText(title);
+        } else {
+            tvCenterTitle.setVisibility(View.GONE);
+        }
     }
 
 

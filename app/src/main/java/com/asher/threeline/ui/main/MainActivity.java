@@ -89,9 +89,16 @@ public class MainActivity extends BaseActivity implements MainView {
         }
         Log.i(TAG, "dbContents size = " + dbContents.size());
 //        mainAdapter = new MainAdapter(this, dbContents);
+//        DiffAdapter diffAdapter  = new DiffAdapter(this);
         imageAdapter = new ImageAdapter(this, dbContents);
-        DiffAdapter diffAdapter  = new DiffAdapter(this);
+        titleBar.setTitleTxt(imageAdapter.getTitle(0));
         viewFlow.setAdapter(imageAdapter);
+        viewFlow.setOnViewSwitchListener(new ViewFlow.ViewSwitchListener() {
+            @Override
+            public void onSwitched(View view, int position) {
+                titleBar.setTitleTxt(imageAdapter.getTitle(position));
+            }
+        });
     }
 
     /**

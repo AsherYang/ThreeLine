@@ -12,10 +12,11 @@ import android.widget.TextView;
 import com.asher.threeline.R;
 import com.asher.threeline.db.IType;
 import com.asher.threeline.db.bean.DbContent;
+import com.asher.viewflow.TitleProvider;
 
 import java.util.List;
 
-public class ImageAdapter extends BaseAdapter {
+public class ImageAdapter extends BaseAdapter implements TitleProvider {
 
     private static final String TAG = "ImageAdapter";
 
@@ -171,6 +172,12 @@ public class ImageAdapter extends BaseAdapter {
     private void setImageData(DbContent image, ImageViewHolder viewHolder) {
 //        viewHolder.coverImg.setImageBitmap();
         Log.i(TAG, "setImageData image = " + image);
+    }
+
+    @Override
+    public String getTitle(int position) {
+        Log.i(TAG, "getTitle = " + String.valueOf(mDbContentList.get(position).getType()));
+        return String.valueOf(mDbContentList.get(position).getType());
     }
 
     private class ArticleViewHolder {
