@@ -17,6 +17,8 @@ import java.util.List;
 
 public class ImageAdapter extends BaseAdapter {
 
+    private static final String TAG = "ImageAdapter";
+
     private LayoutInflater mInflater;
     private List<DbContent> mDbContentList;
     private final int TYPE_COUNT = 4;
@@ -28,6 +30,7 @@ public class ImageAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
+        Log.i(TAG, "size = " + mDbContentList.size());
         return null == mDbContentList ? 0 : mDbContentList.size();
     }
 
@@ -59,35 +62,21 @@ public class ImageAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         DbContent dbContent = mDbContentList.get(position);
         int currentType = getItemViewType(position);
-        Log.i("TAG", "currentType = " + currentType);
-//        return recycleArticleViewHolder(dbContent, convertView, parent);
+        Log.i(TAG, "currentType = " + currentType + " , dbContent = " + dbContent);
         if (null == convertView) {
             switch (currentType) {
                 case IType.TYPE_ARTICLE:
-//                    return recycleArticleViewHolder(dbContent, convertView, parent);
-                    convertView = mInflater.inflate(R.layout.layout_article_item, null);
-                    ((TextView)convertView.findViewById(R.id.tv_article_item_author)).setText(dbContent.getAuthor());
-                    break;
+                    return recycleArticleViewHolder(dbContent, convertView, parent);
                 case IType.TYPE_SENTENCE:
-//                    return recycleSentenceViewHolder(dbContent, convertView, parent);
-                    convertView = mInflater.inflate(R.layout.layout_sentence_item, null);
-                    ((TextView) convertView.findViewById(R.id.vtv_sentence_item_content)).setText(dbContent.getContent());
-                    break;
+                    return recycleSentenceViewHolder(dbContent, convertView, parent);
                 case IType.TYPE_MUSIC:
-//                    return recycleMusicViewHolder(dbContent, convertView, parent);
-                    convertView = mInflater.inflate(R.layout.layout_music_item, null);
-                    break;
+                    return recycleMusicViewHolder(dbContent, convertView, parent);
                 case IType.TYPE_IMAGE:
-//                    return recycleImageViewHolder(dbContent, convertView, parent);
-                    convertView = mInflater.inflate(R.layout.layout_image_item, null);
-                    break;
+                    return recycleImageViewHolder(dbContent, convertView, parent);
                 default:
-//                    return recycleImageViewHolder(dbContent, convertView, parent);
-                    convertView = mInflater.inflate(R.layout.layout_image_item, null);
-                    break;
+                    return recycleImageViewHolder(dbContent, convertView, parent);
             }
         }
-//        setData(dbContent, position, convertView);
         return convertView;
     }
 
@@ -109,7 +98,7 @@ public class ImageAdapter extends BaseAdapter {
         } else {
             articleViewHolder = (ArticleViewHolder) convertView.getTag();
         }
-//        setArticleData(dbContent, articleViewHolder);
+        setArticleData(dbContent, articleViewHolder);
        return convertView;
     }
 
@@ -123,7 +112,7 @@ public class ImageAdapter extends BaseAdapter {
         } else {
             sentenceViewHolder = (SentenceViewHolder) convertView.getTag();
         }
-//        setSentenceData(dbContent, sentenceViewHolder);
+        setSentenceData(dbContent, sentenceViewHolder);
         return convertView;
     }
 
@@ -155,54 +144,33 @@ public class ImageAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private void setData(DbContent dbContent, int position, View convertView) {
-        int currentType = getItemViewType(position);
-        if (null == dbContent || null == convertView) {
-            return;
-        }
-        switch (currentType) {
-            case IType.TYPE_ARTICLE:
-                setArticleData(dbContent, convertView);
-                break;
-            case IType.TYPE_SENTENCE:
-                setSentenceData(dbContent, convertView);
-                break;
-            case IType.TYPE_MUSIC:
-                break;
-            case IType.TYPE_IMAGE:
-                break;
-            default:
-                break;
-        }
-    }
-
     /**
      * set article data
      *
      * @param article    data
-     * @param convertView convertView
+     * @param viewHolder holder
      */
-    private void setArticleData(DbContent article, View convertView) {
-        ((TextView)convertView.findViewById(R.id.tv_article_item_title)).setText(article.getTitle());
-        ((TextView)convertView.findViewById(R.id.tv_article_item_author)).setText(article.getAuthor());
-        Log.i("TAG", "setArticleData article = " + article);
+    private void setArticleData(DbContent article, ArticleViewHolder viewHolder) {
+        viewHolder.articleTitle.setText(article.getTitle());
+        viewHolder.articleAuthor.setText(article.getAuthor());
+        Log.i(TAG, "setArticleData article = " + article);
     }
 
-    private void setSentenceData(DbContent sentence, View convertView) {
-        ((TextView) convertView.findViewById(R.id.vtv_sentence_item_content)).setText(sentence.getContent());
-        Log.i("TAG", "setSentenceData sentence = " + sentence);
+    private void setSentenceData(DbContent sentence, SentenceViewHolder viewHolder) {
+        viewHolder.sentenceContent.setText(sentence.getContent());
+        Log.i(TAG, "setSentenceData sentence = " + sentence);
     }
 
     private void setMusicData(DbContent music, MusicViewHolder viewHolder) {
         viewHolder.musicAuthor.setText(music.getAuthor());
         viewHolder.musicTitle.setText(music.getTitle());
 //        viewHolder.musicCover.setImageResource(music.getImagePath());
-        Log.i("TAG", "setMusicData music = " + music);
+        Log.i(TAG, "setMusicData music = " + music);
     }
 
     private void setImageData(DbContent image, ImageViewHolder viewHolder) {
 //        viewHolder.coverImg.setImageBitmap();
-        Log.i("TAG", "setImageData image = " + image);
+        Log.i(TAG, "setImageData image = " + image);
     }
 
     private class ArticleViewHolder {

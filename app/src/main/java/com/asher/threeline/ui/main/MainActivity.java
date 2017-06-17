@@ -36,6 +36,8 @@ import static com.asher.threeline.ui.theme.ThemeHelper.getThemeHelper;
 
 public class MainActivity extends BaseActivity implements MainView {
 
+    private static final String TAG = "MainActivity";
+
     @BindView(R.id.title_bar)
     TitleBar titleBar;
     @BindView(R.id.view_flow)
@@ -67,26 +69,29 @@ public class MainActivity extends BaseActivity implements MainView {
     }
 
     private void initData() {
-        mainPresenter.prepareContentToDb();
+//        mainPresenter.prepareContentToDb();
         dbContents = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 4; i++) {
             DbContent dbContent = new DbContent();
-            dbContent.setAuthor("author = %s" + i);
-            dbContent.setTitle("title = %s " + i);
-            dbContent.setContent("content = %s " + i);
-            if (i % 2 == 0) {
+            dbContent.setAuthor("author = " + i);
+            dbContent.setTitle("title = " + i);
+            dbContent.setContent("content = " + i);
+            if (i == 0) {
                 dbContent.setType(IType.TYPE_ARTICLE);
-            } else if (i % 2 == 1) {
+            } else if (i == 1) {
                 dbContent.setType(IType.TYPE_MUSIC);
+            } else if (i == 2){
+                dbContent.setType(IType.TYPE_SENTENCE);
             } else {
-                dbContent.setType(IType.TYPE_ARTICLE);
+                dbContent.setType(IType.TYPE_IMAGE);
             }
             dbContents.add(dbContent);
         }
+        Log.i(TAG, "dbContents size = " + dbContents.size());
 //        mainAdapter = new MainAdapter(this, dbContents);
         imageAdapter = new ImageAdapter(this, dbContents);
         DiffAdapter diffAdapter  = new DiffAdapter(this);
-        viewFlow.setAdapter(diffAdapter);
+        viewFlow.setAdapter(imageAdapter);
     }
 
     /**
@@ -109,7 +114,7 @@ public class MainActivity extends BaseActivity implements MainView {
     }
 
     private void getDataFromDb() {
-        refreshAdapter(mainPresenter.getAllContentsFromDb());
+//        refreshAdapter(mainPresenter.getAllContentsFromDb());
     }
 
     @OnClick({R.id.iv_star, R.id.iv_share})

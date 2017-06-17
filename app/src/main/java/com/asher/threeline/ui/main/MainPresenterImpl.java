@@ -1,5 +1,7 @@
 package com.asher.threeline.ui.main;
 
+import android.util.Log;
+
 import com.asher.threeline.db.bean.DbContent;
 import com.asher.threeline.serve.data.content.IDbContentServe;
 import com.asher.threeline.serve.net.base.OnNetCallBack;
@@ -14,6 +16,8 @@ import java.util.List;
  * presenter 实现类
  */
 public class MainPresenterImpl implements MainPresenter {
+
+    private static final String TAG = "MainPresenterImpl";
 
     private MainView mainView;
     private IDbContentServe dbContentServe;
@@ -33,6 +37,7 @@ public class MainPresenterImpl implements MainPresenter {
 
     @Override
     public void prepareContentToDb() {
+        Log.i("MainPresenterImpl", "prepareContentToDb");
         List<DbContent> dbContents = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             DbContent content = new DbContent();
