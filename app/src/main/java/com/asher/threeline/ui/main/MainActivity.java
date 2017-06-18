@@ -48,7 +48,6 @@ public class MainActivity extends BaseActivity implements MainView {
     @Inject
     MainPresenter mainPresenter;
 
-    private MainAdapter mainAdapter;
     private ImageAdapter imageAdapter;
     private List<DbContent> dbContents;
     private boolean isStar;
@@ -88,8 +87,6 @@ public class MainActivity extends BaseActivity implements MainView {
             dbContents.add(dbContent);
         }
         Log.i(TAG, "dbContents size = " + dbContents.size());
-//        mainAdapter = new MainAdapter(this, dbContents);
-//        DiffAdapter diffAdapter  = new DiffAdapter(this);
         imageAdapter = new ImageAdapter(this, dbContents);
         titleBar.setTitleTxt(imageAdapter.getTitle(0));
         viewFlow.setAdapter(imageAdapter);
