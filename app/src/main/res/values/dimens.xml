@@ -4,7 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <dimen name="default_titlebar_height">46dp</dimen>
-    <dimen name="default_titlebar_title_size">10sp</dimen>
+    <dimen name="default_titlebar_title_size">16sp</dimen>
 
     <dimen name="default_vertical_text_size">15sp</dimen>
     

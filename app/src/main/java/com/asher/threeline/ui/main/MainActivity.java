@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity implements MainView {
     @Inject
     MainPresenter mainPresenter;
 
-    private ImageAdapter imageAdapter;
+    private MainAdapter mainAdapter;
     private List<DbContent> dbContents;
     private boolean isStar;
 
@@ -87,13 +87,13 @@ public class MainActivity extends BaseActivity implements MainView {
             dbContents.add(dbContent);
         }
         Log.i(TAG, "dbContents size = " + dbContents.size());
-        imageAdapter = new ImageAdapter(this, dbContents);
-        titleBar.setTitleTxt(imageAdapter.getTitle(0));
-        viewFlow.setAdapter(imageAdapter);
+        mainAdapter = new MainAdapter(this, dbContents);
+        titleBar.setTitleTxt(mainAdapter.getTitle(0));
+        viewFlow.setAdapter(mainAdapter);
         viewFlow.setOnViewSwitchListener(new ViewFlow.ViewSwitchListener() {
             @Override
             public void onSwitched(View view, int position) {
-                titleBar.setTitleTxt(imageAdapter.getTitle(position));
+                titleBar.setTitleTxt(mainAdapter.getTitle(position));
             }
         });
     }
@@ -183,7 +183,6 @@ public class MainActivity extends BaseActivity implements MainView {
         }
         dbContents.clear();
         dbContents.addAll(contents);
-        imageAdapter.notifyDataSetChanged();
-//        mainAdapter.notifyDataSetChanged();
+        mainAdapter.notifyDataSetChanged();
     }
 }

@@ -14,7 +14,7 @@
         app:statusBarColor="@color/colorPrimaryDark"
         app:titleBarColor="@color/theme_light_background"
         app:titleBarTextColor="@color/theme_dark_background"
-        app:titleBarTextSize="10sp"
+        app:titleBarTextSize="16sp"
         app:titleBarTitle="@string/app_name" />
 
     <LinearLayout
@@ -95,7 +95,6 @@
         android:layout_height="match_parent"
         android:layout_above="@id/bottom_divider"
         android:layout_below="@id/title_bar"
-        android:layout_marginTop="10dp"
         android:background="@color/color_fafafa"
         app:sidebuffer="5" />
 

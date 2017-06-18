@@ -1,5 +1,10 @@
 <resources>
-    <string name="app_name">threeLine</string>
+    <string name="app_name">疯人愿</string>
+
+    <string name="title_music">音乐疯</string>
+    <string name="title_article">写作疯</string>
+    <string name="title_sentence">言语疯</string>
+    <string name="title_image">图片疯</string>
 
     <string name="cancel">取消</string>
     <string name="title">标题</string>

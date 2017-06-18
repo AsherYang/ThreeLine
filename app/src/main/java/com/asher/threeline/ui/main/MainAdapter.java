@@ -16,15 +16,17 @@ import com.asher.viewflow.TitleProvider;
 
 import java.util.List;
 
-public class ImageAdapter extends BaseAdapter implements TitleProvider {
+public class MainAdapter extends BaseAdapter implements TitleProvider {
 
-    private static final String TAG = "ImageAdapter";
+    private static final String TAG = "MainAdapter";
 
+    private Context mContext;
     private LayoutInflater mInflater;
     private List<DbContent> mDbContentList;
     private final int TYPE_COUNT = 4;
 
-    public ImageAdapter(Context context, List<DbContent> dbContents) {
+    public MainAdapter(Context context, List<DbContent> dbContents) {
+        mContext = context;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mDbContentList = dbContents;
     }
@@ -100,7 +102,7 @@ public class ImageAdapter extends BaseAdapter implements TitleProvider {
             articleViewHolder = (ArticleViewHolder) convertView.getTag();
         }
         setArticleData(dbContent, articleViewHolder);
-       return convertView;
+        return convertView;
     }
 
     private View recycleSentenceViewHolder(DbContent dbContent, View convertView,
@@ -177,7 +179,21 @@ public class ImageAdapter extends BaseAdapter implements TitleProvider {
     @Override
     public String getTitle(int position) {
         Log.i(TAG, "getTitle = " + String.valueOf(mDbContentList.get(position).getType()));
-        return String.valueOf(mDbContentList.get(position).getType());
+        if (null == mDbContentList || mDbContentList.isEmpty()) {
+            return mContext.getString(R.string.app_name);
+        }
+        switch (mDbContentList.get(position).getType()) {
+            case IType.TYPE_ARTICLE:
+                return mContext.getString(R.string.title_article);
+            case IType.TYPE_SENTENCE:
+                return mContext.getString(R.string.title_sentence);
+            case IType.TYPE_MUSIC:
+                return mContext.getString(R.string.title_music);
+            case IType.TYPE_IMAGE:
+                return mContext.getString(R.string.title_image);
+            default:
+                return mContext.getString(R.string.app_name);
+        }
     }
 
     private class ArticleViewHolder {

@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +64,7 @@ public class TitleBar extends LinearLayout {
         titleBarTitleHeight = a.getDimension(R.styleable.TitleBar_titleBarTitleHeight, getResources().getDimension(R.dimen.default_titlebar_height));
         titleBarTitle = a.getString(R.styleable.TitleBar_titleBarTitle);
         titleBarTextColor = a.getColor(R.styleable.TitleBar_titleBarTextColor, Color.WHITE);
-        titleBarTextSize = a.getDimension(R.styleable.TitleBar_titleBarTextSize, getResources().getDimension(R.dimen.default_titlebar_title_size));
+        titleBarTextSize = a.getDimensionPixelSize(R.styleable.TitleBar_titleBarTextSize, getResources().getDimensionPixelSize(R.dimen.default_titlebar_title_size));
         leftText = a.getString(R.styleable.TitleBar_leftText);
         rightText = a.getString(R.styleable.TitleBar_rightText);
         leftImgResId = a.getResourceId(R.styleable.TitleBar_leftImg, NO_RES_ID);
@@ -91,7 +92,7 @@ public class TitleBar extends LinearLayout {
         tvRight.setTextColor(titleBarTextColor);
         tvCenterTitle.setText(titleBarTitle);
         tvCenterTitle.setTextColor(titleBarTextColor);
-        tvCenterTitle.setTextSize(titleBarTextSize);
+        tvCenterTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, titleBarTextSize);
 
         addView(titleBarView, title_lp);
         setTitleBar(titleBarTitle, leftText, rightText, leftImgResId, rightImgResId);
