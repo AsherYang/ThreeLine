@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -32,16 +33,14 @@ public class TitleBar extends LinearLayout {
     private float titleBarTextSize;
     private String leftText;
     private String rightText;
-    private int leftImgResId;
-    private int rightImgResId;
+    private Drawable leftImgDrawable;
+    private Drawable rightImgDrawable;
 
     private TextView tvLeft;
     private ImageView ivLeft;
     private TextView tvCenterTitle;
     private TextView tvRight;
     private ImageView ivRight;
-
-    public static final int NO_RES_ID = -1;
 
     public TitleBar(Context context) {
         this(context, null);
@@ -67,8 +66,8 @@ public class TitleBar extends LinearLayout {
         titleBarTextSize = a.getDimensionPixelSize(R.styleable.TitleBar_titleBarTextSize, getResources().getDimensionPixelSize(R.dimen.default_titlebar_title_size));
         leftText = a.getString(R.styleable.TitleBar_leftText);
         rightText = a.getString(R.styleable.TitleBar_rightText);
-        leftImgResId = a.getResourceId(R.styleable.TitleBar_leftImg, NO_RES_ID);
-        rightImgResId = a.getResourceId(R.styleable.TitleBar_rightImg, NO_RES_ID);
+        leftImgDrawable = a.getDrawable(R.styleable.TitleBar_leftImgDrawable);
+        rightImgDrawable = a.getDrawable(R.styleable.TitleBar_rightImgDrawable);
         a.recycle();
 
         // 设置沉浸式statusBar，以及颜色
@@ -94,8 +93,8 @@ public class TitleBar extends LinearLayout {
         tvCenterTitle.setTextColor(titleBarTextColor);
         tvCenterTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, titleBarTextSize);
 
+        setTitleBar(titleBarTitle, leftText, rightText, leftImgDrawable, rightImgDrawable);
         addView(titleBarView, title_lp);
-        setTitleBar(titleBarTitle, leftText, rightText, leftImgResId, rightImgResId);
     }
 
     public TextView getLeftTxt() {
@@ -119,12 +118,12 @@ public class TitleBar extends LinearLayout {
     }
 
     /**
-     * 只显示标题
+     * 只显示标题, 没有左右图标按钮
      *
      * @param title
      */
     public void setTitleBar(String title) {
-        setTitleBar(title, null, null, NO_RES_ID, NO_RES_ID);
+        setTitleBar(title, null, null, null, null);
     }
 
     /**
@@ -133,15 +132,16 @@ public class TitleBar extends LinearLayout {
      * @param title
      */
     public void setTitleBarWithBack(String title) {
-        setTitleBar(title, null, null, R.drawable.title_bar_left_back_selector, NO_RES_ID);
+        Drawable leftDrawable = getResources().getDrawable(R.drawable.title_bar_left_back_selector);
+        setTitleBar(title, null, null, leftDrawable, null);
     }
 
-    public void setTitleBar(String title, int leftResId, int rightResId) {
-        setTitleBar(title, null, null, leftResId, rightResId);
+    public void setTitleBar(String title, Drawable leftDrawable, Drawable rightDrawable) {
+        setTitleBar(title, null, null, leftDrawable, rightDrawable);
     }
 
     public void setTitleBar(String title, String leftText, String rightText) {
-        setTitleBar(title, leftText, rightText, NO_RES_ID, NO_RES_ID);
+        setTitleBar(title, leftText, rightText, null, null);
     }
 
     /**
@@ -151,17 +151,17 @@ public class TitleBar extends LinearLayout {
      * @param rightText
      */
     public void setTitleBar(String title, String rightText) {
-        setTitleBar(title, null, rightText, NO_RES_ID, NO_RES_ID);
+        setTitleBar(title, null, rightText, null, null);
     }
 
     /**
      * 返回按钮+右边图标
      *
      * @param title
-     * @param rightResId
+     * @param rightDrawable
      */
-    public void setTitleBar(String title, int rightResId) {
-        setTitleBar(title, null, null, NO_RES_ID, rightResId);
+    public void setTitleBar(String title, Drawable rightDrawable) {
+        setTitleBar(title, null, null, null, rightDrawable);
     }
 
     /**
@@ -170,10 +170,10 @@ public class TitleBar extends LinearLayout {
      * @param title
      * @param leftTitle  左侧按钮文字 不显示为null
      * @param rightTitle 右侧按钮文字 不显示为null
-     * @param leftResId  左侧按钮图片 不显示为 {@link TitleBar#NO_RES_ID}
-     * @param rightResId 右侧按钮图片 不显示为 {@link TitleBar#NO_RES_ID}
+     * @param leftImgRes  左侧按钮图片 不显示为null
+     * @param rightImgRes 右侧按钮图片 不显示为null
      */
-    public void setTitleBar(String title, String leftTitle, String rightTitle, int leftResId, int rightResId) {
+    public void setTitleBar(String title, String leftTitle, String rightTitle, Drawable leftImgRes, Drawable rightImgRes) {
 
         //左标题文字为空,则不显示
         if (TextUtils.isEmpty(leftTitle)) {
@@ -191,16 +191,16 @@ public class TitleBar extends LinearLayout {
             tvRight.setText(rightTitle);
         }
 
-        if (leftResId != NO_RES_ID) {
+        if (leftImgRes != null) {
             ivLeft.setVisibility(View.VISIBLE);
-            ivLeft.setImageResource(leftResId);
+            ivLeft.setImageDrawable(leftImgRes);
         } else {
             ivLeft.setVisibility(View.GONE);
         }
 
-        if (rightResId != NO_RES_ID) {
+        if (rightImgRes != null) {
             ivRight.setVisibility(View.VISIBLE);
-            ivRight.setImageResource(rightResId);
+            ivRight.setImageDrawable(rightImgRes);
         } else {
             ivRight.setVisibility(View.GONE);
         }

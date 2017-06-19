@@ -15,10 +15,10 @@
         <attr name="titleBarTextSize" format="dimension" />
         <!--左侧-->
         <attr name="leftText" format="string" />
-        <attr name="leftImg" format="reference" />
+        <attr name="leftImgDrawable" format="reference|color" />
         <!--右侧-->
         <attr name="rightText" format="string" />
-        <attr name="rightImg" format="reference" />
+        <attr name="rightImgDrawable" format="reference|color" />
     </declare-styleable>
 
 
