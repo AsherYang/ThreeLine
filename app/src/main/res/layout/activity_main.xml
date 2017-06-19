@@ -13,7 +13,7 @@
         app:rightImgDrawable="@drawable/title_bar_menu_selector"
         app:statusBarColor="@color/colorPrimaryDark"
         app:titleBarColor="@color/theme_light_background"
-        app:titleBarTextColor="@color/theme_dark_background"
+        app:titleBarTextColor="@color/color_333333"
         app:titleBarTextSize="16sp"
         app:titleBarTitle="@string/app_name" />
 

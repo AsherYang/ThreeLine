@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="故乡的味道--四月洋槐香"
-                android:textColor="@color/theme_dark_background"
+                android:textColor="@color/color_333333"
                 android:textSize="@dimen/dimen_15sp" />
 
             <TextView
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="by 紫罗兰"
-                android:textColor="@color/theme_dark_background"
+                android:textColor="@color/color_333333"
                 android:textSize="@dimen/dimen_14sp" />
 
             <ImageView
@@ -51,7 +51,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="18dp"
                 android:textSize="@dimen/dimen_15sp"
-                android:textColor="@color/theme_dark_background"
+                android:textColor="@color/color_333333"
                 android:text="我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。\n我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。\n我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。\n我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。\n我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。\n我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。\n我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。\n我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。\n我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。\n我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。\n我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。\n"
                 android:lineSpacingExtra="12sp"/>
 
