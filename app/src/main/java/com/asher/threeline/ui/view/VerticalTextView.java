@@ -122,6 +122,9 @@ public class VerticalTextView extends TextView {
             stopY = (getHeight() + text_bounds.width() >> 1);
             path.moveTo(startX, startY);
             path.lineTo(stopX, stopY);
+//            Log.i("VTV", " startX " + startX + " , startY = " + startY + " , stopX = " + stopX +
+//                    " , stopY = " + stopY + " , getWidth = " + getWidth());
+//            Log.i("VTV", "  TxHeight = " + text_bounds.height() + " , 》" + (text_bounds.height() >> 1));
         } else if (direction == ORIENTATION_DOWN_TO_UP) {
             startX = (getWidth() + text_bounds.height() >> 1);
             startY = (getHeight() + text_bounds.width() >> 1);
@@ -145,7 +148,7 @@ public class VerticalTextView extends TextView {
             path.lineTo(stopX, stopY);
         }
         this.getPaint().setColor(this.getCurrentTextColor());
-        canvas.drawTextOnPath(getText().toString(), path, 0 , 0, this.getPaint());
+        canvas.drawTextOnPath(getText().toString(), path, 0, 0, this.getPaint());
         canvas.restore();
     }
 }

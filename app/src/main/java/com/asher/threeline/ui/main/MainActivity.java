@@ -74,7 +74,7 @@ public class MainActivity extends BaseActivity implements MainView {
             DbContent dbContent = new DbContent();
             dbContent.setAuthor("author = " + i);
             dbContent.setTitle("title = " + i);
-            dbContent.setContent("content = " + i);
+            dbContent.setContent("内容 content = " + i);
             if (i == 0) {
                 dbContent.setType(IType.TYPE_ARTICLE);
             } else if (i == 1) {
