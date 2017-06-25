@@ -1,6 +1,7 @@
 package com.asher.threeline.ui.main;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.asher.threeline.R;
 import com.asher.threeline.db.IType;
 import com.asher.threeline.db.bean.DbContent;
+import com.asher.threeline.ui.view.VerticalTextView;
 import com.asher.viewflow.TitleProvider;
 
 import java.util.List;
@@ -161,6 +163,8 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
 
     private void setSentenceData(DbContent sentence, SentenceViewHolder viewHolder) {
         viewHolder.sentenceContent.setText(sentence.getContent());
+        viewHolder.sentenceContent.setTextSize(30);
+        viewHolder.sentenceContent.setTextColor(Color.parseColor("#333333"));
         Log.i(TAG, "setSentenceData sentence = " + sentence);
     }
 
@@ -211,10 +215,10 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
     }
 
     private class SentenceViewHolder {
-        private TextView sentenceContent;
+        private VerticalTextView sentenceContent;
 
         SentenceViewHolder(View convertView) {
-            sentenceContent = (TextView) convertView.findViewById(R.id.vtv_sentence_item_content);
+            sentenceContent = (VerticalTextView) convertView.findViewById(R.id.vtv_sentence_item_content);
         }
     }
 

@@ -21,13 +21,4 @@
         <attr name="rightImgDrawable" format="reference|color" />
     </declare-styleable>
 
-
-    <declare-styleable name="VerticalTextView">
-        <attr name="textDirection" format="enum">
-            <enum name="UP_TO_DOWN" value="0" />
-            <enum name="DOWN_TO_UP" value="1" />
-            <enum name="LEFT_TO_RIGHT" value="2" />
-            <enum name="RIGHT_TO_LEFT" value="3" />
-        </attr>
-    </declare-styleable>
 </resources>

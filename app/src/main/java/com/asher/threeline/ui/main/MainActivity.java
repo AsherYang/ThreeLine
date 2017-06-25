@@ -74,7 +74,7 @@ public class MainActivity extends BaseActivity implements MainView {
             DbContent dbContent = new DbContent();
             dbContent.setAuthor("author = " + i);
             dbContent.setTitle("title = " + i);
-            dbContent.setContent("内容 content = " + i);
+            dbContent.setContent("《山月》席慕容 \n\n曾踏月而来,\n只因您在山中,\n山风拂发,\n拂颈,拂裸露的肩膀\n而月光衣我以华裳。\n我\n你\n他\n哈哈");
             if (i == 0) {
                 dbContent.setType(IType.TYPE_ARTICLE);
             } else if (i == 1) {
