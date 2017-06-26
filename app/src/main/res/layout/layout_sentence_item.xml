@@ -3,12 +3,10 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/color_fafafa"
-    android:isScrollContainer="true"
-    android:scrollbarAlwaysDrawVerticalTrack="true"
-    android:scrollbars="vertical">
+    android:isScrollContainer="true">
 
-    <ScrollView
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginBottom="43dp"
         android:layout_marginLeft="27dp"
@@ -16,14 +14,31 @@
         android:layout_marginTop="27dp"
         android:background="@drawable/sentence_bg_shape">
 
-        <com.asher.threeline.ui.view.VerticalTextView
-            android:id="@+id/vtv_sentence_item_content"
+        <com.asher.threeline.ui.view.VerticalTimeView
+            android:id="@+id/vtv_sentence_item_time"
+            android:layout_width="24dp"
+            android:layout_height="66dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="24px"
+            android:background="@drawable/sentence_time_shape"
+            android:minWidth="24dp"
+            android:textColor="#fff"
+            android:text="2017/05/06"
+            android:textSize="10sp" />
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|end"
-            android:layout_marginBottom="43dp"
-            android:layout_marginLeft="27dp"
-            android:layout_marginRight="27dp"
-            android:layout_marginTop="27dp" />
-    </ScrollView>
+            android:layout_height="match_parent"
+            android:layout_below="@id/vtv_sentence_item_time"
+            android:layout_marginTop="25dp">
+
+            <com.asher.threeline.ui.view.VerticalTextView
+                android:id="@+id/vtv_sentence_item_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|end"
+                android:layout_marginRight="45dp"
+                android:gravity="center_vertical" />
+        </ScrollView>
+    </RelativeLayout>
 </LinearLayout>

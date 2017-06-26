@@ -14,8 +14,10 @@ import com.asher.threeline.R;
 import com.asher.threeline.db.IType;
 import com.asher.threeline.db.bean.DbContent;
 import com.asher.threeline.ui.view.VerticalTextView;
+import com.asher.threeline.ui.view.VerticalTimeView;
 import com.asher.viewflow.TitleProvider;
 
+import java.util.Date;
 import java.util.List;
 
 public class MainAdapter extends BaseAdapter implements TitleProvider {
@@ -165,6 +167,8 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
         viewHolder.sentenceContent.setText(sentence.getContent());
         viewHolder.sentenceContent.setTextSize(30);
         viewHolder.sentenceContent.setTextColor(Color.parseColor("#333333"));
+        // TODO: 17/6/27 set time
+        viewHolder.sentenceTime.setTime(new Date());
         Log.i(TAG, "setSentenceData sentence = " + sentence);
     }
 
@@ -216,9 +220,11 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
 
     private class SentenceViewHolder {
         private VerticalTextView sentenceContent;
+        private VerticalTimeView sentenceTime;
 
         SentenceViewHolder(View convertView) {
             sentenceContent = (VerticalTextView) convertView.findViewById(R.id.vtv_sentence_item_content);
+            sentenceTime = (VerticalTimeView) convertView.findViewById(R.id.vtv_sentence_item_time);
         }
     }
 
