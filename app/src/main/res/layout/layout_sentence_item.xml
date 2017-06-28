@@ -37,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|end"
-                android:layout_marginRight="45dp"
+                android:layout_marginRight="40dp"
                 android:gravity="center_vertical" />
         </ScrollView>
     </RelativeLayout>
