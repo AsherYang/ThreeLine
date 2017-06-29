@@ -55,6 +55,8 @@
                 android:src="@drawable/music_play_selector"
                 android:layout_marginTop="35dp" />
 
+            <!-- todo music wave view-->
+
         </LinearLayout>
 
     </ScrollView>
