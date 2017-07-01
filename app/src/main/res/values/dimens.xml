@@ -7,7 +7,9 @@
     <dimen name="default_titlebar_title_size">16sp</dimen>
 
     <dimen name="default_vertical_text_size">15sp</dimen>
-    
+
+    <dimen name="dimen_2dp">2dp</dimen>
+    <dimen name="dimen_5dp">5dp</dimen>
     <dimen name="dimen_16dp">16dp</dimen>
     <dimen name="dimen_18dp">18dp</dimen>
     <dimen name="dimen_47dp">47dp</dimen>

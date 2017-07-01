@@ -21,4 +21,12 @@
         <attr name="rightImgDrawable" format="reference|color" />
     </declare-styleable>
 
+    <declare-styleable name="MusicView">
+        <!--颜色-->
+        <attr name="android:color" />
+        <!--间隔大小-->
+        <attr name="intervalSize" format="dimension" />
+        <!--每条竖线的宽度-->
+        <attr name="lineWidth" format="dimension" />
+    </declare-styleable>
 </resources>
