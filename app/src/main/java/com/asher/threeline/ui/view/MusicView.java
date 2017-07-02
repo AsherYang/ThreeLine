@@ -10,8 +10,6 @@ import android.view.View;
 
 import com.asher.threeline.R;
 
-import static android.util.Log.i;
-
 /**
  * Created by ouyangfan on 2017/7/1.
  * <p>
@@ -47,19 +45,24 @@ public class MusicView extends View {
     private void init(Context context, AttributeSet attrs) {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.MusicView);
         mViewColor = array.getColor(R.styleable.MusicView_android_color,
-                getResources().getColor(R.color.color_FFFF256F));
+                getResources().getColor(R.color.color_1d1f3e));
         mInterval = array.getDimensionPixelSize(R.styleable.MusicView_intervalSize,
                 getResources().getDimensionPixelSize(R.dimen.dimen_5dp));
         mLineWidth = array.getDimensionPixelSize(R.styleable.MusicView_lineWidth,
                 getResources().getDimensionPixelSize(R.dimen.dimen_2dp));
         array.recycle();
-        i(TAG, "mInterval = " + mInterval + " , mLineWidth = " + mLineWidth);
+        Log.i(TAG, "mInterval = " + mInterval + " , mLineWidth = " + mLineWidth);
     }
 
     private void initPaint() {
         mPaint.setColor(mViewColor);
         mPaint.setAntiAlias(true);
         mPaint.setStyle(Paint.Style.FILL);
+    }
+
+    private void setColor(int color) {
+        mPaint.setColor(color);
+        invalidate();
     }
 
     @Override
@@ -73,7 +76,7 @@ public class MusicView extends View {
         int result = DEFAULT_WIDTH;
         if (widthMode == MeasureSpec.EXACTLY) {
             result = widthSize;
-        } else if (widthMode == MeasureSpec.AT_MOST){
+        } else if (widthMode == MeasureSpec.AT_MOST) {
             result = Math.min(result, widthSize);
         }
         return result;
@@ -94,10 +97,19 @@ public class MusicView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Log.i(TAG, "222measureWidth = " + getMeasuredWidth() + " , width = " + getWidth()
+        Log.i(TAG, "measureWidth = " + getMeasuredWidth() + " , width = " + getWidth()
                 + " , measureHeight = " + getMeasuredHeight() + " , height = " + getHeight());
         // 计算线条的个数 mLineWidth * x + mInterval * (x-1) = getWidth()
-        // TODO: 2017/7/1  
-        canvas.drawLine(0,0, 100,200, mPaint);
+        int lineCount = (getWidth() + mInterval) / (mLineWidth + mInterval);
+
+        Log.i(TAG, "lineCount = " + lineCount);
+        drawRect(canvas, lineCount);
+    }
+
+    private void drawRect(Canvas canvas, int lineCount) {
+        for (int i = 0; i < lineCount; i++) {
+            canvas.drawRect(i * mLineWidth + i * mInterval, 0,
+                    (i + 1) * mLineWidth + i * mInterval, getHeight(), mPaint);
+        }
     }
 }
