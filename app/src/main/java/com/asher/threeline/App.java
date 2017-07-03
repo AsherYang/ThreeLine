@@ -3,6 +3,7 @@ package com.asher.threeline;
 import android.app.Application;
 import android.content.Context;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.github.moduth.blockcanary.BlockCanary;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
@@ -29,6 +30,7 @@ public class App extends Application {
         initRealm();
 //        initJPush();
         initCanary();
+        initFresco();
     }
 
     /**
@@ -55,6 +57,7 @@ public class App extends Application {
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
     }*/
+
     private void initCanary() {
         if (LeakCanary.isInAnalyzerProcess(this)) {
             // This process is dedicated to LeakCanary for heap analysis.
@@ -63,6 +66,10 @@ public class App extends Application {
         }
         mRefWatcher = LeakCanary.install(this);
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
+    }
+
+    private void initFresco() {
+        Fresco.initialize(this);
     }
 
     public AppComponent component() {

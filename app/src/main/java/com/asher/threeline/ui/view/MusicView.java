@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +28,10 @@ public class MusicView extends View {
     // 单条线的宽度
     private int mLineWidth;
     private Paint mPaint = new Paint();
+    private byte[] mBytes;
+    private float[] mPoints;
+    private Rect mRect = new Rect();
+    private int mSpectrumNum = 48;
 
     public MusicView(Context context) {
         this(context, null);
@@ -52,6 +57,7 @@ public class MusicView extends View {
                 getResources().getDimensionPixelSize(R.dimen.dimen_2dp));
         array.recycle();
         Log.i(TAG, "mInterval = " + mInterval + " , mLineWidth = " + mLineWidth);
+        mBytes = null;
     }
 
     private void initPaint() {
@@ -62,6 +68,19 @@ public class MusicView extends View {
 
     private void setColor(int color) {
         mPaint.setColor(color);
+        invalidate();
+    }
+
+    private void updateVisualizer(byte[] fft) {
+        byte[] model = new byte[fft.length / 2 + 1];
+        model[0] = (byte) Math.abs(fft[0]);
+
+        for (int i = 2, j = 1; j < mSpectrumNum;) {
+            model[j] = (byte) Math.hypot(fft[i], fft[i+1]);
+            i += 2;
+            j++;
+        }
+        mBytes = model;
         invalidate();
     }
 
@@ -107,9 +126,31 @@ public class MusicView extends View {
     }
 
     private void drawRect(Canvas canvas, int lineCount) {
-        for (int i = 0; i < lineCount; i++) {
-            canvas.drawRect(i * mLineWidth + i * mInterval, 0,
-                    (i + 1) * mLineWidth + i * mInterval, getHeight(), mPaint);
+        if (mBytes == null) {
+            return;
         }
+        if (mPoints == null || mPoints.length < mBytes.length * 4) {
+            mPoints = new float[mBytes.length * 4];
+        }
+        mRect.set(0, 0, getWidth(), getHeight());
+
+        // 绘制频谱
+        final int basX = mRect.width() / mSpectrumNum;
+        final int height = mRect.height();
+
+        for (int i = 0; i < mSpectrumNum; i++) {
+            if (mBytes[i] < 0) {
+                mBytes[i] = 127;
+            }
+
+            final int xi = basX * i + basX / 2;
+            mPoints[i * 4] = xi;
+            mPoints[i * 4 + 1] = height;
+
+            mPoints[i * 4 + 2] = xi;
+            mPoints[i * 4 + 3] = height - mBytes[i];
+        }
+
+        canvas.drawLines(mPoints, mPaint);
     }
 }
