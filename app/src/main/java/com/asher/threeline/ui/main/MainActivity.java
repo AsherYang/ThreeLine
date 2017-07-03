@@ -1,7 +1,10 @@
 package com.asher.threeline.ui.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +26,7 @@ import com.asher.threeline.ui.theme.ThemeHelper;
 import com.asher.threeline.ui.view.TitleBar;
 import com.asher.viewflow.ViewFlow;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +55,10 @@ public class MainActivity extends BaseActivity implements MainView {
     private MainAdapter mainAdapter;
     private List<DbContent> dbContents;
     private boolean isStar;
+    // adapter 控制常量
+    public static final int MSG_PLAY_MUSIC = 0x01;
+    public static final int MSG_PAUSE_MUSIC = 0x02;
+    private MyHandler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +87,7 @@ public class MainActivity extends BaseActivity implements MainView {
                 dbContent.setType(IType.TYPE_ARTICLE);
             } else if (i == 1) {
                 dbContent.setType(IType.TYPE_MUSIC);
-            } else if (i == 2){
+            } else if (i == 2) {
                 dbContent.setType(IType.TYPE_SENTENCE);
             } else {
                 dbContent.setType(IType.TYPE_IMAGE);
@@ -87,7 +95,8 @@ public class MainActivity extends BaseActivity implements MainView {
             dbContents.add(dbContent);
         }
         Log.i(TAG, "dbContents size = " + dbContents.size());
-        mainAdapter = new MainAdapter(this, dbContents);
+        mHandler = new MyHandler(this);
+        mainAdapter = new MainAdapter(this, mHandler, dbContents);
         titleBar.setTitleTxt(mainAdapter.getTitle(0));
         viewFlow.setAdapter(mainAdapter);
         viewFlow.setOnViewSwitchListener(new ViewFlow.ViewSwitchListener() {
@@ -96,6 +105,12 @@ public class MainActivity extends BaseActivity implements MainView {
                 titleBar.setTitleTxt(mainAdapter.getTitle(position));
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler = null;
     }
 
     /**
@@ -119,6 +134,28 @@ public class MainActivity extends BaseActivity implements MainView {
 
     private void getDataFromDb() {
 //        refreshAdapter(mainPresenter.getAllContentsFromDb());
+    }
+
+    private static class MyHandler extends Handler {
+        WeakReference<Context> context;
+
+        MyHandler(Context context) {
+            this.context = new WeakReference<>(context);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case MSG_PLAY_MUSIC:
+                    Log.i(TAG, "handleMessage: play music ");
+                    break;
+                case MSG_PAUSE_MUSIC:
+                    Log.i(TAG, "handleMessage: pause music ");
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     @OnClick({R.id.iv_star, R.id.iv_share})

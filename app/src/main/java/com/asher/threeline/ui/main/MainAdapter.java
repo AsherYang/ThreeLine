@@ -2,6 +2,7 @@ package com.asher.threeline.ui.main;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.asher.threeline.R;
 import com.asher.threeline.db.IType;
 import com.asher.threeline.db.bean.DbContent;
+import com.asher.threeline.ui.view.MusicView;
 import com.asher.threeline.ui.view.VerticalTextView;
 import com.asher.threeline.ui.view.VerticalTimeView;
 import com.asher.viewflow.TitleProvider;
@@ -28,10 +30,13 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
     private LayoutInflater mInflater;
     private List<DbContent> mDbContentList;
     private final int TYPE_COUNT = 4;
+    private Handler mHandler;
+    private MusicState mMusicState = MusicState.PAUSE;
 
-    public MainAdapter(Context context, List<DbContent> dbContents) {
+    public MainAdapter(Context context, Handler handler, List<DbContent> dbContents) {
         mContext = context;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.mHandler = handler;
         mDbContentList = dbContents;
     }
 
@@ -232,12 +237,46 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
         private ImageView musicCover;
         private TextView musicTitle;
         private TextView musicAuthor;
+        private MusicView musicView;
+        private ImageView musicPlayBtn;
 
         MusicViewHolder(View convertView) {
             musicCover = (ImageView) convertView.findViewById(R.id.iv_music_item_cover);
             musicTitle = (TextView) convertView.findViewById(R.id.tv_music_item_title);
             musicAuthor = (TextView) convertView.findViewById(R.id.tv_music_item_author);
+            musicView = (MusicView) convertView.findViewById(R.id.mv_music_view_item);
+            musicPlayBtn = (ImageView) convertView.findViewById(R.id.iv_music_item_play);
+            musicPlayBtn.setOnClickListener(musicPlayBtnClickListener);
         }
+    }
+
+    private View.OnClickListener musicPlayBtnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            changeMusicState();
+        }
+    };
+
+    private void changeMusicState() {
+        if (null != mHandler) {
+            switch (mMusicState) {
+                case PLAYING:
+                    mMusicState = MusicState.PAUSE;
+                    mHandler.sendEmptyMessage(MainActivity.MSG_PAUSE_MUSIC);
+                    break;
+                case PAUSE:
+                    mMusicState = MusicState.PLAYING;
+                    mHandler.sendEmptyMessage(MainActivity.MSG_PLAY_MUSIC);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    private enum MusicState {
+        PLAYING,
+        PAUSE
     }
 
     private class ImageViewHolder {
