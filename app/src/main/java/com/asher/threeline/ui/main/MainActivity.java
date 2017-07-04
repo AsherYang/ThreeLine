@@ -87,7 +87,7 @@ public class MainActivity extends BaseActivity implements MainView {
                 dbContent.setType(IType.TYPE_ARTICLE);
             } else if (i == 1) {
                 dbContent.setType(IType.TYPE_MUSIC);
-            } else if (i == 2){
+            } else if (i == 2) {
                 dbContent.setType(IType.TYPE_SENTENCE);
             } else {
                 dbContent.setType(IType.TYPE_IMAGE);
@@ -159,8 +159,8 @@ public class MainActivity extends BaseActivity implements MainView {
 //                Intent intent = new Intent(MainActivity.this, GithubActivity.class);
 //                startActivity(intent);
 //                mainPresenter.getDataFromNet();
-//                changeStarImage(isStar);
-//                isStar = !isStar;
+                changeStarImage(isStar);
+                isStar = !isStar;
                 break;
             case R.id.iv_share:
                 // 为了验证改变主题对其他页面的影响,这里延迟5S用于测试
