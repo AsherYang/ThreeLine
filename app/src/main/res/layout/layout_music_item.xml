@@ -42,13 +42,8 @@
                 android:textColor="@color/theme_dark_background"
                 android:textSize="@dimen/dimen_14sp" />
 
-            <ImageView
-                android:id="@+id/iv_music_item_anim"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="35dp" />
-
             <com.asher.threeline.ui.view.MusicView
+                android:id="@+id/mv_music_view_item"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginLeft="78dp"

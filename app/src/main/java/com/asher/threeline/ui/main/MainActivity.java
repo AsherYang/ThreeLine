@@ -1,7 +1,10 @@
 package com.asher.threeline.ui.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +26,7 @@ import com.asher.threeline.ui.theme.ThemeHelper;
 import com.asher.threeline.ui.view.TitleBar;
 import com.asher.viewflow.ViewFlow;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +55,10 @@ public class MainActivity extends BaseActivity implements MainView {
     private MainAdapter mainAdapter;
     private List<DbContent> dbContents;
     private boolean isStar;
+    // app 控制常量
+//    private static final int MSG_PLAY_MUSIC = 0x01;
+//    private static final int MSG_PAUSE_MUSIC = 0x02;
+//    private MyHandler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +129,28 @@ public class MainActivity extends BaseActivity implements MainView {
 //        refreshAdapter(mainPresenter.getAllContentsFromDb());
     }
 
+    private static class MyHandler extends Handler {
+        WeakReference<Context> context;
+
+        MyHandler(Context context) {
+            this.context = new WeakReference<>(context);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+//            switch (msg.what) {
+//                case MSG_PLAY_MUSIC:
+//                    Log.i(TAG, "handleMessage: play music ");
+//                    break;
+//                case MSG_PAUSE_MUSIC:
+//                    Log.i(TAG, "handleMessage: pause music ");
+//                    break;
+//                default:
+//                    break;
+//            }
+        }
+    }
+
     @OnClick({R.id.iv_star, R.id.iv_share})
     void onClick(View view) {
         switch (view.getId()) {
@@ -129,8 +159,8 @@ public class MainActivity extends BaseActivity implements MainView {
 //                Intent intent = new Intent(MainActivity.this, GithubActivity.class);
 //                startActivity(intent);
 //                mainPresenter.getDataFromNet();
-                changeStarImage(isStar);
-                isStar = !isStar;
+//                changeStarImage(isStar);
+//                isStar = !isStar;
                 break;
             case R.id.iv_share:
                 // 为了验证改变主题对其他页面的影响,这里延迟5S用于测试

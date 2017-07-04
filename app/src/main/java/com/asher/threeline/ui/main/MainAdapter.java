@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.asher.threeline.R;
 import com.asher.threeline.db.IType;
 import com.asher.threeline.db.bean.DbContent;
+import com.asher.threeline.ui.view.MusicView;
 import com.asher.threeline.ui.view.VerticalTextView;
 import com.asher.threeline.ui.view.VerticalTimeView;
 import com.asher.viewflow.TitleProvider;
@@ -232,11 +233,15 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
         private ImageView musicCover;
         private TextView musicTitle;
         private TextView musicAuthor;
+        private MusicView musicView;
+        private ImageView musicPlayBtn;
 
         MusicViewHolder(View convertView) {
             musicCover = (ImageView) convertView.findViewById(R.id.iv_music_item_cover);
             musicTitle = (TextView) convertView.findViewById(R.id.tv_music_item_title);
             musicAuthor = (TextView) convertView.findViewById(R.id.tv_music_item_author);
+            musicView = (MusicView) convertView.findViewById(R.id.mv_music_view_item);
+            musicPlayBtn = (ImageView) convertView.findViewById(R.id.iv_music_item_play);
         }
     }
 
