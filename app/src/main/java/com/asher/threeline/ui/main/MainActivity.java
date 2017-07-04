@@ -95,7 +95,8 @@ public class MainActivity extends BaseActivity implements MainView {
             dbContents.add(dbContent);
         }
         Log.i(TAG, "dbContents size = " + dbContents.size());
-        mainAdapter = new MainAdapter(this, dbContents);
+//        mHandler = new MyHandler(this);
+//        mainAdapter = new MainAdapter(this, mHandler, dbContents);
         titleBar.setTitleTxt(mainAdapter.getTitle(0));
         viewFlow.setAdapter(mainAdapter);
         viewFlow.setOnViewSwitchListener(new ViewFlow.ViewSwitchListener() {
