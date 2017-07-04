@@ -27,6 +27,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        multiDexEnabled true
         // 配置jpush
         ndk {
             abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
@@ -57,11 +58,17 @@ android {
         }
     }
 
+    dexOptions {
+        incremental true
+        javaMaxHeapSize "4g"
+    }
+
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
         exclude 'META-INF/DEPENDENCIES'
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LGPL2.1'
     }
 }
 
@@ -87,7 +94,7 @@ dependencies {
     compile jacksonAnnotation
     compile recyclerView
     compile aspectjrt
-    compile fresco
+//    compile fresco
 //    compile jpush
 //    compile jpushCore
 

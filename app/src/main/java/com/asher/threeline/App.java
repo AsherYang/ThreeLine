@@ -3,7 +3,6 @@ package com.asher.threeline;
 import android.app.Application;
 import android.content.Context;
 
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.github.moduth.blockcanary.BlockCanary;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
@@ -69,7 +68,7 @@ public class App extends Application {
     }
 
     private void initFresco() {
-        Fresco.initialize(this);
+//        Fresco.initialize(this);
     }
 
     public AppComponent component() {
