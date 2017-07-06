@@ -56,9 +56,9 @@ public class MainActivity extends BaseActivity implements MainView {
     private List<DbContent> dbContents;
     private boolean isStar;
     // app 控制常量
-//    private static final int MSG_PLAY_MUSIC = 0x01;
-//    private static final int MSG_PAUSE_MUSIC = 0x02;
-//    private MyHandler mHandler;
+    public static final int MSG_PLAY_MUSIC = 0x01;
+    public static final int MSG_PAUSE_MUSIC = 0x02;
+    private MyHandler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +95,8 @@ public class MainActivity extends BaseActivity implements MainView {
             dbContents.add(dbContent);
         }
         Log.i(TAG, "dbContents size = " + dbContents.size());
-//        mHandler = new MyHandler(this);
-//        mainAdapter = new MainAdapter(this, mHandler, dbContents);
+        mHandler = new MyHandler(this);
+        mainAdapter = new MainAdapter(this, mHandler, dbContents);
         titleBar.setTitleTxt(mainAdapter.getTitle(0));
         viewFlow.setAdapter(mainAdapter);
         viewFlow.setOnViewSwitchListener(new ViewFlow.ViewSwitchListener() {
@@ -139,16 +139,16 @@ public class MainActivity extends BaseActivity implements MainView {
 
         @Override
         public void handleMessage(Message msg) {
-//            switch (msg.what) {
-//                case MSG_PLAY_MUSIC:
-//                    Log.i(TAG, "handleMessage: play music ");
-//                    break;
-//                case MSG_PAUSE_MUSIC:
-//                    Log.i(TAG, "handleMessage: pause music ");
-//                    break;
-//                default:
-//                    break;
-//            }
+            switch (msg.what) {
+                case MSG_PLAY_MUSIC:
+                    Log.i(TAG, "handleMessage: play music ");
+                    break;
+                case MSG_PAUSE_MUSIC:
+                    Log.i(TAG, "handleMessage: pause music ");
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

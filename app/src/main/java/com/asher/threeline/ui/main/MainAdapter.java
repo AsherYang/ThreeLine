@@ -31,7 +31,7 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
     private List<DbContent> mDbContentList;
     private final int TYPE_COUNT = 4;
     private Handler mHandler;
-//    private MusicState mMusicState = MusicState.PAUSE;
+    private MusicState mMusicState = MusicState.PAUSE;
 
     public MainAdapter(Context context, Handler handler, List<DbContent> dbContents) {
         mContext = context;
@@ -259,25 +259,25 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
 
     private void changeMusicState() {
         if (null != mHandler) {
-//            switch (mMusicState) {
-//                case PLAYING:
-//                    mMusicState = MusicState.PAUSE;
-//                    mHandler.sendEmptyMessage(MainActivity.MSG_PAUSE_MUSIC);
-//                    break;
-//                case PAUSE:
-//                    mMusicState = MusicState.PLAYING;
-//                    mHandler.sendEmptyMessage(MainActivity.MSG_PLAY_MUSIC);
-//                    break;
-//                default:
-//                    break;
-//            }
+            switch (mMusicState) {
+                case PLAYING:
+                    mMusicState = MusicState.PAUSE;
+                    mHandler.sendEmptyMessage(MainActivity.MSG_PAUSE_MUSIC);
+                    break;
+                case PAUSE:
+                    mMusicState = MusicState.PLAYING;
+                    mHandler.sendEmptyMessage(MainActivity.MSG_PLAY_MUSIC);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
-//    private enum MusicState {
-//        PLAYING,
-//        PAUSE
-//    }
+    private enum MusicState {
+        PLAYING,
+        PAUSE
+    }
 
     private class ImageViewHolder {
         private ImageView coverImg;
