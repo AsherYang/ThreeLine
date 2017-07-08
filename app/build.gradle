@@ -27,7 +27,7 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        multiDexEnabled true
+//        multiDexEnabled true
         // 配置jpush
         ndk {
             abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
@@ -61,6 +61,7 @@ android {
     dexOptions {
         incremental true
         javaMaxHeapSize "4g"
+        jumboMode = true
     }
 
     packagingOptions {
