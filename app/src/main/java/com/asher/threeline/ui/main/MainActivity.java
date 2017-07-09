@@ -1,10 +1,7 @@
 package com.asher.threeline.ui.main;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +23,6 @@ import com.asher.threeline.ui.theme.ThemeHelper;
 import com.asher.threeline.ui.view.TitleBar;
 import com.asher.viewflow.ViewFlow;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,9 +52,9 @@ public class MainActivity extends BaseActivity implements MainView {
     private List<DbContent> dbContents;
     private boolean isStar;
     // app 控制常量
-    public static final int MSG_PLAY_MUSIC = 0x01;
-    public static final int MSG_PAUSE_MUSIC = 0x02;
-    private MyHandler mHandler;
+//    public static final int MSG_PLAY_MUSIC = 0x01;
+//    public static final int MSG_PAUSE_MUSIC = 0x02;
+//    private MyHandler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +91,8 @@ public class MainActivity extends BaseActivity implements MainView {
             dbContents.add(dbContent);
         }
         Log.i(TAG, "dbContents size = " + dbContents.size());
-        mHandler = new MyHandler(this);
-        mainAdapter = new MainAdapter(this, mHandler, dbContents);
+//        mHandler = new MyHandler(this);
+//        mainAdapter = new MainAdapter(this, mHandler, dbContents);
         titleBar.setTitleTxt(mainAdapter.getTitle(0));
         viewFlow.setAdapter(mainAdapter);
         viewFlow.setOnViewSwitchListener(new ViewFlow.ViewSwitchListener() {
@@ -130,7 +126,7 @@ public class MainActivity extends BaseActivity implements MainView {
 //        refreshAdapter(mainPresenter.getAllContentsFromDb());
     }
 
-    private static class MyHandler extends Handler {
+ /*   private static class MyHandler extends Handler {
         WeakReference<Context> context;
 
         MyHandler(Context context) {
@@ -150,7 +146,7 @@ public class MainActivity extends BaseActivity implements MainView {
                     break;
             }
         }
-    }
+    }*/
 
     @OnClick({R.id.iv_star, R.id.iv_share})
     void onClick(View view) {

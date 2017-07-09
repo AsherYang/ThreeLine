@@ -14,13 +14,13 @@ import android.widget.TextView;
 import com.asher.threeline.R;
 import com.asher.threeline.db.IType;
 import com.asher.threeline.db.bean.DbContent;
-import com.asher.threeline.ui.view.MusicView;
 import com.asher.threeline.ui.view.VerticalTextView;
 import com.asher.threeline.ui.view.VerticalTimeView;
 import com.asher.viewflow.TitleProvider;
 
 import java.util.Date;
 import java.util.List;
+
 
 public class MainAdapter extends BaseAdapter implements TitleProvider {
 
@@ -30,13 +30,13 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
     private LayoutInflater mInflater;
     private List<DbContent> mDbContentList;
     private final int TYPE_COUNT = 4;
-    private Handler mHandler;
-    private MusicState mMusicState = MusicState.PAUSE;
+//    private Handler mHandler;
+//    private MusicState mMusicState = MusicState.PAUSE;
 
     public MainAdapter(Context context, Handler handler, List<DbContent> dbContents) {
         mContext = context;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.mHandler = handler;
+//        this.mHandler = handler;
         mDbContentList = dbContents;
     }
 
@@ -73,7 +73,7 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         DbContent dbContent = mDbContentList.get(position);
-        int currentType = getItemViewType(position);
+        /*int currentType = getItemViewType(position);
         Log.i(TAG, "currentType = " + currentType + " , dbContent = " + dbContent);
         if (null == convertView) {
             switch (currentType) {
@@ -88,7 +88,7 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
                 default:
                     return recycleImageViewHolder(dbContent, convertView, parent);
             }
-        }
+        }*/
         return convertView;
     }
 
@@ -99,7 +99,7 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
      * @param convertView
      * @param parent
      */
-    private View recycleArticleViewHolder(DbContent dbContent, View convertView,
+    /*private View recycleArticleViewHolder(DbContent dbContent, View convertView,
                                           ViewGroup parent) {
         ArticleViewHolder articleViewHolder = null;
         // 第一次没有加载convertView
@@ -112,7 +112,7 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
         }
         setArticleData(dbContent, articleViewHolder);
         return convertView;
-    }
+    }*/
 
     private View recycleSentenceViewHolder(DbContent dbContent, View convertView,
                                            ViewGroup parent) {
@@ -237,14 +237,14 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
         private ImageView musicCover;
         private TextView musicTitle;
         private TextView musicAuthor;
-        private MusicView musicView;
+//        private MusicView musicView;
         private ImageView musicPlayBtn;
 
         MusicViewHolder(View convertView) {
             musicCover = (ImageView) convertView.findViewById(R.id.iv_music_item_cover);
             musicTitle = (TextView) convertView.findViewById(R.id.tv_music_item_title);
             musicAuthor = (TextView) convertView.findViewById(R.id.tv_music_item_author);
-            musicView = (MusicView) convertView.findViewById(R.id.mv_music_view_item);
+//            musicView = (MusicView) convertView.findViewById(R.id.mv_music_view_item);
             musicPlayBtn = (ImageView) convertView.findViewById(R.id.iv_music_item_play);
             musicPlayBtn.setOnClickListener(musicPlayBtnClickListener);
         }
@@ -258,23 +258,23 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
     };
 
     private void changeMusicState() {
-        if (null != mHandler) {
+        /*if (null != mHandler) {
             switch (mMusicState) {
                 case PLAYING:
                     mMusicState = MusicState.PAUSE;
                     mHandler.sendEmptyMessage(MainActivity.MSG_PAUSE_MUSIC);
                     break;
                 case PAUSE:
-                    mMusicState = MusicState.PLAYING;
+                    mMusicState = PLAYING;
                     mHandler.sendEmptyMessage(MainActivity.MSG_PLAY_MUSIC);
                     break;
                 default:
                     break;
             }
-        }
+        }*/
     }
 
-    private enum MusicState {
+   private enum MusicState {
         PLAYING,
         PAUSE
     }
