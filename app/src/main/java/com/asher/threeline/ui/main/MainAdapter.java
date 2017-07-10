@@ -73,9 +73,9 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         DbContent dbContent = mDbContentList.get(position);
-        /*int currentType = getItemViewType(position);
+        int currentType = getItemViewType(position);
         Log.i(TAG, "currentType = " + currentType + " , dbContent = " + dbContent);
-        if (null == convertView) {
+        /*if (null == convertView) {
             switch (currentType) {
                 case IType.TYPE_ARTICLE:
                     return recycleArticleViewHolder(dbContent, convertView, parent);
@@ -112,7 +112,7 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
         }
         setArticleData(dbContent, articleViewHolder);
         return convertView;
-    }*/
+    }
 
     private View recycleSentenceViewHolder(DbContent dbContent, View convertView,
                                            ViewGroup parent) {
@@ -154,7 +154,7 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
         }
         setImageData(dbContent, imageViewHolder);
         return convertView;
-    }
+    }*/
 
     /**
      * set article data
