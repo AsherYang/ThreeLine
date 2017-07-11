@@ -75,7 +75,7 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
         DbContent dbContent = mDbContentList.get(position);
         int currentType = getItemViewType(position);
         Log.i(TAG, "currentType = " + currentType + " , dbContent = " + dbContent);
-        /*if (null == convertView) {
+        if (null == convertView) {
             switch (currentType) {
                 case IType.TYPE_ARTICLE:
                     return recycleArticleViewHolder(dbContent, convertView, parent);
@@ -88,7 +88,7 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
                 default:
                     return recycleImageViewHolder(dbContent, convertView, parent);
             }
-        }*/
+        }
         return convertView;
     }
 
@@ -99,7 +99,7 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
      * @param convertView
      * @param parent
      */
-    /*private View recycleArticleViewHolder(DbContent dbContent, View convertView,
+    private View recycleArticleViewHolder(DbContent dbContent, View convertView,
                                           ViewGroup parent) {
         ArticleViewHolder articleViewHolder = null;
         // 第一次没有加载convertView
@@ -154,7 +154,7 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
         }
         setImageData(dbContent, imageViewHolder);
         return convertView;
-    }*/
+    }
 
     /**
      * set article data
