@@ -74,6 +74,7 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
     public View getView(int position, View convertView, ViewGroup parent) {
         DbContent dbContent = mDbContentList.get(position);
         int currentType = getItemViewType(position);
+        // TODO: 17/7/12 fix bug
         Log.i(TAG, "currentType = " + currentType + " , dbContent = " + dbContent);
         if (null == convertView) {
             switch (currentType) {
