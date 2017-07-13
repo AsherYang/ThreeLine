@@ -30,13 +30,13 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
     private LayoutInflater mInflater;
     private List<DbContent> mDbContentList;
     private final int TYPE_COUNT = 4;
-//    private Handler mHandler;
-//    private MusicState mMusicState = MusicState.PAUSE;
+    private Handler mHandler;
+    private MusicState mMusicState = MusicState.PAUSE;
 
     public MainAdapter(Context context, Handler handler, List<DbContent> dbContents) {
         mContext = context;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        this.mHandler = handler;
+        this.mHandler = handler;
         mDbContentList = dbContents;
     }
 
@@ -238,7 +238,7 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
         private ImageView musicCover;
         private TextView musicTitle;
         private TextView musicAuthor;
-//        private MusicView musicView;
+        //        private MusicView musicView;
         private ImageView musicPlayBtn;
 
         MusicViewHolder(View convertView) {
@@ -259,23 +259,23 @@ public class MainAdapter extends BaseAdapter implements TitleProvider {
     };
 
     private void changeMusicState() {
-        /*if (null != mHandler) {
+        if (null != mHandler) {
             switch (mMusicState) {
                 case PLAYING:
                     mMusicState = MusicState.PAUSE;
                     mHandler.sendEmptyMessage(MainActivity.MSG_PAUSE_MUSIC);
                     break;
                 case PAUSE:
-                    mMusicState = PLAYING;
+                    mMusicState = MusicState.PLAYING;
                     mHandler.sendEmptyMessage(MainActivity.MSG_PLAY_MUSIC);
                     break;
                 default:
                     break;
             }
-        }*/
+        }
     }
 
-   private enum MusicState {
+    private enum MusicState {
         PLAYING,
         PAUSE
     }
