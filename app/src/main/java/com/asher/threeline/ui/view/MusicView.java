@@ -125,6 +125,7 @@ public class MusicView extends View {
         drawRect(canvas, lineCount);
     }
 
+    // TODO: 17/7/14 need do by Visualizer
     private void drawRect(Canvas canvas, int lineCount) {
         if (mBytes == null) {
             return;
