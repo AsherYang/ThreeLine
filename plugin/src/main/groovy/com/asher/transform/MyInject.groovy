@@ -37,10 +37,12 @@ public class MyInject {
                         if (c.isFrozen()) {
                             c.defrost()
                         }
+                        boolean hasAnnotationed = false
                         for (CtField ctField : c.getDeclaredFields()) {
                             for (Annotation annotation : ctField.getAnnotations()) {
                                 String annoName = annotation.annotationType().canonicalName
                                 if (annoName.equals(Utils.SkinAnnotation)) {
+                                    hasAnnotationed = true
                                     generateLightTheme(annotation, c, ctField)
                                     generateDarkTheme(annotation, c, ctField)
                                     generateITheme(path)
@@ -54,8 +56,10 @@ public class MyInject {
                                 }
                             }
                         }
-                        modifyChangeThemeMethodToNotify(c, project)
-                        c.writeFile(path)
+                        if (hasAnnotationed) {
+                            modifyChangeThemeMethodToNotify(c, project)
+                            c.writeFile(path)
+                        }
                         //用完一定记得要卸载，否则pool里的永远是旧的代码
                         c.detach()
                     }
