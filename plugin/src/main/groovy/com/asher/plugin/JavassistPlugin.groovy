@@ -12,6 +12,7 @@ class JavassistPlugin implements Plugin<Project> {
         log.error "===================="
         log.error " 正在修改class !"
         log.error "===================="
+        // to find why not use
         project.android.registerTransform(new JavassistTransform(project))
     }
 }
