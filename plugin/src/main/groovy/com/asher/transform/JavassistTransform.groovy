@@ -63,7 +63,7 @@ class JavassistTransform extends Transform {
             input.directoryInputs.each { DirectoryInput directoryInput ->
                 // inject code
                 // 文件夹里面包含的是我们手写的类，以及R.class|BuildConfig.class以及R$xxx.class等
-                MyInject.injectDir(directoryInput.file.absolutePath, "com", project)
+                MyInject.injectDir(directoryInput.file.absolutePath, "com.asher.three", project)
                 // 获取output目录
                 def dest = tfOutputProvider.getContentLocation(directoryInput.name,
                         directoryInput.contentTypes, directoryInput.scopes, Format.DIRECTORY)
