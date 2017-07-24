@@ -56,15 +56,17 @@ get access token
 class getAccessTokenHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
         token = doGetToken()
-        self.write(token)
+        if token is not None:
+            self.write(token)
 
 class updateAccessTokenHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
-        token = getTokenFromNet()
-        if token is not None:
-            print 'update access token success. '
+        netToken = getTokenFromNet()
+        if netToken is not None:
+            saveToDb(netToken.access_token, netToken.expire_in)
+            self.write("update access token success. ")
         else:
-            print 'update access token fail, see next time. '
+            self.write("update access token fail, see next time. ")
 
 class CustomApplication(tornado.web.Application):
     def __init__(self, debug=False):

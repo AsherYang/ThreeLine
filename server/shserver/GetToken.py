@@ -46,18 +46,23 @@ def getTokenFromDb():
     try:
         cursor.execute(query)
         results = cursor.fetchall()
-        print results
-        for row in results:
-            row_id = row[0]
-            access_token = row[1]
-            expire_in = row[2]
-            update_time = row[3]
-            token.access_token = access_token
-            token.expire_in = expire_in
-            token.update_time = update_time
-        # print "row_id = %s, access_token = %s, expire_in = %s, update_time = %s " %(row_id, access_token, expire_in, update_time)
+        print "result = %s " %(results)
+        if results:
+            for row in results:
+                row_id = row[0]
+                access_token = row[1]
+                expire_in = row[2]
+                update_time = row[3]
+                token.access_token = access_token
+                token.expire_in = expire_in
+                token.update_time = update_time
+            # print "row_id = %s, access_token = %s, expire_in = %s, update_time = %s " %(row_id, access_token, expire_in, update_time)
+        else:
+            print "getTokenFromDb result is null. "
+            return None
     except:
         print "getTokenFromDb except"
+        return None
     db.close()
     return token
 
@@ -86,8 +91,13 @@ def saveToDb(token=None, expire_in=None):
 def doGetToken():
     dbToken = getTokenFromDb()
     currentTime = int(time.time())
-    print "currentTime = %s , update_time = %s " % (currentTime, dbToken.update_time)
-    if currentTime >= int(dbToken.update_time) + int(dbToken.expire_in):
+    if dbToken is None:
+        netToken = getTokenFromNet()
+        saveToDb(netToken.access_token, netToken.expire_in)
+        print "ok , update token from net success, when dbToken is null. "
+        return netToken.access_token
+    elif currentTime >= int(dbToken.update_time) + int(dbToken.expire_in):
+        print "currentTime = %s , update_time = %s " % (currentTime, dbToken.update_time)
         # expired
         netToken = getTokenFromNet()
         saveToDb(netToken.access_token, netToken.expire_in)
