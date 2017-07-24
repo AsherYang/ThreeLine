@@ -3,11 +3,10 @@
 
 """
 Author: AsherYang
-Email:  1181830457@qq.com
-Date:   2017/7/24
+Email:  ouyangfan1991@gmail.com
+Date:   17/7/24
 Desc:   shanghao server on tornado
 """
-
 import os
 import subprocess
 
@@ -20,6 +19,7 @@ import tornado.web
 import torndb
 from tornado.options import define, options
 import DbConstant
+from GetToken import *
 
 define("debug", default=False, help='Set debug mode', type=bool)
 # 服务器使用Supervisor＋nginx 配置多端口：8888｜8889｜8890｜8891, 上好微店端口：10001|10002
@@ -50,12 +50,29 @@ class pushMsgHandler(tornado.web.RequestHandler):
         json_str = '{"status":"success"}'
         self.write(json_str)
 
+"""
+get access token
+"""
+class getAccessTokenHandler(tornado.web.RequestHandler):
+    def get(self, *args, **kwargs):
+        token = doGetToken()
+        self.write(token)
+
+class updateAccessTokenHandler(tornado.web.RequestHandler):
+    def get(self, *args, **kwargs):
+        token = getTokenFromNet()
+        if token is not None:
+            print 'update access token success. '
+        else:
+            print 'update access token fail, see next time. '
 
 class CustomApplication(tornado.web.Application):
     def __init__(self, debug=False):
         handlers = [
             (r"/", MainHandler),
             (r'/push/msg', pushMsgHandler),
+            (r'/get/token', getAccessTokenHandler),
+            (r'/update/token', updateAccessTokenHandler),
             (r"/.*", OtherHandler),
         ]
         settings = {

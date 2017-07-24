@@ -83,18 +83,19 @@ def saveToDb(token=None, expire_in=None):
             db.rollback()
         cursor.close()
 
-if __name__ == '__main__':
-    # token = getTokenFromNet()
-    # print token.access_token
-    # saveToDb(token.access_token, token.expire_in)
+def doGetToken():
     dbToken = getTokenFromDb()
     currentTime = int(time.time())
-    print "currentTime = %s , update_time = %s " %(currentTime, dbToken.update_time)
+    print "currentTime = %s , update_time = %s " % (currentTime, dbToken.update_time)
     if currentTime >= int(dbToken.update_time) + int(dbToken.expire_in):
         # expired
         netToken = getTokenFromNet()
         saveToDb(netToken.access_token, netToken.expire_in)
-        print "ok , update token from net success."
+        print "ok , update token from net success. "
+        return netToken.access_token
     else:
-        print "ok , token in date"
+        print "ok , token in date. "
+        return dbToken.access_token
 
+if __name__ == '__main__':
+    doGetToken()
