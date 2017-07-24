@@ -19,15 +19,16 @@ import tornado.options
 import tornado.web
 import torndb
 from tornado.options import define, options
+import DbConstant
 
 define("debug", default=False, help='Set debug mode', type=bool)
 # 服务器使用Supervisor＋nginx 配置多端口：8888｜8889｜8890｜8891, 上好微店端口：10001|10002
 define("port", default=10001, help='Run on the give port', type=int)
-define("mysql_host", default='127.0.0.1', help='mysql host IP')
-define("mysql_user", default='root', help='db user name')
-define("mysql_password", default='ouyangfan', help='db user password')
+define("mysql_host", default=DbConstant.dbHost, help='mysql host IP')
+define("mysql_user", default=DbConstant.dbUser, help='db user name')
+define("mysql_password", default=DbConstant.dbPwd, help='db user password')
 # 设置新数据库时，需要在服务器创建对应的数据库
-define("mysql_database", default='shanghao', help='db name')
+define("mysql_database", default=DbConstant.dbName, help='db name')
 
 
 class MainHandler(tornado.web.RequestHandler):
