@@ -33,7 +33,7 @@ define("mysql_database", default=DbConstant.dbName, help='db name')
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
-        self.write("Hello AsherYang , nice to meet you!")
+        self.write("Hello AsherYang is shanghao mall , nice to meet you!")
 
 
 class OtherHandler(tornado.web.RequestHandler):
@@ -47,6 +47,9 @@ class OtherHandler(tornado.web.RequestHandler):
 """
 class pushMsgHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
+        json_str = '{"status":"success"}'
+        self.write(json_str)
+    def post(self, *args, **kwargs):
         json_str = '{"status":"success"}'
         self.write(json_str)
 
