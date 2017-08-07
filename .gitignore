@@ -7,3 +7,12 @@
 /build
 /captures
 .externalNativeBuild
+
+
+# python build file
+*.py[cod]
+
+.idea/
+server/.idea/
+server/wechat/bot.pkl
+server/wechat/wxpy_puid.pkl

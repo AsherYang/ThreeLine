@@ -39,6 +39,7 @@ ThreeLine
         --tornado
         --crawler
         --im
+        --wechat
     --wx
         --client
             
