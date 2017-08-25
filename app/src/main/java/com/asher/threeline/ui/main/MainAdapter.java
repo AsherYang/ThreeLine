@@ -22,6 +22,8 @@ import com.asher.viewflow.TitleProvider;
 import java.util.Date;
 import java.util.List;
 
+import uk.co.chrisjenx.calligraphy.TypefaceUtils;
+
 
 public class MainAdapter extends BaseAdapter implements TitleProvider {
 

@@ -95,6 +95,7 @@ dependencies {
     compile jacksonAnnotation
     compile recyclerView
     compile aspectjrt
+    compile calligraphy
 //    compile fresco
 //    compile jpush
 //    compile jpushCore

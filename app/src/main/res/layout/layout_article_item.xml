@@ -2,9 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/color_fafafa"
     android:isScrollContainer="true"
     android:scrollbarAlwaysDrawVerticalTrack="true"
+    tools:ignore="MissingPrefix"
     android:scrollbars="vertical">
 
     <ScrollView
@@ -52,6 +54,7 @@
                 android:layout_marginTop="18dp"
                 android:textSize="@dimen/dimen_15sp"
                 android:textColor="@color/color_333333"
+                fontPath="fonts/RobotoCondensed-Regular.ttf"
                 android:text="我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。\n我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。\n我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。\n我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。\n我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。\n我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。\n我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。\n我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。\n我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。\n我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。\n我家的东侧的民房中,有一株洋槐树,每到开花的季节,甜丝丝的芳香便直入心脾。\n"
                 android:lineSpacingExtra="12sp"/>
 

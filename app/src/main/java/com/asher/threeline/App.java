@@ -8,6 +8,7 @@ import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
 import io.realm.Realm;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
  * Created by ouyangfan on 2017/3/22.
@@ -30,6 +31,7 @@ public class App extends Application {
 //        initJPush();
         initCanary();
         initFresco();
+        initFontStyle();
     }
 
     /**
@@ -69,6 +71,14 @@ public class App extends Application {
 
     private void initFresco() {
 //        Fresco.initialize(this);
+    }
+
+    private void initFontStyle() {
+        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/jianshi_default.otf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
     }
 
     public AppComponent component() {

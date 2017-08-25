@@ -11,6 +11,8 @@ import android.os.Handler;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import uk.co.chrisjenx.calligraphy.TypefaceUtils;
+
 /**
  * Created by ouyangfan on 17/6/4.
  * <p>
@@ -62,6 +64,7 @@ public class VerticalTextView extends TextView {
             mFontSize = Float.parseFloat(attrs.getAttributeValue(null, "textSize"));//获取字体大小属性
         } catch (Exception e) {
         }
+        setTypeface(TypefaceUtils.load(context.getAssets(), "fonts/jianshi_default.otf"));
     }
 
     public void setText(String text) {
