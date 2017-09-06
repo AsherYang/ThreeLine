@@ -6,6 +6,7 @@ Author: AsherYang
 Email:  1181830457@qq.com
 Date:   2017/4/10
 Desc:   server on tornado
+Server: www.fansdroid.net
 """
 
 import os
@@ -142,7 +143,7 @@ def main():
     # python ServerTornado.py --port=8889，会启用实例监听8889端口，浏览器等访问8889端口会被监听
     # 所以服务器配置了4端口运行命令，都可以监听运行
     tornado.options.parse_command_line()
-    http_server = tornado.httpserver.HTTPServer(CustomApplication(debug=options.debug))
+    http_server = tornado.httpserver.HTTPServer(CustomApplication(debug=options.debug), xheaders=True)
     http_server.listen(options.port)
     loop = tornado.ioloop.IOLoop.instance()
     if options.debug:
