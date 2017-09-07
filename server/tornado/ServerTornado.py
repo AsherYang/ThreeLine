@@ -103,17 +103,20 @@ class InsertDataHandler(tornado.web.RequestHandler):
 
 class CustomApplication(tornado.web.Application):
     def __init__(self, debug=False):
-        handlers = [
-            (r"/", MainHandler),
-            (r'/getlastdata', LastDataHandler),
-            (r'/adddata', InsertDataHandler),
-            (r"/.*", OtherHandler),
-        ]
         settings = {
+            "static_path": os.path.join(os.path.dirname(__file__), "static"),
             "cookie_secret": '61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=',
             "xsrf_cookies": True,
             "debug": debug,
         }
+
+        handlers = [
+            (r"/", MainHandler),
+            (r'/getlastdata', LastDataHandler),
+            (r'/adddata', InsertDataHandler),
+            (r'/(weidian_open\.json)', tornado.web.StaticFileHandler, dict(path=settings['static_path'])),
+            (r"/.*", OtherHandler),
+        ]
         super(CustomApplication, self).__init__(handlers=handlers, **settings)
         self.db = torndb.Connection(host=options.mysql_host, database=options.mysql_database, user=options.mysql_user,
                                     password=options.mysql_password)

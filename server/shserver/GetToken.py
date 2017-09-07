@@ -18,18 +18,41 @@ import time
 import MySQLdb
 import DbConstant
 from Token import Token
+import OpenRequest
 
-get_token_url = "https://oauth.open.weidian.com/token?grant_type=client_credential&appkey=" + TokenConstant.appkey + "&secret=" + TokenConstant.secret
+# import ssl
 
-# ====== get 方式 =========
+# get_token_url = "https://oauth.open.weidian.com/token?grant_type=client_credential&appkey=" + TokenConstant.appkey + "&secret=" + TokenConstant.secret
+# ssl._create_default_https_context = ssl._create_unverified_context
+# 服务型URL
+# get_token_url = '%s/oauth2/access_token' % TokenConstant.domain
+# 自用型
+get_token_url = '%s/token' % TokenConstant.domain
+
+# ====== get 方式 20170907 之前版本，由于微店更改规则，导致直接获取无效，以下面方式模仿浏览器行为 =========
+# def getTokenFromNet():
+#     # request 封装
+#     request = urllib2.Request(url=get_token_url)
+#     # 发起请求
+#     html = urllib2.urlopen(request)
+#     response_data = html.read()
+#     print response_data
+#     jsonToken = json.loads(response_data)
+#     access_token = jsonToken['result']['access_token']
+#     expire_in = jsonToken['result']['expire_in']
+#     token = Token()
+#     token.access_token = access_token
+#     token.expire_in = expire_in
+#     return token
+
 def getTokenFromNet():
-    # request 封装
-    request = urllib2.Request(url=get_token_url)
-    # 发起请求
-    html = urllib2.urlopen(request)
-    response_data = html.read()
-    print response_data
-    jsonToken = json.loads(response_data)
+    params={"appkey":TokenConstant.appkey,"secret":TokenConstant.secret,"grant_type":"client_credential"}
+    header = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36',
+    }
+    body=OpenRequest.http_get(get_token_url, params=params, header=header)
+    print body
+    jsonToken = json.loads(body)
     access_token = jsonToken['result']['access_token']
     expire_in = jsonToken['result']['expire_in']
     token = Token()
