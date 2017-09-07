@@ -22,6 +22,7 @@ from tornado.options import define, options
 import DbConstant
 from GetToken import *
 from WeiChatMsg import *
+from SendMsgEmail import SendEmail
 
 define("debug", default=False, help='Set debug mode', type=bool)
 # 服务器使用Supervisor＋nginx 配置多端口：8888｜8889｜8890｜8891, 上好微店端口：10001|10002
@@ -73,6 +74,7 @@ class weiChatMsgHandler(tornado.web.RequestHandler):
         if weiChatMsg.checkSignature():
             print 'ok. check success'
             self.write(echostr)
+            self.sendEmail('上好小程序有转发消息，请查看')
         else:
             print 'false. check fail'
             self.write('false. check fail')
@@ -80,6 +82,11 @@ class weiChatMsgHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
         json_str = 'do not call post msg at weiChat msg'
         self.write(json_str)
+        self.sendEmail('上好小程序有转发消息，请查看')
+
+    def sendEmail(self, msg):
+        sendEmail = SendEmail()
+        sendEmail(content=msg)
 
 """
 get access token
