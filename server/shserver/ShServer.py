@@ -21,6 +21,7 @@ import torndb
 from tornado.options import define, options
 import DbConstant
 from GetToken import *
+from WeiChatMsg import *
 
 define("debug", default=False, help='Set debug mode', type=bool)
 # 服务器使用Supervisor＋nginx 配置多端口：8888｜8889｜8890｜8891, 上好微店端口：10001|10002
@@ -55,6 +56,32 @@ class pushMsgHandler(tornado.web.RequestHandler):
         self.write(json_str)
 
 """
+receive weiChat push msg
+@see {#https://mp.weixin.qq.com/wxopen/devprofile?action=get_callback&token=1304670207&lang=zh_CN}
+url: https://shmall.fansdroid.net/weichat/push/msg
+Token: token20170907shmallweichatkey
+EncodingAESKey: Cx4Nqorw8Gw7wWtIgPSoVbmLwJb20UnUkh36CKY0JPn
+"""
+class weiChatMsgHandler(tornado.web.RequestHandler):
+    def get(self, *args, **kwargs):
+        signature = self.get_argument('signature')
+        timestamp = self.get_argument('timestamp')
+        nonce = self.get_argument('nonce')
+        echostr = self.get_argument('echostr')
+        print "signature = " + signature + " , timestamp = " + timestamp + " , nonce = " + nonce + " , echostr = " + echostr
+        weiChatMsg = WeiChatMsg(signature, timestamp, nonce)
+        if weiChatMsg.checkSignature():
+            print 'ok. check success'
+            self.write(echostr)
+        else:
+            print 'false. check fail'
+            self.write('false. check fail')
+
+    def post(self, *args, **kwargs):
+        json_str = 'do not call post msg at weiChat msg'
+        self.write(json_str)
+
+"""
 get access token
 """
 class getAccessTokenHandler(tornado.web.RequestHandler):
@@ -77,6 +104,7 @@ class CustomApplication(tornado.web.Application):
         handlers = [
             (r"/", MainHandler),
             (r'/push/msg', pushMsgHandler),
+            (r'/weichat/push/msg', weiChatMsgHandler),
             (r'/get/token', getAccessTokenHandler),
             (r'/update/token', updateAccessTokenHandler),
             (r"/.*", OtherHandler),
