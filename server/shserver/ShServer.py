@@ -23,6 +23,7 @@ import DbConstant
 from GetToken import *
 from WeiChatMsg import *
 from SendMsgEmail import SendEmail
+import threading
 
 define("debug", default=False, help='Set debug mode', type=bool)
 # 服务器使用Supervisor＋nginx 配置多端口：8888｜8889｜8890｜8891, 上好微店端口：10001|10002
@@ -86,7 +87,9 @@ class weiChatMsgHandler(tornado.web.RequestHandler):
 
     def sendEmail(self, msg):
         sendEmail = SendEmail()
-        sendEmail(content=msg)
+        # sendEmail(content=msg)
+        thr = threading.Thread(target=sendEmail, args=[msg])    # open new thread
+        thr.start()
 
 """
 get access token
