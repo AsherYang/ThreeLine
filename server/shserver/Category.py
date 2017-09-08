@@ -4,7 +4,7 @@
 Author: AsherYang
 Email:  ouyangfan1991@gmail.com
 Date:   2017/9/8.
-Desc:
+Desc:   商品分类
 """
 
 class Category():
