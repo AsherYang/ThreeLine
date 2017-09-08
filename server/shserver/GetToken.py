@@ -11,14 +11,13 @@ Desc:   get weidian token
 https://oauth.open.weidian.com/token?grant_type=client_credential&appkey=xxx&secret=xxx
 必须为get 请求
 """
-import TokenConstant
-import urllib2
 import json
 import time
-import MySQLdb
-import DbConstant
-from Token import Token
+
+import DbUtil
 import OpenRequest
+import TokenConstant
+from Token import Token
 
 # import ssl
 
@@ -28,6 +27,7 @@ import OpenRequest
 # get_token_url = '%s/oauth2/access_token' % TokenConstant.domain
 # 自用型
 get_token_url = '%s/token' % TokenConstant.domain
+
 
 # ====== get 方式 20170907 之前版本，由于微店更改规则，导致直接获取无效，以下面方式模仿浏览器行为 =========
 # def getTokenFromNet():
@@ -46,11 +46,11 @@ get_token_url = '%s/token' % TokenConstant.domain
 #     return token
 
 def getTokenFromNet():
-    params={"appkey":TokenConstant.appkey,"secret":TokenConstant.secret,"grant_type":"client_credential"}
+    params = {"appkey": TokenConstant.appkey, "secret": TokenConstant.secret, "grant_type": "client_credential"}
     header = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36',
     }
-    body=OpenRequest.http_get(get_token_url, params=params, header=header)
+    body = OpenRequest.http_get(get_token_url, params=params, header=header)
     print body
     jsonToken = json.loads(body)
     access_token = jsonToken['result']['access_token']
@@ -60,39 +60,31 @@ def getTokenFromNet():
     token.expire_in = expire_in
     return token
 
+
 # ====== get token from db ========
 def getTokenFromDb():
-    db = MySQLdb.connect(DbConstant.dbHost, DbConstant.dbUser, DbConstant.dbPwd, DbConstant.dbName)
-    cursor = db.cursor()
     query = "select * from sh_token where update_time = (select max(update_time) from sh_token)"
     token = Token()
-    try:
-        cursor.execute(query)
-        results = cursor.fetchall()
-        print "result = %s " %(results)
-        if results:
-            for row in results:
-                row_id = row[0]
-                access_token = row[1]
-                expire_in = row[2]
-                update_time = row[3]
-                token.access_token = access_token
-                token.expire_in = expire_in
-                token.update_time = update_time
-            # print "row_id = %s, access_token = %s, expire_in = %s, update_time = %s " %(row_id, access_token, expire_in, update_time)
-        else:
-            print "getTokenFromDb result is null. "
-            return None
-    except:
-        print "getTokenFromDb except"
+    results = DbUtil.query(query)
+    # print results
+    if results is None:
         return None
-    db.close()
+    for row in results:
+        row_id = row[0]
+        access_token = row[1]
+        expire_in = row[2]
+        update_time = row[3]
+        token.access_token = access_token
+        token.expire_in = expire_in
+        token.update_time = update_time
+        # print "row_id = %s, access_token = %s, expire_in = %s, update_time = %s " %(row_id, access_token, expire_in, update_time)
     return token
+
 
 # ====== save token to db =======
 def saveToDb(token=None, expire_in=None):
     if token is None or expire_in is None:
-        print "token is %s, expire_in is %s" %(token, expire_in)
+        print "token is %s, expire_in is %s" % (token, expire_in)
         return
     else:
         # locattime = time.asctime(time.localtime(time.time()))
@@ -100,16 +92,10 @@ def saveToDb(token=None, expire_in=None):
         # print locattime
         # print current_milli_time()
         locattime = int(time.time())
-        db = MySQLdb.connect(DbConstant.dbHost, DbConstant.dbUser, DbConstant.dbPwd, DbConstant.dbName)
-        cursor = db.cursor()
-        insert = 'insert into sh_token (access_token, expire_in, update_time) values("%s", "%s", "%s")' %(token, expire_in, locattime)
-        try:
-            cursor.execute(insert)
-            db.commit()
-        except:
-            print "saveToDb except"
-            db.rollback()
-        cursor.close()
+        insert = 'insert into sh_token (access_token, expire_in, update_time) values("%s", "%s", "%s")' % (
+            token, expire_in, locattime)
+        DbUtil.insert(insert)
+
 
 def doGetToken():
     dbToken = getTokenFromDb()
@@ -119,7 +105,7 @@ def doGetToken():
         saveToDb(netToken.access_token, netToken.expire_in)
         print "ok , update token from net success, when dbToken is null. "
         return netToken.access_token
-    elif currentTime >= int(dbToken.update_time) + int(dbToken.expire_in):
+    if currentTime >= int(dbToken.update_time) + int(dbToken.expire_in):
         print "currentTime = %s , update_time = %s " % (currentTime, dbToken.update_time)
         # expired
         netToken = getTokenFromNet()
@@ -129,6 +115,7 @@ def doGetToken():
     else:
         print "ok , token in date. "
         return dbToken.access_token
+
 
 if __name__ == '__main__':
     doGetToken()

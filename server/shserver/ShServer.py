@@ -10,7 +10,8 @@ Server: shmall.fansdroid.net
 """
 import os
 import subprocess
-
+import threading
+import DbConstant
 import MySQLdb
 import tornado.autoreload
 import tornado.httpserver
@@ -19,11 +20,13 @@ import tornado.options
 import tornado.web
 import torndb
 from tornado.options import define, options
-import DbConstant
+
 from GetToken import *
-from WeiChatMsg import *
 from SendMsgEmail import SendEmail
-import threading
+from WeiChatMsg import *
+import GetCategory
+import BaseResponse
+from ShJsonEncoder import *
 
 define("debug", default=False, help='Set debug mode', type=bool)
 # 服务器使用Supervisor＋nginx 配置多端口：8888｜8889｜8890｜8891, 上好微店端口：10001|10002
@@ -109,6 +112,20 @@ class updateAccessTokenHandler(tornado.web.RequestHandler):
         else:
             self.write("update access token fail, see next time. ")
 
+"""
+get category
+"""
+class getCategoryHandler(tornado.web.RequestHandler):
+    def get(self, *args, **kwargs):
+        categoryList = GetCategory.doGetCategory()
+        baseResponse = BaseResponse()
+        baseResponse.code = "000001"
+        baseResponse.desc = "successfully"
+        for category in categoryList:
+            baseResponse.data.append(category)
+        json_str = json.dumps(baseResponse, cls=CategoryEncoder)
+        self.write(json_str)
+
 class CustomApplication(tornado.web.Application):
     def __init__(self, debug=False):
         handlers = [
@@ -117,6 +134,7 @@ class CustomApplication(tornado.web.Application):
             (r'/weichat/push/msg', weiChatMsgHandler),
             (r'/get/token', getAccessTokenHandler),
             (r'/update/token', updateAccessTokenHandler),
+            (r'/get/category', getCategoryHandler),
             (r"/.*", OtherHandler),
         ]
         settings = {
