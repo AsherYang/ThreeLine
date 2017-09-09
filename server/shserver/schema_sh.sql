@@ -38,6 +38,7 @@ DROP TABLE IF EXISTS sh_goods;
 CREATE TABLE sh_goods (
     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     cate_id VARCHAR(50),
+    cate_name  VARCHAR(100),
     itemid VARCHAR(100),
     item_desc VARCHAR(150),
     item_name VARCHAR(100),

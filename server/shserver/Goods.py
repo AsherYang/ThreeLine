@@ -18,6 +18,14 @@ class Goods():
         self.cate_id = value
 
     @property
+    def cate_name(self):
+        return self.cate_name
+
+    @property
+    def cate_name(self, value):
+        self.cate_name = value
+
+    @property
     def itemid(self):
         return self.itemid
 

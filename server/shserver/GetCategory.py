@@ -93,7 +93,7 @@ def getCategoryFromDb():
 """
 def saveCategoryToDb(categoryList=None):
     print '--- saveCategoryToDb start ---'
-    if categoryList is None:
+    if categoryList is None or len(categoryList) == 0:
         print "categoryList is None could not save to db."
         return
     else:

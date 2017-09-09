@@ -10,6 +10,7 @@ import json
 from json.decoder import WHITESPACE
 from Category import Category
 import time
+from Goods import Goods
 
 """
 将JSON 数据转换为category
@@ -35,3 +36,31 @@ class categoryDecode(json.JSONDecoder):
             category.update_time = currentTime
             categoryList.append(category)
         return categoryList
+
+"""
+将JSON 数据转换为 goods
+"""
+class goodsDecode(json.JSONDecoder):
+    def decode(self, s, _w=WHITESPACE.match):
+        dic = super(goodsDecode, self).decode(s)
+        print dic
+        goodList = []
+        currentTime = int(time.time())
+        for goodTmp in dic['result']['items']:
+            # 每件商品可能分配放在不同的分类下，cate_id 不一样，这里我们将每个cate_id 下的商品单独出来做不同的商品
+            # 故例如，如果1个商品在2个不同的分裂下，会当做2件不同的商品
+            cates = goodTmp['cates']
+            for cate in cates:
+                goods = Goods()
+                # cate_id 在 cates 集合下
+                goods.cate_id = cate['cate_id']
+                goods.cate_name = cate['cate_name']
+                goods.itemid = goodTmp['itemid']
+                goods.item_desc = goodTmp['item_desc']
+                goods.item_name = goodTmp['item_name']
+                # 只取一张图
+                goods.imgs = goodTmp['imgs'][0]
+                goods.price = goodTmp['price']
+                goods.update_time = currentTime
+                goodList.append(goods)
+        return goodList

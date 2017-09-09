@@ -30,7 +30,7 @@ from ShJsonEncoder import *
 
 define("debug", default=False, help='Set debug mode', type=bool)
 # 服务器使用Supervisor＋nginx 配置多端口：8888｜8889｜8890｜8891, 上好微店端口：10001|10002
-define("port", default=10001, help='Run on the give port', type=int)
+define("port", default=10002, help='Run on the give port', type=int)
 define("mysql_host", default=DbConstant.dbHost, help='mysql host IP')
 define("mysql_user", default=DbConstant.dbUser, help='db user name')
 define("mysql_password", default=DbConstant.dbPwd, help='db user password')
