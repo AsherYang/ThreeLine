@@ -92,8 +92,7 @@ def saveToDb(token=None, expire_in=None):
         # print locattime
         # print current_milli_time()
         locattime = int(time.time())
-        insert = 'insert into sh_token (access_token, expire_in, update_time) values("%s", "%s", "%s")' % (
-            token, expire_in, locattime)
+        insert = 'insert into sh_token (access_token, expire_in, update_time) values("%s", "%s", "%s")' %(token, expire_in, locattime)
         DbUtil.insert(insert)
 
 

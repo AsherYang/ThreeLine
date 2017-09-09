@@ -25,6 +25,7 @@ from GetToken import *
 from SendMsgEmail import SendEmail
 from WeiChatMsg import *
 import GetCategory
+import GetAllGoods
 import BaseResponse
 from ShJsonEncoder import *
 
@@ -126,6 +127,22 @@ class getCategoryHandler(tornado.web.RequestHandler):
         json_str = json.dumps(baseResponse, cls=CategoryEncoder)
         self.write(json_str)
 
+
+"""
+get all goods
+"""
+class getAllGoodsHandler(tornado.web.RequestHandler):
+    def get(self, *args, **kwargs):
+        allGoodsList = GetAllGoods.doGetAllGoods()
+        baseResponse = BaseResponse()
+        baseResponse.code = "000001"
+        baseResponse.desc = "successfully"
+        for goods in allGoodsList:
+            baseResponse.data.append(goods)
+        json_str = json.dumps(baseResponse, cls=AllGoodsEncoder)
+        self.write(json_str)
+
+
 class CustomApplication(tornado.web.Application):
     def __init__(self, debug=False):
         handlers = [
@@ -135,6 +152,7 @@ class CustomApplication(tornado.web.Application):
             (r'/get/token', getAccessTokenHandler),
             (r'/update/token', updateAccessTokenHandler),
             (r'/get/category', getCategoryHandler),
+            (r'/get/allgoods', getAllGoodsHandler),
             (r"/.*", OtherHandler),
         ]
         settings = {

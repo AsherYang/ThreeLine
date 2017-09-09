@@ -19,6 +19,7 @@ from Goods import Goods
 import OpenRequest
 import TokenConstant
 from ShJsonDecode import goodsDecode
+import GetToken
 
 """
 从微店获取所有商品
@@ -57,7 +58,7 @@ def vdianItemListGet(page_num, orderby, page_size, version="1.0", path="api"):
     }
     # GetToken.doGetToken()
     param = {"page_num": page_num, "orderby": orderby, "page_size": page_size}
-    pub = {"method": "vdian.item.list.get", "access_token": "c79ec580a7e4e30eef74ed8b9ad93e7a0007487713",
+    pub = {"method": "vdian.item.list.get", "access_token": GetToken.doGetToken(),
            "version": version, "lang": "python",
            "sdkversion": TokenConstant.version}
     url = "%s%s?param=%s&public=%s" % (TokenConstant.domain, path, param, pub)
@@ -158,16 +159,7 @@ def doGetAllGoods():
 
 
 if __name__ == '__main__':
-    # doGetAllGoods()
+    doGetAllGoods()
     # allGoodsNetList = getAllGoodsFromNet()
     # saveAllGoodsToDb(allGoodsNetList)
-    # delete = 'delete from sh_goods;'
-    # DbUtil.delete(delete)
-    query = "select * from sh_goods"
-    results = DbUtil.query(query)
-    print len(results)
-    delete = 'delete from sh_goods'
-    DbUtil.delete(delete)
-    query = "select * from sh_goods"
-    results = DbUtil.query(query)
-    print len(results)
+

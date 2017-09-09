@@ -82,9 +82,14 @@ def delete(sql=None):
         return
     try:
         cursor.execute(sql)
+        # 删除和插入一样，需要commit
+        db.commit()
         print 'delete success !'
     except Exception as e:
         print "delete except "
         print e
+        # 操作失败，需要回滚
+        db.rollback()
     cursor.close()
     db.close()
+    return
