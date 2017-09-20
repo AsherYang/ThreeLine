@@ -4,6 +4,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     android:background="@color/color_fafafa">
 
     <com.asher.threeline.ui.view.TitleBar
@@ -17,6 +18,15 @@
         app:titleBarTextSize="16sp"
         app:titleBarTitle="@string/app_name" />
 
+    <com.asher.viewflow.ViewFlow
+        android:id="@+id/view_flow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_bar"
+        android:layout_marginBottom="60dp"
+        android:background="@color/color_fafafa"
+        app:sidebuffer="5" />
+
     <LinearLayout
         android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
@@ -25,6 +35,7 @@
         android:layout_marginLeft="27dp"
         android:layout_marginRight="27dp"
         android:background="@color/color_fafafa"
+        android:clipChildren="false"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -34,6 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:clipChildren="false"
             android:orientation="horizontal">
 
             <ImageView
@@ -88,14 +100,5 @@
         android:layout_height="1px"
         android:layout_above="@id/ll_bottom"
         android:background="@color/color_e3e3e3" />
-
-    <com.asher.viewflow.ViewFlow
-        android:id="@+id/view_flow"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottom_divider"
-        android:layout_below="@id/title_bar"
-        android:background="@color/color_fafafa"
-        app:sidebuffer="5" />
 
 </RelativeLayout>

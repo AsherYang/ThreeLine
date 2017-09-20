@@ -8,6 +8,8 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -162,6 +164,8 @@ public class MainActivity extends BaseActivity implements MainView {
 //                mainPresenter.getDataFromNet();
                 changeStarImage(isStar);
                 isStar = !isStar;
+                Animation animation = AnimationUtils.loadAnimation(view.getContext(), R.anim.start_shake);
+                view.startAnimation(animation);
                 break;
             case R.id.iv_share:
                 // 为了验证改变主题对其他页面的影响,这里延迟5S用于测试

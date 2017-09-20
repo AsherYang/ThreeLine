@@ -44,7 +44,7 @@
                 android:layout_height="240dp"
                 android:scaleType="fitXY"
                 android:layout_marginTop="18dp"
-                android:src="@drawable/ic_launcher" />
+                android:src="@drawable/img" />
 
             <!-- todo 首行缩进  fontPath="fonts/RobotoCondensed-Regular.ttf" -->
             <TextView

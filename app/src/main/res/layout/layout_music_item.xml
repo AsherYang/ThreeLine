@@ -22,7 +22,7 @@
                 android:layout_width="105dp"
                 android:layout_height="105dp"
                 android:layout_marginTop="27dp"
-                android:src="@drawable/ic_launcher" />
+                android:src="@drawable/img" />
 
             <TextView
                 android:id="@+id/tv_music_item_title"
