@@ -14,6 +14,9 @@ class SinaWbCrawler() :
     def do(self):
         return '--- sina wei bo msg.'
 
+    def getAccessToken(self):
+        return "1234"
+
 if __name__ == '__main__':
     sinaWbCrawler = SinaWbCrawler()
     print sinaWbCrawler.do()
