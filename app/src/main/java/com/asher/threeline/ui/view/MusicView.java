@@ -57,7 +57,11 @@ public class MusicView extends View {
                 getResources().getDimensionPixelSize(R.dimen.dimen_2dp));
         array.recycle();
         Log.i(TAG, "mInterval = " + mInterval + " , mLineWidth = " + mLineWidth);
-        mBytes = null;
+        // add test
+//        mBytes = new byte[1024];
+//        for (int i = 0; i < 1024; i++) {
+//            mBytes[i] = (byte)(Math.random() * 100);
+//        }
     }
 
     private void initPaint() {
