@@ -143,6 +143,17 @@ class getAllGoodsHandler(tornado.web.RequestHandler):
         self.write(json_str)
 
 
+"""
+save user to db
+"""
+class saveUserHandler(tornado.web.RequestHandler):
+    def post(self, *args, **kwargs):
+        json_str = 'do not call post msg at weiChat msg'
+        userName = self.get_argument('address.name')
+        print 'kwargs = %s , userName = %s' %(kwargs, userName)
+        self.write(json_str)
+
+
 class CustomApplication(tornado.web.Application):
     def __init__(self, debug=False):
         handlers = [
@@ -153,6 +164,7 @@ class CustomApplication(tornado.web.Application):
             (r'/update/token', updateAccessTokenHandler),
             (r'/get/category', getCategoryHandler),
             (r'/get/allgoods', getAllGoodsHandler),
+            (r'/save/user', saveUserHandler),
             (r"/.*", OtherHandler),
         ]
         settings = {
