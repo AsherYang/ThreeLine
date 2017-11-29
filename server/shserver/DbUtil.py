@@ -71,6 +71,27 @@ def query(sql=None):
     db.close()
     return None
 
+def update(sql=None):
+    if sql is None:
+        return
+    db = getDb()
+    cursor = getConn(db)
+    if cursor is None:
+        db.close()
+        return
+    try:
+        cursor.execute(sql)
+        # 更新和插入一样，需要commit
+        db.commit()
+        print 'update success !'
+    except Exception as e:
+        print "update except "
+        print e
+        # 操作失败，需要回滚
+        db.rollback()
+    cursor.close()
+    db.close()
+    return
 
 def delete(sql=None):
     if sql is None:

@@ -149,15 +149,20 @@ save user to db
 """
 class saveUserHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
-        json_str = 'do not call post msg at weiChat msg'
         userName = self.get_argument('userName', '')
         phone = self.get_argument('phone', '')
         address = self.get_argument('address', '')
-        str1 = '\n kwargs = %s , userName = %s, phone = %s, address = %s' %(kwargs, userName, phone, address)
-        user = UserInfo.User(userName, phone, address)
-        str2 = '\n user userName = %s, userPhone = %s , userAddress = %s' %(user.userName, user.phone, user.address)
-        UserInfo.operateDb.saveToDb(user)
-        self.write(json_str+str1+str2)
+        user = UserInfo.User()
+        user.userName = userName
+        user.phone = phone
+        user.address = address
+        userDb = UserInfo.operateDb()
+        userDb.operate(user)
+        baseResponse = BaseResponse()
+        baseResponse.code = "000001"
+        baseResponse.desc = "successfully"
+        json_str = json.dumps(baseResponse, cls=AllGoodsEncoder)
+        self.write(json_str)
 
 
 class CustomApplication(tornado.web.Application):
