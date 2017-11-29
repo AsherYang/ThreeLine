@@ -28,6 +28,7 @@ import GetCategory
 import GetAllGoods
 import BaseResponse
 from ShJsonEncoder import *
+import UserInfo
 
 define("debug", default=False, help='Set debug mode', type=bool)
 # 服务器使用Supervisor＋nginx 配置多端口：8888｜8889｜8890｜8891, 上好微店端口：10001|10002
@@ -149,9 +150,14 @@ save user to db
 class saveUserHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
         json_str = 'do not call post msg at weiChat msg'
-        userName = self.get_argument('address.name')
-        print 'kwargs = %s , userName = %s' %(kwargs, userName)
-        self.write(json_str)
+        userName = self.get_argument('userName', '')
+        phone = self.get_argument('phone', '')
+        address = self.get_argument('address', '')
+        str1 = '\n kwargs = %s , userName = %s, phone = %s, address = %s' %(kwargs, userName, phone, address)
+        user = UserInfo.User(userName, phone, address)
+        str2 = '\n user userName = %s, userPhone = %s , userAddress = %s' %(user.userName, user.phone, user.address)
+        UserInfo.operateDb.saveToDb(user)
+        self.write(json_str+str1+str2)
 
 
 class CustomApplication(tornado.web.Application):
