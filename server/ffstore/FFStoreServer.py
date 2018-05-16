@@ -4,14 +4,13 @@
 """
 Author: AsherYang
 Email:  ouyangfan1991@gmail.com
-Date:   17/7/24
-Desc:   shanghao server on tornado
-Server: shmall.fansdroid.net
+Date:   2018/5/6
+Desc:   FFStore Server
 """
+
 import os
 import subprocess
 import threading
-import DbConstant
 import MySQLdb
 import tornado.autoreload
 import tornado.httpserver
@@ -21,18 +20,19 @@ import tornado.web
 import torndb
 from tornado.options import define, options
 
-from GetToken import *
-from SendMsgEmail import SendEmail
-from WeiChatMsg import *
-import GetCategory
-import GetAllGoods
+from constant import DbConstant
+from util.SendMsgEmail import SendEmail
+from db.User import User
+from db.UserDao import UserDao
+from FFStoreJsonEncoder import *
 import BaseResponse
-from ShJsonEncoder import *
-import UserInfo
+from constant import ResponseCode
+import WeiChatMsg
 
 define("debug", default=False, help='Set debug mode', type=bool)
 # 服务器使用Supervisor＋nginx 三行情书配置多端口：8888｜8889｜8890｜8891, 上好微店端口：10001|10002
-define("port", default=10002, help='Run on the give port', type=int)
+# FFStore端口: 20001|20002|20003
+define("port", default=20001, help='Run on the give port', type=int)
 define("mysql_host", default=DbConstant.dbHost, help='mysql host IP')
 define("mysql_user", default=DbConstant.dbUser, help='db user name')
 define("mysql_password", default=DbConstant.dbPwd, help='db user password')
@@ -42,13 +42,13 @@ define("mysql_database", default=DbConstant.dbName, help='db name')
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
-        self.write("Hello AsherYang is shanghao mall , nice to meet you!")
+        self.write("Hello AsherYang is FFStore, nice to meet you!")
 
 
 class OtherHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
         raise tornado.web.HTTPError(status_code=416, log_message="test other",
-                                    reason="unKnow request, please wait for http://www.fansdroid.net")
+                                    reason="unKnow request, please wait for http://www.oyf.name")
 
 
 """
@@ -80,7 +80,7 @@ class weiChatMsgHandler(tornado.web.RequestHandler):
         if weiChatMsg.checkSignature():
             print 'ok. check success'
             self.write(echostr)
-            self.sendEmail('上好小程序有转发消息，请查看')
+            self.sendEmail('FFStore有转发消息，请查看')
         else:
             print 'false. check fail'
             self.write('false. check fail')
@@ -88,31 +88,13 @@ class weiChatMsgHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
         json_str = 'do not call post msg at weiChat msg'
         self.write(json_str)
-        self.sendEmail('上好小程序有转发消息，请查看')
+        self.sendEmail('FFStore有转发消息，请查看')
 
     def sendEmail(self, msg):
         sendEmail = SendEmail()
         # sendEmail(content=msg)
         thr = threading.Thread(target=sendEmail, args=[msg])    # open new thread
         thr.start()
-
-"""
-get access token
-"""
-class getAccessTokenHandler(tornado.web.RequestHandler):
-    def get(self, *args, **kwargs):
-        token = doGetToken()
-        if token is not None:
-            self.write(token)
-
-class updateAccessTokenHandler(tornado.web.RequestHandler):
-    def get(self, *args, **kwargs):
-        netToken = getTokenFromNet()
-        if netToken is not None:
-            saveToDb(netToken.access_token, netToken.expire_in)
-            self.write("update access token success. ")
-        else:
-            self.write("update access token fail, see next time. ")
 
 """
 get category
@@ -149,21 +131,43 @@ save user to db
 """
 class saveUserHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
-        userName = self.get_argument('userName', '')
+        userName = self.get_argument('name', '')
         phone = self.get_argument('phone', '')
         address = self.get_argument('address', '')
-        user = UserInfo.User()
-        user.userName = userName
-        user.phone = phone
+        user = User()
+        user.user_name = userName
+        user.user_tel = phone
         user.address = address
-        userDb = UserInfo.operateDb()
-        userDb.operate(user)
+        userDao = UserDao()
+        result = userDao.operate(user)
         baseResponse = BaseResponse()
-        baseResponse.code = "000001"
-        baseResponse.desc = "successfully"
-        json_str = json.dumps(baseResponse, cls=AllGoodsEncoder)
+        if result:
+            baseResponse.code = ResponseCode.op_success
+            baseResponse.desc = ResponseCode.op_success_desc
+        elif not phone:
+            baseResponse.code = ResponseCode.invalid_user_phone
+            baseResponse.desc = ResponseCode.invalid_user_phone_desc
+        elif not address:
+            baseResponse.code = ResponseCode.invalid_user_address
+            baseResponse.desc = ResponseCode.invalid_user_address_desc
+        else:
+            baseResponse.code = ResponseCode.update_user_info_error
+            baseResponse.desc = ResponseCode.update_user_info_error_desc
+        json_str = json.dumps(baseResponse, cls=StrEncoder)
         self.write(json_str)
 
+class updateUserCostHandler(tornado.web.RequestHandler):
+    def post(self, *args, **kwargs):
+        phone = self.get_argument('user_tel', '')
+        cost = self.get_argument('cost_this_time', '')
+        user = User()
+        user.user_tel = phone
+        userDao = UserDao()
+        result = userDao.updateUserCost(user, cost)
+        if result:
+            print 'add user cost successfully!'
+        else:
+            print ResponseCode.add_user_cost_error_desc
 
 class CustomApplication(tornado.web.Application):
     def __init__(self, debug=False):
@@ -171,11 +175,10 @@ class CustomApplication(tornado.web.Application):
             (r"/", MainHandler),
             (r'/push/msg', pushMsgHandler),
             (r'/weichat/push/msg', weiChatMsgHandler),
-            (r'/get/token', getAccessTokenHandler),
-            (r'/update/token', updateAccessTokenHandler),
             (r'/get/category', getCategoryHandler),
             (r'/get/allgoods', getAllGoodsHandler),
             (r'/save/user', saveUserHandler),
+            (r'/update/user/cost', updateUserCostHandler),
             (r"/.*", OtherHandler),
         ]
         settings = {
@@ -197,7 +200,7 @@ class CustomApplication(tornado.web.Application):
 
     def create_tables(self):
         try:
-            self.db.get('select count(*) from sh_user')
+            self.db.get('select count(*) from ffstore_size')
         except MySQLdb.ProgrammingError:
             subprocess.check_call([
                 'mysql',
@@ -205,7 +208,7 @@ class CustomApplication(tornado.web.Application):
                 '--database=' + options.mysql_database,
                 '--user=' + options.mysql_user,
                 '--password=' + options.mysql_password,
-            ], stdin=open(os.path.join(os.path.dirname(__file__), 'schema_sh.sql')))
+            ], stdin=open(os.path.join(os.path.dirname(__file__), 'schema_ffstore.sql')))
 
 
 def main():

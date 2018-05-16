@@ -27,7 +27,7 @@ from BaseResponse import BaseResponse
 from JSONEncoder import JSONEncoder
 
 define("debug", default=False, help='Set debug mode', type=bool)
-# 服务器使用Supervisor＋nginx 配置多端口：8888｜8889｜8890｜8891
+# 服务器使用Supervisor＋nginx 三行情书配置多端口：8888｜8889｜8890｜8891
 define("port", default=8888, help='Run on the give port', type=int)
 define("mysql_host", default='127.0.0.1', help='mysql host IP')
 define("mysql_user", default='root', help='db user name')

@@ -8,7 +8,7 @@ Desc:  database util
 """
 import MySQLdb
 
-import DbConstant
+from ffstore.constant import DbConstant
 
 
 def getDb():
@@ -29,23 +29,25 @@ def getConn(db):
 
 def insert(sql=None):
     if sql is None:
-        return
+        return False
     db = getDb()
     cursor = getConn(db)
     if cursor is None:
         db.close()
-        return
+        return False
     try:
         cursor.execute(sql)
         db.commit()
         print 'save data ToDb success ! '
+        return True
     except Exception as e:
         print "saveToDb except "
         print e
         db.rollback()
-    cursor.close()
-    db.close()
-
+    finally:
+        cursor.close()
+        db.close()
+    return False
 
 def query(sql=None):
     if sql is None:
@@ -67,50 +69,55 @@ def query(sql=None):
     except Exception as e:
         print "query except "
         print e
-    cursor.close()
-    db.close()
+    finally:
+        cursor.close()
+        db.close()
     return None
 
 def update(sql=None):
     if sql is None:
-        return
+        return False
     db = getDb()
     cursor = getConn(db)
     if cursor is None:
         db.close()
-        return
+        return False
     try:
         cursor.execute(sql)
         # 更新和插入一样，需要commit
         db.commit()
         print 'update success !'
+        return True
     except Exception as e:
         print "update except "
         print e
         # 操作失败，需要回滚
         db.rollback()
-    cursor.close()
-    db.close()
-    return
+    finally:
+        cursor.close()
+        db.close()
+    return False
 
 def delete(sql=None):
     if sql is None:
-        return
+        return False
     db = getDb()
     cursor = getConn(db)
     if cursor is None:
         db.close()
-        return
+        return False
     try:
         cursor.execute(sql)
         # 删除和插入一样，需要commit
         db.commit()
         print 'delete success !'
+        return True
     except Exception as e:
         print "delete except "
         print e
         # 操作失败，需要回滚
         db.rollback()
-    cursor.close()
-    db.close()
-    return
+    finally:
+        cursor.close()
+        db.close()
+    return False

@@ -51,4 +51,3 @@ class BaseResponse():
         return self.data.extend(value)
 
 
-
