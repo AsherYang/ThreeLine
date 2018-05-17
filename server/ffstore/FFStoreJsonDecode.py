@@ -9,8 +9,8 @@ Desc:  JSON convert to Object
 import json
 from json.decoder import WHITESPACE
 import time
-from db.Category import Category
-from db.Goods import Goods
+from db.DbCategory import Category
+from db.DbGoods import DbGoods
 
 """
 将JSON 数据转换为category
@@ -51,7 +51,7 @@ class GoodsDecode(json.JSONDecoder):
             # 故例如，如果1个商品在2个不同的分裂下，会当做2件不同的商品
             cates = goodTmp['cates']
             for cate in cates:
-                goods = Goods()
+                goods = DbGoods()
                 # cate_id 在 cates 集合下
                 goods.cate_id = cate['cate_id']
                 goods.cate_name = cate['cate_name']

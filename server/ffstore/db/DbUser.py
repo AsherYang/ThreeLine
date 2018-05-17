@@ -14,7 +14,10 @@ buy_times INT,
 cost_count INT
 """
 
-class User():
+class DbUser:
+
+    def __init__(self):
+        pass
 
     @property
     def user_name(self):

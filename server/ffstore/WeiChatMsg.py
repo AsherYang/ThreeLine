@@ -17,7 +17,7 @@ import hashlib
 token = 'token20170907shmallweichatkey'
 EncodingAESKey = 'Cx4Nqorw8Gw7wWtIgPSoVbmLwJb20UnUkh36CKY0JPn'
 
-class WeiChatMsg():
+class WeiChatMsg:
     def __init__(self, signature=None, timestamp=None, nonce=None):
         self.signature = signature
         self.timestamp = timestamp

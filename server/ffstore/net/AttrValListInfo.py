@@ -16,7 +16,10 @@ Desc:   首页封面实体 attrValList 实体
  */
 """
 
-class AttrValList():
+class AttrValList:
+
+    def __init__(self):
+        pass
 
     @property
     def attrName(self):

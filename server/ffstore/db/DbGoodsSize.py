@@ -1,18 +1,22 @@
 #! /usr/bin/python
 # -*- coding:utf-8 -*-
+
 """
 Author: AsherYang
 Email:  ouyangfan1991@gmail.com
 Date:   2018/5/6
-Desc:   商品详情图片类
+Desc:   商品尺寸类
 
 _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 goods_id VARCHAR(50),
-photo VARCHAR(200),
-thum_photo VARCHAR(200)
+size_id VARCHAR(50),
+goods_size VARCHAR(5)
 """
 
-class GoodsPhoto():
+class DbGoodsSize:
+
+    def __init__(self):
+        pass
 
     @property
     def goods_id(self):
@@ -23,17 +27,17 @@ class GoodsPhoto():
         self.goods_id = value
 
     @property
-    def photo(self):
-        return self.photo
+    def size_id(self):
+        return self.size_id
 
     @property
-    def photo(self, value):
-        self.photo = value
+    def size_id(self, value):
+        self.size_id = value
 
     @property
-    def thum_photo(self):
-        return self.thum_photo
+    def goods_size(self):
+        return self.goods_size
 
     @property
-    def thum_photo(self, value):
-        self.thum_photo = value
+    def goods_size(self, value):
+        self.goods_size = value

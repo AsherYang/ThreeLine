@@ -14,7 +14,10 @@ Desc:   首页封面实体 attrs 实体
  */
 """
 
-class Attrs():
+class Attrs:
+
+    def __init__(self):
+        pass
 
     @property
     def attrValList(self):

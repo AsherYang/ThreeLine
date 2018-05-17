@@ -22,12 +22,13 @@ from tornado.options import define, options
 
 from constant import DbConstant
 from util.SendMsgEmail import SendEmail
-from db.User import User
+from db.DbUser import DbUser
 from db.UserDao import UserDao
 from FFStoreJsonEncoder import *
-import BaseResponse
+from BaseResponse import BaseResponse
 from constant import ResponseCode
 import WeiChatMsg
+from ffstore.net.GetCategory import GetCategory
 
 define("debug", default=False, help='Set debug mode', type=bool)
 # 服务器使用Supervisor＋nginx 三行情书配置多端口：8888｜8889｜8890｜8891, 上好微店端口：10001|10002
@@ -103,8 +104,6 @@ class getCategoryHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
         categoryList = GetCategory.doGetCategory()
         baseResponse = BaseResponse()
-        baseResponse.code = "000001"
-        baseResponse.desc = "successfully"
         for category in categoryList:
             baseResponse.data.append(category)
         json_str = json.dumps(baseResponse, cls=CategoryEncoder)
@@ -134,7 +133,7 @@ class saveUserHandler(tornado.web.RequestHandler):
         userName = self.get_argument('name', '')
         phone = self.get_argument('phone', '')
         address = self.get_argument('address', '')
-        user = User()
+        user = DbUser()
         user.user_name = userName
         user.user_tel = phone
         user.address = address
@@ -160,7 +159,7 @@ class updateUserCostHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
         phone = self.get_argument('user_tel', '')
         cost = self.get_argument('cost_this_time', '')
-        user = User()
+        user = DbUser()
         user.user_tel = phone
         userDao = UserDao()
         result = userDao.updateUserCost(user, cost)

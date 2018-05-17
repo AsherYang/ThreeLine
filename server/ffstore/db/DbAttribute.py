@@ -13,7 +13,10 @@ attr_name VARCHAR(50),
 attr_val VARCHAR(150)
 """
 
-class Attribute():
+class DbAttribute:
+
+    def __init__(self):
+        pass
 
     @property
     def cate_id(self):

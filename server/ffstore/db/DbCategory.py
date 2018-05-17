@@ -14,7 +14,10 @@ cate_logo VARCHAR(200),
 cate_name VARCHAR(50)
 """
 
-class Category():
+class DbCategory:
+
+    def __init__(self):
+        pass
 
     @property
     def cate_id(self):

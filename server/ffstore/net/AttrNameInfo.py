@@ -15,7 +15,10 @@ Desc:   首页封面实体 attrName 实体
  */
 """
 
-class AttrName():
+class AttrName:
+
+    def __init__(self):
+        pass
 
     @property
     def attrName(self):

@@ -20,7 +20,10 @@ goods_logo VARCHAR(200),
 thum_logo VARCHAR(200)
 """
 
-class Goods():
+class DbGoods:
+
+    def __init__(self):
+        pass
 
     @property
     def goods_id(self):

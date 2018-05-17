@@ -12,7 +12,7 @@ from email.MIMEText import MIMEText
 """
 
 
-class SendEmail():
+class SendEmail:
     """
     send email content: content
     author: AsherYang

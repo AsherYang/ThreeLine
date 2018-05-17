@@ -28,7 +28,10 @@ Desc:   首页banner广告实体
  */
 """
 
-class Adverts():
+class Adverts:
+
+    def __init__(self):
+        pass
 
     @property
     def advertUrl(self):

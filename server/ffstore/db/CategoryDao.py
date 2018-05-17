@@ -8,12 +8,14 @@ Date:   2018/5/10
 Desc:   操作类型数据库DAO 类
 """
 from ffstore.util import DbUtil
-import Category
+import DbCategory
 
-class CategoryDao():
+class CategoryDao:
+    def __init__(self):
+        pass
 
     def saveToDb(self, cate):
-        if isinstance(cate, Category):
+        if isinstance(cate, DbCategory):
             insert = 'insert into ffstore_category (cate_id, cate_code, cate_logo, cate_name) values("%s", "%d", "%s", "%s")' \
                      % (cate.cate_id, cate.cate_code, cate.cate_logo, cate.cate_name)
             print 'insert user to db.'
@@ -21,7 +23,7 @@ class CategoryDao():
         return False
 
     def updateToDb(self, cate):
-        if isinstance(cate, Category):
+        if isinstance(cate, DbCategory):
             if not cate.cate_id:
                 return False
             if not cate.cate_logo:
@@ -36,7 +38,7 @@ class CategoryDao():
         return False
 
     def updateLogoToDb(self, cate):
-        if isinstance(cate, Category):
+        if isinstance(cate, DbCategory):
             update = 'update ffstore_category set cate_logo = "%s" where cate_code = "%s" ' \
                      % (cate.cate_logo, cate.cate_code)
             print 'update category logo to db'
@@ -44,7 +46,7 @@ class CategoryDao():
         return False
 
     def updateNameToDb(self, cate):
-        if isinstance(cate, Category):
+        if isinstance(cate, DbCategory):
             update = 'update ffstore_category set cate_name = "%s" where cate_code = "%s" ' \
                      % (cate.cate_name, cate.cate_code)
             print 'update category name to db'
@@ -52,7 +54,7 @@ class CategoryDao():
         return False
 
     def saveOrUpdateToDb(self, cate):
-        if isinstance(cate, Category):
+        if isinstance(cate, DbCategory):
             category = self.queryCateById(cate.cate_id)
             if category:
                 return self.updateToDb(cate)
@@ -61,7 +63,7 @@ class CategoryDao():
         return False
 
     def deleteFromDb(self, cate):
-        if isinstance(cate, Category):
+        if isinstance(cate, DbCategory):
             delete = 'delete from ffstore_category where cate_code = "%s" ' % cate.cate_code
             print 'delete category:%s from db.' % cate.cate_code
             return DbUtil.delete(delete)
@@ -76,4 +78,3 @@ class CategoryDao():
             return None
         query = 'select * from ffstore_category where cate_id = "%s"' % cateId
         return DbUtil.query(query)
-

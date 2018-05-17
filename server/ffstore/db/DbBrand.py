@@ -12,7 +12,10 @@ brand_name VARCHAR(30),
 brand_logo VARCHAR(200)
 """
 
-class Brand():
+class DbBrand:
+
+    def __init__(self):
+        pass
 
     @property
     def brand_id(self):

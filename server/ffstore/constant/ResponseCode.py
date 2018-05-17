@@ -34,3 +34,7 @@ update_user_info_error_desc = u'更新信息失败'
 # 记录用户消费失败
 add_user_cost_error = '200020'
 add_user_cost_error_desc = u'记录用户消费失败'
+
+# 系统级错误
+sys_error = '999999'
+sys_error_desc = u'系统错误'

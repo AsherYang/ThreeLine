@@ -10,8 +10,8 @@ Desc:   json encoder for custom class
 
 import json
 from BaseResponse import BaseResponse
-from db.Category import Category
-from db.Goods import Goods
+from ffstore.net.NetCategory import NetCategory
+from db.DbGoods import DbGoods
 
 """
 将Category 转成 Json 字符串
@@ -24,11 +24,9 @@ class CategoryEncoder(json.JSONEncoder):
             realContent = []
             if isinstance(contentData, list):
                 for data in contentData:
-                    if isinstance(data, Category):
-                        string = {'cate_id': data.cate_id, 'cate_name': data.cate_name, 'parent_id': data.parent_id,
-                                  'parent_cate_name': data.parent_cate_name, 'sort_num': data.sort_num, 'cate_item_num': data.cate_item_num,
-                                  'description': data.description, 'listUrl': data.listUrl, 'shopName': data.shopName,
-                                  'shopLogo': data.shopLogo, 'update_time': data.update_time}
+                    if isinstance(data, NetCategory):
+                        string = {'id': data.id, 'code': data.code, 'name': data.name, 'logo': data.logo,
+                                  'parent_code': data.parent_code}
                         realContent.append(string)
             elif isinstance(contentData, basestring):
                 realContent = contentData
@@ -55,7 +53,7 @@ class AllGoodsEncoder(json.JSONEncoder):
             realContent = []
             if isinstance(contentData, list):
                 for data in contentData:
-                    if isinstance(data, Goods):
+                    if isinstance(data, DbGoods):
                         string = {'cate_id': data.cate_id, 'cate_name': data.cate_name, 'itemid': data.itemid,
                                   'item_desc': data.item_desc, 'item_name': data.item_name, 'imgs': data.imgs,
                                   'price': data.price, 'update_time': data.update_time}
@@ -76,7 +74,6 @@ class AllGoodsEncoder(json.JSONEncoder):
 """
 将string 转成 Json 字符串
 """
-
 class StrEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, BaseResponse):

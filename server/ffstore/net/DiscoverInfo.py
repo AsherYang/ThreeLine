@@ -15,7 +15,10 @@ Desc:   首页封面实体
  */
 """
 
-class Discover():
+class Discover:
+
+    def __init__(self):
+        pass
 
     @property
     def code(self):

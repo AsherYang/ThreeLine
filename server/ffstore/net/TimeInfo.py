@@ -22,7 +22,10 @@ Desc:   time bean
  */
 """
 
-class Time():
+class Time:
+
+    def __init__(self):
+        pass
 
     @property
     def date(self):

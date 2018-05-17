@@ -10,10 +10,13 @@ Desc:   get category
 """
 
 from ffstore.db.CategoryDao import CategoryDao
-from ffstore.db.Category import Category
+from ffstore.db.DbCategory import DbCategory
+from ffstore.net.NetCategory import NetCategory
 
+class GetCategory:
 
-class GetCategory():
+    def __init__(self):
+        pass
 
     """
     从数据库获取商品分类
@@ -26,7 +29,7 @@ class GetCategory():
             return None
         categoryList = []
         for row in results:
-            category = Category()
+            category = DbCategory()
             row_id = row[0]
             cate_id = row[1]
             cate_code = row[2]
@@ -71,9 +74,16 @@ class GetCategory():
     def covertCateDb2Net(self, dbCateList):
         if not dbCateList:
             return False
+        categoryList = []
         for dbCate in dbCateList:
-            #TODO
-            pass
+            netCate = NetCategory()
+            netCate.id = dbCate.cate_id
+            netCate.code = dbCate.cate_code
+            netCate.parent_code = dbCate.parent_code
+            netCate.name = dbCate.cate_name
+            netCate.logo = dbCate.cate_logo
+            categoryList.append(netCate)
+        return categoryList
 
 
 if __name__ == '__main__':

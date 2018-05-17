@@ -5,15 +5,18 @@
 Author: AsherYang
 Email:  ouyangfan1991@gmail.com
 Date:   2018/5/6
-Desc:   商品尺寸类
+Desc:   商品颜色类
 
 _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 goods_id VARCHAR(50),
 size_id VARCHAR(50),
-goods_size VARCHAR(5)
+color VARCHAR(10)
 """
 
-class GoodsSize():
+class DbGoodsColor:
+
+    def __init__(self):
+        pass
 
     @property
     def goods_id(self):
@@ -32,9 +35,9 @@ class GoodsSize():
         self.size_id = value
 
     @property
-    def goods_size(self):
-        return self.goods_size
+    def color(self):
+        return self.color
 
     @property
-    def goods_size(self, value):
-        self.goods_size = value
+    def color(self, value):
+        self.color = value

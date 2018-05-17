@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 
 """
 Author: AsherYang
@@ -7,15 +7,15 @@ Email:  1181830457@qq.com
 Date:   2017/4/11
 Desc:   base content to response to client
 """
+from ffstore.constant import ResponseCode
 
 # extends BaseResponse
-class BaseResponse():
-
+class BaseResponse:
     # define init method
     def __init__(self):
-        self.code = '200'
-        self.desc = ''
-        self.data =[]
+        self.code = ResponseCode.op_success
+        self.desc = ResponseCode.op_success_desc
+        self.data = []
 
     @property
     def code(self):
@@ -49,5 +49,3 @@ class BaseResponse():
     # extend 只能是一个列表
     def extend(self, value):
         return self.data.extend(value)
-
-
