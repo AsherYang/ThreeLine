@@ -73,6 +73,12 @@ class CategoryDao:
         query = 'select * from ffstore_category'
         return DbUtil.query(query)
 
+    # 根据显示类型查询分类
+    def queryCateListByShowType(self, cateShowType=0):
+        query = 'select * from ffstore_category where cate_show_type = "%s"' % cateShowType
+        return DbUtil.query(query)
+
+    # 根据分类ID查询对应分类
     def queryCateById(self, cateId):
         if not cateId:
             return None

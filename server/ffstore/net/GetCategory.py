@@ -12,6 +12,7 @@ Desc:   get category
 from ffstore.db.CategoryDao import CategoryDao
 from ffstore.db.DbCategory import DbCategory
 from ffstore.net.NetCategory import NetCategory
+from ffstore.constant import CategoryShowType
 
 class GetCategory:
 
@@ -84,6 +85,15 @@ class GetCategory:
             netCate.logo = dbCate.cate_logo
             categoryList.append(netCate)
         return categoryList
+
+    """
+    获取首页展示的分类列表，对应API：api/mall/discoverList
+    """
+    def getHomeDiscoverList(self):
+        dbCateList = CategoryDao.queryCateListByShowType(CategoryShowType.TYPE_SHOW_HOME)
+        if dbCateList is None:
+            print 'there is no TYPE_SHOW_HOME category, please add it.'
+            return None
 
 
 if __name__ == '__main__':

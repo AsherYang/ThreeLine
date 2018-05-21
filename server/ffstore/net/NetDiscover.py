@@ -15,7 +15,7 @@ Desc:   首页封面实体
  */
 """
 
-class Discover:
+class NetDiscover:
 
     def __init__(self):
         pass

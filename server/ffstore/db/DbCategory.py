@@ -58,3 +58,11 @@ class DbCategory:
     @property
     def cate_name(self, value):
         self.cate_name = value
+
+    @property
+    def cate_show_type(self):
+        return self.cate_show_type
+
+    @property
+    def cate_show_type(self, value):
+        self.cate_show_type = value

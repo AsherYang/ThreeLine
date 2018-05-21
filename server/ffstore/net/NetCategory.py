@@ -54,3 +54,5 @@ class NetCategory:
     def logo(self, value):
         self.logo = value
 
+
+

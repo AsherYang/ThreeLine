@@ -49,6 +49,7 @@ CREATE TABLE ffstore_color (
 
 -- 分类表，根据分类cate_id，去商品表中查询该分类下的所有商品
 -- parent_code 用于二级目录对应一级目录，对应的一级目录cate_code
+-- cate_show_type 表示分类展示类型，默认为0:表示一般展示类型，1: 首页展示；
 DROP TABLE IF EXISTS ffstore_category;
 CREATE TABLE ffstore_category (
     _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -56,7 +57,8 @@ CREATE TABLE ffstore_category (
     cate_code INT,
     parent_code INT,
     cate_logo VARCHAR(200),
-    cate_name VARCHAR(50)
+    cate_name VARCHAR(50),
+    cate_show_type VARCHAR(3) DEFAULT 0
 );
 
 -- 厂家(品牌)表，根据厂家business_id, 去商品表中查询该厂家的所有商品

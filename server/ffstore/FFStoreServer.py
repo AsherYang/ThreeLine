@@ -124,6 +124,20 @@ class getAllGoodsHandler(tornado.web.RequestHandler):
         json_str = json.dumps(baseResponse, cls=AllGoodsEncoder)
         self.write(json_str)
 
+"""
+get home page discover list
+首页封面列表，拿到的数据是category表中 cate_show_type 字段
+"""
+class getHomeDiscoverListHandler(tornado.web.RequestHandler):
+    def get(self, *args, **kwargs):
+        page = self.get_argument('page')
+        size = self.get_argument('size')
+        baseResponse = BaseResponse()
+        baseResponse.code = ResponseCode.op_success
+        baseResponse.desc = ResponseCode.op_success_desc
+
+        pass
+
 
 """
 save user to db
@@ -175,7 +189,8 @@ class CustomApplication(tornado.web.Application):
             (r'/push/msg', pushMsgHandler),
             (r'/weichat/push/msg', weiChatMsgHandler),
             (r'/get/category', getCategoryHandler),
-            (r'/get/allgoods', getAllGoodsHandler),
+            (r'/mall/discoverList', getHomeDiscoverListHandler),
+            # (r'/get/allgoods', getAllGoodsHandler),
             (r'/save/user', saveUserHandler),
             (r'/update/user/cost', updateUserCostHandler),
             (r"/.*", OtherHandler),
