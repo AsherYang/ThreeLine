@@ -11,6 +11,7 @@ Desc:   get category
 
 from ffstore.db.CategoryDao import CategoryDao
 from ffstore.db.DbCategory import DbCategory
+from ffstore.db.AttributeDao import AttributeDao
 from ffstore.net.NetCategory import NetCategory
 from ffstore.constant import CategoryShowType
 
@@ -67,14 +68,14 @@ class GetCategory:
         if dbCateList:
             return self.covertCateDb2Net(dbCateList)
         else:
-            return False
+            return None
 
     """
     将商品分类数据库数据转换为网络数据，提供API数据
     """
     def covertCateDb2Net(self, dbCateList):
         if not dbCateList:
-            return False
+            return None
         categoryList = []
         for dbCate in dbCateList:
             netCate = NetCategory()
@@ -94,6 +95,15 @@ class GetCategory:
         if dbCateList is None:
             print 'there is no TYPE_SHOW_HOME category, please add it.'
             return None
+        dbCateIds = []
+        for dbCate in dbCateList:
+            if dbCate.cate_id not in dbCateIds:
+                dbCateIds.append(dbCate.cate_id)
+        # query cate attributes
+        dbCates = AttributeDao.queryCateAttrs(dbCateIds)
+        if not dbCates:
+            return None
+        return self.covertCateDb2Net(dbCates)
 
 
 if __name__ == '__main__':

@@ -74,6 +74,33 @@ def query(sql=None):
         db.close()
     return None
 
+def queryByArgs(sql=None, args=None):
+    if sql is None:
+        return None
+    if args is None:
+        return query(sql)
+    db = getDb()
+    cursor = getConn(db)
+    if cursor is None:
+        db.close()
+        return None
+    try:
+        cursor.execute(sql, args)
+        results = cursor.fetchall()
+        if results:
+            # print results
+            return results
+        else:
+            print " database is empty !"
+            return None
+    except Exception as e:
+        print "query except "
+        print e
+    finally:
+        cursor.close()
+        db.close()
+    return None
+
 def update(sql=None):
     if sql is None:
         return False
