@@ -127,6 +127,7 @@ class getAllGoodsHandler(tornado.web.RequestHandler):
 """
 get home page discover list
 首页封面列表，拿到的数据是category表中 cate_show_type 字段
+https://sujiefs.com//api/mall/discoverList?page=1&size=10&sign=1c0c67948371e91081fac39137d990c4&time=20180430145004
 """
 class getHomeDiscoverListHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):

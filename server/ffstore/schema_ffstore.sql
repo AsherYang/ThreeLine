@@ -82,13 +82,19 @@ CREATE TABLE ffstore_photo (
 -- 属性表，存储描述分类或者商品的属性，分类或者商品可1对多个属性
 -- 根据goods_id, 查出属性表中该商品对应的所有属性
 -- 根据cate_id, 查出属性表中该分类下的属性
+-- attr_brand_name: 品牌名称
+-- attr_market_year: 上市年份
+-- attr_size: 尺码
+-- attr_color: 该尺码对应的颜色(例如: 30码白色，30码黑色是2条数据记录)
 DROP TABLE IF EXISTS ffstore_attr;
 CREATE TABLE ffstore_attr (
     _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     cate_id VARCHAR(50),
     goods_id VARCHAR(50),
-    attr_name VARCHAR(50),
-    attr_val VARCHAR(150)
+    attr_brand_name VARCHAR(50),
+    attr_market_year VARCHAR(20),
+    attr_size VARCHAR(5),
+    attr_color VARCHAR(5)
 );
 
 -- 公告栏表, importance, 数字越大重要性越强，展示时越靠前
