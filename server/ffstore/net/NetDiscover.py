@@ -45,16 +45,34 @@ class NetDiscover:
         self.id = value
 
     @property
-    def attrs(self):
-        return self.attrs
+    def attr_brand_name(self):
+        return self.attr_brand_name
 
     @property
-    def attrs(self, value):
-        self.attrs = value
+    def attr_brand_name(self, value):
+        self.attr_brand_name = value
 
-    def append(self, value):
-        return self.attrs + [value]
+    @property
+    def attr_market_year(self):
+        return self.attr_market_year
 
-    # extend 只能是一个列表
-    def extend(self, value):
-        return self.attrs.extend(value)
+    @property
+    def attr_market_year(self, value):
+        self.attr_market_year = value
+
+    @property
+    def attr_size(self):
+        return self.attr_size
+
+    @property
+    def attr_size(self, value):
+        self.attr_size = value
+
+    @property
+    def attr_color(self):
+        return self.attr_color
+
+    @property
+    def attr_color(self, value):
+        self.attr_color = value
+
