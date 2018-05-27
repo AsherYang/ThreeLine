@@ -15,8 +15,8 @@ attr_size VARCHAR(5),
 attr_color VARCHAR(5)
 """
 
-class DbAttribute:
 
+class DbAttribute:
     def __init__(self):
         pass
 
@@ -67,4 +67,3 @@ class DbAttribute:
     @property
     def attr_color(self, value):
         self.attr_color = value
-

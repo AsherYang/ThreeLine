@@ -29,24 +29,6 @@ CREATE TABLE ffstore_goods (
     thum_logo VARCHAR(200)
 );
 
--- 尺码表
-DROP TABLE IF EXISTS ffstore_size;
-CREATE TABLE ffstore_size (
-    _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    goods_id VARCHAR(50),
-    size_id VARCHAR(50),
-    goods_size VARCHAR(5)
-);
-
--- 颜色表
-DROP TABLE IF EXISTS ffstore_color;
-CREATE TABLE ffstore_color (
-    _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    goods_id VARCHAR(50),
-    size_id VARCHAR(50),
-    color VARCHAR(10)
-);
-
 -- 分类表，根据分类cate_id，去商品表中查询该分类下的所有商品
 -- parent_code 用于二级目录对应一级目录，对应的一级目录cate_code
 -- cate_show_type 表示分类展示类型，默认为0:表示一般展示类型，1: 首页展示；
@@ -96,6 +78,24 @@ CREATE TABLE ffstore_attr (
     attr_size VARCHAR(5),
     attr_color VARCHAR(5)
 );
+
+-- -- 尺码表
+-- DROP TABLE IF EXISTS ffstore_size;
+-- CREATE TABLE ffstore_size (
+--     _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+--     goods_id VARCHAR(50),
+--     size_id VARCHAR(50),
+--     goods_size VARCHAR(5)
+-- );
+--
+-- -- 颜色表
+-- DROP TABLE IF EXISTS ffstore_color;
+-- CREATE TABLE ffstore_color (
+--     _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+--     goods_id VARCHAR(50),
+--     size_id VARCHAR(50),
+--     goods_color VARCHAR(10)
+-- );
 
 -- 公告栏表, importance, 数字越大重要性越强，展示时越靠前
 DROP TABLE IF EXISTS ffstore_notice;

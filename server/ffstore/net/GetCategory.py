@@ -10,8 +10,9 @@ Desc:   get category
 """
 
 from ffstore.db.CategoryDao import CategoryDao
-from ffstore.db.DbCategory import DbCategory
 from ffstore.db.AttributeDao import AttributeDao
+from ffstore.db.DbCategory import DbCategory
+from ffstore.db.DbAttribute import DbAttribute
 from ffstore.net.NetCategory import NetCategory
 from ffstore.net.NetDiscover import NetDiscover
 from ffstore.constant import CategoryShowType
@@ -60,9 +61,7 @@ class GetCategory:
 
 
     """
-    category 更新策略：
-    每天只更新一次
-    返回值：当前有效的 category list
+    获取数据库所有的分类, 包括二级分类
     """
     def doGetCategory(self):
         dbCateList = self.getCategoryFromDb()
@@ -94,6 +93,7 @@ class GetCategory:
     def covertHomeDiscover2Net(self, dbCateList, dbAttrList):
         if not dbCateList or not dbAttrList:
             return None
+        netDiscoverList = []
         for dbCate in dbCateList:
             netDiscover = NetDiscover()
             netDiscover.code = dbCate.cate_code
@@ -103,27 +103,69 @@ class GetCategory:
                 if dbCate.cate_id == dbAttr.cate_id:
                     netDiscover.attr_brand_name = dbAttr.attr_brand_name
                     netDiscover.attr_market_year = dbAttr.attr_market_year
+                    netDiscover.attr_size = dbAttr.attr_size
+                    netDiscover.attr_color = dbAttr.attr_color
                     break
-        return netDiscover
+            netDiscoverList.append(netDiscover)
+        return netDiscoverList
 
     """
     获取首页展示的分类列表，对应API：api/mall/discoverList
     """
-    def getHomeDiscoverList(self):
-        dbCateList = CategoryDao.queryCateListByShowType(CategoryShowType.TYPE_SHOW_HOME)
-        if dbCateList is None:
+    def getHomeDiscoverList(self, page_num=1, page_size=10):
+        result = CategoryDao.queryCateListByShowType(CategoryShowType.TYPE_SHOW_HOME, page_num, page_size)
+        if result is None:
             print 'there is no TYPE_SHOW_HOME category, please add it.'
             return None
         dbCateIds = []
-        for dbCate in dbCateList:
-            if dbCate.cate_id not in dbCateIds:
-                dbCateIds.append(dbCate.cate_id)
+        dbCateList = []
+        for row in result:
+            dbCate = DbCategory()
+            row_id = row[0]
+            cate_id = row[1]
+            cate_code = row[2]
+            parent_code = row[3]
+            cate_logo = row[4]
+            cate_name = row[5]
+            cate_show_type = row[6]
+            dbCate.cate_id = cate_id
+            dbCate.cate_code = cate_code
+            dbCate.parent_code = parent_code
+            dbCate.cate_logo = cate_logo
+            dbCate.cate_name = cate_name
+            dbCate.cate_show_type = cate_show_type
+            dbCateList.append(dbCate)
+            if cate_id not in dbCateIds:
+                dbCateIds.append(cate_id)
         # query cate attributes
-        dbAttrList = AttributeDao.queryCateAttrs(dbCateIds)
-        if not dbAttrList:
+        attrResult = AttributeDao.queryCateAttrs(dbCateIds)
+        if not attrResult:
             return None
+        dbAttrList = []
+        for row in attrResult:
+            dbAttr = DbAttribute()
+            row_id = row[0]
+            cate_id = row[1]
+            goods_id = row[2]
+            attr_brand_name = row[3]
+            attr_market_year = row[4]
+            attr_size = row[5]
+            attr_color = row[6]
+            dbAttr.cate_id = cate_id
+            dbAttr.goods_id = goods_id
+            dbAttr.attr_brand_name = attr_brand_name
+            dbAttr.attr_market_year = attr_market_year
+            dbAttr.attr_size = attr_size
+            dbAttr.attr_color = attr_color
+            dbAttrList.append(dbAttr)
         return self.covertHomeDiscover2Net(dbCateList, dbAttrList)
 
+    """
+    获取首页展示的分类总数量
+    """
+    def getHomeDiscoverCount(self):
+        homeDiscoverCount = CategoryDao.queryCateCountByShowType(CategoryShowType.TYPE_SHOW_HOME)
+        return homeDiscoverCount
 
 if __name__ == '__main__':
     getCate = GetCategory()

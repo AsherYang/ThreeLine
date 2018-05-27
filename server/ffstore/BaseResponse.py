@@ -34,6 +34,14 @@ class BaseResponse:
         self.desc = value
 
     @property
+    def page_total(self):
+        return self.page_total
+
+    @property
+    def page_total(self, value):
+        self.page_total = value
+
+    @property
     def data(self):
         return self.data
 

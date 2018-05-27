@@ -10,6 +10,7 @@ Desc:   操作类型数据库DAO 类
 from ffstore.util import DbUtil
 import DbCategory
 
+
 class CategoryDao:
     def __init__(self):
         pass
@@ -73,9 +74,15 @@ class CategoryDao:
         query = 'select * from ffstore_category'
         return DbUtil.query(query)
 
-    # 根据显示类型查询分类
-    def queryCateListByShowType(self, cateShowType=0):
-        query = 'select * from ffstore_category where cate_show_type = "%s"' % cateShowType
+    # 根据显示类型查询分类, 分页查询
+    def queryCateListByShowType(self, cateShowType=0, page_num=1, page_size=10):
+        start = (page_num - 1) * page_size
+        query = 'select * from ffstore_category where cate_show_type = "%s" order by _id asc limit %s, %s;' \
+                % (cateShowType, start, page_size)
+        return DbUtil.query(query)
+
+    def queryCateCountByShowType(self, cateShowType=0):
+        query = 'select count(*) from ffstore_category where cate_show_type = "%s"' % cateShowType
         return DbUtil.query(query)
 
     # 根据分类ID查询对应分类

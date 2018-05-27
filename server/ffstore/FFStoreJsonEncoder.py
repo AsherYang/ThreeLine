@@ -11,6 +11,7 @@ Desc:   json encoder for custom class
 import json
 from BaseResponse import BaseResponse
 from ffstore.net.NetCategory import NetCategory
+from ffstore.net.NetDiscover import NetDiscover
 from db.DbGoods import DbGoods
 
 """
@@ -70,6 +71,36 @@ class AllGoodsEncoder(json.JSONEncoder):
             #     print type(contentData)
         else:
             return json.JSONEncoder.default(self, obj)
+
+"""
+将HomeDiscover 转成 Json 字符串
+"""
+class HomeDiscoverEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, BaseResponse):
+            contentData = obj.data
+            # print type(contentData)
+            realContent = []
+            if isinstance(contentData, list):
+                for data in contentData:
+                    if isinstance(data, NetDiscover):
+                        string = {'id': data.id, 'code': data.code, 'logo': data.logo,
+                                  'attr_brand_name': data.attr_brand_name, 'attr_market_year': data.attr_market_year,
+                                  'attr_size': data.attr_size, 'attr_color': data.attr_color }
+                        realContent.append(string)
+            elif isinstance(contentData, basestring):
+                realContent = contentData
+            else:
+                realContent.append('unknown data type')
+            return {'code': obj.code, 'desc': obj.desc,
+                    'result': realContent}
+            # if isinstance(contentData, list):
+            #     print contentData[0].author
+            # else:
+            #     print type(contentData)
+        else:
+            return json.JSONEncoder.default(self, obj)
+
 
 """
 将string 转成 Json 字符串

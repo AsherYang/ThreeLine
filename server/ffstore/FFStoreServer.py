@@ -109,7 +109,6 @@ class getCategoryHandler(tornado.web.RequestHandler):
         json_str = json.dumps(baseResponse, cls=CategoryEncoder)
         self.write(json_str)
 
-
 """
 get all goods
 """
@@ -133,11 +132,30 @@ class getHomeDiscoverListHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
         page = self.get_argument('page')
         size = self.get_argument('size')
+        homeDiscoverList = GetCategory.getHomeDiscoverList(page_num=page, page_size=size)
         baseResponse = BaseResponse()
         baseResponse.code = ResponseCode.op_success
         baseResponse.desc = ResponseCode.op_success_desc
+        baseResponse.page_total = GetCategory.getHomeDiscoverCount()
+        for homeDiscover in homeDiscoverList:
+            baseResponse.append(homeDiscover)
+        json_str = json.dumps(baseResponse, cls=HomeDiscoverEncoder)
+        self.write(json_str)
 
-        pass
+"""
+点击封面列表进入的分类展示专区
+分类列表，拿到的数据是 goods 表中对应cate_code 字段的数据
+sort: 排序字段，根据 "综合","销量","价格"排序
+skuval: "尺码"
+https://sujiefs.com//api/home/hostGoodsList?page=1&size=10&cateCode=021&sort=1&skuval=&sign=694e9f6dec1f1d11475a5ac688d8d644&time=20180430155433
+"""
+class getHostGoodsList(tornado.web.RequestHandler):
+    def get(self, *args, **kwargs):
+        page = self.get_argument('page')
+        size = self.get_argument('size')
+        cateCode = self.get_argument('cateCode')
+        sort = self.get_argument('sort')
+        skuval = self.get_argument('skuval')
 
 
 """
