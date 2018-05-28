@@ -85,8 +85,8 @@ class HomeDiscoverEncoder(json.JSONEncoder):
                 for data in contentData:
                     if isinstance(data, NetDiscover):
                         string = {'id': data.id, 'code': data.code, 'logo': data.logo,
-                                  'attr_brand_name': data.attr_brand_name, 'attr_market_year': data.attr_market_year,
-                                  'attr_size': data.attr_size, 'attr_color': data.attr_color }
+                                  'attr_brand_name': data.attr_brand_name,
+                                  'attr_market_year': data.attr_market_year }
                         realContent.append(string)
             elif isinstance(contentData, basestring):
                 realContent = contentData

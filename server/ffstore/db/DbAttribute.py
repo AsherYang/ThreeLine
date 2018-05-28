@@ -10,9 +10,7 @@ _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 cate_id VARCHAR(50),
 goods_id VARCHAR(50),
 attr_brand_name VARCHAR(50),
-attr_market_year VARCHAR(20),
-attr_size VARCHAR(5),
-attr_color VARCHAR(5)
+attr_market_year VARCHAR(20)
 """
 
 
@@ -51,19 +49,3 @@ class DbAttribute:
     @property
     def attr_market_year(self, value):
         self.attr_market_year = value
-
-    @property
-    def attr_size(self):
-        return self.attr_size
-
-    @property
-    def attr_size(self, value):
-        self.attr_size = value
-
-    @property
-    def attr_color(self):
-        return self.attr_color
-
-    @property
-    def attr_color(self, value):
-        self.attr_color = value

@@ -103,8 +103,6 @@ class GetCategory:
                 if dbCate.cate_id == dbAttr.cate_id:
                     netDiscover.attr_brand_name = dbAttr.attr_brand_name
                     netDiscover.attr_market_year = dbAttr.attr_market_year
-                    netDiscover.attr_size = dbAttr.attr_size
-                    netDiscover.attr_color = dbAttr.attr_color
                     break
             netDiscoverList.append(netDiscover)
         return netDiscoverList
@@ -149,14 +147,10 @@ class GetCategory:
             goods_id = row[2]
             attr_brand_name = row[3]
             attr_market_year = row[4]
-            attr_size = row[5]
-            attr_color = row[6]
             dbAttr.cate_id = cate_id
             dbAttr.goods_id = goods_id
             dbAttr.attr_brand_name = attr_brand_name
             dbAttr.attr_market_year = attr_market_year
-            dbAttr.attr_size = attr_size
-            dbAttr.attr_color = attr_color
             dbAttrList.append(dbAttr)
         return self.covertHomeDiscover2Net(dbCateList, dbAttrList)
 

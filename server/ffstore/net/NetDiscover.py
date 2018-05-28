@@ -60,19 +60,3 @@ class NetDiscover:
     def attr_market_year(self, value):
         self.attr_market_year = value
 
-    @property
-    def attr_size(self):
-        return self.attr_size
-
-    @property
-    def attr_size(self, value):
-        self.attr_size = value
-
-    @property
-    def attr_color(self):
-        return self.attr_color
-
-    @property
-    def attr_color(self, value):
-        self.attr_color = value
-

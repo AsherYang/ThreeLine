@@ -66,28 +66,26 @@ CREATE TABLE ffstore_photo (
 -- 根据cate_id, 查出属性表中该分类下的属性
 -- attr_brand_name: 品牌名称
 -- attr_market_year: 上市年份
--- attr_size: 尺码
--- attr_color: 该尺码对应的颜色(例如: 30码白色，30码黑色是2条数据记录)
 DROP TABLE IF EXISTS ffstore_attr;
 CREATE TABLE ffstore_attr (
     _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     cate_id VARCHAR(50),
     goods_id VARCHAR(50),
     attr_brand_name VARCHAR(50),
-    attr_market_year VARCHAR(20),
-    attr_size VARCHAR(5),
-    attr_color VARCHAR(5)
+    attr_market_year VARCHAR(20)
 );
 
--- -- 尺码表
--- DROP TABLE IF EXISTS ffstore_size;
--- CREATE TABLE ffstore_size (
---     _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
---     goods_id VARCHAR(50),
---     size_id VARCHAR(50),
---     goods_size VARCHAR(5)
--- );
---
+-- 尺码颜色表
+-- 该尺码对应的颜色(例如: 30码白色,30码黑色是2条数据记录; size_id 是相同的,用于区分不同的size)
+ DROP TABLE IF EXISTS ffstore_size_color;
+ CREATE TABLE ffstore_size_color (
+     _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+     goods_id VARCHAR(50),
+     size_id VARCHAR(50),
+     goods_size VARCHAR(5),
+     goods_color VARCHAR(10)
+ );
+
 -- -- 颜色表
 -- DROP TABLE IF EXISTS ffstore_color;
 -- CREATE TABLE ffstore_color (
