@@ -10,7 +10,7 @@ Desc:   商品类
 _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 goods_id VARCHAR(50) NOT NULL UNIQUE,
 cate_id VARCHAR(50),
-business_id VARCHAR(50),
+brand_id VARCHAR(50),
 goods_name VARCHAR(150),
 market_price INT,
 current_price INT NOT NULL,
@@ -42,12 +42,12 @@ class DbGoods:
         self.cate_id = value
 
     @property
-    def business_id(self):
-        return self.business_id
+    def brand_id(self):
+        return self.brand_id
 
     @property
-    def business_id(self, value):
-        self.business_id = value
+    def brand_id(self, value):
+        self.brand_id = value
 
     @property
     def goods_name(self):

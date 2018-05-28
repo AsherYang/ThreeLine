@@ -14,12 +14,16 @@ CREATE TABLE ffstore_user (
 );
 
 -- 商品表，基础表
+-- cate_id 对应ffstore_category表cate_id, brand_id 对应ffstore_brand表brand_id
+-- market_price: 市场价(一般指原价), current_price: 现价
+-- sale_count: 已卖出件数,  goods_code: 商品编码、编号如:T18C076
+-- goods_logo: 商品logo,  thum_logo: 商品logo小图
 DROP TABLE IF EXISTS ffstore_goods;
 CREATE TABLE ffstore_goods (
     _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     goods_id VARCHAR(50) NOT NULL UNIQUE,
     cate_id VARCHAR(50),
-    business_id VARCHAR(50),
+    brand_id VARCHAR(50),
     goods_name VARCHAR(150),
     market_price INT,
     current_price INT NOT NULL,
@@ -43,7 +47,7 @@ CREATE TABLE ffstore_category (
     cate_show_type VARCHAR(3) DEFAULT 0
 );
 
--- 厂家(品牌)表，根据厂家business_id, 去商品表中查询该厂家的所有商品
+-- 厂家(品牌)表，根据厂家brand_id, 去商品表中查询该厂家的所有商品
 DROP TABLE IF EXISTS ffstore_brand;
 CREATE TABLE ffstore_brand (
     _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

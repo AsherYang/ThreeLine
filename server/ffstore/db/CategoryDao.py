@@ -8,7 +8,7 @@ Date:   2018/5/10
 Desc:   操作类型数据库DAO 类
 """
 from ffstore.util import DbUtil
-import DbCategory
+from DbCategory import DbCategory
 
 
 class CategoryDao:
