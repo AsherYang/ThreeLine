@@ -54,6 +54,15 @@ class CategoryDao:
             return DbUtil.update(update)
         return False
 
+    # 更新category code
+    def updateCodeToDb(self, old_code, new_code):
+        if not old_code or not new_code:
+            return False
+        update = 'update ffstore_category set cate_code = "%s" where cate_code = "%s" ' \
+                 % (new_code, old_code)
+        print 'update category code to db'
+        return DbUtil.update(update)
+
     def saveOrUpdateToDb(self, cate):
         if isinstance(cate, DbCategory):
             category = self.queryCateById(cate.cate_id)
@@ -90,4 +99,11 @@ class CategoryDao:
         if not cateId:
             return None
         query = 'select * from ffstore_category where cate_id = "%s"' % cateId
+        return DbUtil.query(query)
+
+    # 根据分类编码code查询对应分类
+    def queryCateByCode(self, cateCode):
+        if not cateCode:
+            return None
+        query = 'select * from ffstore_category where cate_code = "%s"' % cateCode
         return DbUtil.query(query)
