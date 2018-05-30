@@ -86,7 +86,6 @@ CREATE TABLE ffstore_attr (
  CREATE TABLE ffstore_size_color (
      _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
      goods_id VARCHAR(50),
-     size_id VARCHAR(50),
      goods_size VARCHAR(5),
      goods_color VARCHAR(10)
  );

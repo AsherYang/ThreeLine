@@ -10,6 +10,7 @@ Desc:   商品数据库操作类
 
 from ffstore.util import DbUtil
 from DbGoods import DbGoods
+from ffstore.constant import GoodsSort
 
 
 class GoodsDao:
@@ -82,6 +83,28 @@ class GoodsDao:
         query = 'select * from ffstore_goods where cate_id = "%s"' % cate_id
         return DbUtil.query(query)
 
+    # 根据cate_id,分页查询单个分类下的商品，并按照给定sort进行排序
+    def querySortGoodsByCateId(self, cate_id, goods_size, page_num=1, page_size=10, sort=GoodsSort.SORT_COMMON):
+        if not cate_id:
+            return None
+        start = (page_num - 1) * page_size
+        if sort == GoodsSort.SORT_PRICE_DOWN:
+            sort_str = 'current_price desc'
+        elif sort == GoodsSort.SORT_PRICE_UP:
+            sort_str = 'current_price asc'
+        elif sort == GoodsSort.SORT_SALE_COUNT:
+            sort_str = 'sale_count desc'
+        else:
+            sort_str = '_id desc'
+        if not goods_size:
+            query = 'select * from ffstore_goods where cate_id = "%s" order by ' + sort_str + ' limit %s, %s;' \
+                % (cate_id, start, page_size)
+        else:
+            # todo goods_size
+            query = 'select * from ffstore_goods where cate_id = "%s" and xxx order by ' + sort_str + ' limit %s, %s;' \
+                % (cate_id, start, page_size)
+        return DbUtil.query(query)
+
     # 根据cate_id 查询单个分类的商品数量
     def queryGoodsCountByCateId(self, cate_id):
         if not cate_id:
@@ -95,4 +118,23 @@ class GoodsDao:
             return None
         query = 'select * from ffstore_goods where goods_id = "%s"' % goods_id
         return DbUtil.query(query)
+
+    # 删除商品
+    def deleteGoods(self, goods):
+        if isinstance(goods, DbGoods):
+            delete = 'delete from ffstore_goods where goods_id = "%s" ' % goods.goods_id
+            print 'delete goods:%s from db.' % goods
+            return DbUtil.delete(delete)
+        return False
+
+    def deleteByGoodsId(self, goods_id):
+        delete = 'delete from ffstore_goods where goods_id = "%s" ' % goods_id
+        print 'delete goods by goods_id:%s from db.' % goods_id
+        return DbUtil.delete(delete)
+
+    # 删除该category目录下所有的商品
+    def deleteByCateId(self, cate_id):
+        delete = 'delete from ffstore_goods where cate_id = "%s" ' % cate_id
+        print 'delete goods by cate_id:%s from db.' % cate_id
+        return DbUtil.delete(delete)
 

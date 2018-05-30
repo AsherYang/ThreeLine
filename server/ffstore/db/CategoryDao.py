@@ -9,6 +9,7 @@ Desc:   操作类型数据库DAO 类
 """
 from ffstore.util import DbUtil
 from DbCategory import DbCategory
+from ffstore.constant import CategoryShowType
 
 
 class CategoryDao:
@@ -72,24 +73,35 @@ class CategoryDao:
                 return self.saveToDb(cate)
         return False
 
-    def deleteFromDb(self, cate):
+    def deleteCate(self, cate):
         if isinstance(cate, DbCategory):
             delete = 'delete from ffstore_category where cate_code = "%s" ' % cate.cate_code
-            print 'delete category:%s from db.' % cate.cate_code
+            print 'delete category:%s from db.' % cate
             return DbUtil.delete(delete)
         return False
+
+    def deleteByCateId(self, cate_id):
+        delete = 'delete from ffstore_category where cate_id = "%s" ' % cate_id
+        print 'delete category by cate_id:%s from db.' % cate_id
+        return DbUtil.delete(delete)
+
+    def deleteByCateCode(self, cate_code):
+        delete = 'delete from ffstore_category where cate_code = "%s" ' % cate_code
+        print 'delete category by cate_code:%s from db.' % cate_code
+        return DbUtil.delete(delete)
 
     def queryAllCateFromDb(self):
         query = 'select * from ffstore_category'
         return DbUtil.query(query)
 
     # 根据显示类型查询分类, 分页查询
-    def queryCateListByShowType(self, cateShowType=0, page_num=1, page_size=10):
+    def queryCateListByShowType(self, cateShowType=CategoryShowType.TYPE_SHOW_NORMAL, page_num=1, page_size=10):
         start = (page_num - 1) * page_size
         query = 'select * from ffstore_category where cate_show_type = "%s" order by _id asc limit %s, %s;' \
                 % (cateShowType, start, page_size)
         return DbUtil.query(query)
 
+    # 查询对应showType下的分类总数
     def queryCateCountByShowType(self, cateShowType=0):
         query = 'select count(*) from ffstore_category where cate_show_type = "%s"' % cateShowType
         return DbUtil.query(query)

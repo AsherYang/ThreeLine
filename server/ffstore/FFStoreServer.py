@@ -29,6 +29,7 @@ from BaseResponse import BaseResponse
 from constant import ResponseCode
 import WeiChatMsg
 from ffstore.net.GetCategory import GetCategory
+from ffstore.net.GetGoods import GetGoods
 
 define("debug", default=False, help='Set debug mode', type=bool)
 # 服务器使用Supervisor＋nginx 三行情书配置多端口：8888｜8889｜8890｜8891, 上好微店端口：10001|10002
@@ -136,7 +137,9 @@ class getHomeDiscoverListHandler(tornado.web.RequestHandler):
         baseResponse = BaseResponse()
         baseResponse.code = ResponseCode.op_success
         baseResponse.desc = ResponseCode.op_success_desc
-        baseResponse.page_total = GetCategory.getHomeDiscoverCount()
+        homeDiscoverCount = GetCategory.getHomeDiscoverCount()
+        page_total = (homeDiscoverCount / size) + (1 if homeDiscoverCount % size > 0 else 0)
+        baseResponse.page_total = page_total
         for homeDiscover in homeDiscoverList:
             baseResponse.append(homeDiscover)
         json_str = json.dumps(baseResponse, cls=HomeDiscoverEncoder)
@@ -149,14 +152,24 @@ sort: 排序字段，根据 "综合","销量","价格"排序
 skuval: "尺码"
 https://sujiefs.com//api/home/hostGoodsList?page=1&size=10&cateCode=021&sort=1&skuval=&sign=694e9f6dec1f1d11475a5ac688d8d644&time=20180430155433
 """
-class getHostGoodsList(tornado.web.RequestHandler):
+class getHostGoodsListHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
         page = self.get_argument('page')
         size = self.get_argument('size')
         cateCode = self.get_argument('cateCode')
         sort = self.get_argument('sort')
         skuval = self.get_argument('skuval')
-
+        hostGoodsList = GetGoods.getHostGoods(cateCode, skuval, page, size, sort)
+        baseResponse = BaseResponse()
+        baseResponse.code = ResponseCode.op_success
+        baseResponse.desc = ResponseCode.op_success_desc
+        hostGoodsCount = GetGoods.getGoodsCountByCate()
+        page_total = (hostGoodsCount / size) + (1 if hostGoodsCount % size > 0 else 0)
+        baseResponse.page_total = page_total
+        for hostGoods in hostGoodsList:
+            baseResponse.append(hostGoods)
+        json_str = json.dumps(baseResponse, cls=xxx)
+        self.write(json_str)
 
 """
 save user to db
