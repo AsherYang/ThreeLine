@@ -84,6 +84,8 @@ class GoodsDao:
         return DbUtil.query(query)
 
     # 根据cate_id,分页查询单个分类下的商品，并按照给定sort进行排序
+    # sort 排序于limit结合使用，可能会造成的问题及解决方法:
+    # https://blog.csdn.net/qiubabin/article/details/70135556
     def querySortGoodsByCateId(self, cate_id, goods_size, page_num=1, page_size=10, sort=GoodsSort.SORT_COMMON):
         if not cate_id:
             return None
@@ -97,12 +99,14 @@ class GoodsDao:
         else:
             sort_str = '_id desc'
         if not goods_size:
-            query = 'select * from ffstore_goods where cate_id = "%s" order by ' + sort_str + ' limit %s, %s;' \
+            query = 'select * from ffstore_goods where cate_id = "%s" order by _id, ' + sort_str + ' limit %s, %s;' \
                 % (cate_id, start, page_size)
         else:
-            # todo goods_size
-            query = 'select * from ffstore_goods where cate_id = "%s" and xxx order by ' + sort_str + ' limit %s, %s;' \
-                % (cate_id, start, page_size)
+            # join ffstore_size_color table
+            query = 'select * from ffstore_goods left join ffstore_size_color on ffstore_goods.goods_id = ' \
+                    'ffstore_size_color.goods_id where ffstore_goods.cate_id = "%s" and ' \
+                    'ffstore_size_color.goods_size = "%s" order by _id, ' + sort_str + ' limit %s, %s;' \
+                % (cate_id, goods_size, start, page_size)
         return DbUtil.query(query)
 
     # 根据cate_id 查询单个分类的商品数量
