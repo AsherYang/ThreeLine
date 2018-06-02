@@ -5,7 +5,7 @@
 Author: AsherYang
 Email:  ouyangfan1991@gmail.com
 Date:   2018/5/28
-Desc:   获取商品接口.
+Desc:   获取商品接口. 返回网络数据
 """
 from ffstore.db.CategoryDao import CategoryDao
 from ffstore.db.GoodsDao import GoodsDao
@@ -15,10 +15,12 @@ from ffstore.constant import GoodsSort
 
 class GetGoods:
     def __init__(self):
+        self.cateDao = CategoryDao()
+        self.goodsDao = GoodsDao()
         pass
 
     def getCateIdByCateCode(self, cate_code):
-        cateResult = CategoryDao.queryCateByCode(cate_code)
+        cateResult = self.cateDao.queryCateByCode(cate_code)
         if cateResult:
             for row in cateResult:
                 return row[1]
@@ -28,7 +30,7 @@ class GetGoods:
         cateId = self.getCateIdByCateCode(cate_code)
         if not cateId:
             return None
-        goodsResult = GoodsDao.queryGoodsByCateId(cateId)
+        goodsResult = self.goodsDao.queryGoodsByCateId(cateId)
         goodsList = self.covertDbRow2List(goodsResult)
         # todo
         # return covert2Net
@@ -40,7 +42,7 @@ class GetGoods:
         cateId = self.getCateIdByCateCode(cate_code)
         if not cateId:
             return None
-        goodsResult = GoodsDao.querySortGoodsByCateId(cateId, goods_size, page_num, page_size, sort)
+        goodsResult = self.goodsDao.querySortGoodsByCateId(cateId, goods_size, page_num, page_size, sort)
         goodsList = self.covertDbRow2List(goodsResult)
         # todo
         # return covert2Net
@@ -50,7 +52,7 @@ class GetGoods:
         cateId = self.getCateIdByCateCode(cate_code)
         if not cateId:
             return None
-        return GoodsDao.queryGoodsCountByCateId(cateId)
+        return self.goodsDao.queryGoodsCountByCateId(cateId)
 
     # 将数据库查询出来的结果，对应设置给实体bean，并作为集合返回出去
     def covertDbRow2List(self, dbGoodsAllRowsResult):

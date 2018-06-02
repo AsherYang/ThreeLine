@@ -103,7 +103,8 @@ get category
 """
 class getCategoryHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
-        categoryList = GetCategory.doGetCategory()
+        getCategory = GetCategory()
+        categoryList = getCategory.doGetCategory()
         baseResponse = BaseResponse()
         for category in categoryList:
             baseResponse.data.append(category)
@@ -115,7 +116,9 @@ get all goods
 """
 class getAllGoodsHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
-        allGoodsList = GetAllGoods.doGetAllGoods()
+        getGoods = GetGoods()
+        # todo getAllGoods
+        allGoodsList = getGoods.getAllGoods()
         baseResponse = BaseResponse()
         baseResponse.code = "000001"
         baseResponse.desc = "successfully"
@@ -133,11 +136,12 @@ class getHomeDiscoverListHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
         page = self.get_argument('page')
         size = self.get_argument('size')
-        homeDiscoverList = GetCategory.getHomeDiscoverList(page_num=page, page_size=size)
+        getCategory = GetCategory()
+        homeDiscoverList = getCategory.getHomeDiscoverList(page_num=page, page_size=size)
         baseResponse = BaseResponse()
         baseResponse.code = ResponseCode.op_success
         baseResponse.desc = ResponseCode.op_success_desc
-        homeDiscoverCount = GetCategory.getHomeDiscoverCount()
+        homeDiscoverCount = getCategory.getHomeDiscoverCount()
         page_total = (homeDiscoverCount / size) + (1 if homeDiscoverCount % size > 0 else 0)
         baseResponse.page_total = page_total
         for homeDiscover in homeDiscoverList:
@@ -159,11 +163,12 @@ class getHostGoodsListHandler(tornado.web.RequestHandler):
         cateCode = self.get_argument('cateCode')
         sort = self.get_argument('sort')
         skuval = self.get_argument('skuval')
-        hostGoodsList = GetGoods.getHostGoods(cateCode, skuval, page, size, sort)
+        getGoods = GetGoods()
+        hostGoodsList = getGoods.getHostGoods(cateCode, skuval, page, size, sort)
         baseResponse = BaseResponse()
         baseResponse.code = ResponseCode.op_success
         baseResponse.desc = ResponseCode.op_success_desc
-        hostGoodsCount = GetGoods.getGoodsCountByCate()
+        hostGoodsCount = getGoods.getGoodsCountByCate(cateCode)
         page_total = (hostGoodsCount / size) + (1 if hostGoodsCount % size > 0 else 0)
         baseResponse.page_total = page_total
         for hostGoods in hostGoodsList:
@@ -222,6 +227,7 @@ class CustomApplication(tornado.web.Application):
             (r'/weichat/push/msg', weiChatMsgHandler),
             (r'/get/category', getCategoryHandler),
             (r'/mall/discoverList', getHomeDiscoverListHandler),
+            (r'/home/hostGoodsList', getHostGoodsListHandler),
             # (r'/get/allgoods', getAllGoodsHandler),
             (r'/save/user', saveUserHandler),
             (r'/update/user/cost', updateUserCostHandler),

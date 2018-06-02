@@ -5,7 +5,7 @@
 Author: AsherYang
 Email:  1181830457@qq.com
 Date:   2017/7/24
-Desc:   get category
+Desc:   get category 获取分类接口，返回网络数据
 
 """
 
@@ -20,6 +20,8 @@ from ffstore.constant import CategoryShowType
 class GetCategory:
 
     def __init__(self):
+        self.cateDao = CategoryDao()
+        self.attrDao = AttributeDao()
         pass
 
     """
@@ -27,7 +29,7 @@ class GetCategory:
     """
     def getCategoryFromDb(self):
         print '--- getCategoryFromDb start ---'
-        results = CategoryDao.queryAllCateFromDb()
+        results = self.cateDao.queryAllCateFromDb()
         print results
         if results is None:
             return None
@@ -57,7 +59,7 @@ class GetCategory:
             print "category is None could not save to db."
             return False
         else:
-            return CategoryDao.saveOrUpdateToDb(category)
+            return self.cateDao.saveOrUpdateToDb(category)
 
 
     """
@@ -111,7 +113,7 @@ class GetCategory:
     获取首页展示的分类列表，对应API：api/mall/discoverList
     """
     def getHomeDiscoverList(self, page_num=1, page_size=10):
-        result = CategoryDao.queryCateListByShowType(CategoryShowType.TYPE_SHOW_HOME, page_num, page_size)
+        result = self.cateDao.queryCateListByShowType(CategoryShowType.TYPE_SHOW_HOME, page_num, page_size)
         if result is None:
             print 'there is no TYPE_SHOW_HOME category, please add it.'
             return None
@@ -136,7 +138,7 @@ class GetCategory:
             if cate_id not in dbCateIds:
                 dbCateIds.append(cate_id)
         # query cate attributes
-        attrResult = AttributeDao.queryCateAttrs(dbCateIds)
+        attrResult = self.attrDao.queryCateAttrs(dbCateIds)
         if not attrResult:
             return None
         dbAttrList = []
@@ -158,7 +160,7 @@ class GetCategory:
     获取首页展示的分类总数量
     """
     def getHomeDiscoverCount(self):
-        homeDiscoverCount = CategoryDao.queryCateCountByShowType(CategoryShowType.TYPE_SHOW_HOME)
+        homeDiscoverCount = self.cateDao.queryCateCountByShowType(CategoryShowType.TYPE_SHOW_HOME)
         return homeDiscoverCount
 
 if __name__ == '__main__':
