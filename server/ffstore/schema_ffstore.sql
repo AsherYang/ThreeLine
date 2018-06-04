@@ -16,7 +16,8 @@ CREATE TABLE ffstore_user (
 -- 商品表，基础表
 -- cate_id 对应ffstore_category表cate_id, brand_id 对应ffstore_brand表brand_id
 -- market_price: 市场价(一般指原价), current_price: 现价
--- sale_count: 已卖出件数,  goods_code: 唯一，商品编码(代码)、编号如:T18C076
+-- sale_count: 已卖出件数,  stock_num: 库存
+-- goods_code: 唯一，商品编码(代码)、编号如:T18C076
 -- goods_logo: 商品logo,  thum_logo: 商品logo小图
 DROP TABLE IF EXISTS ffstore_goods;
 CREATE TABLE ffstore_goods (
@@ -28,6 +29,7 @@ CREATE TABLE ffstore_goods (
     market_price INT,
     current_price INT NOT NULL,
     sale_count INT,
+    stock_num INT,
     goods_code VARCHAR(20) NOT NULL UNIQUE,
     goods_logo VARCHAR(200),
     thum_logo VARCHAR(200)

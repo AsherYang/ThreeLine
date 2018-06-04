@@ -45,3 +45,34 @@ class NetHostGoods:
     @property
     def category(self, value):
         self.category = value
+
+    @property
+    def goodsList(self):
+        return self.goodsList
+
+    @property
+    def goodsList(self, value):
+        self.goodsList = value
+
+    @property
+    def brandList(self):
+        return self.brandList
+
+    @property
+    def brandList(self, value):
+        self.brandList = value
+
+    # append to data,
+    # @see http://stackoverflow.com/questions/16380575/python-decorating-property-setter-with-list
+    def appendGoods(self, value):
+        return self.goodsList + [value]
+
+    # extend 只能是一个列表
+    def extendGoods(self, value):
+        return self.goodsList.extend(value)
+
+    def appendBrand(self, value):
+        return self.brandList + [value]
+
+    def extendBrand(self, value):
+        return self.brandList.extend(value)

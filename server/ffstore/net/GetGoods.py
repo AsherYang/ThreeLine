@@ -11,13 +11,16 @@ from ffstore.constant import GoodsSort
 from ffstore.db.CategoryDao import CategoryDao
 from ffstore.db.DbCategory import DbCategory
 from ffstore.db.DbGoods import DbGoods
+from ffstore.db.DbBrand import DbBrand
 from ffstore.db.GoodsDao import GoodsDao
-
+from ffstore.db.BrandDao import BrandDao
+from ffstore.net.NetHostGoods import NetHostGoods
 
 class GetGoods:
     def __init__(self):
         self.cateDao = CategoryDao()
         self.goodsDao = GoodsDao()
+        self.brandDao = BrandDao()
         pass
 
     # 根据cate_code 获取cate_id, cate_code 是唯一值属性
@@ -54,8 +57,21 @@ class GetGoods:
             return None
         goodsResult = self.goodsDao.querySortGoodsByCateId(category.cate_id, goods_size, page_num, page_size, sort)
         goodsList = self.convertDbRow2GoodsList(goodsResult)
-        # todo
-        # return covert2Net
+        if not goodsList:
+            return None
+        netHostGoods = NetHostGoods()
+        netHostGoods.category = category
+        brandIdList = []
+        for goods in goodsList:
+            netHostGoods.appendGoods(goods)
+            brandIdList.append(goods.brand_id)
+        brandResult = self.brandDao.queryBrandByIds(brandIdList)
+        brandList = self.convertDbRow2BrandList(brandResult)
+        if not brandList:
+            return netHostGoods
+        for brand in brandList:
+            netHostGoods.appendBrand(brand)
+        return netHostGoods
 
     # 返回对应category 分类下商品总数
     def getGoodsCountByCate(self, cate_code):
@@ -79,9 +95,10 @@ class GetGoods:
             dbGoods.market_price = row[5]
             dbGoods.current_price = row[6]
             dbGoods.sale_count = row[7]
-            dbGoods.goods_code = row[8]
-            dbGoods.goods_logo = row[9]
-            dbGoods.thum_logo = row[10]
+            dbGoods.stock_num = row[8]
+            dbGoods.goods_code = row[9]
+            dbGoods.goods_logo = row[10]
+            dbGoods.thum_logo = row[11]
             goodsList.append(dbGoods)
         return goodsList
 
@@ -101,3 +118,18 @@ class GetGoods:
             dbCate.cate_show_type = row[6]
             cateList.append(dbCate)
         return cateList
+
+    # 将数据库查询出来的结果，对应设置给brand实体bean, 并作为集合返回出去
+    def convertDbRow2BrandList(self, dbBrandAllRowsResult):
+        if not dbBrandAllRowsResult:
+            return None
+        brandList = []
+        for row in dbBrandAllRowsResult:
+            dbBrand = DbBrand()
+            row_id = row[0]
+            dbBrand.brand_id = row[1]
+            dbBrand.brand_name = row[2]
+            dbBrand.brand_logo = row[3]
+            brandList.append(dbBrand)
+        return brandList
+

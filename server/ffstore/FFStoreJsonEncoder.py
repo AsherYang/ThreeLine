@@ -12,7 +12,11 @@ import json
 from BaseResponse import BaseResponse
 from ffstore.net.NetCategory import NetCategory
 from ffstore.net.NetDiscover import NetDiscover
+from ffstore.net.NetHostGoods import NetHostGoods
 from db.DbGoods import DbGoods
+from db.DbCategory import DbCategory
+from db.DbBrand import DbBrand
+
 
 """
 将Category 转成 Json 字符串
@@ -101,6 +105,54 @@ class HomeDiscoverEncoder(json.JSONEncoder):
         else:
             return json.JSONEncoder.default(self, obj)
 
+"""
+将HostGoods 转成 Json 字符串
+"""
+class HostGoodsEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, BaseResponse):
+            contentData = obj.data
+            # print type(contentData)
+            realContent = []
+            if isinstance(contentData, list):
+                realContent.append('host goods not support return list')
+            elif isinstance(contentData, NetHostGoods):
+                category = contentData.category
+                goodsList = contentData.goodsList
+                brandList = contentData.brandList
+                if isinstance(category, DbCategory):
+                    cate_str = {'code': category.cate_code, 'name': category.cate_name, 'logo': category.cate_logo,
+                                'id': category.cate_id}
+                    realContent.append({'category': cate_str})
+                goods_content = []
+                if isinstance(goodsList, list):
+                    for goods in goodsList:
+                        if isinstance(goods, DbGoods):
+                            brandName = ''
+                            brandId = ''
+                            if brandList and isinstance(brandList, list):
+                                for brand in brandList:
+                                    if isinstance(brand, DbBrand) and brand.brand_id == goods.brand_id:
+                                        brandName = brand.brand_name
+                                        brandId = brand.brand_id
+                            goods_str = {'marketPrice': goods.market_price, 'saleCount': goods.sale_count,
+                                         'businessName': brandName, 'businessId': brandId, 'thumLogo': goods.thum_logo,
+                                         'title': goods.goods_name, 'price': goods.current_price, 'name': goods.goods_name,
+                                         'stockNum': goods.stock_num, 'logo': goods.goods_logo, 'id': goods.goods_id}
+                            goods_content.append(goods_str)
+                realContent.append({'list': goods_content})
+            elif isinstance(contentData, basestring):
+                realContent = contentData
+            else:
+                realContent.append('unknown data type')
+            return {'code': obj.code, 'desc': obj.desc,
+                    'result': realContent}
+            # if isinstance(contentData, list):
+            #     print contentData[0].author
+            # else:
+            #     print type(contentData)
+        else:
+            return json.JSONEncoder.default(self, obj)
 
 """
 将string 转成 Json 字符串

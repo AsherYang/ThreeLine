@@ -164,16 +164,15 @@ class getHostGoodsListHandler(tornado.web.RequestHandler):
         sort = self.get_argument('sort')
         skuval = self.get_argument('skuval')
         getGoods = GetGoods()
-        hostGoodsList = getGoods.getHostGoods(cateCode, skuval, page, size, sort)
+        netHostGoods = getGoods.getHostGoods(cateCode, skuval, page, size, sort)
         baseResponse = BaseResponse()
         baseResponse.code = ResponseCode.op_success
         baseResponse.desc = ResponseCode.op_success_desc
         hostGoodsCount = getGoods.getGoodsCountByCate(cateCode)
         page_total = (hostGoodsCount / size) + (1 if hostGoodsCount % size > 0 else 0)
         baseResponse.page_total = page_total
-        for hostGoods in hostGoodsList:
-            baseResponse.append(hostGoods)
-        json_str = json.dumps(baseResponse, cls=xxx)
+        baseResponse.data = netHostGoods
+        json_str = json.dumps(baseResponse, cls=HostGoodsEncoder)
         self.write(json_str)
 
 """

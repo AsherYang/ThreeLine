@@ -15,6 +15,7 @@ goods_name VARCHAR(150),
 market_price INT,
 current_price INT NOT NULL,
 sale_count INT,
+stock_num INT,
 goods_code VARCHAR(20),
 goods_logo VARCHAR(200),
 thum_logo VARCHAR(200)
@@ -80,6 +81,14 @@ class DbGoods:
     @property
     def sale_count(self, value):
         self.sale_count = value
+
+    @property
+    def stock_num(self):
+        return self.stock_num
+
+    @property
+    def stock_num(self, value):
+        self.stock_num = value
 
     @property
     def goods_code(self):

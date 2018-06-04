@@ -20,10 +20,11 @@ class GoodsDao:
     def saveToDb(self, goods):
         if isinstance(goods, DbGoods):
             insert = 'insert into ffstore_goods (goods_id, cate_id, brand_id, goods_name, market_price, ' \
-                     'current_price, sale_count, goods_code, goods_logo, thum_logo) ' \
+                     'current_price, sale_count, stock_num, goods_code, goods_logo, thum_logo) ' \
                      'values("%s", "%s", "%s", "%s", "%d", "%d", "%d", "%s", "%s", "%s")' \
                      % (goods.goods_id, goods.cate_id, goods.brand_id, goods.goods_name, goods.market_price,
-                        goods.current_price, goods.sale_count, goods.goods_code, goods.goods_logo, goods.thum_logo)
+                        goods.current_price, goods.sale_count, goods.stock_num, goods.goods_code, goods.goods_logo,
+                        goods.thum_logo)
             print 'insert goods to db.'
             return DbUtil.insert(insert)
         return False
@@ -35,9 +36,9 @@ class GoodsDao:
             if not goods.goods_id:
                 return False
             update = 'update ffstore_goods set goods_name = "%s", market_price = "%s", current_price = "%s", ' \
-                     'sale_count = "%s", goods_code = "%s", goods_logo = "%s", thum_logo = "%s" where goods_id = "%s"' \
-                     % (goods.goods_name, goods.market_price, goods.current_price, goods.sale_count, goods.goods_code,
-                        goods.goods_logo, goods.thum_logo, goods.goods_id)
+                     'sale_count = "%s", stock_num = "%s", goods_code = "%s", goods_logo = "%s", thum_logo = "%s" where goods_id = "%s"' \
+                     % (goods.goods_name, goods.market_price, goods.current_price, goods.sale_count, goods.stock_num,
+                        goods.goods_code, goods.goods_logo, goods.thum_logo, goods.goods_id)
             print 'update goods to db'
             return DbUtil.update(update)
         return False
@@ -48,6 +49,14 @@ class GoodsDao:
             return False
         saleCount = 0 if sale_count < 0 else sale_count
         update = 'update ffstore_goods set sale_count = "%s" where goods_id = "%s"' % (saleCount, goods_id)
+        return DbUtil.update(update)
+
+    # 更新商品库存
+    def updateStockNum(self, goods_id, stock_num):
+        if not goods_id:
+            return False
+        stock_num = 0 if stock_num < 0 else stock_num
+        update = 'update ffstore_goods set stock_num = "%s" where goods_id = "%s"' % (stock_num, goods_id)
         return DbUtil.update(update)
 
     # 更新商品市场价，一般指原价
