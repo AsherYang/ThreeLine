@@ -102,10 +102,10 @@ class GoodsDao:
             query = 'select * from ffstore_goods where cate_id = "%s" order by _id, ' + sort_str + ' limit %s, %s;' \
                 % (cate_id, start, page_size)
         else:
-            # join ffstore_size_color table
-            query = 'select * from ffstore_goods left join ffstore_size_color on ffstore_goods.goods_id = ' \
-                    'ffstore_size_color.goods_id where ffstore_goods.cate_id = "%s" and ' \
-                    'ffstore_size_color.goods_size = "%s" order by _id, ' + sort_str + ' limit %s, %s;' \
+            # join ffstore_attr table
+            query = 'select * from ffstore_goods left join ffstore_attr on ffstore_goods.goods_id = ' \
+                    'ffstore_attr.goods_id where ffstore_goods.cate_id = "%s" and ' \
+                    'ffstore_attr.attr_size = "%s" order by _id, ' + sort_str + ' limit %s, %s;' \
                 % (cate_id, goods_size, start, page_size)
         return DbUtil.query(query)
 

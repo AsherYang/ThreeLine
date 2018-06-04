@@ -35,17 +35,26 @@ class DbAttribute:
         self.goods_id = value
 
     @property
-    def attr_brand_name(self):
-        return self.attr_brand_name
-
-    @property
-    def attr_brand_name(self, value):
-        self.attr_brand_name = value
-
-    @property
     def attr_market_year(self):
         return self.attr_market_year
 
     @property
     def attr_market_year(self, value):
         self.attr_market_year = value
+
+    @property
+    def attr_size(self):
+        return self.attr_size
+
+    @property
+    def attr_size(self, value):
+        self.attr_size = value
+
+    @property
+    def attr_color(self):
+        return self.attr_color
+
+    @property
+    def attr_color(self, value):
+        self.attr_color = value
+

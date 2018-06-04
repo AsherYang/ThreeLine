@@ -68,14 +68,14 @@ class GetCategory:
     def doGetCategory(self):
         dbCateList = self.getCategoryFromDb()
         if dbCateList:
-            return self.covertCateDb2Net(dbCateList)
+            return self.convertCateDb2Net(dbCateList)
         else:
             return None
 
     """
     将商品分类数据库数据转换为网络数据，提供API数据
     """
-    def covertCateDb2Net(self, dbCateList):
+    def convertCateDb2Net(self, dbCateList):
         if not dbCateList:
             return None
         categoryList = []
@@ -147,13 +147,16 @@ class GetCategory:
             row_id = row[0]
             cate_id = row[1]
             goods_id = row[2]
-            attr_brand_name = row[3]
-            attr_market_year = row[4]
+            attr_market_year = row[3]
+            attr_size = row[4]
+            attr_color = row[5]
             dbAttr.cate_id = cate_id
             dbAttr.goods_id = goods_id
-            dbAttr.attr_brand_name = attr_brand_name
             dbAttr.attr_market_year = attr_market_year
+            dbAttr.attr_size = attr_size
+            dbAttr.attr_color = attr_color
             dbAttrList.append(dbAttr)
+        # category not have brand_name
         return self.covertHomeDiscover2Net(dbCateList, dbAttrList)
 
     """
