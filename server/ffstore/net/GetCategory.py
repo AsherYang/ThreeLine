@@ -39,15 +39,17 @@ class GetCategory:
             row_id = row[0]
             cate_id = row[1]
             cate_code = row[2]
-            cate_logo = row[3]
-            cate_name = row[4]
+            parent_code = row[3]
+            cate_logo = row[4]
+            cate_name = row[5]
             category.cate_id = cate_id
             category.cate_code = cate_code
+            category.parent_code = parent_code
             category.cate_logo = cate_logo
             category.cate_name = cate_name
             categoryList.append(category)
-            print "row_id = %s, cate_id = %s, cate_code = %s, cate_logo = %s, cate_name = %s" \
-                  % (row_id, cate_id, cate_code, cate_logo, cate_name)
+            print "getCategoryFromDb row_id = %s, cate_id = %s, cate_code = %s, parent_code = %s cate_logo = %s, cate_name = %s" \
+                  % (row_id, cate_id, cate_code, parent_code, cate_logo, cate_name)
         return categoryList
 
     """

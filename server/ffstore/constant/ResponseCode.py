@@ -19,6 +19,10 @@ Desc:   网络返回的基础码，对应解释
 op_success = '000001'
 op_success_desc = u'successfully'
 
+# 操作失败
+op_fail = '000002'
+op_fail_desc = u'操作失败'
+
 # 无效用户电话号码
 invalid_user_phone = '200001'
 invalid_user_phone_desc = u'用户电话号码无效'

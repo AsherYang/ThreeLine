@@ -217,10 +217,22 @@ class updateUserCostHandler(tornado.web.RequestHandler):
             print 'add user cost successfully!'
         else:
             print ResponseCode.add_user_cost_error_desc
+
 # 删除商品分类，及该分类下的所有商品
-class deleteCateAndGoods(tornado.web.RequestHandler):
-    def get(self, *args, **kwargs):
-        pass
+class deleteCateAndGoodsHandler(tornado.web.RequestHandler):
+    def post(self, *args, **kwargs):
+        cate_id = self.get_argument('cate_id', '')
+        getGoods = GetGoods()
+        deleteResult = getGoods.deleteCateAndGoods(cate_id)
+        baseResponse = BaseResponse()
+        if deleteResult:
+            baseResponse.code = ResponseCode.op_success
+            baseResponse.desc = ResponseCode.op_success_desc
+        else:
+            baseResponse.code = ResponseCode.op_fail
+            baseResponse.desc = ResponseCode.op_fail_desc
+        json_str = json.dumps(baseResponse, cls=StrEncoder)
+        self.write(json_str)
 
 class CustomApplication(tornado.web.Application):
     def __init__(self, debug=False):
@@ -234,6 +246,7 @@ class CustomApplication(tornado.web.Application):
             # (r'/get/allgoods', getAllGoodsHandler),
             (r'/save/user', saveUserHandler),
             (r'/update/user/cost', updateUserCostHandler),
+            (r'/delete/cate/goods', deleteCateAndGoodsHandler),
             (r"/.*", OtherHandler),
         ]
         settings = {

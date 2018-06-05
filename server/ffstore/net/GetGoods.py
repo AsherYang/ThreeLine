@@ -133,3 +133,12 @@ class GetGoods:
             brandList.append(dbBrand)
         return brandList
 
+    # 删除分类，以及分类下的所有商品
+    def deleteCateAndGoods(self, cate_id):
+        if not cate_id:
+            return False
+        deleteResult = self.cateDao.deleteByCateId(cate_id)
+        if deleteResult:
+            return self.goodsDao.deleteByCateId(cate_id)
+        return False
+
