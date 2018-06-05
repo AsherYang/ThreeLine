@@ -217,6 +217,10 @@ class updateUserCostHandler(tornado.web.RequestHandler):
             print 'add user cost successfully!'
         else:
             print ResponseCode.add_user_cost_error_desc
+# 删除商品分类，及该分类下的所有商品
+class deleteCateAndGoods(tornado.web.RequestHandler):
+    def get(self, *args, **kwargs):
+        pass
 
 class CustomApplication(tornado.web.Application):
     def __init__(self, debug=False):

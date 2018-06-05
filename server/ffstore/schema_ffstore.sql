@@ -19,6 +19,7 @@ CREATE TABLE ffstore_user (
 -- sale_count: 已卖出件数,  stock_num: 库存
 -- goods_code: 唯一，商品编码(代码)、编号如:T18C076
 -- goods_logo: 商品logo,  thum_logo: 商品logo小图
+-- foreign key (cate_id) references ffstore_category(cate_id) on delete cascade on update cascade
 DROP TABLE IF EXISTS ffstore_goods;
 CREATE TABLE ffstore_goods (
     _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -32,7 +33,7 @@ CREATE TABLE ffstore_goods (
     stock_num INT,
     goods_code VARCHAR(20) NOT NULL UNIQUE,
     goods_logo VARCHAR(200),
-    thum_logo VARCHAR(200)
+    thum_logo VARCHAR(200),
 );
 
 -- 分类表，根据分类cate_id，去商品表中查询该分类下的所有商品
@@ -65,7 +66,8 @@ CREATE TABLE ffstore_photo (
     _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     goods_id VARCHAR(50),
     photo VARCHAR(200),
-    thum_photo VARCHAR(200)
+    thum_photo VARCHAR(200),
+    foreign key (goods_id) references ffstore_goods(goods_id) on delete cascade on update cascade
 );
 
 -- 属性表，存储描述分类或者商品的属性，分类或者商品可1对多个属性
@@ -81,7 +83,8 @@ CREATE TABLE ffstore_attr (
     goods_id VARCHAR(50),
     attr_market_year VARCHAR(20),
     attr_size VARCHAR(5),
-    attr_color VARCHAR(10)
+    attr_color VARCHAR(10),
+    foreign key (goods_id) references ffstore_goods(goods_id) on delete cascade on update cascade
 );
 
 -- 公告栏表, importance, 数字越大重要性越强，展示时越靠前
