@@ -62,7 +62,7 @@ class GetGoods:
         goodsResult = self.goodsDao.queryGoodsByGoodsId(goods_id)
         goods = self.convertDbRow2Goods(goodsResult)
         # todo
-        # return convert2Net
+        # return convert2NetGoodsDetail(goods)
 
     # 获取点击首页分类进入分类页的商品, 根据条件获取商品
     # goods_size: 尺码，对应接口skuval, 使用GoodsAttr常量类
@@ -94,6 +94,15 @@ class GetGoods:
         if not cateId:
             return None
         return self.goodsDao.queryGoodsCountByCateId(cateId)
+
+    # 删除分类，以及分类下的所有商品
+    def deleteCateAndGoods(self, cate_id):
+        if not cate_id:
+            return False
+        deleteResult = self.cateDao.deleteByCateId(cate_id)
+        if deleteResult:
+            return self.goodsDao.deleteByCateId(cate_id)
+        return False
 
     # 将数据库查询的结果，对应设置给goods 实体bean，并将goods 返回出去
     def convertDbRow2Goods(self, dbGoodsRowResult):
@@ -165,13 +174,4 @@ class GetGoods:
             dbBrand.brand_logo = row[3]
             brandList.append(dbBrand)
         return brandList
-
-    # 删除分类，以及分类下的所有商品
-    def deleteCateAndGoods(self, cate_id):
-        if not cate_id:
-            return False
-        deleteResult = self.cateDao.deleteByCateId(cate_id)
-        if deleteResult:
-            return self.goodsDao.deleteByCateId(cate_id)
-        return False
 

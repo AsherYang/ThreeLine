@@ -36,7 +36,7 @@ class CategoryEncoder(json.JSONEncoder):
             elif isinstance(contentData, basestring):
                 realContent = contentData
             else:
-                realContent.append('unknown data type')
+                realContent.append('please check it.')
             return {'code': obj.code, 'desc': obj.desc,
                     'result': realContent}
             # if isinstance(contentData, list):
@@ -66,7 +66,7 @@ class AllGoodsEncoder(json.JSONEncoder):
             elif isinstance(contentData, basestring):
                 realContent = contentData
             else:
-                realContent.append('unknown data type')
+                realContent.append('please check it.')
             return {'code': obj.code, 'desc': obj.desc,
                     'result': realContent}
             # if isinstance(contentData, list):
@@ -95,7 +95,7 @@ class HomeDiscoverEncoder(json.JSONEncoder):
             elif isinstance(contentData, basestring):
                 realContent = contentData
             else:
-                realContent.append('unknown data type')
+                realContent.append('please check it.')
             return {'code': obj.code, 'desc': obj.desc,
                     'result': realContent}
             # if isinstance(contentData, list):
@@ -144,7 +144,7 @@ class HostGoodsEncoder(json.JSONEncoder):
             elif isinstance(contentData, basestring):
                 realContent = contentData
             else:
-                realContent.append('unknown data type')
+                realContent.append('please check it.')
             return {'code': obj.code, 'desc': obj.desc,
                     'result': realContent}
             # if isinstance(contentData, list):

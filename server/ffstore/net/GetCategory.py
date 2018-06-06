@@ -96,7 +96,7 @@ class GetCategory:
     """
     将商品分类数据库数据转换为用于首页展示的网络数据，提供API
     """
-    def covertHomeDiscover2Net(self, dbCateList, dbAttrList):
+    def convertHomeDiscover2Net(self, dbCateList, dbAttrList):
         if not dbCateList or not dbAttrList:
             return None
         netDiscoverList = []
@@ -161,7 +161,7 @@ class GetCategory:
             dbAttr.attr_color = attr_color
             dbAttrList.append(dbAttr)
         # category not have brand_name
-        return self.covertHomeDiscover2Net(dbCateList, dbAttrList)
+        return self.convertHomeDiscover2Net(dbCateList, dbAttrList)
 
     """
     获取首页展示的分类总数量

@@ -173,14 +173,33 @@ class getHostGoodsListHandler(tornado.web.RequestHandler):
         getGoods = GetGoods()
         netHostGoods = getGoods.getHostGoods(cateCode, skuval, page, size, sort)
         baseResponse = BaseResponse()
-        baseResponse.code = ResponseCode.op_success
-        baseResponse.desc = ResponseCode.op_success_desc
-        hostGoodsCount = getGoods.getGoodsCountByCate(cateCode)
-        page_total = (hostGoodsCount / size) + (1 if hostGoodsCount % size > 0 else 0)
-        baseResponse.page_total = page_total
-        baseResponse.data = netHostGoods
+        if netHostGoods:
+            baseResponse.code = ResponseCode.op_success
+            baseResponse.desc = ResponseCode.op_success_desc
+            hostGoodsCount = getGoods.getGoodsCountByCate(cateCode)
+            page_total = (hostGoodsCount / size) + (1 if hostGoodsCount % size > 0 else 0)
+            baseResponse.page_total = page_total
+            baseResponse.data = netHostGoods
+        else:
+            baseResponse.code = ResponseCode.op_fail
+            baseResponse.desc = ResponseCode.op_fail_desc
         json_str = json.dumps(baseResponse, cls=HostGoodsEncoder)
         self.write(json_str)
+
+
+"""
+获取商品详情信息
+https://sujiefs.com//api/mall/goods?id=2c9257a16136c3d6016348cc332b5e5d&sign=d1260c4c7c83415023bccdcc6b69f293&time=20180606221032
+"""
+class getGoodsDetailHandler(tornado.web.RequestHandler):
+    def get(self, *args, **kwargs):
+        goods_id = self.get_argument('id')
+        getGoods = GetGoods()
+        netGoods = getGoods.getGoodsById(goods_id)
+        baseResponse = BaseResponse()
+        if netGoods:
+            pass
+        pass
 
 
 """
@@ -252,6 +271,7 @@ class CustomApplication(tornado.web.Application):
             (r'/get/category', getCategoryHandler),
             (r'/mall/discoverList', getHomeDiscoverListHandler),
             (r'/home/hostGoodsList', getHostGoodsListHandler),
+            (r'/mall/goods', getGoodsDetailHandler),
             # (r'/get/allgoods', getAllGoodsHandler),
             (r'/save/user', saveUserHandler),
             (r'/update/user/cost', updateUserCostHandler),
