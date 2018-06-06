@@ -44,10 +44,25 @@ class GetGoods:
         cateId = self.getCateIdByCateCode(cate_code)
         if not cateId:
             return None
-        goodsResult = self.goodsDao.queryGoodsByCateId(cateId)
+        return self.getGoodsByCateId(cateId)
+
+    # 根据cate_id 获取该category 分类下的所有商品
+    def getGoodsByCateId(self, cate_id):
+        if not cate_id:
+            return None
+        goodsResult = self.goodsDao.queryGoodsByCateId(cate_id)
         goodsList = self.convertDbRow2GoodsList(goodsResult)
         # todo
-        # return covert2Net
+        # return convert2net
+
+    # 根据商品ID 获取商品详细信息
+    def getGoodsById(self, goods_id):
+        if not goods_id:
+            return None
+        goodsResult = self.goodsDao.queryGoodsByGoodsId(goods_id)
+        goods = self.convertDbRow2Goods(goodsResult)
+        # todo
+        # return convert2Net
 
     # 获取点击首页分类进入分类页的商品, 根据条件获取商品
     # goods_size: 尺码，对应接口skuval, 使用GoodsAttr常量类
@@ -79,6 +94,24 @@ class GetGoods:
         if not cateId:
             return None
         return self.goodsDao.queryGoodsCountByCateId(cateId)
+
+    # 将数据库查询的结果，对应设置给goods 实体bean，并将goods 返回出去
+    def convertDbRow2Goods(self, dbGoodsRowResult):
+        if not dbGoodsRowResult:
+            return None
+        dbGoods = DbGoods()
+        dbGoods.goods_id = dbGoodsRowResult[1]
+        dbGoods.cate_id = dbGoodsRowResult[2]
+        dbGoods.brand_id = dbGoodsRowResult[3]
+        dbGoods.goods_name = dbGoodsRowResult[4]
+        dbGoods.market_price = dbGoodsRowResult[5]
+        dbGoods.current_price = dbGoodsRowResult[6]
+        dbGoods.sale_count = dbGoodsRowResult[7]
+        dbGoods.stock_num = dbGoodsRowResult[8]
+        dbGoods.goods_code = dbGoodsRowResult[9]
+        dbGoods.goods_logo = dbGoodsRowResult[10]
+        dbGoods.thum_logo = dbGoodsRowResult[11]
+        return dbGoods
 
     # 将数据库查询出来的结果，对应设置给goods实体bean，并作为集合返回出去
     def convertDbRow2GoodsList(self, dbGoodsAllRowsResult):
