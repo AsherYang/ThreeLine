@@ -42,11 +42,13 @@ class GetCategory:
             parent_code = row[3]
             cate_logo = row[4]
             cate_name = row[5]
+            cate_show_type = row[6]
             category.cate_id = cate_id
             category.cate_code = cate_code
             category.parent_code = parent_code
             category.cate_logo = cate_logo
             category.cate_name = cate_name
+            category.cate_show_type = cate_show_type
             categoryList.append(category)
             print "getCategoryFromDb row_id = %s, cate_id = %s, cate_code = %s, parent_code = %s cate_logo = %s, cate_name = %s" \
                   % (row_id, cate_id, cate_code, parent_code, cate_logo, cate_name)

@@ -57,17 +57,16 @@ class UserDao:
             return DbUtil.update(update)
         return False
 
-    def updateUserCost(self, userInfo, costThisTime):
+    def updateUserCost(self, user_tel, costThisTime):
         if not NumberUtil.is_number(costThisTime):
             return False
-        if isinstance(userInfo, DbUser):
-            userTmp = self.queryFromDb(userInfo)
-            if userTmp:
-                cost_count = userTmp.cost_count + costThisTime
-                buy_times = userTmp.buy_times + 1
-                update = 'update ffstore_user set buy_times = "%d", cost_count = "%d" where user_tel = "%s" ' \
-                         % (buy_times, cost_count, userInfo.user_tel)
-                return DbUtil.update(update)
+        userTmp = self.queryByUserTel(user_tel)
+        if userTmp:
+            cost_count = userTmp.cost_count + costThisTime
+            buy_times = userTmp.buy_times + 1
+            update = 'update ffstore_user set buy_times = "%d", cost_count = "%d" where user_tel = "%s" ' \
+                     % (buy_times, cost_count, user_tel)
+            return DbUtil.update(update)
         return False
 
     def queryFromDb(self, userInfo):
@@ -75,6 +74,12 @@ class UserDao:
             query = 'select * from ffstore_user where user_tel = "%s" ' % userInfo.user_tel
             return DbUtil.query(query)
         return None
+
+    def queryByUserTel(self, user_tel):
+        if not user_tel:
+            return None
+        query = 'select * from ffstore_user where user_tel = "%s" ' % user_tel
+        return DbUtil.query(query)
 
     def deleteFromDb(self, userInfo):
         if isinstance(userInfo, DbUser):

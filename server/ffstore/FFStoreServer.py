@@ -11,6 +11,7 @@ Desc:   FFStore Server
 import os
 import subprocess
 import threading
+
 import MySQLdb
 import tornado.autoreload
 import tornado.httpserver
@@ -20,16 +21,15 @@ import tornado.web
 import torndb
 from tornado.options import define, options
 
-from constant import DbConstant
-from util.SendMsgEmail import SendEmail
-from db.DbUser import DbUser
-from db.UserDao import UserDao
-from FFStoreJsonEncoder import *
-from BaseResponse import BaseResponse
-from constant import ResponseCode
 import WeiChatMsg
+from FFStoreJsonEncoder import *
+from constant import DbConstant
+from constant import ResponseCode
+from db.DbUser import DbUser
+from ffstore.net.GetUser import GetUser
 from ffstore.net.GetCategory import GetCategory
 from ffstore.net.GetGoods import GetGoods
+from util.SendMsgEmail import SendEmail
 
 define("debug", default=False, help='Set debug mode', type=bool)
 # 服务器使用Supervisor＋nginx 三行情书配置多端口：8888｜8889｜8890｜8891, 上好微店端口：10001|10002
@@ -60,9 +60,11 @@ class pushMsgHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
         json_str = '{"status":"success"}'
         self.write(json_str)
+
     def post(self, *args, **kwargs):
         json_str = '{"status":"success"}'
         self.write(json_str)
+
 
 """
 receive weiChat push msg
@@ -95,11 +97,13 @@ class weiChatMsgHandler(tornado.web.RequestHandler):
     def sendEmail(self, msg):
         sendEmail = SendEmail()
         # sendEmail(content=msg)
-        thr = threading.Thread(target=sendEmail, args=[msg])    # open new thread
+        thr = threading.Thread(target=sendEmail, args=[msg])  # open new thread
         thr.start()
+
 
 """
 get category
+获取所有的分类，包括一级分类和二级分类
 """
 class getCategoryHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
@@ -110,6 +114,7 @@ class getCategoryHandler(tornado.web.RequestHandler):
             baseResponse.data.append(category)
         json_str = json.dumps(baseResponse, cls=CategoryEncoder)
         self.write(json_str)
+
 
 """
 get all goods
@@ -126,6 +131,7 @@ class getAllGoodsHandler(tornado.web.RequestHandler):
             baseResponse.data.append(goods)
         json_str = json.dumps(baseResponse, cls=AllGoodsEncoder)
         self.write(json_str)
+
 
 """
 get home page discover list
@@ -148,6 +154,7 @@ class getHomeDiscoverListHandler(tornado.web.RequestHandler):
             baseResponse.append(homeDiscover)
         json_str = json.dumps(baseResponse, cls=HomeDiscoverEncoder)
         self.write(json_str)
+
 
 """
 点击封面列表进入的分类展示专区
@@ -175,6 +182,7 @@ class getHostGoodsListHandler(tornado.web.RequestHandler):
         json_str = json.dumps(baseResponse, cls=HostGoodsEncoder)
         self.write(json_str)
 
+
 """
 save user to db
 """
@@ -187,8 +195,7 @@ class saveUserHandler(tornado.web.RequestHandler):
         user.user_name = userName
         user.user_tel = phone
         user.address = address
-        userDao = UserDao()
-        result = userDao.operate(user)
+        result = GetUser().operateUser2Db(user)
         baseResponse = BaseResponse()
         if result:
             baseResponse.code = ResponseCode.op_success
@@ -205,18 +212,19 @@ class saveUserHandler(tornado.web.RequestHandler):
         json_str = json.dumps(baseResponse, cls=StrEncoder)
         self.write(json_str)
 
+"""
+更新用户消费数据
+"""
 class updateUserCostHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
         phone = self.get_argument('user_tel', '')
         cost = self.get_argument('cost_this_time', '')
-        user = DbUser()
-        user.user_tel = phone
-        userDao = UserDao()
-        result = userDao.updateUserCost(user, cost)
+        result = GetUser().updateUserCost(phone, cost)
         if result:
             print 'add user cost successfully!'
         else:
             print ResponseCode.add_user_cost_error_desc
+
 
 # 删除商品分类，及该分类下的所有商品
 class deleteCateAndGoodsHandler(tornado.web.RequestHandler):
@@ -233,6 +241,7 @@ class deleteCateAndGoodsHandler(tornado.web.RequestHandler):
             baseResponse.desc = ResponseCode.op_fail_desc
         json_str = json.dumps(baseResponse, cls=StrEncoder)
         self.write(json_str)
+
 
 class CustomApplication(tornado.web.Application):
     def __init__(self, debug=False):

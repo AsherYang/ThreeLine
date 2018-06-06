@@ -14,8 +14,8 @@ cate_logo VARCHAR(200),
 cate_name VARCHAR(50)
 """
 
-class DbCategory:
 
+class DbCategory:
     def __init__(self):
         pass
 
