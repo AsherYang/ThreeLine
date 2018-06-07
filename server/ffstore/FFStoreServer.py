@@ -195,9 +195,9 @@ class getGoodsDetailHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
         goods_id = self.get_argument('id')
         getGoods = GetGoods()
-        netGoods = getGoods.getGoodsById(goods_id)
+        netGoodsDetail = getGoods.getGoodsById(goods_id)
         baseResponse = BaseResponse()
-        if netGoods:
+        if netGoodsDetail:
             pass
         pass
 

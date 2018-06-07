@@ -61,8 +61,7 @@ class GetGoods:
             return None
         goodsResult = self.goodsDao.queryGoodsByGoodsId(goods_id)
         goods = self.convertDbRow2Goods(goodsResult)
-        # todo
-        # return convert2NetGoodsDetail(goods)
+        return self.convert2NetGoodsDetail(goods)
 
     # 获取点击首页分类进入分类页的商品, 根据条件获取商品
     # goods_size: 尺码，对应接口skuval, 使用GoodsAttr常量类
@@ -176,4 +175,11 @@ class GetGoods:
             dbBrand.brand_logo = row[3]
             brandList.append(dbBrand)
         return brandList
+
+    # 将数据库商品信息，转换为网络api 返回商品数据
+    def convert2NetGoodsDetail(self, goods):
+        if isinstance(goods, DbGoods):
+            pass
+        else:
+            return None
 
