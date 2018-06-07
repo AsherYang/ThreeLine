@@ -11,6 +11,7 @@ Desc:   商品数据库操作类
 from ffstore.util import DbUtil
 from DbGoods import DbGoods
 from ffstore.constant import GoodsSort
+from ffstore.constant import GoodsStatus
 
 
 class GoodsDao:
@@ -20,11 +21,11 @@ class GoodsDao:
     def saveToDb(self, goods):
         if isinstance(goods, DbGoods):
             insert = 'insert into ffstore_goods (goods_id, cate_id, brand_id, goods_name, market_price, ' \
-                     'current_price, sale_count, stock_num, goods_code, goods_logo, thum_logo) ' \
-                     'values("%s", "%s", "%s", "%s", "%d", "%d", "%d", "%s", "%s", "%s")' \
+                     'current_price, sale_count, stock_num, status, goods_code, goods_logo, thum_logo) ' \
+                     'values("%s", "%s", "%s", "%s", "%d", "%d", "%d", "%s" "%s", "%s", "%s")' \
                      % (goods.goods_id, goods.cate_id, goods.brand_id, goods.goods_name, goods.market_price,
-                        goods.current_price, goods.sale_count, goods.stock_num, goods.goods_code, goods.goods_logo,
-                        goods.thum_logo)
+                        goods.current_price, goods.sale_count, goods.stock_num, goods.status, goods.goods_code,
+                        goods.goods_logo, goods.thum_logo)
             print 'insert goods to db.'
             return DbUtil.insert(insert)
         return False
@@ -36,12 +37,22 @@ class GoodsDao:
             if not goods.goods_id:
                 return False
             update = 'update ffstore_goods set goods_name = "%s", market_price = "%s", current_price = "%s", ' \
-                     'sale_count = "%s", stock_num = "%s", goods_code = "%s", goods_logo = "%s", thum_logo = "%s" where goods_id = "%s"' \
+                     'sale_count = "%s", stock_num = "%s", status = "%s", goods_code = "%s", goods_logo = "%s", ' \
+                     'thum_logo = "%s" where goods_id = "%s"' \
                      % (goods.goods_name, goods.market_price, goods.current_price, goods.sale_count, goods.stock_num,
-                        goods.goods_code, goods.goods_logo, goods.thum_logo, goods.goods_id)
+                        goods.status, goods.goods_code, goods.goods_logo, goods.thum_logo, goods.goods_id)
             print 'update goods to db'
             return DbUtil.update(update)
         return False
+
+    # 更新商品状态{@see GoodsStatus}
+    def updateSaleCount(self, goods_id, goods_status):
+        if not goods_id:
+            return False
+        if goods_status != GoodsStatus.STATUS_ON_SALE or goods_status != GoodsStatus.STATUS_SALE_OUT:
+            return False
+        update = 'update ffstore_goods set status = "%s" where goods_id = "%s"' % (goods_status, goods_id)
+        return DbUtil.update(update)
 
     # 更新商品卖出件数
     def updateSaleCount(self, goods_id, sale_count):

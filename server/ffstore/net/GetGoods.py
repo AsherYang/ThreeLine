@@ -117,9 +117,10 @@ class GetGoods:
         dbGoods.current_price = dbGoodsRowResult[6]
         dbGoods.sale_count = dbGoodsRowResult[7]
         dbGoods.stock_num = dbGoodsRowResult[8]
-        dbGoods.goods_code = dbGoodsRowResult[9]
-        dbGoods.goods_logo = dbGoodsRowResult[10]
-        dbGoods.thum_logo = dbGoodsRowResult[11]
+        dbGoods.status = dbGoodsRowResult[9]
+        dbGoods.goods_code = dbGoodsRowResult[10]
+        dbGoods.goods_logo = dbGoodsRowResult[11]
+        dbGoods.thum_logo = dbGoodsRowResult[12]
         return dbGoods
 
     # 将数据库查询出来的结果，对应设置给goods实体bean，并作为集合返回出去
@@ -138,9 +139,10 @@ class GetGoods:
             dbGoods.current_price = row[6]
             dbGoods.sale_count = row[7]
             dbGoods.stock_num = row[8]
-            dbGoods.goods_code = row[9]
-            dbGoods.goods_logo = row[10]
-            dbGoods.thum_logo = row[11]
+            dbGoods.status = row[9]
+            dbGoods.goods_code = row[10]
+            dbGoods.goods_logo = row[11]
+            dbGoods.thum_logo = row[12]
             goodsList.append(dbGoods)
         return goodsList
 

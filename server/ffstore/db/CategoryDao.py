@@ -18,8 +18,9 @@ class CategoryDao:
 
     def saveToDb(self, cate):
         if isinstance(cate, DbCategory):
-            insert = 'insert into ffstore_category (cate_id, cate_code, cate_logo, cate_name) values("%s", "%d", "%s", "%s")' \
-                     % (cate.cate_id, cate.cate_code, cate.cate_logo, cate.cate_name)
+            insert = 'insert into ffstore_category (cate_id, cate_code, parent_code, cate_logo, cate_name, cate_show_type)' \
+                     ' values("%s", "%d", "%d", "%s", "%s", "%s")' \
+                     % (cate.cate_id, cate.cate_code, cate.parent_code, cate.cate_logo, cate.cate_name, cate.cate_show_type)
             print 'insert user to db.'
             return DbUtil.insert(insert)
         return False
@@ -39,6 +40,7 @@ class CategoryDao:
                 return DbUtil.update(update)
         return False
 
+    # 更新category log
     def updateLogoToDb(self, cate):
         if isinstance(cate, DbCategory):
             update = 'update ffstore_category set cate_logo = "%s" where cate_code = "%s" ' \
@@ -47,11 +49,21 @@ class CategoryDao:
             return DbUtil.update(update)
         return False
 
+    # 更新category name
     def updateNameToDb(self, cate):
         if isinstance(cate, DbCategory):
             update = 'update ffstore_category set cate_name = "%s" where cate_code = "%s" ' \
                      % (cate.cate_name, cate.cate_code)
             print 'update category name to db'
+            return DbUtil.update(update)
+        return False
+
+    # 更新category cate_show_type, {@see CategoryShowType}默认为0:表示一般展示类型，1: 首页展示；
+    def updateShowTypeToDb(self, cate):
+        if isinstance(cate, DbCategory):
+            update = 'update ffstore_category set cate_show_type = "%s" where cate_code = "%s" ' \
+                     % (cate.cate_show_type, cate.cate_code)
+            print 'update category cate show type to db'
             return DbUtil.update(update)
         return False
 

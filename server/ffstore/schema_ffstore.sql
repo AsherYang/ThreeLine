@@ -17,6 +17,7 @@ CREATE TABLE ffstore_user (
 -- cate_id 对应ffstore_category表cate_id, brand_id 对应ffstore_brand表brand_id
 -- market_price: 市场价(一般指原价), current_price: 现价
 -- sale_count: 已卖出件数,  stock_num: 库存
+-- status: 商品状态(@see GoodsStatus)
 -- goods_code: 唯一，商品编码(代码)、编号如:T18C076
 -- goods_logo: 商品logo,  thum_logo: 商品logo小图
 -- foreign key (cate_id) references ffstore_category(cate_id) on delete cascade on update cascade
@@ -31,15 +32,16 @@ CREATE TABLE ffstore_goods (
     current_price INT NOT NULL,
     sale_count INT,
     stock_num INT,
+    status VARCHAR(3) DEFAULT 1,
     goods_code VARCHAR(20) NOT NULL UNIQUE,
     goods_logo VARCHAR(200),
-    thum_logo VARCHAR(200),
+    thum_logo VARCHAR(200)
 );
 
 -- 分类表，根据分类cate_id，去商品表中查询该分类下的所有商品
 -- cate_code 唯一，用于标识一个分类的代码(如:022)
 -- parent_code 用于二级目录对应一级目录，对应的一级目录cate_code
--- cate_show_type 表示分类展示类型，默认为0:表示一般展示类型，1: 首页展示；
+-- cate_show_type 表示分类展示类型，{@see CategoryShowType}默认为0:表示一般展示类型，1: 首页展示；
 DROP TABLE IF EXISTS ffstore_category;
 CREATE TABLE ffstore_category (
     _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

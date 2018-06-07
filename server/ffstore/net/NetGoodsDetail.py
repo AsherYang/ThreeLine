@@ -220,9 +220,225 @@ class NetGoodsDetail:
         self.id = value
 
     @property
+    def attrList(self):
+        return self.attrList
+
+    @property
+    def attrList(self, value):
+        self.attrList = value
+
+    @property
+    def brandName(self):
+        return self.brandName
+
+    @property
+    def brandName(self, value):
+        self.brandName = value
+
+    @property
     def businessId(self):
         return self.businessId
 
     @property
     def businessId(self, value):
         self.businessId = value
+
+    @property
+    def businessName(self):
+        return self.businessName
+
+    @property
+    def businessName(self, value):
+        self.businessName = value
+
+    @property
+    def code(self):
+        return self.code
+
+    @property
+    def code(self, value):
+        self.code = value
+
+    @property
+    def detailInfo(self):
+        return self.detailInfo
+
+    @property
+    def detailInfo(self, value):
+        self.detailInfo = value
+
+    @property
+    def evaluateCount(self):
+        return self.evaluateCount
+
+    @property
+    def evaluateCount(self, value):
+        self.evaluateCount = value
+
+    @property
+    def freeShipNum(self):
+        return self.freeShipNum
+
+    @property
+    def freeShipNum(self, value):
+        self.freeShipNum = value
+
+    @property
+    def freight(self):
+        return self.freight
+
+    @property
+    def freight(self, value):
+        self.freight = value
+
+    @property
+    def goodsSkuId(self):
+        return self.goodsSkuId
+
+    @property
+    def goodsSkuId(self, value):
+        self.goodsSkuId = value
+
+    @property
+    def logo(self):
+        return self.logo
+
+    @property
+    def logo(self, value):
+        self.logo = value
+
+    @property
+    def marketPrice(self):
+        return self.marketPrice
+
+    @property
+    def marketPrice(self, value):
+        self.marketPrice = value
+
+    @property
+    def minBuyNum(self):
+        return self.minBuyNum
+
+    @property
+    def minBuyNum(self, value):
+        self.minBuyNum = value
+
+    @property
+    def name(self):
+        return self.name
+
+    @property
+    def name(self, value):
+        self.name = value
+
+    @property
+    def photoList(self):
+        return self.photoList
+
+    @property
+    def photoList(self, value):
+        self.photoList = value
+
+    @property
+    def price(self):
+        return self.price
+
+    @property
+    def price(self, value):
+        self.price = value
+
+    @property
+    def saleCount(self):
+        return self.saleCount
+
+    @property
+    def saleCount(self, value):
+        self.saleCount = value
+
+    @property
+    def shareAmount(self):
+        return self.shareAmount
+
+    @property
+    def shareAmount(self, value):
+        self.shareAmount = value
+
+    @property
+    def shareTimes(self):
+        return self.shareTimes
+
+    @property
+    def shareTimes(self, value):
+        self.shareTimes = value
+
+    @property
+    def shareTips(self):
+        return self.shareTips
+
+    @property
+    def shareTips(self, value):
+        self.shareTips = value
+
+    @property
+    def sourceFlag(self):
+        return self.sourceFlag
+
+    @property
+    def sourceFlag(self, value):
+        self.sourceFlag = value
+
+    @property
+    def startTime(self):
+        return self.startTime
+
+    @property
+    def startTime(self, value):
+        self.startTime = value
+
+    @property
+    def status(self):
+        return self.status
+
+    @property
+    def status(self, value):
+        self.status = value
+
+    @property
+    def stockNum(self):
+        return self.stockNum
+
+    @property
+    def stockNum(self, value):
+        self.stockNum = value
+
+    @property
+    def thumLogo(self):
+        return self.thumLogo
+
+    @property
+    def thumLogo(self, value):
+        self.thumLogo = value
+
+    @property
+    def validEndTime(self):
+        return self.validEndTime
+
+    @property
+    def validEndTime(self, value):
+        self.validEndTime = value
+
+    @property
+    def wholeNum(self):
+        return self.wholeNum
+
+    @property
+    def wholeNum(self, value):
+        self.wholeNum = value
+
+    @property
+    def wholePrice(self):
+        return self.wholePrice
+
+    @property
+    def wholePrice(self, value):
+        self.wholePrice = value

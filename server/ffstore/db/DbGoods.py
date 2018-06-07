@@ -91,6 +91,14 @@ class DbGoods:
         self.stock_num = value
 
     @property
+    def status(self):
+        return self.status
+
+    @property
+    def status(self, value):
+        self.status = value
+
+    @property
     def goods_code(self):
         return self.goods_code
 
