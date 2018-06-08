@@ -107,7 +107,8 @@ class GetCategory:
             netDiscover.id = dbCate.cate_id
             for dbAttr in dbAttrList:
                 if dbCate.cate_id == dbAttr.cate_id:
-                    netDiscover.attr_brand_name = dbAttr.attr_brand_name
+                    # 分类没有厂家名称
+                    # netDiscover.brand_name = dbAttr.brand_name
                     netDiscover.attr_market_year = dbAttr.attr_market_year
                     break
             netDiscoverList.append(netDiscover)
@@ -142,7 +143,7 @@ class GetCategory:
             if cate_id not in dbCateIds:
                 dbCateIds.append(cate_id)
         # query cate attributes
-        attrResult = self.attrDao.queryCateAttrs(dbCateIds)
+        attrResult = self.attrDao.queryCateAttrList(dbCateIds)
         if not attrResult:
             return None
         dbAttrList = []

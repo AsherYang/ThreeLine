@@ -15,8 +15,8 @@ Desc:   首页封面实体
  */
 """
 
-class NetDiscover:
 
+class NetDiscover:
     def __init__(self):
         pass
 
@@ -59,4 +59,3 @@ class NetDiscover:
     @property
     def attr_market_year(self, value):
         self.attr_market_year = value
-

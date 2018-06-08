@@ -89,8 +89,8 @@ class HomeDiscoverEncoder(json.JSONEncoder):
                 for data in contentData:
                     if isinstance(data, NetDiscover):
                         string = {'id': data.id, 'code': data.code, 'logo': data.logo,
-                                  'attr_brand_name': data.attr_brand_name,
-                                  'attr_market_year': data.attr_market_year }
+                                  'brand_name': data.brand_name,
+                                  'attr_market_year': data.attr_market_year}
                         realContent.append(string)
             elif isinstance(contentData, basestring):
                 realContent = contentData
@@ -117,9 +117,9 @@ class HostGoodsEncoder(json.JSONEncoder):
             if isinstance(contentData, list):
                 realContent.append('host goods not support return list')
             elif isinstance(contentData, NetHostGoods):
-                category = contentData.category
-                goodsList = contentData.goodsList
-                brandList = contentData.brandList
+                category = contentData.dbCategory
+                goodsList = contentData.dbGoodsList
+                brandList = contentData.dbBrandList
                 if isinstance(category, DbCategory):
                     cate_str = {'code': category.cate_code, 'name': category.cate_name, 'logo': category.cate_logo,
                                 'id': category.cate_id}

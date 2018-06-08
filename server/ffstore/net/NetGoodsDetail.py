@@ -19,9 +19,9 @@ https://sujiefs.com//api/mall/goods?id=2c9257a16136c3d6016348cc332b5e5d&sign=d12
         "businessName": "广州素洁服饰公司",
         "code": "T18C081",
         "detailInfo": "<p><img src=\"http://sujiefs.com/upload/images/20180510/201805101444333211399.jpg\" title=\"201805101444333211399.jpg\"/><\/p><p><img src=\"http://sujiefs.com/upload/images/20180510/201805101444333900964.jpg\" title=\"201805101444333900964.jpg\"/><\/p><p><img src=\"http://sujiefs.com/upload/images/20180510/201805101444333580304.jpg\" title=\"201805101444333580304.jpg\"/><\/p><p><img src=\"http://sujiefs.com/upload/images/20180510/201805101444333734278.jpg\" title=\"201805101444333734278.jpg\"/><\/p><p><img src=\"http://sujiefs.com/upload/images/20180510/201805101444334244378.jpg\" title=\"201805101444334244378.jpg\"/><\/p><p><img src=\"http://sujiefs.com/upload/images/20180510/201805101444518635618.jpg\" title=\"201805101444518635618.jpg\"/><\/p><p><img src=\"http://sujiefs.com/upload/images/20180510/201805101444518818864.jpg\" title=\"201805101444518818864.jpg\"/><\/p><p><img src=\"http://sujiefs.com/upload/images/20180510/201805101445212172204.jpg\" title=\"201805101445212172204.jpg\"/><\/p><p><img src=\"http://sujiefs.com/upload/images/20180510/201805101445212831851.jpg\" title=\"201805101445212831851.jpg\"/><\/p><p><img src=\"http://sujiefs.com/upload/images/20180510/201805101445212515486.jpg\" title=\"201805101445212515486.jpg\"/><\/p><p><img src=\"http://sujiefs.com/upload/images/20180510/201805101445213082872.jpg\" title=\"201805101445213082872.jpg\"/><\/p><p><img src=\"http://sujiefs.com/upload/images/20180510/201805101445213317153.jpg\" title=\"201805101445213317153.jpg\"/><\/p><p><img src=\"http://sujiefs.com/upload/images/20180510/201805101445213390022.jpg\" title=\"201805101445213390022.jpg\"/><\/p><p><br/><\/p>",
-        "evaluateCount": 0,
-        "freeShipNum": 0,
-        "freight": 0,
+        "evaluateCount": 0,    # 评价
+        "freeShipNum": 0,     # 免运费个数
+        "freight": 0,    # 运费
         "goodsSkuId": "2c9257a16136c3d6016348cc33515e62",
         "goodsSkuList": [
             {
@@ -220,20 +220,12 @@ class NetGoodsDetail:
         self.id = value
 
     @property
-    def attrList(self):
-        return self.attrList
+    def dbAttrList(self):
+        return self.dbAttrList
 
     @property
-    def attrList(self, value):
-        self.attrList = value
-
-    @property
-    def brandName(self):
-        return self.brandName
-
-    @property
-    def brandName(self, value):
-        self.brandName = value
+    def dbAttrList(self, value):
+        self.dbAttrList = value
 
     @property
     def businessId(self):
@@ -276,30 +268,6 @@ class NetGoodsDetail:
         self.evaluateCount = value
 
     @property
-    def freeShipNum(self):
-        return self.freeShipNum
-
-    @property
-    def freeShipNum(self, value):
-        self.freeShipNum = value
-
-    @property
-    def freight(self):
-        return self.freight
-
-    @property
-    def freight(self, value):
-        self.freight = value
-
-    @property
-    def goodsSkuId(self):
-        return self.goodsSkuId
-
-    @property
-    def goodsSkuId(self, value):
-        self.goodsSkuId = value
-
-    @property
     def logo(self):
         return self.logo
 
@@ -316,14 +284,6 @@ class NetGoodsDetail:
         self.marketPrice = value
 
     @property
-    def minBuyNum(self):
-        return self.minBuyNum
-
-    @property
-    def minBuyNum(self, value):
-        self.minBuyNum = value
-
-    @property
     def name(self):
         return self.name
 
@@ -332,12 +292,12 @@ class NetGoodsDetail:
         self.name = value
 
     @property
-    def photoList(self):
-        return self.photoList
+    def dbPhotoList(self):
+        return self.dbPhotoList
 
     @property
-    def photoList(self, value):
-        self.photoList = value
+    def dbPhotoList(self, value):
+        self.dbPhotoList = value
 
     @property
     def price(self):
@@ -380,22 +340,6 @@ class NetGoodsDetail:
         self.shareTips = value
 
     @property
-    def sourceFlag(self):
-        return self.sourceFlag
-
-    @property
-    def sourceFlag(self, value):
-        self.sourceFlag = value
-
-    @property
-    def startTime(self):
-        return self.startTime
-
-    @property
-    def startTime(self, value):
-        self.startTime = value
-
-    @property
     def status(self):
         return self.status
 
@@ -418,27 +362,3 @@ class NetGoodsDetail:
     @property
     def thumLogo(self, value):
         self.thumLogo = value
-
-    @property
-    def validEndTime(self):
-        return self.validEndTime
-
-    @property
-    def validEndTime(self, value):
-        self.validEndTime = value
-
-    @property
-    def wholeNum(self):
-        return self.wholeNum
-
-    @property
-    def wholeNum(self, value):
-        self.wholeNum = value
-
-    @property
-    def wholePrice(self):
-        return self.wholePrice
-
-    @property
-    def wholePrice(self, value):
-        self.wholePrice = value

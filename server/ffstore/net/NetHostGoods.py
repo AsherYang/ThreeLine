@@ -39,40 +39,40 @@ class NetHostGoods:
         pass
 
     @property
-    def category(self):
-        return self.category
+    def dbCategory(self):
+        return self.dbCategory
 
     @property
-    def category(self, value):
-        self.category = value
+    def dbCategory(self, value):
+        self.dbCategory = value
 
     @property
-    def goodsList(self):
-        return self.goodsList
+    def dbGoodsList(self):
+        return self.dbGoodsList
 
     @property
-    def goodsList(self, value):
-        self.goodsList = value
+    def dbGoodsList(self, value):
+        self.dbGoodsList = value
 
     @property
-    def brandList(self):
-        return self.brandList
+    def dbBrandList(self):
+        return self.dbBrandList
 
     @property
-    def brandList(self, value):
-        self.brandList = value
+    def dbBrandList(self, value):
+        self.dbBrandList = value
 
     # append to data,
     # @see http://stackoverflow.com/questions/16380575/python-decorating-property-setter-with-list
     def appendGoods(self, value):
-        return self.goodsList + [value]
+        return self.dbGoodsList + [value]
 
     # extend 只能是一个列表
     def extendGoods(self, value):
-        return self.goodsList.extend(value)
+        return self.dbGoodsList.extend(value)
 
     def appendBrand(self, value):
-        return self.brandList + [value]
+        return self.dbBrandList + [value]
 
     def extendBrand(self, value):
-        return self.brandList.extend(value)
+        return self.dbBrandList.extend(value)

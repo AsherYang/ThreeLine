@@ -9,18 +9,26 @@ Desc:   获取商品接口. 返回网络数据
 """
 from ffstore.constant import GoodsSort
 from ffstore.db.CategoryDao import CategoryDao
+from ffstore.db.GoodsDao import GoodsDao
+from ffstore.db.BrandDao import BrandDao
+from ffstore.db.AttributeDao import AttributeDao
+from ffstore.db.GoodsPhotoDao import GoodsPhotoDao
 from ffstore.db.DbCategory import DbCategory
 from ffstore.db.DbGoods import DbGoods
 from ffstore.db.DbBrand import DbBrand
-from ffstore.db.GoodsDao import GoodsDao
-from ffstore.db.BrandDao import BrandDao
+from ffstore.db.DbAttribute import DbAttribute
+from ffstore.db.DbGoodsPhoto import DbGoodsPhoto
 from ffstore.net.NetHostGoods import NetHostGoods
+from ffstore.net.NetGoodsDetail import NetGoodsDetail
+
 
 class GetGoods:
     def __init__(self):
         self.cateDao = CategoryDao()
         self.goodsDao = GoodsDao()
         self.brandDao = BrandDao()
+        self.attrDao = AttributeDao()
+        self.photoDao = GoodsPhotoDao()
         pass
 
     # 根据cate_code 获取cate_id, cate_code 是唯一值属性
@@ -61,7 +69,13 @@ class GetGoods:
             return None
         goodsResult = self.goodsDao.queryGoodsByGoodsId(goods_id)
         goods = self.convertDbRow2Goods(goodsResult)
-        return self.convert2NetGoodsDetail(goods)
+        attrResult = self.attrDao.queryAttrListByGoodsId(goods_id)
+        attrList = self.convertDbRow2AttrList(attrResult)
+        brandResult = self.brandDao.queryBrandById(goods.brand_id)
+        brand = self.convertDbRow2Brand(brandResult)
+        photoResult = self.photoDao.queryPhotoListByGoodsId(goods_id)
+        photoList = self.convertDbRow2PhotoList(photoResult)
+        return self.convert2NetGoodsDetail(goods, attrList, brand, photoList)
 
     # 获取点击首页分类进入分类页的商品, 根据条件获取商品
     # goods_size: 尺码，对应接口skuval, 使用GoodsAttr常量类
@@ -74,7 +88,7 @@ class GetGoods:
         if not goodsList:
             return None
         netHostGoods = NetHostGoods()
-        netHostGoods.category = category
+        netHostGoods.dbCategory = category
         brandIdList = []
         for goods in goodsList:
             netHostGoods.appendGoods(goods)
@@ -103,7 +117,9 @@ class GetGoods:
             return self.goodsDao.deleteByCateId(cate_id)
         return False
 
-    # 将数据库查询的结果，对应设置给goods 实体bean，并将goods 返回出去
+    # =========================== 转换开始 ===================================== #
+
+    # 将数据库查询的结果，对应设置给goods 实体bean，并将单个 goods 返回出去
     def convertDbRow2Goods(self, dbGoodsRowResult):
         if not dbGoodsRowResult:
             return None
@@ -162,6 +178,17 @@ class GetGoods:
             cateList.append(dbCate)
         return cateList
 
+    # 将数据库查询出来的结果，对应设置给brand实体bean, 并将单个 brand 返回出去
+    def convertDbRow2Brand(self, dbBrandRowsResult):
+        if not dbBrandRowsResult:
+            return None
+        dbBrand = DbBrand()
+        row_id = dbBrandRowsResult[0]
+        dbBrand.brand_id = dbBrandRowsResult[1]
+        dbBrand.brand_name = dbBrandRowsResult[2]
+        dbBrand.brand_logo = dbBrandRowsResult[3]
+        return dbBrand
+
     # 将数据库查询出来的结果，对应设置给brand实体bean, 并作为集合返回出去
     def convertDbRow2BrandList(self, dbBrandAllRowsResult):
         if not dbBrandAllRowsResult:
@@ -176,10 +203,61 @@ class GetGoods:
             brandList.append(dbBrand)
         return brandList
 
+    # 将数据库查询出来的结果，对应设置给Attribute实体bean, 并作为集合返回出去
+    def convertDbRow2AttrList(self, dbAttrAllRowsResult):
+        if not dbAttrAllRowsResult:
+            return None
+        attrList = []
+        for row in dbAttrAllRowsResult:
+            dbAttr = DbAttribute()
+            row_id = row[0]
+            dbAttr.cate_id = row[1]
+            dbAttr.goods_id = row[2]
+            dbAttr.attr_market_year = row[3]
+            dbAttr.attr_size = row[4]
+            dbAttr.attr_color = row[5]
+            attrList.append(dbAttr)
+        return attrList
+
+    # 将数据库查询出来的结果，对应设置给Attribute实体bean, 并作为集合返回出去
+    def convertDbRow2PhotoList(self, dbPhotoAllRowsResult):
+        if not dbPhotoAllRowsResult:
+            return None
+        photoList = []
+        for row in dbPhotoAllRowsResult:
+            dbGoodsPhoto = DbGoodsPhoto()
+            row_id = row[0]
+            dbGoodsPhoto.goods_id = row[1]
+            dbGoodsPhoto.photo = row[2]
+            dbGoodsPhoto.thum_photo = row[3]
+            photoList.append(dbGoodsPhoto)
+        return photoList
+
     # 将数据库商品信息，转换为网络api 返回商品数据
-    def convert2NetGoodsDetail(self, goods):
+    def convert2NetGoodsDetail(self, goods, attrList, brand, photoList):
         if isinstance(goods, DbGoods):
-            pass
+            netGoodsDetail = NetGoodsDetail()
+            NetGoodsDetail.id = goods.goods_id
+            netGoodsDetail.dbAttrList = attrList
+            netGoodsDetail.businessId = brand.brand_id
+            netGoodsDetail.businessName = brand.brand_name
+            netGoodsDetail.code = goods.goods_code
+            # netGoodsDetail.detailInfo =
+            # netGoodsDetail.evaluateCount =
+            netGoodsDetail.logo = goods.goods_logo
+            netGoodsDetail.marketPrice = goods.market_price
+            netGoodsDetail.name = goods.goods_name
+            netGoodsDetail.dbPhotoList = photoList
+            netGoodsDetail.price = goods.current_price
+            netGoodsDetail.saleCount = goods.sale_count
+            # netGoodsDetail.shareAmount
+            # netGoodsDetail.shareTimes
+            # netGoodsDetail.shareTips
+            netGoodsDetail.status = goods.status
+            netGoodsDetail.stockNum = goods.stock_num
+            netGoodsDetail.thumLogo = goods.thum_logo
+            return netGoodsDetail
         else:
             return None
 
+    # =========================== 转换结束 ===================================== #
