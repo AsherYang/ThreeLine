@@ -198,8 +198,14 @@ class getGoodsDetailHandler(tornado.web.RequestHandler):
         netGoodsDetail = getGoods.getGoodsById(goods_id)
         baseResponse = BaseResponse()
         if netGoodsDetail:
-            pass
-        pass
+            baseResponse.code = ResponseCode.op_success
+            baseResponse.desc = ResponseCode.op_success_desc
+            baseResponse.data = netGoodsDetail
+        else:
+            baseResponse.code = ResponseCode.op_fail
+            baseResponse.desc = ResponseCode.op_fail_desc
+        json_str = json.dumps(baseResponse, cls=GoodsDetailEncoder)
+        self.write(json_str)
 
 
 """

@@ -13,9 +13,11 @@ from BaseResponse import BaseResponse
 from ffstore.net.NetCategory import NetCategory
 from ffstore.net.NetDiscover import NetDiscover
 from ffstore.net.NetHostGoods import NetHostGoods
+from ffstore.net.NetGoodsDetail import NetGoodsDetail
 from db.DbGoods import DbGoods
 from db.DbCategory import DbCategory
 from db.DbBrand import DbBrand
+from db.DbGoodsPhoto import DbGoodsPhoto
 
 
 """
@@ -141,6 +143,66 @@ class HostGoodsEncoder(json.JSONEncoder):
                                          'stockNum': goods.stock_num, 'logo': goods.goods_logo, 'id': goods.goods_id}
                             goods_content.append(goods_str)
                 realContent.append({'list': goods_content})
+            elif isinstance(contentData, basestring):
+                realContent = contentData
+            else:
+                realContent.append('please check it.')
+            return {'code': obj.code, 'desc': obj.desc,
+                    'result': realContent}
+            # if isinstance(contentData, list):
+            #     print contentData[0].author
+            # else:
+            #     print type(contentData)
+        else:
+            return json.JSONEncoder.default(self, obj)
+
+"""
+将GoodsDetail 转成 Json 字符串
+"""
+class GoodsDetailEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, BaseResponse):
+            contentData = obj.data
+            # print type(contentData)
+            realContent = []
+            if isinstance(contentData, list):
+                realContent.append('goods detail not support return list')
+            elif isinstance(contentData, NetGoodsDetail):
+                attrList = contentData.dbAttrList
+                code = contentData.code
+                businessId = contentData.businessId
+                businessName = contentData.businessName
+                detailInfo = contentData.detailInfo
+                evaluateCount = contentData.evaluateCount
+                id = contentData.id
+                logo = contentData.logo
+                marketPrice = contentData.marketPrice
+                name = contentData.name
+                photoList = contentData.dbPhotoList
+                price = contentData.price
+                saleCount = contentData.saleCount
+                shareAmount = contentData.shareAmount
+                shareTimes = contentData.shareTimes
+                shareTips = contentData.shareTips
+                status = contentData.status
+                stockNum = contentData.stockNum
+                thumLogo = contentData.thumLogo
+                common_str = {'id': id, "code": code, "businessId": businessId, "businessName": businessName,
+                              "detailInfo": detailInfo, "evaluateCount": evaluateCount, 'attrList': attrList,
+                              "logo": logo, "marketPrice": marketPrice, "name": name, "price": price,
+                              "saleCount": saleCount, "shareAmount": shareAmount, "shareTimes": shareTimes,
+                              "shareTips": shareTips, "status": status, "stockNum": stockNum, "thumLogo": thumLogo}
+                realContent.append(common_str)
+                photo_content = []
+                if isinstance(photoList, list):
+                    for dbPhoto in photoList:
+                        if isinstance(dbPhoto, DbGoodsPhoto):
+                            goodsId = dbPhoto.goods_id
+                            photo = dbPhoto.photo
+                            thumPhoto = dbPhoto.thum_photo
+                            photo_str = {'goodsId': goodsId, "photo": photo, "thumPhoto": thumPhoto}
+                            photo_content.append(photo_str)
+                realContent.append({'photoList': photo_content})
             elif isinstance(contentData, basestring):
                 realContent = contentData
             else:
