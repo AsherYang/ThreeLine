@@ -149,7 +149,10 @@ class getHomeDiscoverListHandler(tornado.web.RequestHandler):
         baseResponse.desc = ResponseCode.op_success_desc
         homeDiscoverCount = getCategory.getHomeDiscoverCount()
         page_total = (homeDiscoverCount / size) + (1 if homeDiscoverCount % size > 0 else 0)
+        baseResponse.pageNum = page
+        baseResponse.pageSize = size
         baseResponse.page_total = page_total
+        baseResponse.totalCount = homeDiscoverCount
         for homeDiscover in homeDiscoverList:
             baseResponse.append(homeDiscover)
         json_str = json.dumps(baseResponse, cls=HomeDiscoverEncoder)
@@ -176,9 +179,12 @@ class getHostGoodsListHandler(tornado.web.RequestHandler):
         if netHostGoods:
             baseResponse.code = ResponseCode.op_success
             baseResponse.desc = ResponseCode.op_success_desc
-            hostGoodsCount = getGoods.getGoodsCountByCate(cateCode)
+            hostGoodsCount = getGoods.getGoodsCountByCate(cateCode, skuval)
             page_total = (hostGoodsCount / size) + (1 if hostGoodsCount % size > 0 else 0)
+            baseResponse.pageNum = page
+            baseResponse.pageSize = size
             baseResponse.page_total = page_total
+            baseResponse.totalCount = hostGoodsCount
             baseResponse.data = netHostGoods
         else:
             baseResponse.code = ResponseCode.op_fail
@@ -206,6 +212,41 @@ class getGoodsDetailHandler(tornado.web.RequestHandler):
             baseResponse.desc = ResponseCode.op_fail_desc
         json_str = json.dumps(baseResponse, cls=GoodsDetailEncoder)
         self.write(json_str)
+
+
+"""
+搜索商品
+接口与返回值和 {@see getHostGoodsListHandler} 类似
+
+https://sujiefs.com//api/mall/searchGoodsList?page=1&size=10&searchKeyWords=&cateCode=008005&sort=-1&skuval=&sign=d2ebecbb0a1c36b51b0b5a20a6a85588&time=20180610132307
+"""
+class searchGoodsListHandler(tornado.web.RequestHandler):
+    def get(self, *args, **kwargs):
+        page = self.get_argument('page')
+        size = self.get_argument('size')
+        searchKeywords = self.get_argument('searchKeyWords')
+        cateCode = self.get_argument('cateCode')
+        sort = self.get_argument('sort')
+        skuval = self.get_argument('skuval')
+        getGoods = GetGoods()
+        netSearchGoods = getGoods.getSearchGoodsList(searchKeywords, cateCode, skuval, page, size, sort)
+        baseResponse = BaseResponse()
+        if netSearchGoods:
+            baseResponse.code = ResponseCode.op_success
+            baseResponse.desc = ResponseCode.op_success_desc
+            searchGoodsCount = getGoods.getGoodsCountByKeywords(searchKeywords, cateCode, skuval)
+            page_total = (searchGoodsCount / size) + (1 if searchGoodsCount % size > 0 else 0)
+            baseResponse.pageNum = page
+            baseResponse.pageSize = size
+            baseResponse.page_total = page_total
+            baseResponse.totalCount = searchGoodsCount
+            baseResponse.data = netSearchGoods
+        else:
+            baseResponse.code = ResponseCode.op_fail
+            baseResponse.desc = ResponseCode.op_fail_desc
+        json_str = json.dumps(baseResponse, cls=HostGoodsEncoder)
+        self.write(json_str)
+        pass
 
 
 """
@@ -278,6 +319,7 @@ class CustomApplication(tornado.web.Application):
             (r'/mall/discoverList', getHomeDiscoverListHandler),
             (r'/home/hostGoodsList', getHostGoodsListHandler),
             (r'/mall/goods', getGoodsDetailHandler),
+            (r'/mall/searchGoodsList', searchGoodsListHandler),
             # (r'/get/allgoods', getAllGoodsHandler),
             (r'/save/user', saveUserHandler),
             (r'/update/user/cost', updateUserCostHandler),

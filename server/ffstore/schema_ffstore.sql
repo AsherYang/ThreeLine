@@ -20,6 +20,7 @@ CREATE TABLE ffstore_user (
 -- status: 商品状态(@see GoodsStatus)
 -- goods_code: 唯一，商品编码(代码)、编号如:T18C076
 -- goods_logo: 商品logo,  thum_logo: 商品logo小图
+-- keywords: 关键字, 用于搜索
 -- foreign key (cate_id) references ffstore_category(cate_id) on delete cascade on update cascade
 DROP TABLE IF EXISTS ffstore_goods;
 CREATE TABLE ffstore_goods (
@@ -35,7 +36,8 @@ CREATE TABLE ffstore_goods (
     status VARCHAR(3) DEFAULT 1,
     goods_code VARCHAR(20) NOT NULL UNIQUE,
     goods_logo VARCHAR(200),
-    thum_logo VARCHAR(200)
+    thum_logo VARCHAR(200),
+    keywords VARCHAR(200)
 );
 
 -- 分类表，根据分类cate_id，去商品表中查询该分类下的所有商品

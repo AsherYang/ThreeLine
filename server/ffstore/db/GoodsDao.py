@@ -21,11 +21,11 @@ class GoodsDao:
     def saveToDb(self, goods):
         if isinstance(goods, DbGoods):
             insert = 'insert into ffstore_goods (goods_id, cate_id, brand_id, goods_name, market_price, ' \
-                     'current_price, sale_count, stock_num, status, goods_code, goods_logo, thum_logo) ' \
-                     'values("%s", "%s", "%s", "%s", "%d", "%d", "%d", "%s" "%s", "%s", "%s")' \
+                     'current_price, sale_count, stock_num, status, goods_code, goods_logo, thum_logo, keywords) ' \
+                     'values("%s", "%s", "%s", "%s", "%d", "%d", "%d", "%s" "%s", "%s", "%s", "%s")' \
                      % (goods.goods_id, goods.cate_id, goods.brand_id, goods.goods_name, goods.market_price,
                         goods.current_price, goods.sale_count, goods.stock_num, goods.status, goods.goods_code,
-                        goods.goods_logo, goods.thum_logo)
+                        goods.goods_logo, goods.thum_logo, goods.keywords)
             print 'insert goods to db.'
             return DbUtil.insert(insert)
         return False
@@ -38,9 +38,10 @@ class GoodsDao:
                 return False
             update = 'update ffstore_goods set goods_name = "%s", market_price = "%s", current_price = "%s", ' \
                      'sale_count = "%s", stock_num = "%s", status = "%s", goods_code = "%s", goods_logo = "%s", ' \
-                     'thum_logo = "%s" where goods_id = "%s"' \
+                     'thum_logo = "%s", keywords = "%s" where goods_id = "%s"' \
                      % (goods.goods_name, goods.market_price, goods.current_price, goods.sale_count, goods.stock_num,
-                        goods.status, goods.goods_code, goods.goods_logo, goods.thum_logo, goods.goods_id)
+                        goods.status, goods.goods_code, goods.goods_logo, goods.thum_logo, goods.keywords,
+                        goods.goods_id)
             print 'update goods to db'
             return DbUtil.update(update)
         return False
@@ -104,6 +105,7 @@ class GoodsDao:
         return DbUtil.query(query)
 
     # 根据cate_id,分页查询单个分类下的商品，并按照给定sort进行排序
+    # goods_size 是指尺码 skuval
     # sort 排序于limit结合使用，可能会造成的问题及解决方法:
     # https://blog.csdn.net/qiubabin/article/details/70135556
     def querySortGoodsByCateId(self, cate_id, goods_size, page_num=1, page_size=10, sort=GoodsSort.SORT_COMMON):
@@ -111,29 +113,92 @@ class GoodsDao:
             return None
         start = (page_num - 1) * page_size
         if sort == GoodsSort.SORT_PRICE_DOWN:
-            sort_str = 'current_price desc'
+            sort_str = ', current_price desc'
         elif sort == GoodsSort.SORT_PRICE_UP:
-            sort_str = 'current_price asc'
+            sort_str = ', current_price asc'
         elif sort == GoodsSort.SORT_SALE_COUNT:
-            sort_str = 'sale_count desc'
+            sort_str = ', sale_count desc'
         else:
-            sort_str = '_id desc'
+            sort_str = ', desc'
         if not goods_size:
-            query = 'select * from ffstore_goods where cate_id = "%s" order by _id, ' + sort_str + ' limit %s, %s;' \
-                % (cate_id, start, page_size)
+            query = 'select * from ffstore_goods where cate_id = "%s" order by _id ' \
+                    + sort_str + ' limit %s, %s;' % (cate_id, start, page_size)
         else:
             # join ffstore_attr table
             query = 'select * from ffstore_goods left join ffstore_attr on ffstore_goods.goods_id = ' \
                     'ffstore_attr.goods_id where ffstore_goods.cate_id = "%s" and ' \
-                    'ffstore_attr.attr_size = "%s" order by _id, ' + sort_str + ' limit %s, %s;' \
-                % (cate_id, goods_size, start, page_size)
+                    'ffstore_attr.attr_size = "%s" order by _id ' + sort_str + ' limit %s, %s;' \
+                    % (cate_id, goods_size, start, page_size)
         return DbUtil.query(query)
 
     # 根据cate_id 查询单个分类的商品数量
-    def queryGoodsCountByCateId(self, cate_id):
+    def queryGoodsCountByCateId(self, cate_id, goods_size):
         if not cate_id:
             return None
-        query = 'select COUNT(*) from ffstore_goods where cate_id = "%s"' % cate_id
+        if not goods_size:
+            query = 'select COUNT(*) from ffstore_goods where cate_id = "%s"' % cate_id
+        else:
+            query = 'select count(*) from ffstore_goods left join ffstore_attr on ffstore_goods.goods_id = ' \
+                    'ffstore_attr.goods_id where ffstore_goods.cate_id = "%s" and ' \
+                    'ffstore_attr.attr_size = "%s" ' % (cate_id, goods_size)
+        return DbUtil.query(query)
+
+    # 根据cate_id, 以及keywords 模糊查询, 分页查询单个分类下的商品，并按照给定sort进行排序
+    # goods_size 是指尺码 skuval
+    # sort 排序于limit结合使用，可能会造成的问题及解决方法:
+    # https://blog.csdn.net/qiubabin/article/details/70135556
+    def queryGoodsByKeywords(self, keywords, cate_id, goods_size, page_num=1, page_size=10, sort=GoodsSort.SORT_COMMON):
+        if not keywords:
+            return None
+        start = (page_num - 1) * page_size
+        if sort == GoodsSort.SORT_PRICE_DOWN:
+            sort_str = ', current_price desc'
+        elif sort == GoodsSort.SORT_PRICE_UP:
+            sort_str = ', current_price asc'
+        elif sort == GoodsSort.SORT_SALE_COUNT:
+            sort_str = ', sale_count desc'
+        else:
+            sort_str = ', desc'
+        # join ffstore_attr table
+        if goods_size and cate_id and keywords:
+            query = 'select * from ffstore_goods left join ffstore_attr on ffstore_goods.goods_id = ' \
+                    'ffstore_attr.goods_id where ffstore_goods.cate_id = "%s" and ffstore_goods.keywords like ' \
+                    + '%keywords%' + ' and ffstore_attr.attr_size = "%s" order by _id ' + sort_str + ' limit %s, %s;' \
+                    % (cate_id, goods_size, start, page_size)
+        elif goods_size and keywords:
+            query = 'select * from ffstore_goods left join ffstore_attr on ffstore_goods.goods_id = ' \
+                    'ffstore_attr.goods_id where ffstore_goods.keywords like ' + '%keywords%' + \
+                    ' and ffstore_attr.attr_size = "%s" order by _id ' + sort_str + ' limit %s, %s;' \
+                    % (goods_size, start, page_size)
+        elif cate_id and keywords:
+            query = 'select * from ffstore_goods where ffstore_goods.cate_id = "%s" and ffstore_goods.keywords like ' \
+                    + '%keywords%' + ' order by _id ' + sort_str + ' limit %s, %s;' \
+                    % (cate_id, start, page_size)
+        else:
+            query = 'select * from ffstore_goods where ffstore_goods.keywords like ' + '%keywords%' \
+                    + ' order by _id ' + sort_str + ' limit %s, %s;' \
+                    % (start, page_size)
+        return DbUtil.query(query)
+
+    # 根据keywords 返回模糊查询的商品数量
+    def queryGoodsCountByKeywords(self, keywords, cate_id, goods_size):
+        if not keywords:
+            return None
+        # join ffstore_attr table
+        if goods_size and cate_id and keywords:
+            query = 'select COUNT(*) from ffstore_goods left join ffstore_attr on ffstore_goods.goods_id = ' \
+                    'ffstore_attr.goods_id where ffstore_goods.cate_id = "%s" and ffstore_goods.keywords like ' \
+                    + '%keywords%' + ' and ffstore_attr.attr_size = "%s"; ' \
+                    % (cate_id, goods_size)
+        elif goods_size and keywords:
+            query = 'select COUNT(*) from ffstore_goods left join ffstore_attr on ffstore_goods.goods_id = ' \
+                    'ffstore_attr.goods_id where ffstore_goods.keywords like ' + '%keywords%' + \
+                    ' and ffstore_attr.attr_size = "%s" ;' % goods_size
+        elif cate_id and keywords:
+            query = 'select COUNT(*) from ffstore_goods where ffstore_goods.cate_id = "%s" ' \
+                    'and ffstore_goods.keywords like ' + '%keywords% ;' % cate_id
+        else:
+            query = 'select COUNT(*) from ffstore_goods where ffstore_goods.keywords like ' + '%keywords% ;'
         return DbUtil.query(query)
 
     # 查询单个商品
@@ -161,4 +226,3 @@ class GoodsDao:
         delete = 'delete from ffstore_goods where cate_id = "%s" ' % cate_id
         print 'delete goods by cate_id:%s from db.' % cate_id
         return DbUtil.delete(delete)
-

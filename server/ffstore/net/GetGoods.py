@@ -102,11 +102,41 @@ class GetGoods:
         return netHostGoods
 
     # 返回对应category 分类下商品总数
-    def getGoodsCountByCate(self, cate_code):
+    def getGoodsCountByCate(self, cate_code, goods_size):
         cateId = self.getCateIdByCateCode(cate_code)
         if not cateId:
             return None
-        return self.goodsDao.queryGoodsCountByCateId(cateId)
+        return self.goodsDao.queryGoodsCountByCateId(cateId, goods_size)
+
+    # 获取分类进入二级分类页的商品, 根据条件搜索获取商品
+    # goods_size: 尺码，对应接口skuval, 使用GoodsAttr常量类
+    def getSearchGoodsList(self, searchKeywords, cate_code, goods_size, page_num=1, page_size=10, sort=GoodsSort.SORT_COMMON):
+        category = self.getCateByCateCode(cate_code)
+        if not category:
+            return None
+        goodsResult = self.goodsDao.queryGoodsByKeywords(searchKeywords, category.cate_id, goods_size,
+                                                         page_num, page_size, sort)
+        goodsList = self.convertDbRow2GoodsList(goodsResult)
+        if not goodsList:
+            return None
+        netSearchGoods = NetHostGoods()
+        netSearchGoods.dbCategory = category
+        brandIdList = []
+        for goods in goodsList:
+            netSearchGoods.appendGoods(goods)
+            brandIdList.append(goods.brand_id)
+        brandResult = self.brandDao.queryBrandByIds(brandIdList)
+        brandList = self.convertDbRow2BrandList(brandResult)
+        if not brandList:
+            return netSearchGoods
+        for brand in brandList:
+            netSearchGoods.appendBrand(brand)
+        return netSearchGoods
+
+    # 返回对应keyworld 模糊匹配的商品总数
+    def getGoodsCountByKeywords(self, searchKeywords, cate_code, goods_size):
+        cateId = self.getCateIdByCateCode(cate_code)
+        return self.goodsDao.queryGoodsCountByKeywords(searchKeywords, cateId, goods_size)
 
     # 删除分类，以及分类下的所有商品
     def deleteCateAndGoods(self, cate_id):

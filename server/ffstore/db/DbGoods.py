@@ -18,7 +18,8 @@ sale_count INT,
 stock_num INT,
 goods_code VARCHAR(20),
 goods_logo VARCHAR(200),
-thum_logo VARCHAR(200)
+thum_logo VARCHAR(200),
+keywords VARCHAR(200)
 """
 
 class DbGoods:
@@ -121,3 +122,11 @@ class DbGoods:
     @property
     def thum_logo(self, value):
         self.thum_logo = value
+
+    @property
+    def keywords(self):
+        return self.keywords
+
+    @property
+    def keywords(self, value):
+        self.keywords = value
