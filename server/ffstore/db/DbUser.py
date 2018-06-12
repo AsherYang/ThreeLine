@@ -20,6 +20,14 @@ class DbUser:
         pass
 
     @property
+    def user_id(self):
+        return self.user_id
+
+    @property
+    def user_id(self, value):
+        self.user_id = value
+
+    @property
     def user_name(self):
         return self.user_name
 

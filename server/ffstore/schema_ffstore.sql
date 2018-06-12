@@ -3,9 +3,12 @@ SET SESSION time_zone = "+8:00";
 ALTER DATABASE CHARACTER SET "utf8";
 
 -- 用户表
+-- 用户 user_id 不可变，除非删除用户， 用户user_tel 可变，更改电话号码，
+-- 故一些依赖处需要根据user_id处理
 DROP TABLE IF EXISTS ffstore_user;
 CREATE TABLE ffstore_user (
     _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id VARCHAR(50) NOT NULL UNIQUE,
     user_name VARCHAR(50),
     user_tel VARCHAR(20) NOT NULL UNIQUE,
     user_address VARCHAR(512),
@@ -89,6 +92,22 @@ CREATE TABLE ffstore_attr (
     attr_size VARCHAR(5),
     attr_color VARCHAR(10),
     foreign key (goods_id) references ffstore_goods(goods_id) on delete cascade on update cascade
+);
+
+-- 订单表，存储订单信息
+-- goods_id：产生订单商品的 goods_id, 对应商品表ffstore_goods#goods_id
+-- user_id：产生订单商品的用户user_id, 对应用户表ffstore_user#user_id
+-- order_goods_size: 产生订单商品的尺寸, 对应属性表ffstore_attr#attr_size
+-- order_goods_color：产生订单商品的颜色, 对应属性表ffstore_attr#attr_color
+-- order_status：订单状态
+DROP TABLE IF EXISTS ffstore_order;
+CREATE TABLE ffstore_order (
+    _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    goods_id VARCHAR(50),
+    user_id VARCHAR(50),
+    order_goods_size VARCHAR(5),
+    order_goods_color VARCHAR(10),
+    order_status VARCHAR(10),
 );
 
 -- 公告栏表, importance, 数字越大重要性越强，展示时越靠前

@@ -19,9 +19,10 @@ class UserDao:
 
     def saveToDb(self, userInfo):
         if isinstance(userInfo, DbUser):
-            insert = 'insert into ffstore_user (user_name, user_tel, user_address, buy_times, cost_count) values("%s", "%s", "%s", "%d", "%d")' \
-                     % (userInfo.user_name, userInfo.user_tel, userInfo.user_address, userInfo.buy_times,
-                        userInfo.cost_count)
+            insert = 'insert into ffstore_user (user_id, user_name, user_tel, user_address, buy_times, cost_count)' \
+                     ' values("%s", "%s", "%s", "%s", "%d", "%d")' \
+                     % (userInfo.user_id, userInfo.user_name, userInfo.user_tel, userInfo.user_address,
+                        userInfo.buy_times, userInfo.cost_count)
             print 'insert user to db.'
             return DbUtil.insert(insert)
         return False
@@ -35,25 +36,33 @@ class UserDao:
             elif not userInfo.user_address:
                 return self.updateNameToDb(userInfo)
             else:
-                update = 'update ffstore_user set user_name = "%s", user_address = "%s" where user_tel = "%s" ' \
-                         % (userInfo.user_name, userInfo.user_address, userInfo.user_tel)
+                update = 'update ffstore_user set user_name = "%s", user_address = "%s" where user_id = "%s" ' \
+                         % (userInfo.user_name, userInfo.user_address, userInfo.user_id)
                 print 'update user name and address to db'
                 return DbUtil.update(update)
         return False
 
     def updateAddressToDb(self, userInfo):
         if isinstance(userInfo, DbUser):
-            update = 'update ffstore_user set user_address = "%s" where user_tel = "%s" ' \
-                     % (userInfo.user_address, userInfo.user_tel)
+            update = 'update ffstore_user set user_address = "%s" where user_id = "%s" ' \
+                     % (userInfo.user_address, userInfo.user_id)
             print 'update user address to db'
             return DbUtil.update(update)
         return False
 
     def updateNameToDb(self, userInfo):
         if isinstance(userInfo, DbUser):
-            update = 'update ffstore_user set user_name = "%s" where user_tel = "%s" ' \
-                     % (userInfo.user_name, userInfo.user_tel)
+            update = 'update ffstore_user set user_name = "%s" where user_id = "%s" ' \
+                     % (userInfo.user_name, userInfo.user_id)
             print 'update user name and address to db'
+            return DbUtil.update(update)
+        return False
+
+    def updateTelToDb(self, userInfo):
+        if isinstance(userInfo, DbUser):
+            update = 'update ffstore_user set user_tel = "%s" where user_id = "%s" ' \
+                     % (userInfo.user_tel, userInfo.user_id)
+            print 'update user tel and address to db'
             return DbUtil.update(update)
         return False
 
@@ -64,14 +73,14 @@ class UserDao:
         if userTmp:
             cost_count = userTmp.cost_count + costThisTime
             buy_times = userTmp.buy_times + 1
-            update = 'update ffstore_user set buy_times = "%d", cost_count = "%d" where user_tel = "%s" ' \
-                     % (buy_times, cost_count, user_tel)
+            update = 'update ffstore_user set buy_times = "%d", cost_count = "%d" where user_id = "%s" ' \
+                     % (buy_times, cost_count, userTmp.user_id)
             return DbUtil.update(update)
         return False
 
     def queryFromDb(self, userInfo):
         if isinstance(userInfo, DbUser):
-            query = 'select * from ffstore_user where user_tel = "%s" ' % userInfo.user_tel
+            query = 'select * from ffstore_user where user_id = "%s" ' % userInfo.user_id
             return DbUtil.query(query)
         return None
 
