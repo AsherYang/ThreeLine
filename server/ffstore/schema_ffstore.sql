@@ -99,7 +99,8 @@ CREATE TABLE ffstore_attr (
 -- user_id：产生订单商品的用户user_id, 对应用户表ffstore_user#user_id
 -- order_goods_size: 产生订单商品的尺寸, 对应属性表ffstore_attr#attr_size
 -- order_goods_color：产生订单商品的颜色, 对应属性表ffstore_attr#attr_color
--- order_status：订单状态
+-- order_status：订单状态，{@see OrderStatus} 并不指快递状态
+-- order_express_num：订单快递单号
 DROP TABLE IF EXISTS ffstore_order;
 CREATE TABLE ffstore_order (
     _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -108,6 +109,7 @@ CREATE TABLE ffstore_order (
     order_goods_size VARCHAR(5),
     order_goods_color VARCHAR(10),
     order_status VARCHAR(10),
+    order_express_num VARCHAR(50)
 );
 
 -- 公告栏表, importance, 数字越大重要性越强，展示时越靠前

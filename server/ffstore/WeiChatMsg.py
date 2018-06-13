@@ -17,6 +17,7 @@ import hashlib
 token = 'token20170907shmallweichatkey'
 EncodingAESKey = 'Cx4Nqorw8Gw7wWtIgPSoVbmLwJb20UnUkh36CKY0JPn'
 
+
 class WeiChatMsg:
     def __init__(self, signature=None, timestamp=None, nonce=None):
         self.signature = signature
@@ -25,12 +26,11 @@ class WeiChatMsg:
 
     def checkSignature(self):
         list = [token, self.timestamp, self.nonce]
-        list.sort()     # sort
-        str = "".join(list)   # list to string
+        list.sort()  # sort
+        str = "".join(list)  # list to string
         encryptStr = hashlib.sha1(str).hexdigest()
-        print 'encryptStr = %s , signature = %s' %(encryptStr, self.signature)
+        print 'encryptStr = %s , signature = %s' % (encryptStr, self.signature)
         if self.signature == encryptStr:
             return True
         else:
             return False
-
