@@ -1,0 +1,60 @@
+#! /usr/bin/python
+# -*- coding:utf-8 -*-
+
+"""
+Author: AsherYang
+Email:  ouyangfan1991@gmail.com
+Date:   2018/6/13
+Desc:   快递鸟
+
+这些字段定义在快递鸟即时查询API http://www.kdniao.com/api-track 中
+LogisticCode: 物流单号
+ShipperCode: 快递公司编码
+OrderCode: 订单编号
+"""
+
+import json
+import Token
+import ExpressCompany
+from kdniao.client import KdNiaoClient
+from ExpressJsonDecode import TrackDecode
+
+
+class ExpressClient:
+    def __init__(self):
+        pass
+
+    """
+    查询订单快递状态
+    order_code: 订单编号(对应快递鸟字段定义)
+    express_num: 快递单号码
+    express_code: 订单编码(默认发韵达快递)
+    """
+    def queryOrderExpress(self, express_num, express_code=ExpressCompany.CODE_YD,
+                          order_code=""):
+        is_prod = True
+        client = KdNiaoClient(Token.APP_ID, Token.APP_KEY, is_prod)
+        trace_res = client.api_track.track(express_num, express_code, order_code, timeout=(10, 10))
+        print trace_res
+        # print trace_res['data']['Traces']
+        trace_res = {'name':'nick', 'age':'12'}
+        # trace_res = json.dumps(trace_res)
+        responseJson = json.loads(trace_res, cls=TrackDecode)
+        print responseJson
+
+
+if __name__ == '__main__':
+    test_ex_num = '1901968227058'
+    logistic_code = test_ex_num
+    shipper_code = ExpressCompany.CODE_YD
+    order_code = ""
+    expressClient = ExpressClient()
+    response = expressClient.queryOrderExpress(logistic_code, shipper_code, order_code)
+    print response.data.Traces
+
+
+
+
+
+
+

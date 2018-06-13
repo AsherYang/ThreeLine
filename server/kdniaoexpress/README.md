@@ -5,7 +5,8 @@
 ## 使用说明
 
 1. 需要先在快递鸟平台上申请APP_KEY, 注册账号即可申请
-2. 使用 `kdniao_python` 第三方 `python` 库进行接口操作
+2. 需要在快递鸟平台进行实名认证后，才可使用接口
+3. 使用 `kdniao_python` 第三方 `python` 库进行接口操作
 
 ## kdniao_python
 
