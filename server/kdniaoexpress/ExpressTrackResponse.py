@@ -88,12 +88,3 @@ class ExpressTrackResponse:
     @property
     def Traces(self, value):
         self.Traces = value
-
-    # append to Traces,
-    # @see http://stackoverflow.com/questions/16380575/python-decorating-property-setter-with-list
-    def append(self, value):
-        return self.Traces + [value]
-
-    # extend 只能是一个列表
-    def extend(self, value):
-        return self.Traces.extend(value)

@@ -14,6 +14,8 @@ OrderCode: 订单编号
 """
 
 import json
+import datetime
+import operator
 import Token
 import ExpressCompany
 from kdniao.client import KdNiaoClient
@@ -35,13 +37,23 @@ class ExpressClient:
         is_prod = True
         client = KdNiaoClient(Token.APP_ID, Token.APP_KEY, is_prod)
         trace_res = client.api_track.track(express_num, express_code, order_code, timeout=(10, 10))
-        print trace_res
+        # print trace_res
         # print trace_res['data']['Traces']
-        trace_res = {'name':'nick', 'age':'12'}
-        # trace_res = json.dumps(trace_res)
-        responseJson = json.loads(trace_res, cls=TrackDecode)
-        print responseJson
+        # str = {"a": 1, "c": 3, "b": 2, "e": 5, "d": 4}
+        trace_json = json.dumps(trace_res)
+        responseJson = json.loads(trace_json, cls=TrackDecode)
+        return responseJson
 
+    # 按时间排序，最新的时间排最前(2018-06-11, 2018-06-10, 2018-06-09)
+    def cmp_datatime(self, a, b):
+        a_datetime = datetime.datetime.strptime(a, '%Y-%m-%d %H:%M:%S')
+        b_datetime = datetime.datetime.strptime(b, '%Y-%m-%d %H:%M:%S')
+        if a_datetime > b_datetime:
+            return -1
+        elif a_datetime < b_datetime:
+            return 1
+        else:
+            return 0
 
 if __name__ == '__main__':
     test_ex_num = '1901968227058'
@@ -50,7 +62,18 @@ if __name__ == '__main__':
     order_code = ""
     expressClient = ExpressClient()
     response = expressClient.queryOrderExpress(logistic_code, shipper_code, order_code)
-    print response.data.Traces
+    print response.msg
+    print response.code_http
+    print response.data.ShipperCode
+    print response.data.Traces[0]
+    # print type(response.data.Traces)
+    for expressTraces in response.data.Traces:
+        print'%s: %s' % (expressTraces.AcceptTime, expressTraces.AcceptStation)
+    response.data.Traces.sort(cmp=expressClient.cmp_datatime, key=lambda expressTraces: expressTraces.AcceptTime)
+    print u'------- 排序后 ----------'
+    for expressTraces in response.data.Traces:
+        print'%s: %s' % (expressTraces.AcceptTime, expressTraces.AcceptStation)
+    # print expressTraces['AcceptStation']
 
 
 
