@@ -99,7 +99,7 @@ CREATE TABLE ffstore_attr (
 -- user_id：产生订单商品的用户user_id, 对应用户表ffstore_user#user_id
 -- order_goods_size: 产生订单商品的尺寸, 对应属性表ffstore_attr#attr_size
 -- order_goods_color：产生订单商品的颜色, 对应属性表ffstore_attr#attr_color
--- order_status：订单状态，{@see OrderStatus} 并不指快递状态
+-- order_status：订单状态，{@see OrderStatus} 并不指快递状态，只用于界面展示时筛选
 -- order_express_num：订单快递单号, order_express_code: 快递公司代码(快递鸟) {@see ExpressCompany}
 DROP TABLE IF EXISTS ffstore_order;
 CREATE TABLE ffstore_order (

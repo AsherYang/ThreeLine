@@ -27,20 +27,13 @@ class UserDao:
             return DbUtil.insert(insert)
         return False
 
+    # 更新用户信息，会更新所有用户字段，如果需要更新单个字段值，请使用单个更新的方式
     def updateToDb(self, userInfo):
         if isinstance(userInfo, DbUser):
-            if not userInfo.user_tel:
-                return False
-            if not userInfo.user_name:
-                return self.updateAddressToDb(userInfo)
-            elif not userInfo.user_address:
-                return self.updateNameToDb(userInfo)
-            else:
-                update = 'update ffstore_user set user_name = "%s", user_address = "%s" where user_id = "%s" ' \
-                         % (userInfo.user_name, userInfo.user_address, userInfo.user_id)
-                print 'update user name and address to db'
-                return DbUtil.update(update)
-        return False
+            update = 'update ffstore_user set user_name = "%s", user_address = "%s", user_tel = "%s" where user_id = "%s" ' \
+                     % (userInfo.user_name, userInfo.user_address, userInfo.user_tel, userInfo.user_id)
+            print 'update user name and address to db'
+            return DbUtil.update(update)
 
     def updateAddressToDb(self, userInfo):
         if isinstance(userInfo, DbUser):
