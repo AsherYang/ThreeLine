@@ -34,6 +34,7 @@ class UserDao:
                      % (userInfo.user_name, userInfo.user_address, userInfo.user_tel, userInfo.user_id)
             print 'update user name and address to db'
             return DbUtil.update(update)
+        return False
 
     def updateAddressToDb(self, userInfo):
         if isinstance(userInfo, DbUser):
