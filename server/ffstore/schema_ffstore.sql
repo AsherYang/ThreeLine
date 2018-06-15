@@ -100,6 +100,7 @@ CREATE TABLE ffstore_attr (
 -- order_goods_size: 产生订单商品的尺寸, 对应属性表ffstore_attr#attr_size
 -- order_goods_color：产生订单商品的颜色, 对应属性表ffstore_attr#attr_color
 -- order_status：订单状态，{@see OrderStatus} 并不指快递状态，只用于界面展示时筛选
+-- order_update_time: 订单当前状态的更新时间，(表明更新更新的时间)
 -- order_express_num：订单快递单号, order_express_code: 快递公司代码(快递鸟) {@see ExpressCompany}
 DROP TABLE IF EXISTS ffstore_order;
 CREATE TABLE ffstore_order (
@@ -109,6 +110,7 @@ CREATE TABLE ffstore_order (
     order_goods_size VARCHAR(5),
     order_goods_color VARCHAR(10),
     order_status VARCHAR(10),
+    order_update_time VARCHAR(20),
     order_express_num VARCHAR(50),
     order_express_code VARCHAR(15)
 );
