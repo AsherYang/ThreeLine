@@ -64,7 +64,7 @@ class OrderDao:
     def updateExpress(self, orderInfo):
         if isinstance(orderInfo, DbOrder):
             currentTime = self.dateUtil.getCurrentTime()
-            orderInfo.order_status = OrderStatus.STATUS_NO_TAKE_DELIVERY
+            orderInfo.order_status = OrderStatus.STATUS_NO_RECEIVE
             update = 'update ffstore_order set order_status = "%s", order_update_time = "%s", ' \
                      'order_express_num = "%s", order_express_code = "%s" where order_id = "%s" ' \
                      % (orderInfo.order_status, currentTime, orderInfo.order_express_num,
@@ -107,7 +107,7 @@ class OrderDao:
         query = 'select * from ffstore_order where order_id = "%s" ' % order_id
         return DbUtil.query(query)
 
-    # 根据用户ID，查询用户所有订单
+    # 根据用户ID，查询单个用户所有订单
     def queryByUserId(self, user_id):
         if not user_id:
             return None
@@ -155,6 +155,28 @@ class OrderDao:
         if not start_time or not end_time:
             return None
         query = 'select * from ffstore_order where order_update_time >= UNIX_TIMESTAMP("%s") and ' \
+                'order_pay_time < UNIX_TIMESTAMP("%s")' % (start_time, end_time)
+        return DbUtil.query(query)
+
+    # 根据用户ID，查询单个用户的订单总量
+    def queryCountByUserId(self, user_id):
+        if not user_id:
+            return 0
+        query = 'select count(*) from ffstore_order where user_id = "%s" ' % user_id
+        return DbUtil.query(query)
+
+    # 根据商品ID，查询该商品对应的订单总量
+    def queryCountByGoodsId(self, goods_id):
+        if not goods_id:
+            return 0
+        query = 'select count(*) from ffstore_order where goods_id = "%s" ' % goods_id
+        return DbUtil.query(query)
+
+    # 查询这段时间内订单的总量
+    def queryCountByPayTimeInterval(self, start_time, end_time):
+        if not start_time or not end_time:
+            return 0
+        query = 'select count(*) from ffstore_order where order_update_time >= UNIX_TIMESTAMP("%s") and ' \
                 'order_pay_time < UNIX_TIMESTAMP("%s")' % (start_time, end_time)
         return DbUtil.query(query)
 
