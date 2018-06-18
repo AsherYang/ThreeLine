@@ -78,6 +78,12 @@ class UserDao:
             return DbUtil.query(query)
         return None
 
+    def queryByUserId(self, user_id):
+        if not user_id:
+            return None
+        query = 'select * from ffstore_user where user_id = "%s" ' % user_id
+        return DbUtil.query(query)
+
     def queryByUserTel(self, user_tel):
         if not user_tel:
             return None

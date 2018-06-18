@@ -22,7 +22,6 @@ class GetCategory:
     def __init__(self):
         self.cateDao = CategoryDao()
         self.attrDao = AttributeDao()
-        pass
 
     """
     从数据库获取商品分类

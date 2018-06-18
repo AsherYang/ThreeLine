@@ -29,7 +29,6 @@ class GetGoods:
         self.brandDao = BrandDao()
         self.attrDao = AttributeDao()
         self.photoDao = GoodsPhotoDao()
-        pass
 
     # 根据cate_code 获取cate_id, cate_code 是唯一值属性
     def getCateIdByCateCode(self, cate_code):

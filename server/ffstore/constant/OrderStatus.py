@@ -14,5 +14,5 @@ STATUS_NO_PAYMENT = 0
 STATUS_NO_DELIVERY = 1
 # 待收货(已发货, 快递中)
 STATUS_NO_RECEIVE = 2
-# 订单完成
+# 订单完成(已收货)
 STATUS_COMPLETE = 10
