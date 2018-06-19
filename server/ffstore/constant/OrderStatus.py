@@ -9,10 +9,10 @@ Desc  : 订单状态
 """
 
 # 待支付
-STATUS_NO_PAYMENT = 0
+STATUS_NO_PAYMENT = 1
 # 待发货(已支付)
-STATUS_NO_DELIVERY = 1
+STATUS_NO_DELIVERY = 2
 # 待收货(已发货, 快递中)
-STATUS_NO_RECEIVE = 2
+STATUS_NO_RECEIVE = 3
 # 订单完成(已收货)
 STATUS_COMPLETE = 10
