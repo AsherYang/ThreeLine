@@ -129,10 +129,13 @@ class OrderDao:
         return DbUtil.query(query)
 
     # 根据用户ID 和订单状态，查询该用户对应状态的所有订单
-    def queryByUserIdAndStatus(self, user_id, order_status):
+    def queryByUserIdAndStatus(self, user_id, order_status, page_num=1, page_size=10):
         if not user_id or not order_status:
             return None
-        query = 'select * from ffstore_order where user_id = "%s" and order_status= "%s" ' % (user_id, order_status)
+        start = (page_num - 1) * page_size
+        # query = 'select * from ffstore_order where user_id = "%s" and order_status= "%s" ' % (user_id, order_status)
+        query = 'select * from ffstore_order where user_id = "%s" and order_status= "%s" limit %s, %s; ' \
+                % (user_id, order_status, start, page_size)
         return DbUtil.query(query)
 
     # 根据订单状态，查询所有用户对应该状态的订单

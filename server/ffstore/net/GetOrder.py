@@ -7,7 +7,6 @@ Email : ouyangfan1991@gmail.com
 Date  : 2018/6/16
 Desc  : 获取订单接口. 返回网络数据
 
-https://sujiefs.com//api/mall/goodsOrder/getMyOrderList?openId=oeuj50KHMqsh5kYZYWQJuwmY5yG0&orderStatus=0&receiveFlg=0&page=1&size=10&type=1&sign=c1cc2cc92f2553ab382d612bb6c379b2&time=20180611214443
 1. 小程序请求的order 都是针对单个用户的订单情况
 2. 后台程序请求的order 可以是多个用户的订单情况
 """
@@ -36,7 +35,8 @@ class GetOrder:
         user = self.userDao.queryByUserId(user_id)
         if not user:
             return None
-        dbOrderList = self.orderDao.queryByUserIdAndStatus(user, order_status)
+        dbOrderResult = self.orderDao.queryByUserIdAndStatus(user, order_status, page_num, page_size)
+
         pass
 
     """
