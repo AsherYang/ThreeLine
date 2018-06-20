@@ -25,11 +25,13 @@ import WeiChatMsg
 from FFStoreJsonEncoder import *
 from constant import DbConstant
 from constant import ResponseCode
+from constant import WxToken
 from db.DbUser import DbUser
 from ffstore.net.GetUser import GetUser
 from ffstore.net.GetCategory import GetCategory
 from ffstore.net.GetGoods import GetGoods
 from util.SendMsgEmail import SendEmail
+from util import HttpUtil
 
 define("debug", default=False, help='Set debug mode', type=bool)
 # 服务器使用Supervisor＋nginx 三行情书配置多端口：8888｜8889｜8890｜8891, 上好微店端口：10001|10002
@@ -99,6 +101,28 @@ class weiChatMsgHandler(tornado.web.RequestHandler):
         # sendEmail(content=msg)
         thr = threading.Thread(target=sendEmail, args=[msg])  # open new thread
         thr.start()
+
+"""
+获取微信服务器, 登录态 Session
+https://api.weixin.qq.com/sns/jscode2session?appid=APPID&secret=SECRET&js_code=JSCODE&grant_type=authorization_code
+ffstore 测试appid:wx72877ae8bdff79b0
+ffstore 测试appSecret:35c17c2b6f81e7b03735f17f546820bc
+参考微信 API 接口, wx.login()
+
+例如:
+https://api.weixin.qq.com/sns/jscode2session?appid=wx72877ae8bdff79b0&secret=35c17c2b6f81e7b03735f17f546820bc&js_code=023fYoP02NmKh011uaP02S4rP02fYoP6&grant_type=authorization_code
+{"session_key":"yOgupOCOGJ367zpnw14ScQ==","openid":"oUQQ-5bFHPGeXNNgO1mQvEgRLaSY"}
+"""
+class getWeiChatSessionHandler(tornado.web.RequestHandler):
+    def get(self, *args, **kwargs):
+        jsCode = self.get_argument('js_code')
+        nickName = self.get_argument('nickName')
+        httpUrl = 'https://api.weixin.qq.com/sns/jscode2session?='
+        param = {"appid": WxToken.APP_ID, "secret": WxToken.APP_SECRET,
+                 "js_code": jsCode, "grant_type": 'authorization_code'}
+        body = HttpUtil.http_get(httpUrl, params=param)
+        jsonBody = json.loads(body, "utf8")
+        self.write(jsonBody)
 
 
 """
