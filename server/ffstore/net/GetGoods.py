@@ -76,6 +76,13 @@ class GetGoods:
         photoList = self.convertDbRow2PhotoList(photoResult)
         return self.convert2NetGoodsDetail(goods, attrList, brand, photoList)
 
+    # 根据goodsIdList获取商品集合
+    def getDbGoodsByIdList(self, goodsIdList):
+        if not goodsIdList:
+            return None
+        goodsResult = self.goodsDao.queryGoodsListByGoodsIdList(goodsIdList)
+        return self.convertDbRow2GoodsList(goodsResult)
+
     # 获取点击首页分类进入分类页的商品, 根据条件获取商品
     # goods_size: 尺码，对应接口skuval, 使用GoodsAttr常量类
     def getHostGoods(self, cate_code, goods_size, page_num=1, page_size=10, sort=GoodsSort.SORT_COMMON):

@@ -14,11 +14,15 @@ from ffstore.db.UserDao import UserDao
 from ffstore.db.DbUser import DbUser
 from ffstore.db.OrderDao import OrderDao
 from ffstore.db.DbOrder import DbOrder
+from ffstore.db.GoodsDao import GoodsDao
+from ffstore.net.GetGoods import GetGoods
 
 class GetOrder:
     def __init__(self):
         self.userDao = UserDao()
         self.orderDao = OrderDao()
+        self.goodsDao = GoodsDao()
+        self.getGoods = GetGoods()
 
     """
     小程序, 获取单个用户的订单接口
@@ -42,6 +46,11 @@ class GetOrder:
         goodsIdList = []
         for order in dbOrderList:
             goodsIdList.append(order.order_id)
+        if not goodsIdList:
+            return None
+        dbGoodsList = self.getGoods.getDbGoodsByIdList(goodsIdList)
+        # todo
+        # return convert2NetOrder()
         pass
 
     """

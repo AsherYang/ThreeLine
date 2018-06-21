@@ -208,6 +208,14 @@ class GoodsDao:
         query = 'select * from ffstore_goods where goods_id = "%s"' % goods_id
         return DbUtil.query(query)
 
+    # 根据goodsIdList查询商品集合
+    def queryGoodsListByGoodsIdList(self, goods_id_list):
+        if not goods_id_list:
+            return None
+        format_str = ','.join(['%s'] * len(goods_id_list))
+        query = 'SELECT * FROM ffstore_goods WHERE goods_id IN (%s)' % format_str, tuple(goods_id_list)
+        return DbUtil.query(query)
+
     # 删除商品
     def deleteGoods(self, goods):
         if isinstance(goods, DbGoods):
