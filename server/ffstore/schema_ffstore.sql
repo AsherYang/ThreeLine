@@ -100,10 +100,12 @@ CREATE TABLE ffstore_attr (
 -- user_id：产生订单商品的用户user_id, 对应用户表ffstore_user#user_id
 -- order_goods_size: 产生订单商品的尺寸, 对应属性表ffstore_attr#attr_size
 -- order_goods_color：产生订单商品的颜色, 对应属性表ffstore_attr#attr_color
+-- order_goods_count: 产生订单商品的购买数量
 -- order_status：订单状态，{@see OrderStatus} 并不指快递状态，只用于界面展示时筛选
 -- order_pay_time：订单下单时间，是指该订单付款时的时间
 -- order_update_time: 订单当前状态的更新时间，(表明订单更新的时间)
 -- order_express_num：订单快递单号, order_express_code: 快递公司代码(快递鸟) {@see ExpressCompany}
+-- 注意: 每卖出一件(order_goods_count)，需要更新商品表卖出总量和库存数量(sale_count, stock_num)
 DROP TABLE IF EXISTS ffstore_order;
 CREATE TABLE ffstore_order (
     _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -112,6 +114,7 @@ CREATE TABLE ffstore_order (
     user_id VARCHAR(50),
     order_goods_size VARCHAR(5),
     order_goods_color VARCHAR(10),
+    order_goods_count VARCHAR(5),
     order_status VARCHAR(10),
     order_pay_time VARCHAR(20),
     order_update_time VARCHAR(20),

@@ -27,11 +27,12 @@ class OrderDao:
         if isinstance(orderInfo, DbOrder):
             currentTime = self.dateUtil.getCurrentTime()
             insert = 'insert into ffstore_order (order_id, goods_id, user_id, order_goods_size, order_goods_color,' \
-                     ' order_status, order_pay_time, order_update_time, order_express_num, order_express_code)' \
-                     ' values("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s")' \
+                     ' order_goods_count, order_status, order_pay_time, order_update_time,' \
+                     ' order_express_num, order_express_code)' \
+                     ' values("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s")' \
                      % (orderInfo.order_id, orderInfo.goods_id, orderInfo.user_id, orderInfo.order_goods_size,
-                        orderInfo.order_goods_color, orderInfo.order_status, orderInfo.order_pay_time,
-                        currentTime, orderInfo.order_express_num, orderInfo.order_express_code)
+                        orderInfo.order_goods_color, orderInfo.order_goods_count, orderInfo.order_status,
+                        orderInfo.order_pay_time, currentTime, orderInfo.order_express_num, orderInfo.order_express_code)
             print 'insert order to db.'
             return DbUtil.insert(insert)
         return False
@@ -41,22 +42,30 @@ class OrderDao:
         if isinstance(orderInfo, DbOrder):
             currentTime = self.dateUtil.getCurrentTime()
             update = 'update ffstore_order set goods_id = "%s", user_id = "%s", order_goods_size = "%s",' \
-                     ' order_goods_color = "%s", order_status = "%s", order_pay_time = "%s", order_update_time = "%s", ' \
-                     'order_express_num = "%s", order_express_code = "%s" where order_id = "%s" ' \
+                     ' order_goods_color = "%s", order_goods_count = "%s", order_status = "%s", order_pay_time = "%s",' \
+                     ' order_update_time = "%s", order_express_num = "%s", order_express_code = "%s"' \
+                     ' where order_id = "%s" ' \
                      % (orderInfo.goods_id, orderInfo.user_id, orderInfo.order_goods_size, orderInfo.order_goods_color,
-                        orderInfo.order_status, orderInfo.order_pay_time, currentTime, orderInfo.order_express_num,
-                        orderInfo.order_express_code, orderInfo.order_id)
+                        orderInfo.order_goods_count, orderInfo.order_status, orderInfo.order_pay_time, currentTime,
+                        orderInfo.order_express_num, orderInfo.order_express_code, orderInfo.order_id)
             print 'update order information to db'
             return DbUtil.update(update)
         return False
 
     # 下订单，更新订单, 为了保证下订单时数据正确性，需要将所有数据全部更新为当前下订单时的最新数据信息。
     # 根据订单ID，下订单时，更新订单，此时需要将订单状态status 改为"待发货"状态, 并且更新订单下单时间
+    # 订单ID， 一定要提前生成好， 关于ID 的生成
     def updateByPayment(self, orderInfo):
         if isinstance(orderInfo, DbOrder):
-            orderInfo.order_pay_time = self.dateUtil.getCurrentTime()
-            orderInfo.order_status = OrderStatus.STATUS_NO_DELIVERY
-            return self.updateToDb(orderInfo)
+            db_order = self.queryByOrderId(orderInfo.order_id)
+            if db_order:
+                db_order.order_pay_time = self.dateUtil.getCurrentTime()
+                db_order.order_status = OrderStatus.STATUS_NO_DELIVERY
+                return self.updateToDb(db_order)
+            else:
+                orderInfo.order_pay_time = self.dateUtil.getCurrentTime()
+                orderInfo.order_status = OrderStatus.STATUS_NO_DELIVERY
+                return self.saveToDb(orderInfo)
         return False
 
     # 根据订单ID，更新订单快递信息
@@ -166,6 +175,13 @@ class OrderDao:
         if not user_id:
             return 0
         query = 'select count(*) from ffstore_order where user_id = "%s" ' % user_id
+        return DbUtil.query(query)
+
+    # 根据用户ID和订单状态，查询满足该条件的订单总数
+    def queryCountByUserIdAndStatus(self, user_id, order_status):
+        if not user_id:
+            return 0
+        query = 'select count(*) from ffstore_order where user_id = "%s" and order_status= "%s" ' % (user_id, order_status)
         return DbUtil.query(query)
 
     # 根据商品ID，查询该商品对应的订单总量

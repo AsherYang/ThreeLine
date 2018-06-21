@@ -68,6 +68,14 @@ class DbOrder:
         self.order_goods_color = value
 
     @property
+    def order_goods_count(self):
+        return self.order_goods_count
+
+    @property
+    def order_goods_count(self, value):
+        self.order_goods_count = value
+
+    @property
     def order_status(self):
         return self.order_status
 
