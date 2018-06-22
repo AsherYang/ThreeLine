@@ -8,10 +8,13 @@ Date:   2018/5/28
 Desc:   商品数据库操作类
 """
 
-from ffstore.util import DbUtil
+import sys
+sys.path.append('../')
+
+from util import DbUtil
 from DbGoods import DbGoods
-from ffstore.constant import GoodsSort
-from ffstore.constant import GoodsStatus
+from constant import GoodsSort
+from constant import GoodsStatus
 
 
 class GoodsDao:

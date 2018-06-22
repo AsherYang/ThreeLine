@@ -7,19 +7,22 @@ Email:  ouyangfan1991@gmail.com
 Date:   2018/5/28
 Desc:   获取商品接口. 返回网络数据
 """
-from ffstore.constant import GoodsSort
-from ffstore.db.CategoryDao import CategoryDao
-from ffstore.db.GoodsDao import GoodsDao
-from ffstore.db.BrandDao import BrandDao
-from ffstore.db.AttributeDao import AttributeDao
-from ffstore.db.GoodsPhotoDao import GoodsPhotoDao
-from ffstore.db.DbCategory import DbCategory
-from ffstore.db.DbGoods import DbGoods
-from ffstore.db.DbBrand import DbBrand
-from ffstore.db.DbAttribute import DbAttribute
-from ffstore.db.DbGoodsPhoto import DbGoodsPhoto
-from ffstore.net.NetHostGoods import NetHostGoods
-from ffstore.net.NetGoodsDetail import NetGoodsDetail
+import sys
+sys.path.append('../')
+
+from constant import GoodsSort
+from db.CategoryDao import CategoryDao
+from db.GoodsDao import GoodsDao
+from db.BrandDao import BrandDao
+from db.AttributeDao import AttributeDao
+from db.GoodsPhotoDao import GoodsPhotoDao
+from db.DbCategory import DbCategory
+from db.DbGoods import DbGoods
+from db.DbBrand import DbBrand
+from db.DbAttribute import DbAttribute
+from db.DbGoodsPhoto import DbGoodsPhoto
+from net.NetHostGoods import NetHostGoods
+from net.NetGoodsDetail import NetGoodsDetail
 
 
 class GetGoods:

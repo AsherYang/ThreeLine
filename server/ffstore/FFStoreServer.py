@@ -7,6 +7,8 @@ Email:  ouyangfan1991@gmail.com
 Date:   2018/5/6
 Desc:   FFStore Server
 """
+import sys
+sys.path.append('../')
 
 import os
 import subprocess
@@ -27,9 +29,9 @@ from constant import DbConstant
 from constant import ResponseCode
 from constant import WxToken
 from db.DbUser import DbUser
-from ffstore.net.GetUser import GetUser
-from ffstore.net.GetCategory import GetCategory
-from ffstore.net.GetGoods import GetGoods
+from net.GetUser import GetUser
+from net.GetCategory import GetCategory
+from net.GetGoods import GetGoods
 from util.SendMsgEmail import SendEmail
 from util import HttpUtil
 

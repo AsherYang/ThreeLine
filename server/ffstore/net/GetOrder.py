@@ -10,12 +10,16 @@ Desc  : 获取订单接口. 返回网络数据
 1. 小程序请求的order 都是针对单个用户的订单情况
 2. 后台程序请求的order 可以是多个用户的订单情况
 """
-from ffstore.db.UserDao import UserDao
-from ffstore.db.DbUser import DbUser
-from ffstore.db.OrderDao import OrderDao
-from ffstore.db.DbOrder import DbOrder
-from ffstore.db.GoodsDao import GoodsDao
-from ffstore.net.GetGoods import GetGoods
+
+import sys
+sys.path.append('../')
+
+from db.UserDao import UserDao
+from db.DbUser import DbUser
+from db.OrderDao import OrderDao
+from db.DbOrder import DbOrder
+from db.GoodsDao import GoodsDao
+from net.GetGoods import GetGoods
 
 class GetOrder:
     def __init__(self):

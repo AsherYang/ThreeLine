@@ -10,10 +10,10 @@ Desc:   json encoder for custom class
 
 import json
 from BaseResponse import BaseResponse
-from ffstore.net.NetCategory import NetCategory
-from ffstore.net.NetDiscover import NetDiscover
-from ffstore.net.NetHostGoods import NetHostGoods
-from ffstore.net.NetGoodsDetail import NetGoodsDetail
+from net.NetCategory import NetCategory
+from net.NetDiscover import NetDiscover
+from net.NetHostGoods import NetHostGoods
+from net.NetGoodsDetail import NetGoodsDetail
 from db.DbGoods import DbGoods
 from db.DbCategory import DbCategory
 from db.DbBrand import DbBrand

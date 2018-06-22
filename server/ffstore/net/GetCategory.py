@@ -8,14 +8,16 @@ Date:   2017/7/24
 Desc:   get category 获取分类接口，返回网络数据
 
 """
+import sys
+sys.path.append('../')
 
-from ffstore.db.CategoryDao import CategoryDao
-from ffstore.db.AttributeDao import AttributeDao
-from ffstore.db.DbCategory import DbCategory
-from ffstore.db.DbAttribute import DbAttribute
-from ffstore.net.NetCategory import NetCategory
-from ffstore.net.NetDiscover import NetDiscover
-from ffstore.constant import CategoryShowType
+from db.CategoryDao import CategoryDao
+from db.AttributeDao import AttributeDao
+from db.DbCategory import DbCategory
+from db.DbAttribute import DbAttribute
+from net.NetCategory import NetCategory
+from net.NetDiscover import NetDiscover
+from constant import CategoryShowType
 
 class GetCategory:
 

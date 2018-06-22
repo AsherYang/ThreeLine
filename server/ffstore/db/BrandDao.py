@@ -8,7 +8,10 @@ Email : ouyangfan1991@gmail.com
 Date  : 2018/5/22
 Desc  : 操作厂家(品牌)数据表
 """
-from ffstore.util import DbUtil
+import sys
+sys.path.append('../')
+
+from util import DbUtil
 
 
 class BrandDao:

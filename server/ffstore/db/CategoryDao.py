@@ -7,9 +7,12 @@ Email:  ouyangfan1991@gmail.com
 Date:   2018/5/10
 Desc:   操作类型数据库DAO 类
 """
-from ffstore.util import DbUtil
+import sys
+sys.path.append('../')
+
+from util import DbUtil
 from DbCategory import DbCategory
-from ffstore.constant import CategoryShowType
+from constant import CategoryShowType
 
 
 class CategoryDao:

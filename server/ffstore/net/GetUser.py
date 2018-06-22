@@ -8,7 +8,10 @@ Date  : 2018/6/6
 Desc  : get user 获取用户接口，返回网络数据
 """
 
-from ffstore.db.UserDao import UserDao
+import sys
+sys.path.append('../')
+
+from db.UserDao import UserDao
 
 
 class GetUser:

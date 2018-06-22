@@ -1,12 +1,15 @@
 # -*- coding:utf-8 -*-
 
+import sys
+sys.path.append('../')
+
 try:
     from cStringIO import StringIO
 except ImportError:
     from StringIO import StringIO
 import gzip, json, urllib, urllib2, collections, time, logging
-from ffstore.ErrorInfo import OpenError
-from ffstore.constant import ResponseCode
+from ErrorInfo import OpenError
+from constant import ResponseCode
 
 def http_get(url, params={}, header={}):
     httpUrl = url

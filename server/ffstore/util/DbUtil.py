@@ -6,9 +6,12 @@ Email:  ouyangfan1991@gmail.com
 Date:   2017/9/8.
 Desc:  database util
 """
+import sys
+sys.path.append('../')
+
 import MySQLdb
 
-from ffstore.constant import DbConstant
+from constant import DbConstant
 
 
 def getDb():

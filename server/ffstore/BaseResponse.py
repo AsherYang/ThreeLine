@@ -15,7 +15,8 @@ page_total : 分页时，分页总数
 totalCount : 分页时，数据总量
 data       : 返回的具体数据
 """
-from ffstore.constant import ResponseCode
+from constant import ResponseCode
+
 
 # extends BaseResponse
 class BaseResponse:

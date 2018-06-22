@@ -10,11 +10,13 @@ Desc:   订单数据库操作类
 只要是操作类订单数据类，该订单的更新时间order_update_time 必须为最新时间，
 便于查询处理
 """
+import sys
+sys.path.append('../')
 
 from DbOrder import DbOrder
-from ffstore.constant import OrderStatus
-from ffstore.util import DbUtil
-from ffstore.util.DateUtil import DateUtil
+from constant import OrderStatus
+from util import DbUtil
+from util.DateUtil import DateUtil
 
 class OrderDao:
 

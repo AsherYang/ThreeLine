@@ -7,10 +7,12 @@ Email:  ouyangfan1991@gmail.com
 Date:   2018/5/6
 Desc:   操作用户数据库DAO 类
 """
+import sys
+sys.path.append('../')
 
 from DbUser import DbUser
-from ffstore.util import NumberUtil
-from ffstore.util import DbUtil
+from util import NumberUtil
+from util import DbUtil
 
 
 class UserDao:
