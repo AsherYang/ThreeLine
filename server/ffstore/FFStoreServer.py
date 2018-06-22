@@ -136,8 +136,9 @@ class getCategoryHandler(tornado.web.RequestHandler):
         getCategory = GetCategory()
         categoryList = getCategory.doGetCategory()
         baseResponse = BaseResponse()
-        for category in categoryList:
-            baseResponse.data.append(category)
+        if categoryList:
+            for category in categoryList:
+                baseResponse.data.append(category)
         json_str = json.dumps(baseResponse, cls=CategoryEncoder)
         self.write(json_str)
 
@@ -371,7 +372,7 @@ class CustomApplication(tornado.web.Application):
 
     def create_tables(self):
         try:
-            self.db.get('select count(*) from ffstore_size')
+            self.db.get('select count(*) from ffstore_attr')
         except MySQLdb.ProgrammingError:
             subprocess.check_call([
                 'mysql',
