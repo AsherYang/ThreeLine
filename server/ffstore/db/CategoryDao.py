@@ -118,8 +118,8 @@ class CategoryDao:
 
     # 查询对应showType下的分类总数
     def queryCateCountByShowType(self, cateShowType=0):
-        query = 'select count(*) from ffstore_category where cate_show_type = "%s"' % cateShowType
-        return DbUtil.query(query)
+        query = 'select count(*) as count from ffstore_category where cate_show_type = "%s"' % cateShowType
+        return DbUtil.querySingleRow(query)
 
     # 根据分类ID查询对应分类
     def queryCateById(self, cateId):

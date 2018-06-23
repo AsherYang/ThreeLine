@@ -7,6 +7,7 @@ Date:   2017/9/8.
 Desc:  database util
 """
 import sys
+
 sys.path.append('../')
 
 import MySQLdb
@@ -23,7 +24,7 @@ def getDb():
 def getConn(db):
     if db is None:
         return None
-    cursor = db.cursor()
+    cursor = db.cursor(cursorclass=MySQLdb.cursors.DictCursor)
     cursor.execute('SET NAMES utf8;')
     cursor.execute('SET CHARACTER SET utf8;')
     cursor.execute('SET character_set_connection=utf8;')
@@ -52,6 +53,7 @@ def insert(sql=None):
         db.close()
     return False
 
+
 def query(sql=None):
     if sql is None:
         return None
@@ -76,6 +78,7 @@ def query(sql=None):
         cursor.close()
         db.close()
     return None
+
 
 def queryByArgs(sql=None, args=None):
     if sql is None:
@@ -104,6 +107,33 @@ def queryByArgs(sql=None, args=None):
         db.close()
     return None
 
+
+def querySingleRow(sql=None):
+    if sql is None:
+        return None
+    db = getDb()
+    cursor = getConn(db)
+    if cursor is None:
+        db.close()
+        return None
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchone()
+        if results:
+            # print results
+            return results
+        else:
+            print " database is empty !"
+            return None
+    except Exception as e:
+        print "query except "
+        print e
+    finally:
+        cursor.close()
+        db.close()
+    return None
+
+
 def update(sql=None):
     if sql is None:
         return False
@@ -127,6 +157,7 @@ def update(sql=None):
         cursor.close()
         db.close()
     return False
+
 
 def delete(sql=None):
     if sql is None:

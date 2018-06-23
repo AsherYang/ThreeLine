@@ -97,8 +97,8 @@ class GoodsDao:
 
     # 查询总商品数量
     def queryAllGoodsCount(self):
-        query = 'select COUNT(*) from ffstore_goods'
-        return DbUtil.query(query)
+        query = 'select count(*) as count from ffstore_goods'
+        return DbUtil.querySingleRow(query)
 
     # 根据cate_id 查询单个分类的所有商品
     def queryGoodsByCateId(self, cate_id):
@@ -139,12 +139,12 @@ class GoodsDao:
         if not cate_id:
             return None
         if not goods_size:
-            query = 'select COUNT(*) from ffstore_goods where cate_id = "%s"' % cate_id
+            query = 'select count(*) as count from ffstore_goods where cate_id = "%s"' % cate_id
         else:
-            query = 'select count(*) from ffstore_goods left join ffstore_attr on ffstore_goods.goods_id = ' \
+            query = 'select count(*) as count from ffstore_goods left join ffstore_attr on ffstore_goods.goods_id = ' \
                     'ffstore_attr.goods_id where ffstore_goods.cate_id = "%s" and ' \
                     'ffstore_attr.attr_size = "%s" ' % (cate_id, goods_size)
-        return DbUtil.query(query)
+        return DbUtil.querySingleRow(query)
 
     # 根据cate_id, 以及keywords 模糊查询, 分页查询单个分类下的商品，并按照给定sort进行排序
     # goods_size 是指尺码 skuval
@@ -189,20 +189,20 @@ class GoodsDao:
             return None
         # join ffstore_attr table
         if goods_size and cate_id and keywords:
-            query = 'select COUNT(*) from ffstore_goods left join ffstore_attr on ffstore_goods.goods_id = ' \
+            query = 'select count(*) as count from ffstore_goods left join ffstore_attr on ffstore_goods.goods_id = ' \
                     'ffstore_attr.goods_id where ffstore_goods.cate_id = "%s" and ffstore_goods.keywords like ' \
                     + '%keywords%' + ' and ffstore_attr.attr_size = "%s"; ' \
                     % (cate_id, goods_size)
         elif goods_size and keywords:
-            query = 'select COUNT(*) from ffstore_goods left join ffstore_attr on ffstore_goods.goods_id = ' \
+            query = 'select count(*) as count from ffstore_goods left join ffstore_attr on ffstore_goods.goods_id = ' \
                     'ffstore_attr.goods_id where ffstore_goods.keywords like ' + '%keywords%' + \
                     ' and ffstore_attr.attr_size = "%s" ;' % goods_size
         elif cate_id and keywords:
-            query = 'select COUNT(*) from ffstore_goods where ffstore_goods.cate_id = "%s" ' \
+            query = 'select count(*) as count from ffstore_goods where ffstore_goods.cate_id = "%s" ' \
                     'and ffstore_goods.keywords like ' + '%keywords% ;' % cate_id
         else:
-            query = 'select COUNT(*) from ffstore_goods where ffstore_goods.keywords like ' + '%keywords% ;'
-        return DbUtil.query(query)
+            query = 'select count(*) as count from ffstore_goods where ffstore_goods.keywords like ' + '%keywords% ;'
+        return DbUtil.querySingleRow(query)
 
     # 查询单个商品
     def queryGoodsByGoodsId(self, goods_id):

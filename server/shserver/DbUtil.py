@@ -20,7 +20,7 @@ def getDb():
 def getConn(db):
     if db is None:
         return None
-    cursor = db.cursor()
+    cursor = db.cursor(cursorclass=MySQLdb.cursors.DictCursor)
     cursor.execute('SET NAMES utf8;')
     cursor.execute('SET CHARACTER SET utf8;')
     cursor.execute('SET character_set_connection=utf8;')
@@ -71,6 +71,33 @@ def query(sql=None):
     db.close()
     return None
 
+
+def querySingleRow(sql=None):
+    if sql is None:
+        return None
+    db = getDb()
+    cursor = getConn(db)
+    if cursor is None:
+        db.close()
+        return None
+    try:
+        cursor.execute(sql)
+        results = cursor.fetchone()
+        if results:
+            # print results
+            return results
+        else:
+            print " database is empty !"
+            return None
+    except Exception as e:
+        print "query except "
+        print e
+    finally:
+        cursor.close()
+        db.close()
+    return None
+
+
 def update(sql=None):
     if sql is None:
         return
@@ -92,6 +119,7 @@ def update(sql=None):
     cursor.close()
     db.close()
     return
+
 
 def delete(sql=None):
     if sql is None:

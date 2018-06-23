@@ -34,6 +34,7 @@ from net.GetCategory import GetCategory
 from net.GetGoods import GetGoods
 from util.SendMsgEmail import SendEmail
 from util import HttpUtil
+from util.LogUtil import LogUtil
 
 define("debug", default=False, help='Set debug mode', type=bool)
 # 服务器使用Supervisor＋nginx 三行情书配置多端口：8888｜8889｜8890｜8891, 上好微店端口：10001|10002
@@ -167,21 +168,24 @@ https://sujiefs.com//api/mall/discoverList?page=1&size=10&sign=1c0c67948371e9108
 """
 class getHomeDiscoverListHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
-        page = self.get_argument('page')
-        size = self.get_argument('size')
+        page = int(self.get_argument('page'))
+        size = int(self.get_argument('size'))
         getCategory = GetCategory()
         homeDiscoverList = getCategory.getHomeDiscoverList(page_num=page, page_size=size)
         baseResponse = BaseResponse()
         baseResponse.code = ResponseCode.op_success
         baseResponse.desc = ResponseCode.op_success_desc
-        homeDiscoverCount = getCategory.getHomeDiscoverCount()
+        homeDiscoverCount = getCategory.getHomeDiscoverCount().get('count')
+        logging = LogUtil().getLogging()
+        logging.info(homeDiscoverCount)
         page_total = (homeDiscoverCount / size) + (1 if homeDiscoverCount % size > 0 else 0)
         baseResponse.pageNum = page
         baseResponse.pageSize = size
         baseResponse.page_total = page_total
         baseResponse.totalCount = homeDiscoverCount
-        for homeDiscover in homeDiscoverList:
-            baseResponse.append(homeDiscover)
+        if homeDiscoverList:
+            for homeDiscover in homeDiscoverList:
+                baseResponse.append(homeDiscover)
         json_str = json.dumps(baseResponse, cls=HomeDiscoverEncoder)
         self.write(json_str)
 
@@ -195,10 +199,10 @@ https://sujiefs.com//api/home/hostGoodsList?page=1&size=10&cateCode=021&sort=1&s
 """
 class getHostGoodsListHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
-        page = self.get_argument('page')
-        size = self.get_argument('size')
+        page = int(self.get_argument('page'))
+        size = int(self.get_argument('size'))
         cateCode = self.get_argument('cateCode')
-        sort = self.get_argument('sort')
+        sort = int(self.get_argument('sort'))
         skuval = self.get_argument('skuval')
         getGoods = GetGoods()
         netHostGoods = getGoods.getHostGoods(cateCode, skuval, page, size, sort)
@@ -249,11 +253,11 @@ https://sujiefs.com//api/mall/searchGoodsList?page=1&size=10&searchKeyWords=&cat
 """
 class searchGoodsListHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
-        page = self.get_argument('page')
-        size = self.get_argument('size')
+        page = int(self.get_argument('page'))
+        size = int(self.get_argument('size'))
         searchKeywords = self.get_argument('searchKeyWords')
         cateCode = self.get_argument('cateCode')
-        sort = self.get_argument('sort')
+        sort = int(self.get_argument('sort'))
         skuval = self.get_argument('skuval')
         getGoods = GetGoods()
         netSearchGoods = getGoods.getSearchGoodsList(searchKeywords, cateCode, skuval, page, size, sort)
@@ -310,7 +314,7 @@ class saveUserHandler(tornado.web.RequestHandler):
 """
 class updateUserCostHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
-        phone = self.get_argument('user_tel', '')
+        phone = self.get_argument('phone', '')
         cost = self.get_argument('cost_this_time', '')
         result = GetUser().updateUserCost(phone, cost)
         if result:

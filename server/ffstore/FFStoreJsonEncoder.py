@@ -85,6 +85,10 @@ class HomeDiscoverEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, BaseResponse):
             contentData = obj.data
+            page = obj.pageNum
+            pagesize = obj.pageSize
+            pagetotal = obj.page_total
+            totalcout = obj.totalCount
             # print type(contentData)
             realContent = []
             if isinstance(contentData, list):
@@ -99,7 +103,8 @@ class HomeDiscoverEncoder(json.JSONEncoder):
             else:
                 realContent.append('please check it.')
             return {'code': obj.code, 'desc': obj.desc,
-                    'result': realContent}
+                    'result': realContent, 'page': page, 'pagesize': pagesize,
+                    'pagetotal': pagetotal, 'totalcount': totalcout}
             # if isinstance(contentData, list):
             #     print contentData[0].author
             # else:

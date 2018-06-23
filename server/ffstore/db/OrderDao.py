@@ -176,30 +176,30 @@ class OrderDao:
     def queryCountByUserId(self, user_id):
         if not user_id:
             return 0
-        query = 'select count(*) from ffstore_order where user_id = "%s" ' % user_id
-        return DbUtil.query(query)
+        query = 'select count(*) as count from ffstore_order where user_id = "%s" ' % user_id
+        return DbUtil.querySingleRow(query)
 
     # 根据用户ID和订单状态，查询满足该条件的订单总数
     def queryCountByUserIdAndStatus(self, user_id, order_status):
         if not user_id:
             return 0
-        query = 'select count(*) from ffstore_order where user_id = "%s" and order_status= "%s" ' % (user_id, order_status)
-        return DbUtil.query(query)
+        query = 'select count(*) as count from ffstore_order where user_id = "%s" and order_status= "%s" ' % (user_id, order_status)
+        return DbUtil.querySingleRow(query)
 
     # 根据商品ID，查询该商品对应的订单总量
     def queryCountByGoodsId(self, goods_id):
         if not goods_id:
             return 0
-        query = 'select count(*) from ffstore_order where goods_id = "%s" ' % goods_id
-        return DbUtil.query(query)
+        query = 'select count(*) as count from ffstore_order where goods_id = "%s" ' % goods_id
+        return DbUtil.querySingleRow(query)
 
     # 查询这段时间内订单的总量
     def queryCountByPayTimeInterval(self, start_time, end_time):
         if not start_time or not end_time:
             return 0
-        query = 'select count(*) from ffstore_order where order_update_time >= UNIX_TIMESTAMP("%s") and ' \
+        query = 'select count(*) as count from ffstore_order where order_update_time >= UNIX_TIMESTAMP("%s") and ' \
                 'order_pay_time < UNIX_TIMESTAMP("%s")' % (start_time, end_time)
-        return DbUtil.query(query)
+        return DbUtil.querySingleRow(query)
 
     # 删除单个订单，当用户添加订单后，取消订单，此时需要删除该订单
     # 只有当订单状态为"未支付" 状态下，才允许删除订单，其他状态不允许进行删除操作
