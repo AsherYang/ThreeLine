@@ -20,18 +20,19 @@ class LogUtil:
     """
 
     def __init__(self, logFileName=default_log_file):
-        logging.basicConfig(
-            level=logging.DEBUG,
-            format='%(asctime)s-%(levelname)s-%(message)s',
-            datefmt='%y-%m-%d %H:%M',
-            filename=logFileName,
-            filemode='w'
-        )
-        console = logging.StreamHandler()
-        console.setLevel(logging.INFO)
-        formatter = logging.Formatter('%(asctime)s-%(levelname)s-%(message)s')
-        console.setFormatter(formatter)
-        logging.getLogger('').addHandler(console)
+        pass
+        # logging.basicConfig(
+        #     level=logging.DEBUG,
+        #     format='%(asctime)s-%(levelname)s-%(message)s',
+        #     datefmt='%y-%m-%d %H:%M',
+        #     filename=logFileName,
+        #     filemode='w'
+        # )
+        # console = logging.StreamHandler()
+        # console.setLevel(logging.INFO)
+        # formatter = logging.Formatter('%(asctime)s-%(levelname)s-%(message)s')
+        # console.setFormatter(formatter)
+        # logging.getLogger('').addHandler(console)
 
     def getLogging(self):
         return logging

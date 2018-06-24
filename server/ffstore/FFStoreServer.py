@@ -35,6 +35,7 @@ from net.GetGoods import GetGoods
 from util.SendMsgEmail import SendEmail
 from util import HttpUtil
 from util.LogUtil import LogUtil
+from util.GenerateIDUtil import GenerateIDUtil
 
 define("debug", default=False, help='Set debug mode', type=bool)
 # 服务器使用Supervisor＋nginx 三行情书配置多端口：8888｜8889｜8890｜8891, 上好微店端口：10001|10002
@@ -257,7 +258,7 @@ class searchGoodsListHandler(tornado.web.RequestHandler):
         size = int(self.get_argument('size'))
         searchKeywords = self.get_argument('searchKeyWords')
         cateCode = self.get_argument('cateCode')
-        sort = int(self.get_argument('sort'))
+        sort = self.get_argument('sort')
         skuval = self.get_argument('skuval')
         getGoods = GetGoods()
         netSearchGoods = getGoods.getSearchGoodsList(searchKeywords, cateCode, skuval, page, size, sort)
@@ -340,6 +341,23 @@ class deleteCateAndGoodsHandler(tornado.web.RequestHandler):
         self.write(json_str)
 
 
+# 生成唯一的ID
+class getUIDHandler(tornado.web.RequestHandler):
+    def get(self, *args, **kwargs):
+        generateIdUtil = GenerateIDUtil()
+        uid = generateIdUtil.getUID()
+        baseResponse = BaseResponse()
+        if uid:
+            baseResponse.code = ResponseCode.op_success
+            baseResponse.desc = ResponseCode.op_success_desc
+            baseResponse.data = str(uid)
+        else:
+            baseResponse.code = ResponseCode.op_fail
+            baseResponse.desc = ResponseCode.op_fail_desc
+        json_str = json.dumps(baseResponse, cls=StrEncoder)
+        self.write(json_str)
+
+
 class CustomApplication(tornado.web.Application):
     def __init__(self, debug=False):
         handlers = [
@@ -355,6 +373,7 @@ class CustomApplication(tornado.web.Application):
             (r'/save/user', saveUserHandler),
             (r'/update/user/cost', updateUserCostHandler),
             (r'/delete/cate/goods', deleteCateAndGoodsHandler),
+            (r'/get/id', getUIDHandler),
             (r"/.*", OtherHandler),
         ]
         settings = {

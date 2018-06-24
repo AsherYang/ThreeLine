@@ -71,6 +71,8 @@ class GetGoods:
             return None
         goodsResult = self.goodsDao.queryGoodsByGoodsId(goods_id)
         goods = self.convertDbRow2Goods(goodsResult)
+        if not goods:
+            return None
         attrResult = self.attrDao.queryAttrListByGoodsId(goods_id)
         attrList = self.convertDbRow2AttrList(attrResult)
         brandResult = self.brandDao.queryBrandById(goods.brand_id)
