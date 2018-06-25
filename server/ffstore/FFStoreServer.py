@@ -23,7 +23,7 @@ import tornado.web
 import torndb
 from tornado.options import define, options
 
-import WeiChatMsg
+from WeiChatMsg import WeiChatMsg
 from FFStoreJsonEncoder import *
 from constant import DbConstant
 from constant import ResponseCode
@@ -34,6 +34,7 @@ from net.GetCategory import GetCategory
 from net.GetGoods import GetGoods
 from util.SendMsgEmail import SendEmail
 from util import HttpUtil
+from util.MD5Util import MD5Util
 from util.LogUtil import LogUtil
 from util.GenerateIDUtil import GenerateIDUtil
 
@@ -78,6 +79,10 @@ receive weiChat push msg
 url: https://shmall.fansdroid.net/weichat/push/msg
 Token: token20170907shmallweichatkey
 EncodingAESKey: Cx4Nqorw8Gw7wWtIgPSoVbmLwJb20UnUkh36CKY0JPn
+
+https://ffstore.oyfstore.com/weichat/push/msg
+Token:token20180625ffstoreweichatkey
+EncodingAESKey:oJ48WmISVWaf2Xt91GnkchfRwct2FdLcE7sS7VoXJga
 """
 class weiChatMsgHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
@@ -119,13 +124,22 @@ https://api.weixin.qq.com/sns/jscode2session?appid=wx72877ae8bdff79b0&secret=35c
 """
 class getWeiChatSessionHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
-        jsCode = self.get_argument('js_code')
+        jsCode = self.get_argument('jsCode')
         nickName = self.get_argument('nickName')
-        httpUrl = 'https://api.weixin.qq.com/sns/jscode2session?='
-        param = {"appid": WxToken.APP_ID, "secret": WxToken.APP_SECRET,
-                 "js_code": jsCode, "grant_type": 'authorization_code'}
-        body = HttpUtil.http_get(httpUrl, params=param)
-        jsonBody = json.loads(body, "utf8")
+        sign = self.get_argument('sign')
+        time = self.get_argument('time')
+        md5Util = MD5Util(time)
+        if sign == md5Util.md5Signature():
+            logging = LogUtil().getLogging()
+            logging.info('----> nickName: ' + nickName)
+            httpUrl = 'https://api.weixin.qq.com/sns/jscode2session?='
+            param = {"appid": WxToken.APP_ID, "secret": WxToken.APP_SECRET,
+                     "js_code": str(jsCode), "grant_type": 'authorization_code'}
+            body = HttpUtil.http_get(httpUrl, params=param)
+            jsonBody = json.loads(body, "utf8")
+            logging.info('----> jsonBody: ' + jsonBody)
+        else:
+            jsonBody = json.loads(u'校验失败', "utf8")
         self.write(jsonBody)
 
 
@@ -373,6 +387,7 @@ class CustomApplication(tornado.web.Application):
             (r'/save/user', saveUserHandler),
             (r'/update/user/cost', updateUserCostHandler),
             (r'/delete/cate/goods', deleteCateAndGoodsHandler),
+            (r'/api/wechat/jscode2session', getWeiChatSessionHandler),
             (r'/get/id', getUIDHandler),
             (r"/.*", OtherHandler),
         ]

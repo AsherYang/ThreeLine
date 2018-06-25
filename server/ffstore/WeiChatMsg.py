@@ -10,6 +10,10 @@ receive weiChat push msg
 url: https://shmall.fansdroid.net/weichat/push/msg
 Token: token20170907shmallweichatkey
 EncodingAESKey: Cx4Nqorw8Gw7wWtIgPSoVbmLwJb20UnUkh36CKY0JPn
+
+https://ffstore.oyfstore.com/weichat/push/msg
+Token:token20180625ffstoreweichatkey
+EncodingAESKey:oJ48WmISVWaf2Xt91GnkchfRwct2FdLcE7sS7VoXJga
 """
 
 import hashlib
@@ -17,15 +21,19 @@ import hashlib
 token = 'token20170907shmallweichatkey'
 EncodingAESKey = 'Cx4Nqorw8Gw7wWtIgPSoVbmLwJb20UnUkh36CKY0JPn'
 
+ffstore_token = 'token20180625ffstoreweichatkey'
+ffstore_EncodingAESKey = 'oJ48WmISVWaf2Xt91GnkchfRwct2FdLcE7sS7VoXJga'
+
 
 class WeiChatMsg:
+
     def __init__(self, signature=None, timestamp=None, nonce=None):
         self.signature = signature
         self.timestamp = timestamp
         self.nonce = nonce
 
     def checkSignature(self):
-        list = [token, self.timestamp, self.nonce]
+        list = [ffstore_token, self.timestamp, self.nonce]
         list.sort()  # sort
         str = "".join(list)  # list to string
         encryptStr = hashlib.sha1(str).hexdigest()

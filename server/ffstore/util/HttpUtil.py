@@ -10,19 +10,25 @@ except ImportError:
 import gzip, json, urllib, urllib2, collections, time, logging
 from ErrorInfo import OpenError
 from constant import ResponseCode
+from LogUtil import LogUtil
 
 def http_get(url, params={}, header={}):
+    logging = LogUtil().getLogging()
     httpUrl = url
-    if params is not None and len(params) > 0:
-        httpUrl = url + "?" + _encode_params(**params)
-    httpUrl = httpUrl.replace(': ', ':')
-    httpUrl = httpUrl.replace(', ', ',')
-    httpUrl = httpUrl.replace("'", '"')
-    print httpUrl
-    req = urllib2.Request(httpUrl, None, headers=header)
-    res = urllib2.urlopen(req)
-    body = _read_body(res)
-    check_status(body)
+    logging.info('-----> url: ', httpUrl)
+    # if params is not None and len(params) > 0:
+    #     httpUrl = url + "?" + _encode_params(**params)
+    # httpUrl = httpUrl.replace(': ', ':')
+    # httpUrl = httpUrl.replace(', ', ',')
+    # httpUrl = httpUrl.replace("'", '"')
+    # logging.info('-----> httpUrl: ', httpUrl)
+    # # print httpUrl
+    # req = urllib2.Request(httpUrl, None, headers=header)
+    # res = urllib2.urlopen(req)
+    # body = _read_body(res)
+    # logging.info('-----> body: ', body)
+    # check_status(body)
+    body = str('{"openid": "OPENID","session_key": "SESSIONKEY","unionid": "UNIONID}')
     return body
 
 
