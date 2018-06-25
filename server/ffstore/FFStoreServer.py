@@ -131,13 +131,22 @@ class getWeiChatSessionHandler(tornado.web.RequestHandler):
         md5Util = MD5Util(time)
         if sign == md5Util.md5Signature():
             logging = LogUtil().getLogging()
-            logging.info('----> nickName: ' + nickName)
-            httpUrl = 'https://api.weixin.qq.com/sns/jscode2session?='
+            # logging.info('----> jsCode: ' + jsCode)
+            # logging.info('----> nickName: ' + nickName)
+            # logging.info('----> sign: ' + sign)
+            # logging.info('----> time: ' + time)
+            httpUrl = 'https://api.weixin.qq.com/sns/jscode2session'
             param = {"appid": WxToken.APP_ID, "secret": WxToken.APP_SECRET,
                      "js_code": str(jsCode), "grant_type": 'authorization_code'}
             body = HttpUtil.http_get(httpUrl, params=param)
             jsonBody = json.loads(body, "utf8")
-            logging.info('----> jsonBody: ' + jsonBody)
+            if isinstance(jsonBody, dict):
+                if jsonBody.has_key('openid'):
+                    jsonBody['result'] = True
+                else:
+                    jsonBody['result'] = False
+            # logging.info(type(jsonBody))
+            logging.info('--->session json: ' + str(jsonBody))
         else:
             jsonBody = json.loads(u'校验失败', "utf8")
         self.write(jsonBody)
@@ -387,7 +396,7 @@ class CustomApplication(tornado.web.Application):
             (r'/save/user', saveUserHandler),
             (r'/update/user/cost', updateUserCostHandler),
             (r'/delete/cate/goods', deleteCateAndGoodsHandler),
-            (r'/api/wechat/jscode2session', getWeiChatSessionHandler),
+            (r'/api/weichat/jscode2session', getWeiChatSessionHandler),
             (r'/get/id', getUIDHandler),
             (r"/.*", OtherHandler),
         ]

@@ -15,20 +15,21 @@ from LogUtil import LogUtil
 def http_get(url, params={}, header={}):
     logging = LogUtil().getLogging()
     httpUrl = url
-    logging.info('-----> url: ', httpUrl)
-    # if params is not None and len(params) > 0:
-    #     httpUrl = url + "?" + _encode_params(**params)
-    # httpUrl = httpUrl.replace(': ', ':')
-    # httpUrl = httpUrl.replace(', ', ',')
-    # httpUrl = httpUrl.replace("'", '"')
-    # logging.info('-----> httpUrl: ', httpUrl)
-    # # print httpUrl
-    # req = urllib2.Request(httpUrl, None, headers=header)
-    # res = urllib2.urlopen(req)
-    # body = _read_body(res)
-    # logging.info('-----> body: ', body)
+    # logging.info('-----------------------')
+    # logging.info(httpUrl)
+    # logging.info('-----------------------')
+    if params is not None and len(params) > 0:
+        httpUrl = url + "?" + _encode_params(**params)
+    httpUrl = httpUrl.replace(': ', ':')
+    httpUrl = httpUrl.replace(', ', ',')
+    httpUrl = httpUrl.replace("'", '"')
+    logging.info('-----> httpUrl: ' + httpUrl)
+    # print httpUrl
+    req = urllib2.Request(httpUrl, None, headers=header)
+    res = urllib2.urlopen(req)
+    body = _read_body(res)
+    logging.info('-----> body: ' + body)
     # check_status(body)
-    body = str('{"openid": "OPENID","session_key": "SESSIONKEY","unionid": "UNIONID}')
     return body
 
 
@@ -43,20 +44,24 @@ def http_post(url, params={}, header={}):
 
 
 def check_status(resJson, statusName="status", code="status_code", reason="status_reason"):
+    logging = LogUtil().getLogging()
     if (resJson is None):
+        logging.info('-------OpenError 1. ---')
         raise OpenError(ResponseCode.sys_error, ResponseCode.sys_error_desc, None)
     res_dic = json.loads(resJson)
     if res_dic.get(statusName) is None:
+        logging.info('-------OpenError 2. ---')
         raise OpenError(ResponseCode.sys_error, ResponseCode.sys_error_desc, None)
     status_code = res_dic.get(statusName).get(code)
     status_reason = res_dic.get(statusName).get(reason)
     if 0 != status_code and "0" != status_code:
+        logging.info('-------OpenError 3. ---')
         raise OpenError(status_code, status_reason, None)
 
 
 def _encode_params(**kw):
     params = []
-    kw['lang'] = "python"
+    # kw['lang'] = "python"
     # kw['sdkversion']=TokenConstant.version
     for k, v in kw.iteritems():
         if isinstance(v, basestring):
