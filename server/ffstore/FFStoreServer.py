@@ -186,6 +186,15 @@ class getAllGoodsHandler(tornado.web.RequestHandler):
 
 
 """
+首页获取广告列表
+https://sujiefs.com//api/adverts/list?sign=d35e9a2a0a110e02e20b7407c11f6aa5&time=20180626011306
+"""
+class getAdvertslist(tornado.web.RequestHandler):
+    def get(self, *args, **kwargs):
+        pass
+
+
+"""
 get home page discover list
 首页封面列表，拿到的数据是category表中 cate_show_type 字段
 https://sujiefs.com//api/mall/discoverList?page=1&size=10&sign=1c0c67948371e91081fac39137d990c4&time=20180430145004
@@ -194,22 +203,29 @@ class getHomeDiscoverListHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
         page = int(self.get_argument('page'))
         size = int(self.get_argument('size'))
-        getCategory = GetCategory()
-        homeDiscoverList = getCategory.getHomeDiscoverList(page_num=page, page_size=size)
-        baseResponse = BaseResponse()
-        baseResponse.code = ResponseCode.op_success
-        baseResponse.desc = ResponseCode.op_success_desc
-        homeDiscoverCount = getCategory.getHomeDiscoverCount().get('count')
+        sign = self.get_argument('sign')
+        time = self.get_argument('time')
         logging = LogUtil().getLogging()
-        logging.info(homeDiscoverCount)
-        page_total = (homeDiscoverCount / size) + (1 if homeDiscoverCount % size > 0 else 0)
-        baseResponse.pageNum = page
-        baseResponse.pageSize = size
-        baseResponse.page_total = page_total
-        baseResponse.totalCount = homeDiscoverCount
-        if homeDiscoverList:
-            for homeDiscover in homeDiscoverList:
-                baseResponse.append(homeDiscover)
+        baseResponse = BaseResponse()
+        md5Util = MD5Util(time)
+        if sign == md5Util.md5Signature():
+            getCategory = GetCategory()
+            homeDiscoverList = getCategory.getHomeDiscoverList(page_num=page, page_size=size)
+            baseResponse.code = ResponseCode.op_success
+            baseResponse.desc = ResponseCode.op_success_desc
+            homeDiscoverCount = getCategory.getHomeDiscoverCount().get('count')
+            logging.info('---> homeDiscoverCount: ' + str(homeDiscoverCount))
+            page_total = (homeDiscoverCount / size) + (1 if homeDiscoverCount % size > 0 else 0)
+            baseResponse.pageNum = page
+            baseResponse.pageSize = size
+            baseResponse.page_total = page_total
+            baseResponse.totalCount = homeDiscoverCount
+            if homeDiscoverList:
+                for homeDiscover in homeDiscoverList:
+                    baseResponse.append(homeDiscover)
+        else:
+            baseResponse.code = ResponseCode.fail_user_login
+            baseResponse.desc = ResponseCode.fail_user_login_desc
         json_str = json.dumps(baseResponse, cls=HomeDiscoverEncoder)
         self.write(json_str)
 
@@ -388,10 +404,11 @@ class CustomApplication(tornado.web.Application):
             (r'/push/msg', pushMsgHandler),
             (r'/weichat/push/msg', weiChatMsgHandler),
             (r'/get/category', getCategoryHandler),
-            (r'/mall/discoverList', getHomeDiscoverListHandler),
-            (r'/home/hostGoodsList', getHostGoodsListHandler),
-            (r'/mall/goods', getGoodsDetailHandler),
-            (r'/mall/searchGoodsList', searchGoodsListHandler),
+            (r'/api/adverts/list', ),
+            (r'/api/mall/discoverList', getHomeDiscoverListHandler),
+            (r'/api/home/hostGoodsList', getHostGoodsListHandler),
+            (r'/api/mall/goods', getGoodsDetailHandler),
+            (r'/api/mall/searchGoodsList', searchGoodsListHandler),
             # (r'/get/allgoods', getAllGoodsHandler),
             (r'/save/user', saveUserHandler),
             (r'/update/user/cost', updateUserCostHandler),
