@@ -32,6 +32,7 @@ from db.DbUser import DbUser
 from net.GetUser import GetUser
 from net.GetCategory import GetCategory
 from net.GetGoods import GetGoods
+from net.GetAdverts import GetAdverts
 from util.SendMsgEmail import SendEmail
 from util import HttpUtil
 from util.MD5Util import MD5Util
@@ -197,10 +198,17 @@ class getAdvertslist(tornado.web.RequestHandler):
         baseResponse = BaseResponse()
         md5Util = MD5Util(time)
         if sign == md5Util.md5Signature():
-            pass
+            getAdverts = GetAdverts()
+            netAdvertsList = getAdverts.getLastAdverts(6)
+            logging.info("---> netAdvertsList: " + str(netAdvertsList))
+            baseResponse.code = ResponseCode.op_success
+            baseResponse.desc = ResponseCode.op_success_desc
+            baseResponse.data = netAdvertsList
         else:
             baseResponse.code = ResponseCode.fail_user_login
             baseResponse.desc = ResponseCode.fail_user_login_desc
+        json_str = json.dumps(baseResponse, cls=AdvertsEncoder)
+        self.write(json_str)
 
 
 """

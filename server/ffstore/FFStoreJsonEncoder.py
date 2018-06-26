@@ -14,6 +14,7 @@ from net.NetCategory import NetCategory
 from net.NetDiscover import NetDiscover
 from net.NetHostGoods import NetHostGoods
 from net.NetGoodsDetail import NetGoodsDetail
+from net.NetAdverts import NetAdverts
 from db.DbGoods import DbGoods
 from db.DbCategory import DbCategory
 from db.DbBrand import DbBrand
@@ -148,6 +149,35 @@ class HostGoodsEncoder(json.JSONEncoder):
                                          'stockNum': goods.stock_num, 'logo': goods.goods_logo, 'id': goods.goods_id}
                             goods_content.append(goods_str)
                 realContent.append({'list': goods_content})
+            elif isinstance(contentData, basestring):
+                realContent = contentData
+            else:
+                realContent.append('please check it.')
+            return {'code': obj.code, 'desc': obj.desc,
+                    'result': realContent}
+            # if isinstance(contentData, list):
+            #     print contentData[0].author
+            # else:
+            #     print type(contentData)
+        else:
+            return json.JSONEncoder.default(self, obj)
+
+
+"""
+将 Adverts 转成 Json 字符串
+"""
+class AdvertsEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, BaseResponse):
+            contentData = obj.data
+            # print type(contentData)
+            realContent = []
+            if isinstance(contentData, list):
+                for data in contentData:
+                    if isinstance(data, NetAdverts):
+                        string = {'id': data.id, 'advertUrl': data.advertUrl, 'picUrl': data.picUrl,
+                                  'sort': data.sort, 'title': data.title, 'createTime': data.createTime}
+                        realContent.append(string)
             elif isinstance(contentData, basestring):
                 realContent = contentData
             else:
