@@ -130,3 +130,20 @@ CREATE TABLE ffstore_notice (
     notice VARCHAR(200),
     importance INT
 );
+
+-- 广告栏表, 对应首页广告banner
+-- cate_id: 对应ffstore_category 表ID，用于获取 cateCode 后，进行页面跳转(advertUrl)
+-- title: 广告标题， pic_url: 广告展示图
+-- sort: 展示排序序号
+-- create_time: 广告创建时间
+DROP TABLE IF EXISTS ffstore_adverts;
+CREATE TABLE ffstore_adverts (
+    _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    advert_id VARCHAR(50) NOT NULL UNIQUE,
+    cate_id VARCHAR(50),
+    title VARCHAR(50),
+    pic_url VARCHAR(200),
+    sort VARCHAR(5),
+    create_time VARCHAR(20),
+    foreign key (cate_id) references ffstore_category(cate_id) on delete cascade on update cascade
+);

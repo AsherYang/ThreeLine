@@ -24,7 +24,7 @@ class CategoryDao:
             insert = 'insert into ffstore_category (cate_id, cate_code, parent_code, cate_logo, cate_name, cate_show_type)' \
                      ' values("%s", "%d", "%d", "%s", "%s", "%s")' \
                      % (cate.cate_id, cate.cate_code, cate.parent_code, cate.cate_logo, cate.cate_name, cate.cate_show_type)
-            print 'insert user to db.'
+            print 'insert category to db.'
             return DbUtil.insert(insert)
         return False
 
@@ -126,6 +126,14 @@ class CategoryDao:
         if not cateId:
             return None
         query = 'select * from ffstore_category where cate_id = "%s"' % cateId
+        return DbUtil.query(query)
+
+    # 根据分类ID列表查询对应分类列表集合
+    def queryCateListByIdList(self, cateIdList):
+        if not cateIdList:
+            return None
+        format_str = ','.join(['%s'] * len(cateIdList))
+        query = 'SELECT * FROM ffstore_category WHERE cate_id IN (%s)' % format_str, tuple(cateIdList)
         return DbUtil.query(query)
 
     # 根据分类编码code查询对应分类

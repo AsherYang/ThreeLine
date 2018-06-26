@@ -191,7 +191,16 @@ https://sujiefs.com//api/adverts/list?sign=d35e9a2a0a110e02e20b7407c11f6aa5&time
 """
 class getAdvertslist(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
-        pass
+        sign = self.get_argument('sign')
+        time = self.get_argument('time')
+        logging = LogUtil().getLogging()
+        baseResponse = BaseResponse()
+        md5Util = MD5Util(time)
+        if sign == md5Util.md5Signature():
+            pass
+        else:
+            baseResponse.code = ResponseCode.fail_user_login
+            baseResponse.desc = ResponseCode.fail_user_login_desc
 
 
 """
@@ -404,7 +413,7 @@ class CustomApplication(tornado.web.Application):
             (r'/push/msg', pushMsgHandler),
             (r'/weichat/push/msg', weiChatMsgHandler),
             (r'/get/category', getCategoryHandler),
-            (r'/api/adverts/list', ),
+            (r'/api/adverts/list', getAdvertslist),
             (r'/api/mall/discoverList', getHomeDiscoverListHandler),
             (r'/api/home/hostGoodsList', getHostGoodsListHandler),
             (r'/api/mall/goods', getGoodsDetailHandler),
