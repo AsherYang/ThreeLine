@@ -35,7 +35,7 @@ from net.GetGoods import GetGoods
 from net.GetAdverts import GetAdverts
 from util.SendMsgEmail import SendEmail
 from util import HttpUtil
-from util.MD5Util import MD5Util
+from util.MD5Util import MD5Util, ADMIN_SECRET_KEY
 from util.LogUtil import LogUtil
 from util.GenerateIDUtil import GenerateIDUtil
 
@@ -190,7 +190,7 @@ class getAllGoodsHandler(tornado.web.RequestHandler):
 首页获取广告列表
 https://sujiefs.com//api/adverts/list?sign=d35e9a2a0a110e02e20b7407c11f6aa5&time=20180626011306
 """
-class getAdvertslist(tornado.web.RequestHandler):
+class getAdvertslistHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
         sign = self.get_argument('sign')
         time = self.get_argument('time')
@@ -210,6 +210,23 @@ class getAdvertslist(tornado.web.RequestHandler):
         json_str = json.dumps(baseResponse, cls=AdvertsEncoder)
         self.write(json_str)
 
+
+"""
+添加广告接口
+用于后台管理
+"""
+class adminAddAdvertsHandler(tornado.web.RequestHandler):
+    def get(self, *args, **kwargs):
+        sign = self.get_argument('sign')
+        time = self.get_argument('time')
+        baseResponse = BaseResponse()
+        md5Util = MD5Util(time, ADMIN_SECRET_KEY)
+        if sign == md5Util.md5Signature():
+            pass
+        else:
+            baseResponse.code = ResponseCode.illegal_md5_client
+            baseResponse.desc = ResponseCode.illegal_md5_client_desc
+            pass
 
 """
 get home page discover list
@@ -421,7 +438,8 @@ class CustomApplication(tornado.web.Application):
             (r'/push/msg', pushMsgHandler),
             (r'/weichat/push/msg', weiChatMsgHandler),
             (r'/get/category', getCategoryHandler),
-            (r'/api/adverts/list', getAdvertslist),
+            (r'/api/adverts/list', getAdvertslistHandler),
+            (r'/add/adverts', adminAddAdvertsHandler),
             (r'/api/mall/discoverList', getHomeDiscoverListHandler),
             (r'/api/home/hostGoodsList', getHostGoodsListHandler),
             (r'/api/mall/goods', getGoodsDetailHandler),

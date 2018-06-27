@@ -15,6 +15,7 @@ Desc:   网络返回的基础码，对应解释
 2xx --> 错误码
 
 一般错误以 "fail_xxx_xxx" 形式
+非法权限操作以 "illegal_xxx_xxx" 形式
 """
 
 # 操作成功
@@ -47,6 +48,14 @@ fail_session_key_desc = u'微信鉴权失败'
 
 fail_user_login = '200101'
 fail_user_login_desc = u'无效的用户登录'
+
+fail_user_out_of_date = '200102'
+fail_user_out_of_date_desc = u'登陆已过期'
+
+# 非法的客户端(md5 校验不通过，出现此问题，需要立即封锁客户端，!!!此类属于危险操作!!!)
+illegal_md5_client = '200200'
+illegal_md5_client_desc = u'非法客户端, 警告, 你已被后台跟踪, 注意法律传单!'
+
 
 # 系统级错误
 sys_error = '999999'

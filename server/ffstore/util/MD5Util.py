@@ -12,14 +12,17 @@ import hashlib
 import hmac
 import base64
 
+# 微信小程序使用的API secret key
 API_SECRET_KEY = 'md5.oyfstore.com'
+# 后台管理系统使用的 Admin secret key
+ADMIN_SECRET_KEY = 'admin.oyfstore.com'
 
 
 class MD5Util:
 
-    def __init__(self, value):
+    def __init__(self, value, secret_key=API_SECRET_KEY):
         self.value = value
-        self.signValue = str(value) + API_SECRET_KEY
+        self.signValue = str(value) + secret_key
         self.signValue = self.signValue.encode('utf-8')
         # print 'signValue===> ', self.signValue
 

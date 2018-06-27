@@ -16,6 +16,20 @@ CREATE TABLE ffstore_user (
     cost_count INT
 );
 
+-- 管理员表
+-- 后台管理员使用, 用于登陆, 操作商品等后台操作
+-- sms_pwd 短信验证码
+-- login_time 上次登陆时间，用于过期校验
+-- 校验规则: MD5签名+短信验证码+登陆时间(过期无效)
+DROP TABLE IF EXISTS ffstore_admin;
+CREATE TABLE ffstore_admin (
+    _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    admin_name VARCHAR(50),
+    sms_pwd VARCHAR(50),
+    admin_tel VARCHAR(20) NOT NULL UNIQUE,
+    login_time VARCHAR(20)
+);
+
 -- 商品表，基础表
 -- cate_id 对应ffstore_category表cate_id, brand_id 对应ffstore_brand表brand_id
 -- market_price: 市场价(一般指原价), current_price: 现价
