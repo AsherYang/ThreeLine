@@ -43,11 +43,11 @@ add_user_cost_error = '200020'
 add_user_cost_error_desc = u'记录用户消费失败'
 
 # 获取微信session_key 无效
-fail_session_key = '200100'
-fail_session_key_desc = u'微信鉴权失败'
+fail_wx_session_key = '200100'
+fail_wx_session_key_desc = u'微信鉴权失败'
 
 fail_user_login = '200101'
-fail_user_login_desc = u'无效的用户登录'
+fail_user_login_desc = u'用户名或者密码错误'
 
 fail_user_out_of_date = '200102'
 fail_user_out_of_date_desc = u'登陆已过期'

@@ -9,6 +9,7 @@ Desc:   时间工具类
 """
 
 import datetime
+import time
 
 class DateUtil:
 
@@ -18,7 +19,11 @@ class DateUtil:
     def getCurrentTime(self):
         return datetime.datetime.now()
 
+    def getCurrentTimeStamp(self):
+        return int(time.time())
+
 
 if __name__ == '__main__':
     dateUtil = DateUtil()
     print dateUtil.getCurrentTime()
+    print dateUtil.getCurrentTimeStamp()

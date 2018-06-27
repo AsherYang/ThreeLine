@@ -28,6 +28,7 @@ from FFStoreJsonEncoder import *
 from constant import DbConstant
 from constant import ResponseCode
 from constant import WxToken
+from constant import LoginStatus
 from db.DbUser import DbUser
 from net.GetUser import GetUser
 from net.GetCategory import GetCategory
@@ -38,6 +39,7 @@ from util import HttpUtil
 from util.MD5Util import MD5Util, ADMIN_SECRET_KEY
 from util.LogUtil import LogUtil
 from util.GenerateIDUtil import GenerateIDUtil
+from logic.AdminManager import AdminManager
 
 define("debug", default=False, help='Set debug mode', type=bool)
 # 服务器使用Supervisor＋nginx 三行情书配置多端口：8888｜8889｜8890｜8891, 上好微店端口：10001|10002
@@ -219,10 +221,25 @@ class adminAddAdvertsHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
         sign = self.get_argument('sign')
         time = self.get_argument('time')
+        admin_tel = self.get_argument('tel')
+        sms_pwd = self.get_argument('sms')
         baseResponse = BaseResponse()
         md5Util = MD5Util(time, ADMIN_SECRET_KEY)
+        adminMgr = AdminManager()
+        getAdverts = GetAdverts()
         if sign == md5Util.md5Signature():
-            pass
+            login_status = adminMgr.checkLoginState(admin_tel, sms_pwd)
+            if login_status == LoginStatus.STATUS_LOGIN_SUCCESS:
+                baseResponse.code = ResponseCode.op_success
+                baseResponse.desc = ResponseCode.op_success_desc
+                # todo
+                # getAdverts.addAdverts()
+            elif login_status == LoginStatus.STATUS_LOGIN_OUT_OF_DATE:
+                baseResponse.code = ResponseCode.fail_user_out_of_date
+                baseResponse.desc = ResponseCode.fail_user_out_of_date_desc
+            else:
+                baseResponse.code = ResponseCode.fail_user_login
+                baseResponse.desc = ResponseCode.fail_user_login_desc
         else:
             baseResponse.code = ResponseCode.illegal_md5_client
             baseResponse.desc = ResponseCode.illegal_md5_client_desc

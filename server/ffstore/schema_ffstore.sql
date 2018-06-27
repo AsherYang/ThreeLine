@@ -24,9 +24,8 @@ CREATE TABLE ffstore_user (
 DROP TABLE IF EXISTS ffstore_admin;
 CREATE TABLE ffstore_admin (
     _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    admin_name VARCHAR(50),
-    sms_pwd VARCHAR(50),
     admin_tel VARCHAR(20) NOT NULL UNIQUE,
+    sms_pwd VARCHAR(50),
     login_time VARCHAR(20)
 );
 
