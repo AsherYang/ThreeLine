@@ -217,7 +217,7 @@ class getAdvertslistHandler(tornado.web.RequestHandler):
 
 """
 添加广告接口
-用于后台管理
+用于后台banner管理
 1. 先根据时间做一次md5 校验
 2. 再根据用户号码和密码做一次登录校验
 3. 最后校验登陆时效
