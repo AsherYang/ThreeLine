@@ -41,7 +41,7 @@ from util.MD5Util import MD5Util, ADMIN_SECRET_KEY
 from util.LogUtil import LogUtil
 from util.GenerateIDUtil import GenerateIDUtil
 from util.DateUtil import DateUtil
-from logic.AdminManager import AdminManager
+from mgrsys.AdminManager import AdminManager
 
 define("debug", default=False, help='Set debug mode', type=bool)
 # 服务器使用Supervisor＋nginx 三行情书配置多端口：8888｜8889｜8890｜8891, 上好微店端口：10001|10002
