@@ -131,8 +131,8 @@ class getWeiChatSessionHandler(tornado.web.RequestHandler):
         nickName = self.get_argument('nickName')
         sign = self.get_argument('sign')
         time = self.get_argument('time')
-        md5Util = MD5Util(time)
-        if sign == md5Util.md5Signature():
+        md5Util = MD5Util()
+        if sign == md5Util.md5Signature(time):
             logging = LogUtil().getLogging()
             # logging.info('----> jsCode: ' + jsCode)
             # logging.info('----> nickName: ' + nickName)
@@ -198,8 +198,8 @@ class getAdvertslistHandler(tornado.web.RequestHandler):
         time = self.get_argument('time')
         logging = LogUtil().getLogging()
         baseResponse = BaseResponse()
-        md5Util = MD5Util(time)
-        if sign == md5Util.md5Signature():
+        md5Util = MD5Util()
+        if sign == md5Util.md5Signature(time):
             getAdverts = GetAdverts()
             netAdvertsList = getAdverts.getLastAdverts(6)
             logging.info("---> netAdvertsList: " + str(netAdvertsList))
@@ -224,10 +224,10 @@ class adminAddAdvertsHandler(tornado.web.RequestHandler):
         admin_tel = self.get_argument('tel')
         sms_pwd = self.get_argument('sms')
         baseResponse = BaseResponse()
-        md5Util = MD5Util(time, ADMIN_SECRET_KEY)
+        md5Util = MD5Util(ADMIN_SECRET_KEY)
         adminMgr = AdminManager()
         getAdverts = GetAdverts()
-        if sign == md5Util.md5Signature():
+        if sign == md5Util.md5Signature(time):
             login_status = adminMgr.checkLoginState(admin_tel, sms_pwd)
             if login_status == LoginStatus.STATUS_LOGIN_SUCCESS:
                 baseResponse.code = ResponseCode.op_success
@@ -258,8 +258,8 @@ class getHomeDiscoverListHandler(tornado.web.RequestHandler):
         time = self.get_argument('time')
         logging = LogUtil().getLogging()
         baseResponse = BaseResponse()
-        md5Util = MD5Util(time)
-        if sign == md5Util.md5Signature():
+        md5Util = MD5Util()
+        if sign == md5Util.md5Signature(time):
             getCategory = GetCategory()
             homeDiscoverList = getCategory.getHomeDiscoverList(page_num=page, page_size=size)
             baseResponse.code = ResponseCode.op_success
