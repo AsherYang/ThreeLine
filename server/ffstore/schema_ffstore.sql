@@ -145,7 +145,7 @@ CREATE TABLE ffstore_notice (
 );
 
 -- 广告栏表, 对应首页广告banner
--- cate_id: 对应ffstore_category 表ID，用于获取 cateCode 后，进行页面跳转(advertUrl)
+-- cate_id: 对应ffstore_category 表ID，用于获取 cateCode 后，进行页面跳转(advertUrl),如果没有cate_id, 说明不支持跳转
 -- title: 广告标题， pic_url: 广告展示图
 -- sort: 展示排序序号
 -- create_time: 广告创建时间

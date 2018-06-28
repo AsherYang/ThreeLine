@@ -14,6 +14,7 @@ class NetAdverts:
     def __init__(self):
         pass
 
+    # 对应db advert_id
     @property
     def id(self):
         return self.id

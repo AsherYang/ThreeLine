@@ -45,10 +45,14 @@ class GetAdverts:
     """
     添加广告, 一条广告一条广告的插入
     """
-    def addAdverts(self, netAdverts, netCategory):
+    def addAdverts(self, netAdverts, cate_id=None):
         if not netAdverts:
             return False
-        dbAdverts = self.convert2DbAdverts(netAdverts, netCategory)
+        if cate_id:
+            cateResult = self.cateDao.queryCateById(cate_id)
+            if not cateResult:
+                return False
+        dbAdverts = self.convert2DbAdverts(netAdverts, cate_id)
         if not dbAdverts:
             return False
         return self.advertDao.saveToDb(dbAdverts)
@@ -105,7 +109,7 @@ class GetAdverts:
         return netAdvertsList
 
     # 将网络数据转换为数据库数据
-    def convert2DbAdverts(self, netAdverts, netCategory):
+    def convert2DbAdverts(self, netAdverts, cate_id):
         if not netAdverts:
             return None
         if isinstance(netAdverts, NetAdverts):
@@ -119,8 +123,8 @@ class GetAdverts:
             else:
                 genIdUtil = GenerateIDUtil()
                 dbAdvert.advert_id = genIdUtil.getUID()
-            if netCategory:
-                dbAdvert.cate_id = netCategory.id
+            if cate_id:
+                dbAdvert.cate_id = cate_id
             return dbAdvert
         return None
 

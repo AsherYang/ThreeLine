@@ -42,6 +42,9 @@ class AdminManager:
             return LoginStatus.STATUS_LOGIN_OUT_OF_DATE
         return LoginStatus.STATUS_LOGIN_SUCCESS
 
+    """
+    查询数据库
+    """
     def getAdminByTelAndPwd(self, admin_tel, sms_pwd):
         if not admin_tel or not sms_pwd:
             return None

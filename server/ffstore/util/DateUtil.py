@@ -19,6 +19,7 @@ class DateUtil:
     def getCurrentTime(self):
         return datetime.datetime.now()
 
+    # 管理员校验时效，超时使用的是时间戳形式
     def getCurrentTimeStamp(self):
         return int(time.time())
 

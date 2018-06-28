@@ -24,7 +24,7 @@ class MD5Util:
         self.secret_key = secret_key
 
     def md5Signature(self, value):
-        print '------------signature-----------------'
+        # print '------------signature-----------------'
         signValue = str(value) + self.secret_key
         signValue = signValue.encode('utf-8')
         hashMd5 = hashlib.md5()
