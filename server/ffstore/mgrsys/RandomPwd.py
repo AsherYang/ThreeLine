@@ -5,7 +5,7 @@
 Author: AsherYang
 Email:  ouyangfan1991@gmail.com
 Date:   2018/6/29
-Desc:   产生4位随机短信验证码类
+Desc:   产生6位随机短信验证码类
 """
 
 import random
@@ -17,11 +17,11 @@ class RandomPwd:
 
     def genPwd(self):
         a_list = []
-        while len(a_list) < 4:
+        while len(a_list) < 6:
             x = random.randint(0, 9)
             # if x not in s:
             a_list.append(x)
-        # print a_list
+        print a_list
         string = ''.join(list(map(str, a_list)))
         return string
 

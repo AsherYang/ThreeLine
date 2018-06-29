@@ -22,7 +22,6 @@ import tornado.web
 import torndb
 from tornado.options import define, options
 
-
 from constant import DbConstant
 from handler.WeiChatMsgHandler import WeiChatMsgHandler
 from handler.GetUIDHandler import GetUIDHandler
@@ -41,8 +40,12 @@ from handler.ManagerAddAdvertsHandler import ManagerAddAdvertsHandler
 
 
 define("debug", default=False, help='Set debug mode', type=bool)
-# 服务器使用Supervisor＋nginx 三行情书配置多端口：8888｜8889｜8890｜8891, 上好微店端口：10001|10002
+# 服务器使用Supervisor＋nginx
+# 三行情书配置多端口：8888｜8889｜8890｜8891
+# 上好微店端口：10001|10002
 # FFStore端口: 20001|20002|20003
+# 微信报警端口: 9091
+# pypi-server端口:9099
 define("port", default=20001, help='Run on the give port', type=int)
 define("mysql_host", default=DbConstant.dbHost, help='mysql host IP')
 define("mysql_user", default=DbConstant.dbUser, help='db user name')
