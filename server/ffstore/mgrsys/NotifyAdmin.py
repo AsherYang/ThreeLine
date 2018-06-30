@@ -16,6 +16,8 @@ from weichatutil.WeiChatSender import WeiChatSender
 SMS_SUBJECT_PWD = u'短信验证码'
 # 发送登录信息给超级管理员(我)
 SMS_SUBJECT_LOGIN = u'系统登录'
+# 运维报警微信登录
+SMS_SUBJECT_WX_LOGIN = u'运维微信登录'
 
 
 class NotifyAdmin:

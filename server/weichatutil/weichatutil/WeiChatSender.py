@@ -14,7 +14,7 @@ import logging
 # WechatSender().send('Hello AsherYang')
 # Sender().send_to('hello msg', '芬')
 
-def_host = 'http://ffstore.oyfstore.com'
+def_host = 'http://127.0.0.1'
 # 是使用Token.py 随意生成的，但是要保证Listen和sender一致
 def_token = 'd9218b046dde43147ea6c889ea67ede8437ff696'
 def_port = '9091'

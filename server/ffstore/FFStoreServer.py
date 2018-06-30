@@ -97,7 +97,7 @@ class CustomApplication(tornado.web.Application):
             (r'/get/uid', GetUIDHandler),
             (r'/manager/add/adverts', ManagerAddAdvertsHandler),
             (r'/manager/delete/cate/goods', ManagerDeleteCateAndGoodsHandler),
-            (r"/.*", OtherHandler),
+            # (r"/.*", OtherHandler),
         ]
         settings = {
             # "cookie_secret": '61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=',
