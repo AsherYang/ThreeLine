@@ -80,6 +80,14 @@ class PushMsgHandler(tornado.web.RequestHandler):
 
 class CustomApplication(tornado.web.Application):
     def __init__(self, debug=False):
+
+        settings = {
+            "static_path": os.path.join(os.path.dirname(__file__), "static"),
+            "cookie_secret": '61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=',
+            "xsrf_cookies": True,
+            "debug": debug,
+        }
+
         handlers = [
             (r"/", MainHandler),
             (r'/push/msg', PushMsgHandler),
@@ -97,13 +105,9 @@ class CustomApplication(tornado.web.Application):
             (r'/get/uid', GetUIDHandler),
             (r'/manager/add/adverts', ManagerAddAdvertsHandler),
             (r'/manager/delete/cate/goods', ManagerDeleteCateAndGoodsHandler),
-            # (r"/.*", OtherHandler),
+            (r"/.*", OtherHandler),
         ]
-        settings = {
-            # "cookie_secret": '61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=',
-            # "xsrf_cookies": True,
-            "debug": debug,
-        }
+
         super(CustomApplication, self).__init__(handlers=handlers, **settings)
         self.db = torndb.Connection(host=options.mysql_host, database=options.mysql_database, user=options.mysql_user,
                                     password=options.mysql_password)

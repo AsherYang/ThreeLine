@@ -15,12 +15,18 @@ Desc  : wxpy 在linux 下，登陆，以及进行监听的工具类
 https://www.kancloud.cn/wizardforcel/tornado-overview/141667
 """
 
+import os
+import sys
+sys.path.append('../')
+
+# windowds 得使用上面的
+# from weichatutil.weichatutil.WeiChatListen import WeiChatListen
 from weichatutil.WeiChatListen import WeiChatListen
 from mgrsys.NotifyAdmin import NotifyAdmin, SMS_SUBJECT_WX_LOGIN
-import os
+from util.LogUtil import LogUtil
 
-
-def_qr_path = '/work/ffstore_server/images/qrcode/qr_code.png'
+def_qr_path = '/work/ffstore_server/ffstore/static/qrcode/qrcode.png'
+# def_qr_path = 'd:\\qrcode.png'
 
 
 class WxBotUtil:
@@ -28,13 +34,21 @@ class WxBotUtil:
         pass
 
     def login(self, qr_path=def_qr_path):
+        # remove the qr_code.png first
+        logging = LogUtil().getLogging()
+        if os.path.exists(qr_path):
+            logging.info("---> remove qr code: " + str(qr_path))
+            os.remove(qr_path)
         try:
-            # remove the qr_code.png first
-            if os.path.exists(qr_path):
-                os.remove(qr_path)
             weichatListen = WeiChatListen(console_qr=False, qr_path=qr_path)
             my = weichatListen.bot.friends().search('ahser')[0]
             weichatListen.listen(receivers=my)
-            NotifyAdmin.sendMsg(u'请登录网页扫码登陆运维微信', subject=SMS_SUBJECT_WX_LOGIN)
-        except:
-            pass
+        except Exception as ex:
+            logging.warn(ex)
+            logging.warn("---> qr code exception: " + str(sys.exc_info()[0]))
+        finally:
+            NotifyAdmin().sendMsg(u'请网页扫码登陆运维微信', subject=SMS_SUBJECT_WX_LOGIN)
+
+if __name__ == '__main__':
+    wxBot = WxBotUtil()
+    wxBot.login()

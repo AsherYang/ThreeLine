@@ -8,8 +8,13 @@ Date:   2018/6/29
 Desc:  通知类   
 """
 
+import sys
+sys.path.append('../')
+
 from util.SendMsgEmail import SendEmail
 import threading
+# windowds 得使用上面的
+# from weichatutil.weichatutil.WeiChatSender import WeiChatSender
 from weichatutil.WeiChatSender import WeiChatSender
 
 # 发送短信验证码给当前管理员
@@ -28,7 +33,7 @@ class NotifyAdmin:
     发送短信通知
     """
     def sendMsg(self, sms_msg, toaddrs=['13553831061@139.com'], subject='ffstore'):
-        sendEmail = SendEmail(toaddrs, subject)
+        sendEmail = SendEmail(toaddrs=toaddrs, subject=subject)
         thr = threading.Thread(target=sendEmail, args=[sms_msg])  # open new thread
         thr.start()
 
@@ -36,6 +41,11 @@ class NotifyAdmin:
     发送微信通知
     """
     def sendWxMsg(self, msg, receiver='Fan'):
-        wxSender = WeiChatSender()
-        wxSender.sendMsg(msg, receiver=receiver)
+        weichatSender = WeiChatSender(host='http://127.0.0.1', port='9091')
+        weichatSender.sendMsg(msg, receiver=receiver)
         pass
+
+if __name__ == '__main__':
+    notify = NotifyAdmin()
+    notify.sendWxMsg('Hello. oyf')
+    # notify.sendMsg("4567")
