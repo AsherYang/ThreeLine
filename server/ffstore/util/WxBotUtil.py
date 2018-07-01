@@ -31,23 +31,34 @@ def_qr_path = '/work/ffstore_server/ffstore/static/qrcode/qrcode.png'
 
 class WxBotUtil:
     def __init__(self):
+        self.logging = LogUtil().getLogging()
         pass
+
+    def login_callback(self):
+        pass
+
+    def qr_callback(self, uuid, status, qrcode):
+        self.logging.info("---> uuid: " + uuid)
+        self.logging.info("---> status: " + status)
+        self.logging.info("---> qrcode: " + qrcode)
 
     def login(self, qr_path=def_qr_path):
         # remove the qr_code.png first
-        logging = LogUtil().getLogging()
         if os.path.exists(qr_path):
-            logging.info("---> remove qr code: " + str(qr_path))
+            self.logging.info("---> remove qr code: " + str(qr_path))
             os.remove(qr_path)
+        weichatListen = None
         try:
-            weichatListen = WeiChatListen(console_qr=False, qr_path=qr_path)
+            weichatListen = WeiChatListen(console_qr=True, qr_path=qr_path,
+                                          login_callback=self.login_callback)
             my = weichatListen.bot.friends().search('ahser')[0]
             weichatListen.listen(receivers=my)
         except Exception as ex:
-            logging.warn(ex)
-            logging.warn("---> qr code exception: " + str(sys.exc_info()[0]))
+            self.logging.warn(ex)
+            self.logging.warn("---> qr code exception: " + str(sys.exc_info()[0]))
         finally:
             NotifyAdmin().sendMsg(u'请网页扫码登陆运维微信', subject=SMS_SUBJECT_WX_LOGIN)
+            weichatListen.bot.join()
 
 if __name__ == '__main__':
     wxBot = WxBotUtil()
