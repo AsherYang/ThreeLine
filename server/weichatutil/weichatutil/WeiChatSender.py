@@ -26,14 +26,11 @@ class WeiChatSender:
         self.token = token
         self.host = host
         self.port = port
-        pass
 
     def sendMsg(self, msg, receiver='fan'):
         sender = Sender(token=self.token, host=self.host, port=self.port)
         # sender.send('HELLO ASHER345')
         sender.send_to(msg, receiver)
-        pass
-
 
 if __name__ == '__main__':
     weichatSender = WeiChatSender(host='http://127.0.0.1', port='9091')

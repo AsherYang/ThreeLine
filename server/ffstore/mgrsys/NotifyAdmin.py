@@ -16,6 +16,7 @@ import threading
 # windowds 得使用上面的
 # from weichatutil.weichatutil.WeiChatSender import WeiChatSender
 from weichatutil.WeiChatSender import WeiChatSender
+from util.DateUtil import DateUtil
 
 # 发送短信验证码给当前管理员
 SMS_SUBJECT_PWD = u'短信验证码'
@@ -40,12 +41,13 @@ class NotifyAdmin:
     """
     发送微信通知
     """
-    def sendWxMsg(self, msg, receiver='Fen'):
+    def sendWxMsg(self, msg, receiver='Fan'):
         weichatSender = WeiChatSender(host='http://127.0.0.1', port='9091')
         weichatSender.sendMsg(msg, receiver=receiver)
         pass
 
 if __name__ == '__main__':
     notify = NotifyAdmin()
-    notify.sendWxMsg('Hello. oyf')
-    # notify.sendMsg("4567")
+    current_time = DateUtil().getCurrentTime()
+    notify.sendWxMsg('Hello. oyf finish it. at: %s' % current_time)
+    notify.sendMsg('456')
