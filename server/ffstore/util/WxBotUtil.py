@@ -32,10 +32,11 @@ def_qr_path = '/work/ffstore_server/ffstore/static/qrcode/qrcode.png'
 
 
 class WxBotUtil:
-    def __init__(self, qr_path=def_qr_path):
+    def __init__(self, scan_qr_callback=None, qr_code_path=def_qr_path):
         self.logging = LogUtil().getLogging()
-        self.qr_path = def_qr_path
+        self.qr_code_path = def_qr_path
         self.call_times = 0
+        self.scan_qr_callback = scan_qr_callback
 
     def __call__(self, *args, **kwargs):
         self.login_by_thread()
@@ -54,10 +55,12 @@ class WxBotUtil:
         # print "---> status: ", status
         # print "---> qrcode: ", qrcode
         if self.call_times < 3:
-            with open(self.qr_path, 'wb') as qr_file:
+            with open(self.qr_code_path, 'wb') as qr_file:
                 qr_file.write(qrcode)
             NotifyAdmin().sendMsg(u'请网页扫码登陆运维微信', subject=SMS_SUBJECT_WX_LOGIN)
             self.call_times = self.call_times + 1
+            if self.scan_qr_callback:
+                self.scan_qr_callback(self.qr_code_path)
 
     def login_by_thread(self):
         thr = threading.Thread(target=self.login)
@@ -66,18 +69,21 @@ class WxBotUtil:
 
     def login(self):
         # remove the qr_code.png first
-        if os.path.exists(self.qr_path):
-            self.logging.info("---> remove qr code: " + str(self.qr_path))
-            os.remove(self.qr_path)
+        if os.path.exists(self.qr_code_path):
+            self.logging.info("---> remove qr code: " + str(self.qr_code_path))
+            os.remove(self.qr_code_path)
         try:
-            weichatListen = WeiChatListen(console_qr=True, qr_path=self.qr_path,
+            weichatListen = WeiChatListen(console_qr=True, qr_path=self.qr_code_path,
                                           qr_callback=self.qr_callback,
                                           login_callback=self.login_callback)
             # 启用puid
             weichatListen.bot.enable_puid('wxpy_puid.pkl')
-            my = weichatListen.bot.friends().search('ahser')[0]
+            # my = weichatListen.bot.friends().search('asher')[0]
+            # print weichatListen.bot.friends()
+            my = weichatListen.bot.friends()[0]
+            weichatListen.bot.self.add()
+            weichatListen.bot.self.accept()
             weichatListen.listen(receivers=my)
-            print weichatListen.bot.friends()
             weichatListen.bot.join()
         except Exception as ex:
             self.logging.warn(ex)

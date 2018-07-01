@@ -71,7 +71,9 @@ class WeiChatListen:
         listen(self.bot, receivers=receivers, token=token, port=port, status_report=True, status_receiver='asher')
 
 if __name__ == '__main__':
-    weichatListen = WeiChatListen(console_qr=1, qr_path='d:\\qr_code.png')
+    # /Users/ouyangfan/qrcode.png
+    # d:\\qr_code.png
+    weichatListen = WeiChatListen(console_qr=False, qr_path='d:\\qr_code.png')
     # print weichatListen.getAllFriends()
     # print '>>>>>>>>>>>'
     # print weichatListen.bot.friends()
@@ -79,6 +81,16 @@ if __name__ == '__main__':
     #     print '--------'
     #     print friend.puid
     #     print friend.name
-    my = weichatListen.bot.friends().search('ahser')[0]
+    my = weichatListen.bot.friends()[0]
+    # my = weichatListen.bot.friends().search('asher')[0]
+    # my = weichatListen.bot.friends().search('asher')[0]
+    # print '----> my'
+    # print my
+    # print '----> my.puid:'
+    # print my.puid
+    # print '----> self: '
+    weichatListen.bot.self.add()
+    weichatListen.bot.self.accept()
+    # print weichatListen.bot.self
     # my2 = weichatListen.getFriendByName('asher')
     weichatListen.listen(receivers=my)

@@ -35,6 +35,8 @@ from handler.GetHostGoodsListHandler import GetHostGoodsListHandler
 from handler.GetHomeDiscoverListHandler import GetHomeDiscoverListHandler
 from handler.GetAdvertslistHandler import GetAdvertslistHandler
 from handler.GetCategoryHandler import GetCategoryHandler
+from handler.WxLoginHandler import WxLoginHandler
+from handler.WxSendMsgHandler import WxSendMsgHandler
 from handler.ManagerDeleteCateAndGoodsHandler import ManagerDeleteCateAndGoodsHandler
 from handler.ManagerAddAdvertsHandler import ManagerAddAdvertsHandler
 
@@ -82,6 +84,7 @@ class CustomApplication(tornado.web.Application):
     def __init__(self, debug=False):
 
         settings = {
+            "template_path": os.path.join(os.path.dirname(__file__), "html"),
             "static_path": os.path.join(os.path.dirname(__file__), "static"),
             "cookie_secret": '61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=',
             "xsrf_cookies": True,
@@ -103,6 +106,8 @@ class CustomApplication(tornado.web.Application):
             (r'/update/user/cost', UpdateUserCostHandler),
             (r'/api/weichat/jscode2session', GetWeiChatSessionHandler),
             (r'/get/uid', GetUIDHandler),
+            (r'/wx/login', WxLoginHandler),
+            (r'/wx/send/msg', WxSendMsgHandler),
             (r'/manager/add/adverts', ManagerAddAdvertsHandler),
             (r'/manager/delete/cate/goods', ManagerDeleteCateAndGoodsHandler),
             (r"/.*", OtherHandler),
