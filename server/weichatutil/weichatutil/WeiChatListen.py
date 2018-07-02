@@ -30,7 +30,7 @@ def_port = '9091'
 class WeiChatListen:
 
     """
-    参考: doc [http://wxpy.readthedocs.io/zh/latest/_modules/wxpy/api/bot.html]
+    参考: doc [http://wxpy.readthedocs.io/zh/latest/_modules/wxpy/api/bot.html]   
     :param cache_path:
             * 设置当前会话的缓存路径，并开启缓存功能；为 `None` (默认) 则不开启缓存功能。
             * 开启缓存后可在短时间内避免重复扫码，缓存失效时会重新要求登陆。

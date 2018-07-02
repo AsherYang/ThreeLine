@@ -26,20 +26,20 @@ from mgrsys.NotifyAdmin import NotifyAdmin, SMS_SUBJECT_WX_LOGIN
 from util.LogUtil import LogUtil
 import threading
 
+# 静态页面，通过https://ffstore.oyfstore.com/static/qrcode/qrcode.png 访问
 def_qr_path = '/work/ffstore_server/ffstore/static/qrcode/qrcode.png'
 # def_qr_path = 'd:\\qrcode.png'
 # def_qr_path = '/Users/ouyangfan/qrcode.png'
 
 
 class WxBotUtil:
-    def __init__(self, scan_qr_callback=None, qr_code_path=def_qr_path):
+    def __init__(self, qr_code_path=def_qr_path):
         self.logging = LogUtil().getLogging()
         self.qr_code_path = def_qr_path
         self.call_times = 0
-        self.scan_qr_callback = scan_qr_callback
 
     def __call__(self, *args, **kwargs):
-        self.login_by_thread()
+        self.login()
 
     def login_callback(self):
         pass
@@ -57,10 +57,9 @@ class WxBotUtil:
         if self.call_times < 3:
             with open(self.qr_code_path, 'wb') as qr_file:
                 qr_file.write(qrcode)
+                qr_file.close()
             NotifyAdmin().sendMsg(u'请网页扫码登陆运维微信', subject=SMS_SUBJECT_WX_LOGIN)
             self.call_times = self.call_times + 1
-            if self.scan_qr_callback:
-                self.scan_qr_callback(self.qr_code_path)
 
     def login_by_thread(self):
         thr = threading.Thread(target=self.login)
