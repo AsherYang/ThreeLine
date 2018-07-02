@@ -26,6 +26,14 @@ op_success_desc = u'successfully'
 op_fail = '000002'
 op_fail_desc = u'操作失败'
 
+# 传递参数异常
+op_fail_api_args = '000003'
+op_fail_api_args_desc = u'参数错误'
+
+# 数据库操作失败
+op_fail_db_data = '000003'
+op_fail_db_data_desc = u'参数错误'
+
 # 无效用户电话号码
 invalid_user_phone = '200001'
 invalid_user_phone_desc = u'用户电话号码无效'
@@ -46,19 +54,26 @@ add_user_cost_error_desc = u'记录用户消费失败'
 fail_wx_session_key = '200100'
 fail_wx_session_key_desc = u'微信鉴权失败'
 
-fail_user_login = '200101'
+# 管理员登录后台成功
+success_user_login = '200111'
+success_user_login_desc = u'登录成功!'
+
+fail_user_login = '200112'
 fail_user_login_desc = u'用户名或者密码错误'
 
-fail_user_out_of_date = '200102'
+fail_user_out_of_date = '200113'
 fail_user_out_of_date_desc = u'登陆已过期'
 
-# 运维微信登陆失败, 请刷新后重试。关于运维微信与其他状态码并不在同一逻辑范围
-fail_wx_bot_login = '200103'
-fail_wx_bot_login_desc = u'运维微信登陆失败, 请刷新后重试'
+success_check_admin_permission = '200114'
+success_check_admin_permission_desc = u'管理员权限校验通过'
 
 # 非法的客户端(md5 校验不通过，出现此问题，需要立即封锁客户端，!!!此类属于危险操作!!!)
 illegal_md5_client = '200200'
 illegal_md5_client_desc = u'非法客户端, 警告, 你已被后台跟踪, 注意法律传单!'
+
+# 运维微信登陆失败, 请刷新后重试。关于运维微信与其他状态码并不在同一逻辑范围
+fail_wx_bot_login = '200500'
+fail_wx_bot_login_desc = u'运维微信登陆失败, 请刷新后重试'
 
 # 系统级错误
 sys_error = '999999'

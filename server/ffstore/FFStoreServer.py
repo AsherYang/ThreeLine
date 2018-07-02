@@ -109,6 +109,7 @@ class CustomApplication(tornado.web.Application):
             (r'/wx/login', WxLoginHandler),
             (r'/wx/send/msg', WxSendMsgHandler),
             (r'/manager/add/adverts', ManagerAddAdvertsHandler),
+            # (r'/manager/add/cate', ManagerAddCateHandler),
             (r'/manager/delete/cate/goods', ManagerDeleteCateAndGoodsHandler),
             (r"/.*", OtherHandler),
         ]
