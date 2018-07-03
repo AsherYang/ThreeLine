@@ -16,6 +16,7 @@ from db.AdminDao import AdminDao
 from constant import LoginStatus
 from util.DateUtil import DateUtil
 from RandomPwd import RandomPwd
+from mgrsys.NotifyAdmin import NotifyAdmin, SMS_SUBJECT_INVALID_ADMIN_LOGIN
 
 # 有效登录时长(1天)
 LOGIN_TIME_INTERVAL = 86400
@@ -26,6 +27,7 @@ class AdminManager:
     def __init__(self):
         self.adminDao = AdminDao()
         self.dateUtil = DateUtil()
+        self.notifyAdmin = NotifyAdmin()
 
     """
     登录
@@ -38,6 +40,8 @@ class AdminManager:
         login_status = self.checkLoginState(admin_tel, sms_pwd)
         if login_status == LoginStatus.STATUS_LOGIN_NO_ADMIN:
             # 警告！非法管理员操作
+            sms_msg = '%s : 正在登陆后台系统, 请注意检查! ' % admin_tel
+            self.notifyAdmin.sendMsg(sms_msg=sms_msg, subject=SMS_SUBJECT_INVALID_ADMIN_LOGIN)
             return False
         elif login_status == LoginStatus.STATUS_LOGIN_FAIL_PWD or login_status == LoginStatus.STATUS_LOGIN_OUT_OF_DATE:
             # 重新发送验证码到手机进行登录

@@ -22,6 +22,8 @@ from util.DateUtil import DateUtil
 SMS_SUBJECT_PWD = u'短信验证码'
 # 发送登录信息给超级管理员(我)
 SMS_SUBJECT_LOGIN = u'系统登录'
+# 发送非法客户端登陆信息给超级管理员(我)
+SMS_SUBJECT_INVALID_ADMIN_LOGIN = u'!! 非法客户端登陆 !!'
 # 运维报警微信登录
 SMS_SUBJECT_WX_LOGIN = u'运维微信登录'
 
