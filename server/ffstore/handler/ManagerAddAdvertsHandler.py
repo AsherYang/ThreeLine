@@ -19,7 +19,7 @@ from FFStoreJsonEncoder import *
 from net.GetAdverts import GetAdverts
 from net.NetAdverts import NetAdverts
 from util.DateUtil import DateUtil
-from ffstore.mgrsys.PermissionManager import PermissionManager
+from mgrsys.PermissionManager import PermissionManager
 
 
 """

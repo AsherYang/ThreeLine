@@ -17,6 +17,7 @@ from BaseResponse import BaseResponse
 from constant import ResponseCode
 from FFStoreJsonEncoder import *
 from net.GetGoods import GetGoods
+from util.MD5Util import MD5Util
 
 
 """
@@ -27,28 +28,35 @@ https://sujiefs.com//api/mall/searchGoodsList?page=1&size=10&searchKeyWords=&cat
 """
 class SearchGoodsListHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
+        sign = self.get_argument('sign')
+        time = self.get_argument('time')
         page = int(self.get_argument('page'))
         size = int(self.get_argument('size'))
         searchKeywords = self.get_argument('searchKeyWords')
         cateCode = self.get_argument('cateCode')
         sort = self.get_argument('sort')
         skuval = self.get_argument('skuval')
-        getGoods = GetGoods()
-        netSearchGoods = getGoods.getSearchGoodsList(searchKeywords, cateCode, skuval, page, size, sort)
         baseResponse = BaseResponse()
-        if netSearchGoods:
-            baseResponse.code = ResponseCode.op_success
-            baseResponse.desc = ResponseCode.op_success_desc
-            searchGoodsCount = getGoods.getGoodsCountByKeywords(searchKeywords, cateCode, skuval)
-            page_total = (searchGoodsCount / size) + (1 if searchGoodsCount % size > 0 else 0)
-            baseResponse.pageNum = page
-            baseResponse.pageSize = size
-            baseResponse.page_total = page_total
-            baseResponse.totalCount = searchGoodsCount
-            baseResponse.data = netSearchGoods
+        md5Util = MD5Util()
+        if sign == md5Util.md5Signature(time):
+            getGoods = GetGoods()
+            netSearchGoods = getGoods.getSearchGoodsList(searchKeywords, cateCode, skuval, page, size, sort)
+            if netSearchGoods:
+                baseResponse.code = ResponseCode.op_success
+                baseResponse.desc = ResponseCode.op_success_desc
+                searchGoodsCount = getGoods.getGoodsCountByKeywords(searchKeywords, cateCode, skuval)
+                page_total = (searchGoodsCount / size) + (1 if searchGoodsCount % size > 0 else 0)
+                baseResponse.pageNum = page
+                baseResponse.pageSize = size
+                baseResponse.page_total = page_total
+                baseResponse.totalCount = searchGoodsCount
+                baseResponse.data = netSearchGoods
+            else:
+                baseResponse.code = ResponseCode.op_fail
+                baseResponse.desc = ResponseCode.op_fail_desc
         else:
-            baseResponse.code = ResponseCode.op_fail
-            baseResponse.desc = ResponseCode.op_fail_desc
+            baseResponse.code = ResponseCode.fail_check_api_md5
+            baseResponse.desc = ResponseCode.fail_check_api_md5_desc
         json_str = json.dumps(baseResponse, cls=HostGoodsEncoder)
         self.write(json_str)
         pass

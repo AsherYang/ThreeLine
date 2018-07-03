@@ -51,7 +51,7 @@ class GetHomeDiscoverListHandler(tornado.web.RequestHandler):
                 for homeDiscover in homeDiscoverList:
                     baseResponse.append(homeDiscover)
         else:
-            baseResponse.code = ResponseCode.fail_user_login
-            baseResponse.desc = ResponseCode.fail_user_login_desc
+            baseResponse.code = ResponseCode.fail_check_api_md5
+            baseResponse.desc = ResponseCode.fail_check_api_md5_desc
         json_str = json.dumps(baseResponse, cls=HomeDiscoverEncoder)
         self.write(json_str)

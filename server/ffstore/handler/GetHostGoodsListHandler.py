@@ -15,7 +15,7 @@ import tornado.web
 from BaseResponse import BaseResponse
 from constant import ResponseCode
 from FFStoreJsonEncoder import *
-
+from util.MD5Util import MD5Util
 from net.GetGoods import GetGoods
 
 
@@ -28,26 +28,33 @@ https://sujiefs.com//api/home/hostGoodsList?page=1&size=10&cateCode=021&sort=1&s
 """
 class GetHostGoodsListHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
+        sign = self.get_argument('sign')
+        time = self.get_argument('time')
         page = int(self.get_argument('page'))
         size = int(self.get_argument('size'))
         cateCode = self.get_argument('cateCode')
         sort = int(self.get_argument('sort'))
         skuval = self.get_argument('skuval')
-        getGoods = GetGoods()
-        netHostGoods = getGoods.getHostGoods(cateCode, skuval, page, size, sort)
+        md5Util = MD5Util()
         baseResponse = BaseResponse()
-        if netHostGoods:
-            baseResponse.code = ResponseCode.op_success
-            baseResponse.desc = ResponseCode.op_success_desc
-            hostGoodsCount = getGoods.getGoodsCountByCate(cateCode, skuval)
-            page_total = (hostGoodsCount / size) + (1 if hostGoodsCount % size > 0 else 0)
-            baseResponse.pageNum = page
-            baseResponse.pageSize = size
-            baseResponse.page_total = page_total
-            baseResponse.totalCount = hostGoodsCount
-            baseResponse.data = netHostGoods
+        if sign == md5Util.md5Signature(time):
+            getGoods = GetGoods()
+            netHostGoods = getGoods.getHostGoods(cateCode, skuval, page, size, sort)
+            if netHostGoods:
+                baseResponse.code = ResponseCode.op_success
+                baseResponse.desc = ResponseCode.op_success_desc
+                hostGoodsCount = getGoods.getGoodsCountByCate(cateCode, skuval)
+                page_total = (hostGoodsCount / size) + (1 if hostGoodsCount % size > 0 else 0)
+                baseResponse.pageNum = page
+                baseResponse.pageSize = size
+                baseResponse.page_total = page_total
+                baseResponse.totalCount = hostGoodsCount
+                baseResponse.data = netHostGoods
+            else:
+                baseResponse.code = ResponseCode.op_fail
+                baseResponse.desc = ResponseCode.op_fail_desc
         else:
-            baseResponse.code = ResponseCode.op_fail
-            baseResponse.desc = ResponseCode.op_fail_desc
+            baseResponse.code = ResponseCode.fail_check_api_md5
+            baseResponse.desc = ResponseCode.fail_check_api_md5_desc
         json_str = json.dumps(baseResponse, cls=HostGoodsEncoder)
         self.write(json_str)

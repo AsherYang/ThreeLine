@@ -41,7 +41,7 @@ class GetAdvertslistHandler(tornado.web.RequestHandler):
             baseResponse.desc = ResponseCode.op_success_desc
             baseResponse.data = netAdvertsList
         else:
-            baseResponse.code = ResponseCode.fail_user_login
-            baseResponse.desc = ResponseCode.fail_user_login_desc
+            baseResponse.code = ResponseCode.fail_check_api_md5
+            baseResponse.desc = ResponseCode.fail_check_api_md5_desc
         json_str = json.dumps(baseResponse, cls=AdvertsEncoder)
         self.write(json_str)

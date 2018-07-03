@@ -32,8 +32,8 @@ class PermissionManager:
     def checkAdminPermission(self, sign, time, admin_tel, sms_pwd):
         baseResponse = BaseResponse()
         if sign is None or time is None or admin_tel is None or sms_pwd is None:
-            baseResponse.code = ResponseCode.op_fail_api_args
-            baseResponse.desc = ResponseCode.op_fail_api_args_desc
+            baseResponse.code = ResponseCode.fail_api_args
+            baseResponse.desc = ResponseCode.fail_api_args_desc
         else:
             md5Util = MD5Util(ADMIN_SECRET_KEY)
             adminMgr = AdminManager()
@@ -43,11 +43,11 @@ class PermissionManager:
                     baseResponse.code = ResponseCode.success_check_admin_permission
                     baseResponse.desc = ResponseCode.success_check_admin_permission_desc
                 elif login_status == LoginStatus.STATUS_LOGIN_OUT_OF_DATE:
-                    baseResponse.code = ResponseCode.fail_user_out_of_date
-                    baseResponse.desc = ResponseCode.fail_user_out_of_date_desc
+                    baseResponse.code = ResponseCode.fail_admin_out_of_date
+                    baseResponse.desc = ResponseCode.fail_admin_out_of_date_desc
                 else:
-                    baseResponse.code = ResponseCode.fail_user_login
-                    baseResponse.desc = ResponseCode.fail_user_login_desc
+                    baseResponse.code = ResponseCode.fail_admin_login
+                    baseResponse.desc = ResponseCode.fail_admin_login_desc
             else:
                 baseResponse.code = ResponseCode.illegal_md5_client
                 baseResponse.desc = ResponseCode.illegal_md5_client_desc

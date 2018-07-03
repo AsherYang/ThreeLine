@@ -22,17 +22,13 @@ from mgrsys.NotifyAdmin import NotifyAdmin
 from BaseResponse import BaseResponse
 from constant import ResponseCode
 from FFStoreJsonEncoder import *
-from util.LogUtil import LogUtil
+
 
 class WxSendMsgHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
         notify = NotifyAdmin()
-        logging = LogUtil().getLogging()
-        # logging.info('---> wx msg start <----- ')
         msg = self.get_argument('msg', default='test')
         receiver = self.get_argument('receiver', default='fan')
-        # logging.info('---> wx msg: ' + msg)
-        # logging.info('---> wx receiver: ' + receiver)
         notify.sendWxMsg(msg=msg, receiver=receiver)
         baseResponse = BaseResponse()
         baseResponse.code = ResponseCode.op_success

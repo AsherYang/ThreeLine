@@ -32,19 +32,18 @@ class SaveUserHandler(tornado.web.RequestHandler):
         user.user_name = userName
         user.user_tel = phone
         user.address = address
-        result = GetUser().operateUser2Db(user)
+
         baseResponse = BaseResponse()
-        if result:
-            baseResponse.code = ResponseCode.op_success
-            baseResponse.desc = ResponseCode.op_success_desc
-        elif not phone:
+        if not phone:
             baseResponse.code = ResponseCode.invalid_user_phone
             baseResponse.desc = ResponseCode.invalid_user_phone_desc
-        elif not address:
-            baseResponse.code = ResponseCode.invalid_user_address
-            baseResponse.desc = ResponseCode.invalid_user_address_desc
         else:
-            baseResponse.code = ResponseCode.update_user_info_error
-            baseResponse.desc = ResponseCode.update_user_info_error_desc
+            result = GetUser().operateUser2Db(user)
+            if result:
+                baseResponse.code = ResponseCode.op_success
+                baseResponse.desc = ResponseCode.op_success_desc
+            else:
+                baseResponse.code = ResponseCode.fail_update_user_info
+                baseResponse.desc = ResponseCode.fail_update_user_info_desc
         json_str = json.dumps(baseResponse, cls=StrEncoder)
         self.write(json_str)
