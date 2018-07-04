@@ -38,10 +38,11 @@ from handler.GetCategoryHandler import GetCategoryHandler
 from handler.WxLoginHandler import WxLoginHandler
 from handler.WxSendMsgHandler import WxSendMsgHandler
 from handler.ManagerAdminLoginHandler import ManagerAdminLoginHandler
-from handler.ManagerAddCateHandler import ManagerAddCateHandler
-from handler.ManagerDeleteCateAndGoodsHandler import ManagerDeleteCateAndGoodsHandler
 from handler.ManagerAddAdvertsHandler import ManagerAddAdvertsHandler
 from handler.ManagerDeleteAdvertsHandler import ManagerDeleteAdvertsHandler
+from handler.ManagerAddCateHandler import ManagerAddCateHandler
+from handler.ManagerDeleteCateAndGoodsHandler import ManagerDeleteCateAndGoodsHandler
+from handler.ManagerUpdateCateHandler import ManagerUpdateCateHandler
 
 
 define("debug", default=False, help='Set debug mode', type=bool)
