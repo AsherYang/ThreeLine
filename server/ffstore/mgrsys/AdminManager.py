@@ -47,28 +47,24 @@ class AdminManager:
             return False
         elif login_status == LoginStatus.STATUS_LOGIN_FAIL_PWD or login_status == LoginStatus.STATUS_LOGIN_OUT_OF_DATE:
             # 重新发送验证码到手机进行登录
+            # 获取此刻登录密码，并且已经先更新了数据库
             pwd = self.getSmsPwdAndSaveDb(admin_tel)
             if not pwd:
                 return False
-            # 获取此刻登陆密码
-            randomPwd = RandomPwd()
-            pwd = randomPwd.genPwd()
-            updateDbPwdResult = self.adminDao.updateSmsPwd(admin_tel=admin_tel, sms_pwd=pwd)
-            if updateDbPwdResult:
-                # 发送至当前管理员手机 , 发送短信验证码
-                day = LOGIN_TIME_INTERVAL / 24 / 60 / 60
-                hour = (LOGIN_TIME_INTERVAL - (day * 24 * 60 * 60)) / 60 / 60
-                min = LOGIN_TIME_INTERVAL - (day * 24 * 60 * 60) - (hour * 60 * 60)
-                inteval = ''
-                if day > 0:
-                    inteval = "%d 天 " % day
-                if hour > 0:
-                    inteval += "%d 时 " % hour
-                if min > 0:
-                    inteval += "%d 分" % min
-                sms_msg = '您的登陆密码为: %s, %s 内有效. ' % (pwd, inteval)
-                toEmailAddr = "%s@139.com" % admin_tel
-                self.notifyAdmin.sendMsg(sms_msg=sms_msg, toaddrs=[toEmailAddr], subject=SMS_SUBJECT_PWD)
+            # 发送短信验证码至当前管理员手机
+            day = LOGIN_TIME_INTERVAL / 24 / 60 / 60
+            hour = (LOGIN_TIME_INTERVAL - (day * 24 * 60 * 60)) / 60 / 60
+            min = LOGIN_TIME_INTERVAL - (day * 24 * 60 * 60) - (hour * 60 * 60)
+            inteval = ''
+            if day > 0:
+                inteval = "%d 天 " % day
+            if hour > 0:
+                inteval += "%d 时 " % hour
+            if min > 0:
+                inteval += "%d 分" % min
+            sms_msg = '您的登陆密码为: %s, %s 内有效。' % (pwd, inteval)
+            toEmailAddr = "%s@139.com" % admin_tel
+            self.notifyAdmin.sendMsg(sms_msg=sms_msg, toaddrs=[toEmailAddr], subject=SMS_SUBJECT_PWD)
             # 发送登陆信息给超级管理员(我)
             admin_sms_msg = '用户 {tel}|{pwd}({result})正在尝试登陆后台系统.'.format(tel=admin_tel, pwd=pwd, result=updateDbPwdResult)
             self.notifyAdmin.sendMsg(sms_msg=admin_sms_msg, subject=SMS_SUBJECT_LOGIN)

@@ -27,9 +27,10 @@ class PermissionManager:
     1. 先根据时间做一次md5 校验
     2. 再根据用户号码和密码做一次登录校验
     3. 最后校验登陆时效（第3与2步在adminMgr.checkLoginState中）
+    登录过的管理员才有操作权限
     @:return baseResponse 用于直接在 api 中返回
     """
-    def checkAdminPermission(self, sign, time, admin_tel, sms_pwd):
+    def checkAdminPermissionWithLoginStatus(self, sign, time, admin_tel, sms_pwd):
         baseResponse = BaseResponse()
         if sign is None or time is None or admin_tel is None or sms_pwd is None:
             baseResponse.code = ResponseCode.fail_api_args

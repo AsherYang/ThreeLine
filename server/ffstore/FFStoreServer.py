@@ -37,8 +37,11 @@ from handler.GetAdvertslistHandler import GetAdvertslistHandler
 from handler.GetCategoryHandler import GetCategoryHandler
 from handler.WxLoginHandler import WxLoginHandler
 from handler.WxSendMsgHandler import WxSendMsgHandler
+from handler.ManagerAdminLoginHandler import ManagerAdminLoginHandler
+from handler.ManagerAddCateHandler import ManagerAddCateHandler
 from handler.ManagerDeleteCateAndGoodsHandler import ManagerDeleteCateAndGoodsHandler
 from handler.ManagerAddAdvertsHandler import ManagerAddAdvertsHandler
+from handler.ManagerDeleteAdvertsHandler import ManagerDeleteAdvertsHandler
 
 
 define("debug", default=False, help='Set debug mode', type=bool)
@@ -108,9 +111,13 @@ class CustomApplication(tornado.web.Application):
             (r'/get/uid', GetUIDHandler),
             (r'/wx/login', WxLoginHandler),
             (r'/wx/send/msg', WxSendMsgHandler),
-            (r'/manager/add/adverts', ManagerAddAdvertsHandler),
-            # (r'/manager/add/cate', ManagerAddCateHandler),
-            (r'/manager/delete/cate/goods', ManagerDeleteCateAndGoodsHandler),
+            # 后台接口
+            (r'/manager/admin/login', ManagerAdminLoginHandler),
+            (r'/manager/adverts/add', ManagerAddAdvertsHandler),
+            (r'/manager/adverts/delete', ManagerDeleteAdvertsHandler),
+            (r'/manager/cate/add', ManagerAddCateHandler),
+            (r'/manager/cate/delete/goods', ManagerDeleteCateAndGoodsHandler),
+            (r'/manager/cate/update', ManagerUpdateCateHandler),
             (r"/.*", OtherHandler),
         ]
 

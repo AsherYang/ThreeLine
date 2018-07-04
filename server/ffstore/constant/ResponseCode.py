@@ -66,8 +66,8 @@ fail_check_api_md5_desc = u'操作失败'
 success_user_login = '200112'
 success_user_login_desc = u'登录成功!'
 
-# fail_user_login = '200113'
-# fail_user_login_desc = u'用户名或者密码错误'
+fail_cate_not_found = '200113'
+fail_cate_not_found_desc = u'未找到对应的商品分类'
 #
 # fail_user_out_of_date = '200114'
 # fail_user_out_of_date_desc = u'登陆已过期'

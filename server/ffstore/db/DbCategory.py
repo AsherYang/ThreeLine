@@ -9,9 +9,11 @@ Desc:   商品分类类
 
 _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 cate_id VARCHAR(50) NOT NULL UNIQUE,
-cate_code INT,
+cate_code INT NOT NULL UNIQUE,
+parent_code INT,
 cate_logo VARCHAR(200),
-cate_name VARCHAR(50)
+cate_name VARCHAR(50),
+cate_show_type VARCHAR(3) DEFAULT 0
 """
 
 
