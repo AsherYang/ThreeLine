@@ -30,7 +30,9 @@ class AdminDao:
 
     # 更新短信验证码
     def updateSmsPwd(self, admin_tel, sms_pwd):
-        update = 'update ffstore_admin set sms_pwd = "%s" where admin_tel = "%s"' % (sms_pwd, admin_tel)
+        current_time = DateUtil().getCurrentTimeStamp()
+        update = 'update ffstore_admin set sms_pwd = "%s", login_time = "%s" where admin_tel = "%s"' \
+                 % (sms_pwd, current_time, admin_tel)
         return DbUtil.update(update)
 
     # 更新登录时间(时间戳格式,秒级别)

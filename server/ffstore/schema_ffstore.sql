@@ -19,7 +19,7 @@ CREATE TABLE ffstore_user (
 -- 管理员表
 -- 后台管理员使用, 用于登陆, 操作商品等后台操作
 -- sms_pwd 短信验证码
--- login_time 上次登陆时间，用于过期校验
+-- login_time 上次登陆时间，用于过期校验, 时间戳
 -- 校验规则: MD5签名+短信验证码+登陆时间(过期无效)
 DROP TABLE IF EXISTS ffstore_admin;
 CREATE TABLE ffstore_admin (
