@@ -25,7 +25,7 @@ class GoodsDao:
         if isinstance(goods, DbGoods):
             insert = 'insert into ffstore_goods (goods_id, cate_id, brand_id, goods_name, market_price, ' \
                      'current_price, sale_count, stock_num, status, goods_code, goods_logo, thum_logo, keywords) ' \
-                     'values("%s", "%s", "%s", "%s", "%d", "%d", "%d", "%s" "%s", "%s", "%s", "%s")' \
+                     'values("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s" "%s", "%s", "%s", "%s", "%s")' \
                      % (goods.goods_id, goods.cate_id, goods.brand_id, goods.goods_name, goods.market_price,
                         goods.current_price, goods.sale_count, goods.stock_num, goods.status, goods.goods_code,
                         goods.goods_logo, goods.thum_logo, goods.keywords)
@@ -39,14 +39,23 @@ class GoodsDao:
         if isinstance(goods, DbGoods):
             if not goods.goods_id:
                 return False
-            update = 'update ffstore_goods set goods_name = "%s", market_price = "%s", current_price = "%s", ' \
-                     'sale_count = "%s", stock_num = "%s", status = "%s", goods_code = "%s", goods_logo = "%s", ' \
-                     'thum_logo = "%s", keywords = "%s" where goods_id = "%s"' \
-                     % (goods.goods_name, goods.market_price, goods.current_price, goods.sale_count, goods.stock_num,
-                        goods.status, goods.goods_code, goods.goods_logo, goods.thum_logo, goods.keywords,
-                        goods.goods_id)
+            update = 'update ffstore_goods set cate_id = "%s", brand_id = "%s", goods_name = "%s", market_price = "%s",' \
+                     ' current_price = "%s", sale_count = "%s", stock_num = "%s", status = "%s", goods_code = "%s",' \
+                     ' goods_logo = "%s", thum_logo = "%s", keywords = "%s" where goods_id = "%s"' \
+                     % (goods.cate_id, goods.brand_id, goods.goods_name, goods.market_price, goods.current_price,
+                        goods.sale_count, goods.stock_num, goods.status, goods.goods_code, goods.goods_logo,
+                        goods.thum_logo, goods.keywords, goods.goods_id)
             print 'update goods to db'
             return DbUtil.update(update)
+        return False
+
+    def saveOrUpdateToDb(self, goods):
+        if isinstance(goods, DbGoods):
+            dbGoods = self.queryGoodsByGoodsId(goods.goods_id)
+            if dbGoods:
+                return self.updateToDb(goods)
+            else:
+                return self.saveToDb(goods)
         return False
 
     # 更新商品状态{@see GoodsStatus}

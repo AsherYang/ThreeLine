@@ -25,16 +25,18 @@ from constant import CategoryShowType
 
 class ManagerAddCateHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
-        sign = self.get_argument('sign', '')
-        time = self.get_argument('time', '')
-        admin_tel = self.get_argument('tel', '')
-        sms_pwd = self.get_argument('sms', '')
+        param = self.request.body.decode('utf-8')
+        prarm = json.loads(param)
+        sign = prarm['sign']
+        time = prarm['time']
+        admin_tel = prarm['tel']
+        sms_pwd = prarm['sms']
 
-        cate_name = self.get_argument('catename')
-        cate_code = self.get_argument('catecode')
-        parent_code = self.get_argument('parentcode')
-        cate_show_type = self.get_argument('showtype', CategoryShowType.TYPE_SHOW_NORMAL)
-        cate_logo = self.get_argument('catelogo')
+        cate_name = prarm['catename']
+        cate_code = prarm['catecode']
+        parent_code = prarm['parentcode']
+        cate_show_type = prarm['showtype']
+        cate_logo = prarm['catelogo']
 
         permissionMgr = PermissionManager()
         baseResponse = permissionMgr.checkAdminPermissionWithLoginStatus(sign=sign, time=time,

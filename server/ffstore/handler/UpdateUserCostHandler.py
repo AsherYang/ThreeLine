@@ -23,8 +23,10 @@ from FFStoreJsonEncoder import *
 """
 class UpdateUserCostHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
-        phone = self.get_argument('phone', '')
-        cost = self.get_argument('cost_this_time', '')
+        param = self.request.body.decode('utf-8')
+        prarm = json.loads(param)
+        phone = prarm['phone']
+        cost = prarm['cost_this_time']
         result = GetUser().updateUserCost(phone, cost)
         # todo
         if result:

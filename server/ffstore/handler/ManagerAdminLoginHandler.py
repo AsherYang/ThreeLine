@@ -21,10 +21,12 @@ from mgrsys.PermissionManager import PermissionManager
 
 class ManagerAdminLoginHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
-        sign = self.get_argument('sign', '')
-        time = self.get_argument('time', '')
-        admin_tel = self.get_argument('tel', '')
-        sms_pwd = self.get_argument('sms', '')
+        param = self.request.body.decode('utf-8')
+        prarm = json.loads(param)
+        sign = prarm['sign']
+        time = prarm['time']
+        admin_tel = prarm['tel']
+        sms_pwd = prarm['sms']
 
         permissionMgr = PermissionManager()
         baseResponse = permissionMgr.checkAdminPermissionWithLoginStatus(sign=sign, time=time,

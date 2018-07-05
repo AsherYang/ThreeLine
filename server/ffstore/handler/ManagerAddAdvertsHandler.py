@@ -29,15 +29,17 @@ from mgrsys.PermissionManager import PermissionManager
 """
 class ManagerAddAdvertsHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
-        sign = self.get_argument('sign', '')
-        time = self.get_argument('time', '')
-        admin_tel = self.get_argument('tel', '')
-        sms_pwd = self.get_argument('sms', '')
+        param = self.request.body.decode('utf-8')
+        prarm = json.loads(param)
+        sign = prarm['sign']
+        time = prarm['time']
+        admin_tel = prarm['tel']
+        sms_pwd = prarm['sms']
 
-        advert_cate_id = self.get_argument('cate_id', '')
-        advert_title = self.get_argument('title', '')
-        advert_sort = self.get_argument('sort', -1)
-        advert_pic_url = self.get_argument('pic_url', '')
+        advert_cate_id = prarm['cate_id']
+        advert_title = prarm['title']
+        advert_sort = prarm['sort']
+        advert_pic_url = prarm['pic_url']
         getAdverts = GetAdverts()
         netAdverts = NetAdverts()
         netAdverts.title = advert_title

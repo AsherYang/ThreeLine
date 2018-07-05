@@ -43,6 +43,7 @@ from handler.ManagerDeleteAdvertsHandler import ManagerDeleteAdvertsHandler
 from handler.ManagerAddCateHandler import ManagerAddCateHandler
 from handler.ManagerDeleteCateAndGoodsHandler import ManagerDeleteCateAndGoodsHandler
 from handler.ManagerUpdateCateHandler import ManagerUpdateCateHandler
+from handler.ManagerAddGoodsHandler import ManagerAddGoodsHandler
 
 
 define("debug", default=False, help='Set debug mode', type=bool)
@@ -95,6 +96,7 @@ class CustomApplication(tornado.web.Application):
             "debug": debug,
         }
 
+        # 接口不以 restful 形式，是因为我想把他分开到不同的类里面处理，便于前后台分开调用。逻辑更清晰。
         handlers = [
             (r"/", MainHandler),
             (r'/push/msg', PushMsgHandler),
@@ -119,6 +121,7 @@ class CustomApplication(tornado.web.Application):
             (r'/manager/cate/add', ManagerAddCateHandler),
             (r'/manager/cate/delete/goods', ManagerDeleteCateAndGoodsHandler),
             (r'/manager/cate/update', ManagerUpdateCateHandler),
+            (r'/manager/goods/add', ManagerAddGoodsHandler),
             (r"/.*", OtherHandler),
         ]
 
