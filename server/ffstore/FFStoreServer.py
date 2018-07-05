@@ -44,6 +44,8 @@ from handler.ManagerAddCateHandler import ManagerAddCateHandler
 from handler.ManagerDeleteCateAndGoodsHandler import ManagerDeleteCateAndGoodsHandler
 from handler.ManagerUpdateCateHandler import ManagerUpdateCateHandler
 from handler.ManagerAddGoodsHandler import ManagerAddGoodsHandler
+from handler.ManagerDeleteGoodsHandler import ManagerDeleteGoodsHandler
+from handler.ManagerUpdateGoodsHandler import ManagerUpdateGoodsHandler
 
 
 define("debug", default=False, help='Set debug mode', type=bool)
@@ -122,6 +124,8 @@ class CustomApplication(tornado.web.Application):
             (r'/manager/cate/delete/goods', ManagerDeleteCateAndGoodsHandler),
             (r'/manager/cate/update', ManagerUpdateCateHandler),
             (r'/manager/goods/add', ManagerAddGoodsHandler),
+            (r'/manager/goods/delete', ManagerDeleteGoodsHandler),
+            (r'/manager/goods/update', ManagerUpdateGoodsHandler),
             (r"/.*", OtherHandler),
         ]
 

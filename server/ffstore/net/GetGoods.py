@@ -12,7 +12,7 @@ sys.path.append('../')
 
 from constant import GoodsSort
 from db.CategoryDao import CategoryDao
-from ffstore.db.GoodsDao import GoodsDao
+from db.GoodsDao import GoodsDao
 from db.BrandDao import BrandDao
 from db.AttributeDao import AttributeDao
 from db.GoodsPhotoDao import GoodsPhotoDao
@@ -153,6 +153,10 @@ class GetGoods:
     def saveOrUpdateToDb(self, goods):
         return self.goodsDao.saveOrUpdateToDb(goods=goods)
 
+    # 更新商品信息
+    def updateToDb(self, goods):
+        return self.goodsDao.updateToDb(goods=goods)
+
     # 删除分类，以及分类下的所有商品
     def deleteCateAndGoods(self, cate_id):
         if not cate_id:
@@ -161,6 +165,12 @@ class GetGoods:
         if deleteResult:
             return self.goodsDao.deleteByCateId(cate_id)
         return False
+
+    # 删除单个商品
+    def deleteByGoodsId(self, goods_id):
+        if not goods_id:
+            return False
+        return self.goodsDao.deleteByGoodsId(goods_id)
 
     # =========================== 转换开始 ===================================== #
 
