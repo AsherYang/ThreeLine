@@ -35,7 +35,7 @@ class NotifyAdmin:
     """
     发送短信通知
     """
-    def sendMsg(self, sms_msg, toaddrs=['13553831061@139.com'], subject='ffstore'):
+    def sendMsg(self, sms_msg, toaddrs=['oyf1991@126.com', '13553831061@139.com'], subject='ffstore'):
         sendEmail = SendEmail(toaddrs=toaddrs, subject=subject)
         thr = threading.Thread(target=sendEmail, args=[sms_msg])  # open new thread
         thr.start()
@@ -44,9 +44,11 @@ class NotifyAdmin:
     发送微信通知
     """
     def sendWxMsg(self, msg, receiver='Fan'):
-        # weichatSender = WeiChatSender(host='http://127.0.0.1', port='9091')
-        # weichatSender.sendMsg(msg, receiver=receiver)
-        pass
+        try:
+            weichatSender = WeiChatSender(host='http://127.0.0.1', port='9091')
+            weichatSender.sendMsg(msg, receiver=receiver)
+        except Exception as e:
+            print e
 
 if __name__ == '__main__':
     notify = NotifyAdmin()
