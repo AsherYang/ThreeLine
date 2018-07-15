@@ -44,8 +44,8 @@ class NotifyAdmin:
     发送微信通知
     """
     def sendWxMsg(self, msg, receiver='Fan'):
-        weichatSender = WeiChatSender(host='http://127.0.0.1', port='9091')
-        weichatSender.sendMsg(msg, receiver=receiver)
+        # weichatSender = WeiChatSender(host='http://127.0.0.1', port='9091')
+        # weichatSender.sendMsg(msg, receiver=receiver)
         pass
 
 if __name__ == '__main__':

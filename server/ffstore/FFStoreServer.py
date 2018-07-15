@@ -94,7 +94,7 @@ class CustomApplication(tornado.web.Application):
             "template_path": os.path.join(os.path.dirname(__file__), "html"),
             "static_path": os.path.join(os.path.dirname(__file__), "static"),
             "cookie_secret": '61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=',
-            "xsrf_cookies": True,
+            "xsrf_cookies": False,
             "debug": debug,
         }
 

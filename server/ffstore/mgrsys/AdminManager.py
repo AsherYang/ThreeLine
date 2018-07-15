@@ -41,7 +41,7 @@ class AdminManager:
         login_status = self.checkLoginState(admin_tel, sms_pwd)
         if login_status == LoginStatus.STATUS_LOGIN_NO_ADMIN:
             # 警告！非法管理员操作
-            sms_msg = '%s : 正在登陆后台系统, 请注意检查! ' % admin_tel
+            sms_msg = str(admin_tel) + u' 正在登陆后台系统, 请注意检查! '
             self.notifyAdmin.sendMsg(sms_msg=sms_msg, subject=SMS_SUBJECT_INVALID_ADMIN_LOGIN)
             self.notifyAdmin.sendWxMsg(msg=sms_msg)
             return False
