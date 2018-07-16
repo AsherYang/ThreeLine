@@ -18,44 +18,48 @@ Desc:   首页封面实体
 
 class NetDiscover:
     def __init__(self):
-        pass
+        self._id = None
+        self._code = None
+        self._logo = None
+        self._brand_name = None
+        self._attr_market_year = None
 
     @property
     def code(self):
-        return self.code
+        return self._code
 
-    @property
+    @code.setter
     def code(self, value):
-        self.code = value
+        self._code = value
 
     @property
     def logo(self):
-        return self.logo
+        return self._logo
 
-    @property
+    @logo.setter
     def logo(self, value):
-        self.logo = value
+        self._logo = value
 
     @property
     def id(self):
-        return self.id
+        return self._id
 
-    @property
+    @id.setter
     def id(self, value):
-        self.id = value
+        self._id = value
 
     @property
     def brand_name(self):
-        return self.brand_name
+        return self._brand_name
 
-    @property
+    @brand_name.setter
     def brand_name(self, value):
-        self.brand_name = value
+        self._brand_name = value
 
     @property
     def attr_market_year(self):
-        return self.attr_market_year
+        return self._attr_market_year
 
-    @property
+    @attr_market_year.setter
     def attr_market_year(self, value):
-        self.attr_market_year = value
+        self._attr_market_year = value

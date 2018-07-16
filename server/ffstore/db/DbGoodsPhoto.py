@@ -12,31 +12,34 @@ photo VARCHAR(200),
 thum_photo VARCHAR(200)
 """
 
+
 class DbGoodsPhoto:
 
     def __init__(self):
-        pass
+        self._goods_id = None
+        self._photo = None
+        self._thum_photo = None
 
     @property
     def goods_id(self):
-        return self.goods_id
+        return self._goods_id
 
-    @property
+    @goods_id.setter
     def goods_id(self, value):
-        self.goods_id = value
+        self._goods_id = value
 
     @property
     def photo(self):
-        return self.photo
+        return self._photo
 
-    @property
+    @photo.setter
     def photo(self, value):
-        self.photo = value
+        self._photo = value
 
     @property
     def thum_photo(self):
-        return self.thum_photo
+        return self._thum_photo
 
-    @property
+    @thum_photo.setter
     def thum_photo(self, value):
-        self.thum_photo = value
+        self._thum_photo = value

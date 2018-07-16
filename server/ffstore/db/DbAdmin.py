@@ -17,28 +17,30 @@ login_time VARCHAR(20)
 class DbAdmin:
 
     def __init__(self):
-        pass
+        self._admin_tel = None
+        self._sms_pwd = None
+        self._login_time = None
 
     @property
     def admin_tel(self):
-        return self.admin_tel
+        return self._admin_tel
 
-    @property
+    @admin_tel.setter
     def admin_tel(self, value):
-        self.admin_tel = value
+        self._admin_tel = value
 
     @property
     def sms_pwd(self):
-        return self.sms_pwd
+        return self._sms_pwd
 
-    @property
+    @sms_pwd.setter
     def sms_pwd(self, value):
-        self.sms_pwd = value
+        self._sms_pwd = value
 
     @property
     def login_time(self):
-        return self.login_time
+        return self._login_time
 
-    @property
+    @login_time.setter
     def login_time(self, value):
-        self.login_time = value
+        self._login_time = value

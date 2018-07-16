@@ -209,156 +209,174 @@ https://sujiefs.com//api/mall/goods?id=2c9257a16136c3d6016348cc332b5e5d&sign=d12
 
 class NetGoodsDetail:
     def __init__(self):
-        pass
+        self._id = None
+        self._dbAttrList = None
+        self._businessId = None
+        self._businessName = None
+        self._code = None
+        self._detailInfo = None
+        self._evaluateCount = None
+        self._logo = None
+        self._marketPrice = None
+        self._name = None
+        self._dbPhotoList = None
+        self._price = None
+        self._saleCount = None
+        self._shareAmount = None
+        self._shareTimes = None
+        self._shareTips = None
+        self._status = None
+        self._stockNum = None
+        self._thumLogo = None
 
     @property
     def id(self):
-        return self.id
+        return self._id
 
-    @property
+    @id.setter
     def id(self, value):
-        self.id = value
+        self._id = value
 
     @property
     def dbAttrList(self):
-        return self.dbAttrList
+        return self._dbAttrList
 
-    @property
+    @dbAttrList.setter
     def dbAttrList(self, value):
-        self.dbAttrList = value
+        self._dbAttrList = value
 
     @property
     def businessId(self):
-        return self.businessId
+        return self._businessId
 
-    @property
+    @businessId.setter
     def businessId(self, value):
-        self.businessId = value
+        self._businessId = value
 
     @property
     def businessName(self):
-        return self.businessName
+        return self._businessName
 
-    @property
+    @businessName.setter
     def businessName(self, value):
-        self.businessName = value
+        self._businessName = value
 
     @property
     def code(self):
-        return self.code
+        return self._code
 
-    @property
+    @code.setter
     def code(self, value):
-        self.code = value
+        self._code = value
 
     @property
     def detailInfo(self):
-        return self.detailInfo
+        return self._detailInfo
 
-    @property
+    @detailInfo.setter
     def detailInfo(self, value):
-        self.detailInfo = value
+        self._detailInfo = value
 
     @property
     def evaluateCount(self):
-        return self.evaluateCount
+        return self._evaluateCount
 
-    @property
+    @evaluateCount.setter
     def evaluateCount(self, value):
-        self.evaluateCount = value
+        self._evaluateCount = value
 
     @property
     def logo(self):
-        return self.logo
+        return self._logo
 
-    @property
+    @logo.setter
     def logo(self, value):
-        self.logo = value
+        self._logo = value
 
     @property
     def marketPrice(self):
-        return self.marketPrice
+        return self._marketPrice
 
-    @property
+    @marketPrice.setter
     def marketPrice(self, value):
-        self.marketPrice = value
+        self._marketPrice = value
 
     @property
     def name(self):
-        return self.name
+        return self._name
 
-    @property
+    @name.setter
     def name(self, value):
-        self.name = value
+        self._name = value
 
     @property
     def dbPhotoList(self):
-        return self.dbPhotoList
+        return self._dbPhotoList
 
-    @property
+    @dbPhotoList.setter
     def dbPhotoList(self, value):
-        self.dbPhotoList = value
+        self._dbPhotoList = value
 
     @property
     def price(self):
-        return self.price
+        return self._price
 
-    @property
+    @price.setter
     def price(self, value):
-        self.price = value
+        self._price = value
 
     @property
     def saleCount(self):
-        return self.saleCount
+        return self._saleCount
 
-    @property
+    @saleCount.setter
     def saleCount(self, value):
-        self.saleCount = value
+        self._saleCount = value
 
     @property
     def shareAmount(self):
-        return self.shareAmount
+        return self._shareAmount
 
-    @property
+    @shareAmount.setter
     def shareAmount(self, value):
-        self.shareAmount = value
+        self._shareAmount = value
 
     @property
     def shareTimes(self):
-        return self.shareTimes
+        return self._shareTimes
 
-    @property
+    @shareTimes.setter
     def shareTimes(self, value):
-        self.shareTimes = value
+        self._shareTimes = value
 
     @property
     def shareTips(self):
-        return self.shareTips
+        return self._shareTips
 
-    @property
+    @shareTips.setter
     def shareTips(self, value):
-        self.shareTips = value
+        self._shareTips = value
 
     @property
     def status(self):
-        return self.status
+        return self._status
 
-    @property
+    @status.setter
     def status(self, value):
-        self.status = value
+        self._status = value
 
     @property
     def stockNum(self):
-        return self.stockNum
+        return self._stockNum
 
-    @property
+    @stockNum.setter
     def stockNum(self, value):
-        self.stockNum = value
+        self._stockNum = value
 
     @property
     def thumLogo(self):
-        return self.thumLogo
+        return self._thumLogo
 
-    @property
+    @thumLogo.setter
     def thumLogo(self, value):
-        self.thumLogo = value
+        self._thumLogo = value

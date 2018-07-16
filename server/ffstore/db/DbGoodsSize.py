@@ -13,31 +13,34 @@ size_id VARCHAR(50),
 goods_size VARCHAR(5)
 """
 
+
 class DbGoodsSize:
 
     def __init__(self):
-        pass
+        self._goods_id = None
+        self._size_id = None
+        self._goods_size = None
 
     @property
     def goods_id(self):
-        return self.goods_id
+        return self._goods_id
 
-    @property
+    @goods_id.setter
     def goods_id(self, value):
-        self.goods_id = value
+        self._goods_id = value
 
     @property
     def size_id(self):
-        return self.size_id
+        return self._size_id
 
-    @property
+    @size_id.setter
     def size_id(self, value):
-        self.size_id = value
+        self._size_id = value
 
     @property
     def goods_size(self):
-        return self.goods_size
+        return self._goods_size
 
-    @property
+    @goods_size.setter
     def goods_size(self, value):
-        self.goods_size = value
+        self._goods_size = value

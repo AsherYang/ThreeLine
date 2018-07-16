@@ -18,45 +18,49 @@ foreign key (goods_id) references ffstore_goods(goods_id) on delete cascade on u
 
 class DbAttribute:
     def __init__(self):
-        pass
+        self._cate_id = None
+        self._goods_id = None
+        self._attr_market_year = None
+        self._attr_size = None
+        self._attr_color = None
 
     @property
     def cate_id(self):
-        return self.cate_id
+        return self._cate_id
 
-    @property
+    @cate_id.setter
     def cate_id(self, value):
-        self.cate_id = value
+        self._cate_id = value
 
     @property
     def goods_id(self):
-        return self.goods_id
+        return self._goods_id
 
-    @property
+    @goods_id.setter
     def goods_id(self, value):
-        self.goods_id = value
+        self._goods_id = value
 
     @property
     def attr_market_year(self):
-        return self.attr_market_year
+        return self._attr_market_year
 
-    @property
+    @attr_market_year.setter
     def attr_market_year(self, value):
-        self.attr_market_year = value
+        self._attr_market_year = value
 
     @property
     def attr_size(self):
-        return self.attr_size
+        return self._attr_size
 
-    @property
+    @attr_size.setter
     def attr_size(self, value):
-        self.attr_size = value
+        self._attr_size = value
 
     @property
     def attr_color(self):
-        return self.attr_color
+        return self._attr_color
 
-    @property
+    @attr_color.setter
     def attr_color(self, value):
-        self.attr_color = value
+        self._attr_color = value
 

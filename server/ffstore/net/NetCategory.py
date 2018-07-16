@@ -12,47 +12,51 @@ Desc:   网络返回分类
 class NetCategory:
 
     def __init__(self):
-        pass
+        self._id = None
+        self._code = None
+        self._parent_code = None
+        self._name = None
+        self._logo = None
 
     @property
     def id(self):
-        return self.id
+        return self._id
 
-    @property
+    @id.setter
     def id(self, value):
-        self.id = value
+        self._id = value
 
     @property
     def code(self):
-        return self.code
+        return self._code
 
-    @property
+    @code.setter
     def code(self, value):
-        self.code = value
+        self._code = value
 
     @property
     def parent_code(self):
-        return self.parent_code
+        return self._parent_code
 
-    @property
+    @parent_code.setter
     def parent_code(self, value):
-        self.parent_code = value
+        self._parent_code = value
 
     @property
     def name(self):
-        return self.name
+        return self._name
 
-    @property
+    @name.setter
     def name(self, value):
-        self.name = value
+        self._name = value
 
     @property
     def logo(self):
-        return self.logo
+        return self._logo
 
-    @property
+    @logo.setter
     def logo(self, value):
-        self.logo = value
+        self._logo = value
 
 
 

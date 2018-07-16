@@ -25,92 +25,102 @@ foreign key (user_id) references ffstore_user(user_id) on delete cascade on upda
 class DbOrder:
 
     def __init__(self):
-        pass
+        self._order_id = None
+        self._goods_id = None
+        self._user_id = None
+        self._order_goods_size = None
+        self._order_goods_color = None
+        self._order_goods_count = None
+        self._order_status = None
+        self._order_pay_time = None
+        self._order_update_time = None
+        self._order_express_num = None
+        self._order_express_code = None
 
     @property
     def order_id(self):
-        return self.order_id
+        return self._order_id
 
-    @property
+    @order_id.setter
     def order_id(self, value):
-        self.order_id = value
+        self._order_id = value
 
     @property
     def goods_id(self):
-        return self.goods_id
+        return self._goods_id
 
-    @property
+    @goods_id.setter
     def goods_id(self, value):
-        self.goods_id = value
+        self._goods_id = value
 
     @property
     def user_id(self):
-        return self.user_id
+        return self._user_id
 
-    @property
+    @user_id.setter
     def user_id(self, value):
-        self.user_id = value
+        self._user_id = value
 
     @property
     def order_goods_size(self):
-        return self.order_goods_size
+        return self._order_goods_size
 
-    @property
+    @order_goods_size.setter
     def order_goods_size(self, value):
-        self.order_goods_size = value
+        self._order_goods_size = value
 
     @property
     def order_goods_color(self):
-        return self.order_goods_color
+        return self._order_goods_color
 
-    @property
+    @order_goods_color.setter
     def order_goods_color(self, value):
-        self.order_goods_color = value
+        self._order_goods_color = value
 
     @property
     def order_goods_count(self):
-        return self.order_goods_count
+        return self._order_goods_count
 
-    @property
+    @order_goods_count.setter
     def order_goods_count(self, value):
-        self.order_goods_count = value
+        self._order_goods_count = value
 
     @property
     def order_status(self):
-        return self.order_status
+        return self._order_status
 
-    @property
+    @order_status.setter
     def order_status(self, value):
-        self.order_status = value
+        self._order_status = value
 
     @property
     def order_pay_time(self):
-        return self.order_pay_time
+        return self._order_pay_time
 
-    @property
+    @order_pay_time.setter
     def order_pay_time(self, value):
-        self.order_pay_time = value
+        self._order_pay_time = value
 
     @property
     def order_update_time(self):
-        return self.order_update_time
+        return self._order_update_time
 
-    @property
+    @order_update_time.setter
     def order_update_time(self, value):
-        self.order_update_time = value
+        self._order_update_time = value
 
     @property
     def order_express_num(self):
-        return self.order_express_num
+        return self._order_express_num
 
-    @property
+    @order_express_num.setter
     def order_express_num(self, value):
-        self.order_express_num = value
+        self._order_express_num = value
 
     @property
     def order_express_code(self):
-        return self.order_express_code
+        return self._order_express_code
 
-    @property
+    @order_express_code.setter
     def order_express_code(self, value):
-        self.order_express_code = value
+        self._order_express_code = value

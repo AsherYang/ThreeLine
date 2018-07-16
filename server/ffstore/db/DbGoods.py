@@ -25,108 +25,120 @@ keywords VARCHAR(200)
 class DbGoods:
 
     def __init__(self):
-        pass
+        self._goods_id = None
+        self._cate_id = None
+        self._brand_id = None
+        self._goods_name = None
+        self._market_price = None
+        self._current_price = None
+        self._sale_count = None
+        self._stock_num = None
+        self._status = None
+        self._goods_code = None
+        self._goods_logo = None
+        self._thum_logo = None
+        self._keywords = None
 
     @property
     def goods_id(self):
-        return self.goods_id
+        return self._goods_id
 
-    @property
+    @goods_id.setter
     def goods_id(self, value):
-        self.goods_id = value
+        self._goods_id = value
 
     @property
     def cate_id(self):
-        return self.cate_id
+        return self._cate_id
 
-    @property
+    @cate_id.setter
     def cate_id(self, value):
-        self.cate_id = value
+        self._cate_id = value
 
     @property
     def brand_id(self):
-        return self.brand_id
+        return self._brand_id
 
-    @property
+    @brand_id.setter
     def brand_id(self, value):
-        self.brand_id = value
+        self._brand_id = value
 
     @property
     def goods_name(self):
-        return self.goods_name
+        return self._goods_name
 
-    @property
+    @goods_name.setter
     def goods_name(self, value):
-        self.goods_name = value
+        self._goods_name = value
 
     @property
     def market_price(self):
-        return self.market_price
+        return self._market_price
 
-    @property
+    @market_price.setter
     def market_price(self, value):
-        self.market_price = value
+        self._market_price = value
 
     @property
     def current_price(self):
-        return self.current_price
+        return self._current_price
 
-    @property
+    @current_price.setter
     def current_price(self, value):
-        self.current_price = value
+        self._current_price = value
 
     @property
     def sale_count(self):
-        return self.sale_count
+        return self._sale_count
 
-    @property
+    @sale_count.setter
     def sale_count(self, value):
-        self.sale_count = value
+        self._sale_count = value
 
     @property
     def stock_num(self):
-        return self.stock_num
+        return self._stock_num
 
-    @property
+    @stock_num.setter
     def stock_num(self, value):
-        self.stock_num = value
+        self._stock_num = value
 
     @property
     def status(self):
-        return self.status
+        return self._status
 
-    @property
+    @status.setter
     def status(self, value):
-        self.status = value
+        self._status = value
 
     @property
     def goods_code(self):
-        return self.goods_code
+        return self._goods_code
 
-    @property
+    @goods_code.setter
     def goods_code(self, value):
-        self.goods_code = value
+        self._goods_code = value
 
     @property
     def goods_logo(self):
-        return self.goods_logo
+        return self._goods_logo
 
-    @property
+    @goods_logo.setter
     def goods_logo(self, value):
-        self.goods_logo = value
+        self._goods_logo = value
 
     @property
     def thum_logo(self):
-        return self.thum_logo
+        return self._thum_logo
 
-    @property
+    @thum_logo.setter
     def thum_logo(self, value):
-        self.thum_logo = value
+        self._thum_logo = value
 
     @property
     def keywords(self):
-        return self.keywords
+        return self._keywords
 
-    @property
+    @keywords.setter
     def keywords(self, value):
-        self.keywords = value
+        self._keywords = value

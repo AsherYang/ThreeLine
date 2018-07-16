@@ -15,28 +15,30 @@ brand_logo VARCHAR(200)
 class DbBrand:
 
     def __init__(self):
-        pass
+        self._brand_id = None
+        self._brand_name = None
+        self._brand_logo = None
 
     @property
     def brand_id(self):
-        return self.brand_id
+        return self._brand_id
 
-    @property
+    @brand_id.setter
     def brand_id(self, value):
-        self.brand_id = value
+        self._brand_id = value
 
     @property
     def brand_name(self):
-        return self.brand_name
+        return self._brand_name
 
-    @property
+    @brand_name.setter
     def brand_name(self, value):
-        self.brand_name = value
+        self._brand_name = value
 
     @property
     def brand_logo(self):
-        return self.brand_logo
+        return self._brand_logo
 
-    @property
+    @brand_logo.setter
     def brand_logo(self, value):
-        self.brand_logo = value
+        self._brand_logo = value

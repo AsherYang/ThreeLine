@@ -36,31 +36,33 @@ https://sujiefs.com//api/home/hostGoodsList?page=1&size=10&cateCode=021&sort=1&s
 class NetHostGoods:
 
     def __init__(self):
-        pass
+        self._dbCategory = None
+        self._dbGoodsList = None
+        self._dbBrandList = None
 
     @property
     def dbCategory(self):
-        return self.dbCategory
+        return self._dbCategory
 
-    @property
+    @dbCategory.setter
     def dbCategory(self, value):
-        self.dbCategory = value
+        self._dbCategory = value
 
     @property
     def dbGoodsList(self):
-        return self.dbGoodsList
+        return self._dbGoodsList
 
-    @property
+    @dbGoodsList.setter
     def dbGoodsList(self, value):
-        self.dbGoodsList = value
+        self._dbGoodsList = value
 
     @property
     def dbBrandList(self):
-        return self.dbBrandList
+        return self._dbBrandList
 
-    @property
+    @dbBrandList.setter
     def dbBrandList(self, value):
-        self.dbBrandList = value
+        self._dbBrandList = value
 
     # append to data,
     # @see http://stackoverflow.com/questions/16380575/python-decorating-property-setter-with-list

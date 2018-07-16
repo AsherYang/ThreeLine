@@ -18,6 +18,7 @@ from constant import LoginStatus
 from util.DateUtil import DateUtil
 from RandomPwd import RandomPwd
 from mgrsys.NotifyAdmin import *
+from util.LogUtil import LogUtil
 
 # 有效登录时长(1天)
 LOGIN_TIME_INTERVAL = 86400
@@ -28,6 +29,7 @@ class AdminManager:
         self.adminDao = AdminDao()
         self.dateUtil = DateUtil()
         self.notifyAdmin = NotifyAdmin()
+        self.logging = LogUtil().getLogging()
 
     """
     登录
@@ -50,6 +52,7 @@ class AdminManager:
             # 获取此刻登录密码，并且已经先更新了数据库
             pwd = self.getSmsPwdAndSaveDb(admin_tel)
             if not pwd:
+                # 这里是因为数据库没有插入成功, 或者验证码未生成, 无法发送验证码给管理员
                 return False
             # 发送短信验证码至当前管理员手机
             day = LOGIN_TIME_INTERVAL / 24 / 60 / 60
@@ -62,13 +65,14 @@ class AdminManager:
                 inteval += "%d 时 " % hour
             if min > 0:
                 inteval += "%d 分" % min
-            sms_msg = '您的登陆密码为: %s, %s 内有效。' % (pwd, inteval)
+            sms_msg = '您的登陆密码为: %s, %s内有效。' % (pwd, inteval)
             toEmailAddr = "%s@139.com" % admin_tel
             self.notifyAdmin.sendMsg(sms_msg=sms_msg, toaddrs=[toEmailAddr], subject=SMS_SUBJECT_PWD)
             # 发送登陆信息给超级管理员(我)
-            admin_sms_msg = '用户 {tel}|{pwd}({result})正在尝试登陆后台系统.'.format(tel=admin_tel, pwd=pwd, result=updateDbPwdResult)
-            self.notifyAdmin.sendMsg(sms_msg=admin_sms_msg, subject=SMS_SUBJECT_LOGIN)
+            admin_sms_msg = '用户 {tel}|{pwd}正在尝试登陆后台系统.'.format(tel=admin_tel, pwd=pwd)
+            # 先发送微信，再发短信
             self.notifyAdmin.sendWxMsg(msg=admin_sms_msg)
+            self.notifyAdmin.sendMsg(sms_msg=admin_sms_msg, subject=SMS_SUBJECT_LOGIN)
             # 需要重新登录, 所以返回false
             return False
         elif login_status == LoginStatus.STATUS_LOGIN_SUCCESS:
@@ -107,9 +111,11 @@ class AdminManager:
         dbAdmin = self.getAdminByTelAndPwd(admin_tel, sms_pwd)
         if not dbAdmin:
             return LoginStatus.STATUS_LOGIN_FAIL_PWD
-        dbLoginTime = dbAdmin.login_time
+        dbLoginTime = None
+        if dbAdmin.login_time:
+            dbLoginTime = int(float(dbAdmin.login_time))
         currentTime = self.dateUtil.getCurrentTimeStamp()
-        if not dbLoginTime or dbLoginTime + LOGIN_TIME_INTERVAL <= currentTime:
+        if not dbLoginTime or dbLoginTime + LOGIN_TIME_INTERVAL <= int(float(currentTime)):
             return LoginStatus.STATUS_LOGIN_OUT_OF_DATE
         return LoginStatus.STATUS_LOGIN_SUCCESS
 
@@ -155,12 +161,16 @@ class AdminManager:
     def convertDbRow2Admin(self, dbAdminRowsResult):
         if not dbAdminRowsResult:
             return None
+        # self.logging.info('------------------>')
+        # self.logging.info(dbAdminRowsResult)
+        # self.logging.info('<------------------>')
         dbAdmin = DbAdmin()
-        row_id = dbAdminRowsResult[0]
-        dbAdmin.admin_name = dbAdminRowsResult[1]
-        dbAdmin.sms_pwd = dbAdminRowsResult[2]
-        dbAdmin.admin_tel = dbAdminRowsResult[3]
-        dbAdmin.login_time = dbAdminRowsResult[4]
+        # single admin
+        dbSingleRow = dbAdminRowsResult[0]
+        row_id = dbSingleRow['_id']
+        dbAdmin.admin_tel = dbSingleRow['admin_tel']
+        dbAdmin.sms_pwd = dbSingleRow['sms_pwd']
+        dbAdmin.login_time = dbSingleRow['login_time']
         return dbAdmin
 
         # =========================== 转换结束 ===================================== #

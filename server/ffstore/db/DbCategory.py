@@ -19,52 +19,57 @@ cate_show_type VARCHAR(3) DEFAULT 0
 
 class DbCategory:
     def __init__(self):
-        pass
+        self._cate_id = None
+        self._cate_code = None
+        self._parent_code = None
+        self._cate_logo = None
+        self._cate_name = None
+        self._cate_show_type = None
 
     @property
     def cate_id(self):
-        return self.cate_id
+        return self._cate_id
 
-    @property
+    @cate_id.setter
     def cate_id(self, value):
-        self.cate_id = value
+        self._cate_id = value
 
     @property
     def cate_code(self):
-        return self.cate_code
+        return self._cate_code
 
-    @property
+    @cate_code.setter
     def cate_code(self, value):
-        self.cate_code = value
+        self._cate_code = value
 
     @property
     def parent_code(self):
-        return self.parent_code
+        return self._parent_code
 
-    @property
+    @parent_code.setter
     def parent_code(self, value):
-        self.parent_code = value
+        self._parent_code = value
 
     @property
     def cate_logo(self):
-        return self.cate_logo
+        return self._cate_logo
 
-    @property
+    @cate_logo.setter
     def cate_logo(self, value):
-        self.cate_logo = value
+        self._cate_logo = value
 
     @property
     def cate_name(self):
-        return self.cate_name
+        return self._cate_name
 
-    @property
+    @cate_name.setter
     def cate_name(self, value):
-        self.cate_name = value
+        self._cate_name = value
 
     @property
     def cate_show_type(self):
-        return self.cate_show_type
+        return self._cate_show_type
 
-    @property
+    @cate_show_type.setter
     def cate_show_type(self, value):
-        self.cate_show_type = value
+        self._cate_show_type = value

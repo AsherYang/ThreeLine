@@ -11,52 +11,57 @@ Desc  : 广告(banner)类
 
 class DbAdverts:
     def __init__(self):
-        pass
+        self._advert_id = None
+        self._cate_id = None
+        self._title = None
+        self._pic_url = None
+        self._sort = None
+        self._create_time = None
 
     @property
     def advert_id(self):
-        return self.advert_id
+        return self._advert_id
 
-    @property
+    @advert_id.setter
     def advert_id(self, value):
-        self.advert_id = value
+        self._advert_id = value
 
     @property
     def cate_id(self):
-        return self.cate_id
+        return self._cate_id
 
-    @property
+    @cate_id.setter
     def cate_id(self, value):
-        self.cate_id = value
+        self._cate_id = value
 
     @property
     def title(self):
-        return self.title
+        return self._title
 
-    @property
+    @title.setter
     def title(self, value):
-        self.title = value
+        self._title = value
 
     @property
     def pic_url(self):
-        return self.pic_url
+        return self._pic_url
 
-    @property
+    @pic_url.setter
     def pic_url(self, value):
-        self.pic_url = value
+        self._pic_url = value
 
     @property
     def sort(self):
-        return self.sort
+        return self._sort
 
-    @property
+    @sort.setter
     def sort(self, value):
-        self.sort = value
+        self._sort = value
 
     @property
     def create_time(self):
-        return self.create_time
+        return self._create_time
 
-    @property
+    @create_time.setter
     def create_time(self, value):
-        self.create_time = value
+        self._create_time = value
