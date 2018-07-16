@@ -34,8 +34,9 @@ class NotifyAdmin:
 
     """
     发送短信通知
+    ['oyf1991@126.com', '13553831061@139.com']
     """
-    def sendMsg(self, sms_msg, toaddrs=['oyf1991@126.com', '13553831061@139.com'], subject='ffstore'):
+    def sendMsg(self, sms_msg, toaddrs=['13553831061@139.com'], subject='ffstore'):
         sendEmail = SendEmail(toaddrs=toaddrs, subject=subject)
         thr = threading.Thread(target=sendEmail, args=[sms_msg])  # open new thread
         thr.start()
