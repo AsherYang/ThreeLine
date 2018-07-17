@@ -10,21 +10,21 @@ Desc  : 广告(banner)数据库操作
 
 from util import DbUtil
 from util.DateUtil import DateUtil
-
+from util.LogUtil import LogUtil
 from DbAdverts import DbAdverts
 
 
 class AdvertsDao:
     def __init__(self):
         self.dateUtil = DateUtil()
+        self.logging = LogUtil().getLogging()
 
     def saveToDb(self, advert):
         if isinstance(advert, DbAdverts):
-            currentTime = self.dateUtil.getCurrentTime()
-            insert = 'insert into ffstore_adverts (advert_id, cate_id, title, pic_url, sort, create_time)' \
-                     ' values("%s", "%s", "%s", "%s", "%d", "%s")' \
+            currentTime = str(self.dateUtil.getCurrentTime())
+            insert = 'insert into ffstore_adverts (advert_id, cate_id, title, pic_url, sort, create_time) ' \
+                     'values("%s", "%s", "%s", "%s", "%s", "%s") ' \
                      % (advert.advert_id, advert.cate_id, advert.title, advert.pic_url, advert.sort, currentTime)
-            print 'insert advert to db.'
             return DbUtil.insert(insert)
         return False
 
@@ -34,7 +34,7 @@ class AdvertsDao:
                 return False
             else:
                 currentTime = self.dateUtil.getCurrentTime()
-                update = 'update ffstore_adverts set cate_id = "%s", title = "%s", pic_url="%s", sort="%d",' \
+                update = 'update ffstore_adverts set cate_id = "%s", title = "%s", pic_url="%s", sort="%s",' \
                          ' create_time="%s" where advert_id = "%s" ' \
                          % (advert.cate_id, advert.title, advert.pic_url, advert.sort, currentTime,
                             advert.advert_id)
@@ -47,7 +47,7 @@ class AdvertsDao:
             if not advert.sort:
                 return False
             else:
-                update = 'update ffstore_adverts set sort="%d" where advert_id = "%s" ' % (
+                update = 'update ffstore_adverts set sort="%s" where advert_id = "%s" ' % (
                     advert.sort, advert.advert_id)
                 return DbUtil.update(update)
         return False

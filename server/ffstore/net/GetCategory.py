@@ -57,7 +57,7 @@ class GetCategory:
     """
     def saveCategoryToDb(self, category=None):
         print '--- saveCategoryToDb start ---'
-        if category is None or len(category) == 0:
+        if category is None:
             print "category is None could not save to db."
             return False
         return self.cateDao.saveOrUpdateToDb(category)

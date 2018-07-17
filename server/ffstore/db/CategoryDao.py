@@ -22,7 +22,7 @@ class CategoryDao:
     def saveToDb(self, cate):
         if isinstance(cate, DbCategory):
             insert = 'insert into ffstore_category (cate_id, cate_code, parent_code, cate_logo, cate_name, cate_show_type)' \
-                     ' values("%s", "%d", "%d", "%s", "%s", "%s")' \
+                     ' values("%s", "%s", "%s", "%s", "%s", "%s")' \
                      % (cate.cate_id, cate.cate_code, cate.parent_code, cate.cate_logo, cate.cate_name, cate.cate_show_type)
             print 'insert category to db.'
             return DbUtil.insert(insert)

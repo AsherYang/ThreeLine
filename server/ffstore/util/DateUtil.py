@@ -11,13 +11,13 @@ Desc:   时间工具类
 import datetime
 import time
 
-class DateUtil:
 
+class DateUtil:
     def __init__(self):
         pass
 
     def getCurrentTime(self):
-        return datetime.datetime.now()
+        return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     # 管理员校验时效，超时使用的是时间戳形式
     def getCurrentTimeStamp(self):

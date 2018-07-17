@@ -12,7 +12,7 @@ from db.DbAdverts import DbAdverts
 from db.CategoryDao import CategoryDao
 from net.NetAdverts import NetAdverts
 from util.GenerateIDUtil import GenerateIDUtil
-
+from util.LogUtil import LogUtil
 
 adverts_url_prefix = '/pages/home_detail?code='
 
@@ -21,6 +21,7 @@ class GetAdverts:
     def __init__(self):
         self.advertDao = AdvertsDao()
         self.cateDao = CategoryDao()
+        self.logging = LogUtil().getLogging()
         pass
 
     """
@@ -50,6 +51,7 @@ class GetAdverts:
             return False
         if cate_id:
             cateResult = self.cateDao.queryCateById(cate_id)
+            # cate 不存在
             if not cateResult:
                 return False
         dbAdverts = self.convert2DbAdverts(netAdverts, cate_id)
@@ -114,17 +116,17 @@ class GetAdverts:
             return None
         if isinstance(netAdverts, NetAdverts):
             dbAdvert = DbAdverts()
-            dbAdvert.sort = netAdverts.sort
-            dbAdvert.title = netAdverts.title
-            dbAdvert.create_time = netAdverts.createTime
-            dbAdvert.pic_url = netAdverts.picUrl
+            dbAdvert.sort = str(netAdverts.sort)
+            dbAdvert.title = str(netAdverts.title.encode('utf-8'))
+            dbAdvert.create_time = str(netAdverts.createTime)
+            dbAdvert.pic_url = str(netAdverts.picUrl)
             if netAdverts.id:
-                dbAdvert.advert_id = netAdverts.id
+                dbAdvert.advert_id = str(netAdverts.id)
             else:
                 genIdUtil = GenerateIDUtil()
-                dbAdvert.advert_id = genIdUtil.getUID()
+                dbAdvert.advert_id = str(genIdUtil.getUID())
             if cate_id:
-                dbAdvert.cate_id = cate_id
+                dbAdvert.cate_id = str(cate_id)
             return dbAdvert
         return None
 

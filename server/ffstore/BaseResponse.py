@@ -14,6 +14,9 @@ pageSize   : 分页时，每页大小
 page_total : 分页时，分页总数
 totalCount : 分页时，数据总量
 data       : 返回的具体数据
+
+{u'code': u'000001', u'result': u'\u606d\u559c! \u7cfb\u7edf\u767b\u9646\u6210\u529f.', u'desc': u'successfully'}
+{u'code': u'000101', u'result': [u' '], u'desc': u'\u6570\u636e\u64cd\u4f5c\u5931\u8d25'}
 """
 from constant import ResponseCode
 

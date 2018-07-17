@@ -26,7 +26,7 @@ CREATE TABLE ffstore_admin (
     _id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     admin_tel VARCHAR(20) NOT NULL UNIQUE,
     sms_pwd VARCHAR(50),
-    login_time VARCHAR(20)
+    login_time VARCHAR(30)
 );
 
 -- 商品表，基础表
@@ -129,8 +129,8 @@ CREATE TABLE ffstore_order (
     order_goods_color VARCHAR(10),
     order_goods_count VARCHAR(5),
     order_status VARCHAR(10),
-    order_pay_time VARCHAR(20),
-    order_update_time VARCHAR(20),
+    order_pay_time VARCHAR(30),
+    order_update_time VARCHAR(30),
     order_express_num VARCHAR(50),
     order_express_code VARCHAR(15),
     foreign key (user_id) references ffstore_user(user_id) on delete cascade on update cascade
@@ -157,6 +157,6 @@ CREATE TABLE ffstore_adverts (
     title VARCHAR(50),
     pic_url VARCHAR(200),
     sort VARCHAR(5),
-    create_time VARCHAR(20),
+    create_time VARCHAR(30),
     foreign key (cate_id) references ffstore_category(cate_id) on delete cascade on update cascade
 );
