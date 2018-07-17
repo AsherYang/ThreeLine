@@ -128,13 +128,14 @@ class GetCategory:
         if not dbCateRowResult:
             return None
         category = DbCategory()
-        row_id = dbCateRowResult[0]
-        cate_id = dbCateRowResult[1]
-        cate_code = dbCateRowResult[2]
-        parent_code = dbCateRowResult[3]
-        cate_logo = dbCateRowResult[4]
-        cate_name = dbCateRowResult[5]
-        cate_show_type = dbCateRowResult[6]
+        dbSingleRow = dbCateRowResult[0]
+        row_id = dbSingleRow['_id']
+        cate_id = dbSingleRow['cate_id']
+        cate_code = dbSingleRow['cate_code']
+        parent_code = dbSingleRow['parent_code']
+        cate_logo = dbSingleRow['cate_logo']
+        cate_name = dbSingleRow['cate_name']
+        cate_show_type = dbSingleRow['cate_show_type']
         category.cate_id = cate_id
         category.cate_code = cate_code
         category.parent_code = parent_code

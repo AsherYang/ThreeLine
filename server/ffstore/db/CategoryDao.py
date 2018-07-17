@@ -32,15 +32,11 @@ class CategoryDao:
         if isinstance(cate, DbCategory):
             if not cate.cate_id:
                 return False
-            if not cate.cate_logo:
-                return self.updateNameToDb(cate)
-            elif not cate.cate_name:
-                return self.updateLogoToDb(cate)
-            else:
-                update = 'update ffstore_category set cate_logo = "%s", cate_name = "%s" where cate_code = "%s" ' \
-                         % (cate.cate_logo, cate.cate_name, cate.cate_code)
-                print 'update category logo and name to db'
-                return DbUtil.update(update)
+            update = 'update ffstore_category set parent_code = "%s", cate_name = "%s", cate_logo = "%s", ' \
+                     'cate_show_type = "%s" where cate_code = "%s" ' \
+                     % (cate.parent_code, cate.cate_name, cate.cate_logo, cate.cate_show_type, cate.cate_code)
+            print 'update category to db'
+            return DbUtil.update(update)
         return False
 
     # 更新category log

@@ -50,8 +50,7 @@ class ManagerUpdateCateHandler(tornado.web.RequestHandler):
                     dbCate.parent_code = parent_code
                 if cate_name:
                     dbCate.cate_name = cate_name
-                if cate_show_type:
-                    dbCate.cate_show_type = cate_show_type
+                dbCate.cate_show_type = cate_show_type
                 if cate_logo:
                     dbCate.cate_logo = cate_logo
                 updateResult = getCate.updateCategoryToDb(category=dbCate)
