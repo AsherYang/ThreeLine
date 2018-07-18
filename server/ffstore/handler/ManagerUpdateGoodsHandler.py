@@ -24,11 +24,11 @@ from net.GetGoods import GetGoods
 class ManagerUpdateGoodsHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
         param = self.request.body.decode('utf-8')
-        prarm = json.loads(param)
-        sign = prarm['sign']
-        time = prarm['time']
-        admin_tel = prarm['tel']
-        sms_pwd = prarm['sms']
+        param = json.loads(param)
+        sign = param['sign']
+        time = param['time']
+        admin_tel = param['tel']
+        sms_pwd = param['sms']
         goods_id = param['goodsid']
         cate_id = param['cateid']
         brand_id = param['brandid']

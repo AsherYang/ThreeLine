@@ -116,10 +116,14 @@ class GetAdverts:
             return None
         if isinstance(netAdverts, NetAdverts):
             dbAdvert = DbAdverts()
-            dbAdvert.sort = str(netAdverts.sort)
-            dbAdvert.title = str(netAdverts.title.encode('utf-8'))
-            dbAdvert.create_time = str(netAdverts.createTime)
-            dbAdvert.pic_url = str(netAdverts.picUrl)
+            if netAdverts.sort:
+                dbAdvert.sort = str(netAdverts.sort)
+            if netAdverts.title:
+                dbAdvert.title = str(netAdverts.title.encode('utf-8'))
+            if netAdverts.createTime:
+                dbAdvert.create_time = str(netAdverts.createTime)
+            if netAdverts.picUrl:
+                dbAdvert.pic_url = str(netAdverts.picUrl)
             if netAdverts.id:
                 dbAdvert.advert_id = str(netAdverts.id)
             else:

@@ -23,13 +23,13 @@ from net.GetAdverts import GetAdverts
 class ManagerDeleteAdvertsHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
         param = self.request.body.decode('utf-8')
-        prarm = json.loads(param)
-        sign = prarm['sign']
-        time = prarm['time']
-        admin_tel = prarm['tel']
-        sms_pwd = prarm['sms']
+        param = json.loads(param)
+        sign = param['sign']
+        time = param['time']
+        admin_tel = param['tel']
+        sms_pwd = param['sms']
 
-        delete_Id = prarm['adverts_id']
+        delete_Id = param['adverts_id']
 
         permissionMgr = PermissionManager()
         baseResponse = permissionMgr.checkAdminPermissionWithLoginStatus(sign=sign, time=time,

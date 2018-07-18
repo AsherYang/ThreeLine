@@ -26,12 +26,12 @@ from net.GetAdverts import GetAdverts
 class ManagerDeleteCateAndGoodsHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
         param = self.request.body.decode('utf-8')
-        prarm = json.loads(param)
-        sign = prarm['sign']
-        time = prarm['time']
-        admin_tel = prarm['tel']
-        sms_pwd = prarm['sms']
-        cate_id = prarm['cate_id']
+        param = json.loads(param)
+        sign = param['sign']
+        time = param['time']
+        admin_tel = param['tel']
+        sms_pwd = param['sms']
+        cate_id = param['cate_id']
         permissionMgr = PermissionManager()
         baseResponse = permissionMgr.checkAdminPermissionWithLoginStatus(sign=sign, time=time,
                                                                          admin_tel=admin_tel, sms_pwd=sms_pwd)

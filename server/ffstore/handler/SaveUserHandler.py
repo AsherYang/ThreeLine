@@ -26,10 +26,10 @@ save user to db
 class SaveUserHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
         param = self.request.body.decode('utf-8')
-        prarm = json.loads(param)
-        userName = prarm['name']
-        phone = prarm['phone']
-        address = prarm['address']
+        param = json.loads(param)
+        userName = param['name']
+        phone = param['phone']
+        address = param['address']
         user = DbUser()
         user.user_name = userName
         user.user_tel = phone
