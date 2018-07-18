@@ -40,6 +40,9 @@ def insert(sql=None):
         db.close()
         return False
     try:
+        # "None" 替换为 NULL , 结合数据Dao values("%s", "%s", "%s"）双引号的写法
+        # 此种方式可以将NULL 赋值给未设定的mysql Int 型
+        sql = sql.replace('"None"', 'NULL').replace('"none"', 'NULL').replace('"nan"', 'NULL')
         cursor.execute(sql)
         db.commit()
         print 'save data ToDb success ! '
@@ -63,6 +66,7 @@ def query(sql=None):
         db.close()
         return None
     try:
+        sql = sql.replace('"None"', 'NULL').replace('"none"', 'NULL').replace('"nan"', 'NULL')
         cursor.execute(sql)
         results = cursor.fetchall()
         if results:
@@ -91,6 +95,7 @@ def queryByArgs(sql=None, args=None):
         db.close()
         return None
     try:
+        sql = sql.replace('"None"', 'NULL').replace('"none"', 'NULL').replace('"nan"', 'NULL')
         cursor.execute(sql, args)
         results = cursor.fetchall()
         if results:
@@ -117,6 +122,7 @@ def querySingleRow(sql=None):
         db.close()
         return None
     try:
+        sql = sql.replace('"None"', 'NULL').replace('"none"', 'NULL').replace('"nan"', 'NULL')
         cursor.execute(sql)
         results = cursor.fetchone()
         if results:
@@ -143,6 +149,7 @@ def update(sql=None):
         db.close()
         return False
     try:
+        sql = sql.replace('"None"', 'NULL').replace('"none"', 'NULL').replace('"nan"', 'NULL')
         cursor.execute(sql)
         # 更新和插入一样，需要commit
         db.commit()
@@ -168,6 +175,7 @@ def delete(sql=None):
         db.close()
         return False
     try:
+        sql = sql.replace('"None"', 'NULL').replace('"none"', 'NULL').replace('"nan"', 'NULL')
         cursor.execute(sql)
         # 删除和插入一样，需要commit
         db.commit()

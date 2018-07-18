@@ -22,7 +22,6 @@ from util.GenerateIDUtil import GenerateIDUtil
 from net.GetGoods import GetGoods
 from db.DbGoods import DbGoods
 from constant import GoodsStatus
-from util.LogUtil import LogUtil
 
 
 class ManagerAddGoodsHandler(tornado.web.RequestHandler):
@@ -46,13 +45,6 @@ class ManagerAddGoodsHandler(tornado.web.RequestHandler):
         thum_logo = param['thumlogo']
         keywords = param['keywords']
 
-        logging = LogUtil().getLogging()
-        logging.info("------------> param")
-        logging.info(stock_num)
-        logging.info(goods_logo)
-        logging.info("<------------ param")
-
-
         permissionMgr = PermissionManager()
         baseResponse = permissionMgr.checkAdminPermissionWithLoginStatus(sign=sign, time=time,
                                                                          admin_tel=admin_tel, sms_pwd=sms_pwd)
@@ -73,9 +65,6 @@ class ManagerAddGoodsHandler(tornado.web.RequestHandler):
             if sale_count:
                 dbGoods.sale_count = str(sale_count)
             if stock_num:
-                logging.info("------------> this")
-                logging.info(stock_num)
-                logging.info("<------------ this")
                 dbGoods.stock_num = str(stock_num)
             if status:
                 dbGoods.status = str(status)

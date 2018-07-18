@@ -15,12 +15,10 @@ from util import DbUtil
 from DbGoods import DbGoods
 from constant import GoodsSort
 from constant import GoodsStatus
-from util.LogUtil import LogUtil
 
 
 class GoodsDao:
     def __init__(self):
-        self.logging = LogUtil().getLogging()
         pass
 
     def saveToDb(self, goods):
@@ -31,21 +29,6 @@ class GoodsDao:
                      % (goods.goods_id, goods.cate_id, goods.brand_id, goods.goods_name, goods.market_price,
                         goods.current_price, goods.sale_count, goods.stock_num, goods.status, goods.goods_code,
                         goods.goods_logo, goods.thum_logo, goods.keywords)
-            # insert = 'insert into ffstore_goods (goods_id, cate_id, brand_id, goods_name, market_price, ' \
-            #          'current_price, sale_count, stock_num, status, goods_code, goods_logo, thum_logo, keywords) ' \
-            #          'values("%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s")' \
-            #          % (goods.goods_id, goods.cate_id, goods.brand_id, goods.goods_name, goods.market_price,
-            #             goods.current_price, goods.sale_count, goods.stock_num, goods.status, goods.goods_code,
-            #             goods.goods_logo, goods.thum_logo, goods.keywords)
-            self.logging.info("----------> start insert goods")
-            self.logging.info(insert)
-            self.logging.info(goods.stock_num)
-            self.logging.info(goods.goods_logo)
-            self.logging.info(goods.thum_logo)
-            self.logging.info(type(goods.stock_num))
-            self.logging.info(type(goods.goods_logo))
-            self.logging.info(type(goods.thum_logo))
-            self.logging.info("<---------- insert goods end")
             return DbUtil.insert(insert)
         return False
 
