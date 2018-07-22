@@ -179,18 +179,20 @@ class GetGoods:
         if not dbGoodsRowResult:
             return None
         dbGoods = DbGoods()
-        dbGoods.goods_id = dbGoodsRowResult[1]
-        dbGoods.cate_id = dbGoodsRowResult[2]
-        dbGoods.brand_id = dbGoodsRowResult[3]
-        dbGoods.goods_name = dbGoodsRowResult[4]
-        dbGoods.market_price = dbGoodsRowResult[5]
-        dbGoods.current_price = dbGoodsRowResult[6]
-        dbGoods.sale_count = dbGoodsRowResult[7]
-        dbGoods.stock_num = dbGoodsRowResult[8]
-        dbGoods.status = dbGoodsRowResult[9]
-        dbGoods.goods_code = dbGoodsRowResult[10]
-        dbGoods.goods_logo = dbGoodsRowResult[11]
-        dbGoods.thum_logo = dbGoodsRowResult[12]
+        dbSingleRow = dbGoodsRowResult[0]
+        dbGoods.goods_id = dbSingleRow["goods_id"]
+        dbGoods.cate_id = dbSingleRow["cate_id"]
+        dbGoods.brand_id = dbSingleRow["brand_id"]
+        dbGoods.goods_name = dbSingleRow["goods_name"]
+        dbGoods.market_price = dbSingleRow["market_price"]
+        dbGoods.current_price = dbSingleRow["current_price"]
+        dbGoods.sale_count = dbSingleRow["sale_count"]
+        dbGoods.stock_num = dbSingleRow["stock_num"]
+        dbGoods.status = dbSingleRow["status"]
+        dbGoods.goods_code = dbSingleRow["goods_code"]
+        dbGoods.goods_logo = dbSingleRow["goods_logo"]
+        dbGoods.thum_logo = dbSingleRow["thum_logo"]
+        dbGoods.keywords = dbSingleRow["keywords"]
         return dbGoods
 
     # 将数据库查询出来的结果，对应设置给goods实体bean，并作为集合返回出去
@@ -290,12 +292,15 @@ class GetGoods:
 
     # 将数据库商品信息，转换为网络api 返回商品数据
     def convert2NetGoodsDetail(self, goods, attrList, brand, photoList):
+        if not goods:
+            return None
         if isinstance(goods, DbGoods):
             netGoodsDetail = NetGoodsDetail()
             NetGoodsDetail.id = goods.goods_id
             netGoodsDetail.dbAttrList = attrList
-            netGoodsDetail.businessId = brand.brand_id
-            netGoodsDetail.businessName = brand.brand_name
+            if brand:
+                netGoodsDetail.businessId = brand.brand_id
+                netGoodsDetail.businessName = brand.brand_name
             netGoodsDetail.code = goods.goods_code
             # netGoodsDetail.detailInfo =
             # netGoodsDetail.evaluateCount =
