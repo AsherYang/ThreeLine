@@ -38,15 +38,12 @@ class GoodsDao:
         if isinstance(goods, DbGoods):
             if not goods.goods_id:
                 return False
-            # update = 'update ffstore_goods set cate_id = "%s", brand_id = "%s", goods_name = "%s", market_price = "%s",' \
-            #          ' current_price = "%s", sale_count = "%s", stock_num = "%s", status = "%s", goods_code = "%s",' \
-            #          ' goods_logo = "%s", thum_logo = "%s", keywords = "%s" where goods_id = "%s"' \
-            #          % (goods.cate_id, goods.brand_id, goods.goods_name, goods.market_price, goods.current_price,
-            #             goods.sale_count, goods.stock_num, goods.status, goods.goods_code, goods.goods_logo,
-            #             goods.thum_logo, goods.keywords, goods.goods_id)
-            # update ffstore_goods set goods_code = "12121", current_price = "110" where goods_id = "4117356719264239617";
-            update = 'update ffstore_goods set goods_code = "%s", current_price = "%s" where goods_id = "%s"; ' \
-                     % (goods.goods_code, goods.current_price, goods.goods_id)
+            update = 'update ffstore_goods set cate_id = "%s", brand_id = "%s", goods_name = "%s", market_price = "%s",' \
+                     ' current_price = "%s", sale_count = "%s", stock_num = "%s", status = "%s", goods_code = "%s",' \
+                     ' goods_logo = "%s", thum_logo = "%s", keywords = "%s" where goods_id = "%s"' \
+                     % (goods.cate_id, goods.brand_id, goods.goods_name, goods.market_price, goods.current_price,
+                        goods.sale_count, goods.stock_num, goods.status, goods.goods_code, goods.goods_logo,
+                        goods.thum_logo, goods.keywords, goods.goods_id)
             print 'update goods to db'
             return DbUtil.update(update)
         return False

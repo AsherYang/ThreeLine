@@ -19,6 +19,7 @@ from FFStoreJsonEncoder import *
 
 from mgrsys.PermissionManager import PermissionManager
 from net.GetGoods import GetGoods
+from db.DbGoods import DbGoods
 
 
 class ManagerUpdateGoodsHandler(tornado.web.RequestHandler):
@@ -37,6 +38,7 @@ class ManagerUpdateGoodsHandler(tornado.web.RequestHandler):
         current_price = param['currentprice']
         sale_count = param['salecount']
         stock_num = param['stocknum']
+        status = param['status']
         goods_code = param['goodscode']
         goods_logo = param['goodslogo']
         thum_logo = param['thumlogo']
@@ -47,12 +49,14 @@ class ManagerUpdateGoodsHandler(tornado.web.RequestHandler):
                                                                          admin_tel=admin_tel, sms_pwd=sms_pwd)
         if baseResponse.code == ResponseCode.success_check_admin_permission:
             getGoods = GetGoods()
-            dbGoods = getGoods.getGoodsById(goods_id=goods_id)
-            if not dbGoods:
+            netGoodsDetail = getGoods.getGoodsById(goods_id=goods_id)
+            if not netGoodsDetail:
                 baseResponse.code = ResponseCode.fail_goods_not_found
                 baseResponse.desc = ResponseCode.fail_goods_not_found_desc
             else:
                 # 更新数据
+                dbGoods = DbGoods()
+                dbGoods.goods_id = netGoodsDetail.id
                 if cate_id:
                     dbGoods.cate_id = cate_id
                 if brand_id:
@@ -67,6 +71,8 @@ class ManagerUpdateGoodsHandler(tornado.web.RequestHandler):
                     dbGoods.sale_count = sale_count
                 if stock_num:
                     dbGoods.stock_num = stock_num
+                if status:
+                    dbGoods.status = status
                 if goods_code:
                     dbGoods.goods_code = goods_code
                 if goods_logo:
