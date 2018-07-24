@@ -32,6 +32,9 @@ from handler.GetAllGoodsHandler import GetAllGoodsHandler
 from handler.SearchGoodsListHandler import SearchGoodsListHandler
 from handler.GetGoodsDetailHandler import GetGoodsDetailHandler
 from handler.GetHostGoodsListHandler import GetHostGoodsListHandler
+from handler.SaveOrderHandler import SaveOrderHandler
+from handler.GetMyOrderListHandler import GetMyOrderListHandler
+from handler.GetMyOrderSizeHandler import GetMyOrderSizeHandler
 from handler.GetHomeDiscoverListHandler import GetHomeDiscoverListHandler
 from handler.GetAdvertslistHandler import GetAdvertslistHandler
 from handler.GetCategoryHandler import GetCategoryHandler
@@ -109,6 +112,9 @@ class CustomApplication(tornado.web.Application):
             (r'/api/home/hostGoodsList', GetHostGoodsListHandler),
             (r'/api/mall/goods', GetGoodsDetailHandler),
             (r'/api/mall/searchGoodsList', SearchGoodsListHandler),
+            # (r'/api/mall/goodsOrder/-----', SaveOrderHandler),
+            (r'/api/mall/goodsOrder/getMyOrderList', GetMyOrderListHandler),
+            (r'/api/mall/goodsOrder/getMyOrderSize', GetMyOrderSizeHandler),
             # (r'/get/allgoods', GetAllGoodsHandler),
             (r'/save/user', SaveUserHandler),
             (r'/update/user/cost', UpdateUserCostHandler),
