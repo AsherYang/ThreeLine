@@ -14,6 +14,7 @@ from net.NetCategory import NetCategory
 from net.NetDiscover import NetDiscover
 from net.NetHostGoods import NetHostGoods
 from net.NetGoodsDetail import NetGoodsDetail
+from net.NetOrder import NetOrder
 from net.NetAdverts import NetAdverts
 from db.DbGoods import DbGoods
 from db.DbCategory import DbCategory
@@ -248,6 +249,33 @@ class GoodsDetailEncoder(json.JSONEncoder):
             #     print contentData[0].author
             # else:
             #     print type(contentData)
+        else:
+            return json.JSONEncoder.default(self, obj)
+
+"""
+将 order 转成 Json 字符串
+"""
+class OrderEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, BaseResponse):
+            contentData = obj.data
+            # print type(contentData)
+            realContent = []
+            if isinstance(contentData, list):
+                for data in contentData:
+                    if isinstance(data, NetOrder):
+                        string = {'order_id': data.order_id, 'goods_id': data.goods_id, 'user_id': data.user_id,
+                                  'order_goods_size': data.order_goods_size, 'order_goods_color': data.order_goods_color,
+                                  'order_goods_count': data.order_goods_count, 'order_status': data.order_status,
+                                  'order_pay_time': data.order_pay_time, 'order_update_time': data.order_update_time,
+                                  'order_express_num': data.order_express_num, 'order_express_code': data.order_express_code}
+                        realContent.append(string)
+            elif isinstance(contentData, basestring):
+                realContent = contentData
+            else:
+                realContent.append('please check it.')
+            return {'code': obj.code, 'desc': obj.desc,
+                    'result': realContent}
         else:
             return json.JSONEncoder.default(self, obj)
 

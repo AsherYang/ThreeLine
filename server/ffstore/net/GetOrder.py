@@ -20,6 +20,7 @@ from db.OrderDao import OrderDao
 from db.DbOrder import DbOrder
 from db.GoodsDao import GoodsDao
 from net.GetGoods import GetGoods
+from ffstore.net.NetOrder import NetOrder
 
 class GetOrder:
     def __init__(self):
@@ -53,9 +54,7 @@ class GetOrder:
         if not goodsIdList:
             return None
         dbGoodsList = self.getGoods.getDbGoodsByIdList(goodsIdList)
-        # todo
-        # return convert2NetOrder()
-        pass
+        return self.convert2NetOrderList(dbOrderList=dbOrderList)
 
     """
     小程序, 获取单个用户的的订单总数
@@ -68,7 +67,7 @@ class GetOrder:
     """
     小程序，获取单个用户的，特定订单状态的订单总数
     """
-    def getMyOrderStatusSize(self, user_id, order_status):
+    def getMyOrderSizeByStatus(self, user_id, order_status):
         if not user_id:
             return 0
         return self.orderDao.queryCountByUserIdAndStatus(user_id, order_status)
@@ -94,3 +93,32 @@ class GetOrder:
             dbOrder.order_express_code = row[11]
             orderList.append(dbOrder)
         return orderList
+
+    # 将数据库类型的dbOrder 转换为网络类型的netOrder
+    def convert2NetOrder(self, dbOrder):
+        if not dbOrder:
+            return None
+        netOrder = NetOrder()
+        netOrder.order_id = dbOrder.order_id
+        netOrder.goods_id = dbOrder.goods_id
+        netOrder.user_id = dbOrder.user_id
+        netOrder.order_goods_size = dbOrder.order_goods_size
+        netOrder.order_goods_color = dbOrder.order_goods_color
+        netOrder.order_goods_count = dbOrder.order_goods_count
+        netOrder.order_status = dbOrder.order_status
+        netOrder.order_pay_time = dbOrder.order_pay_time
+        netOrder.order_update_time = dbOrder.order_update_time
+        netOrder.order_express_num = dbOrder.order_express_num
+        netOrder.order_express_code = dbOrder.order_express_code
+        return netOrder
+
+    # 将数据库类型的dbOrder 集合转换为网络类型的netOrder 集合
+    def convert2NetOrderList(self, dbOrderList):
+        if dbOrderList:
+            netOrderList = []
+            for dbOrder in dbOrderList:
+                netorder = self.convert2NetOrder(dbOrder=dbOrder)
+                if netorder:
+                    netOrderList.append(netorder)
+            return netOrderList
+        return None
