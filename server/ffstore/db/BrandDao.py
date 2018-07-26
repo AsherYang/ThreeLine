@@ -11,12 +11,21 @@ Desc  : 操作厂家(品牌)数据表
 import sys
 sys.path.append('../')
 
+from db.DbBrand import DbBrand
 from util import DbUtil
 
 
 class BrandDao:
     def __init__(self):
         pass
+
+    def saveToDb(self, dbBrand):
+        if isinstance(dbBrand, DbBrand):
+            insert = 'insert into ffstore_brand (brand_id, brand_name, brand_logo) ' \
+                     'values("%s", "%s", "%s") ' \
+                     % (dbBrand.brand_id, dbBrand.brand_name, dbBrand.brand_logo)
+            return DbUtil.insert(insert)
+        return False
 
     # 根据给定的厂家id 获取该厂家的信息
     def queryBrandById(self, brand_id):

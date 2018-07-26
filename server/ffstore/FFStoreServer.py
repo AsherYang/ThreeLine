@@ -132,6 +132,9 @@ class CustomApplication(tornado.web.Application):
             (r'/manager/goods/add', ManagerAddGoodsHandler),
             (r'/manager/goods/delete', ManagerDeleteGoodsHandler),
             (r'/manager/goods/update', ManagerUpdateGoodsHandler),
+            (r'/manager/brand/add', ManagerAddBrandHandler),
+            (r'/manager/brand/delete', ManagerDeleteBrandHandler),
+            (r'/manager/brand/update', ManagerUpdateBrandHandler),
             (r"/.*", OtherHandler),
         ]
 
