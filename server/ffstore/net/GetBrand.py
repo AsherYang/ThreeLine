@@ -11,6 +11,7 @@ from util.GenerateIDUtil import GenerateIDUtil
 from util.LogUtil import LogUtil
 from ffstore.db.BrandDao import BrandDao
 from ffstore.db.DbBrand import DbBrand
+from ffstore.net.NetBrand import NetBrand
 
 
 class GetBrand:
@@ -25,8 +26,8 @@ class GetBrand:
     def addBrand(self, netBrand):
         if not netBrand:
             return False
-        dbBrand =
-        self.brandDao.saveToDb()
+        dbBrand = self.convert2DbBrand(netBrand)
+        self.brandDao.saveToDb(dbBrand)
 
     # =========================== 转换开始 ===================================== #
 
@@ -68,27 +69,19 @@ class GetBrand:
         return netAdvertsList
 
     # 将网络数据转换为数据库数据
-    def convert2DbBrand(self, netBrand, cate_id):
-        if not netAdverts:
+    def convert2DbBrand(self, netBrand):
+        if not netBrand:
             return None
-        if isinstance(netAdverts, NetAdverts):
-            dbAdvert = DbAdverts()
-            if netAdverts.sort:
-                dbAdvert.sort = str(netAdverts.sort)
-            if netAdverts.title:
-                dbAdvert.title = str(netAdverts.title.encode('utf-8'))
-            if netAdverts.createTime:
-                dbAdvert.create_time = str(netAdverts.createTime)
-            if netAdverts.picUrl:
-                dbAdvert.pic_url = str(netAdverts.picUrl)
-            if netAdverts.id:
-                dbAdvert.advert_id = str(netAdverts.id)
+        if isinstance(netBrand, NetBrand):
+            dbBrand = DbBrand()
+            if netBrand.brand_id:
+                dbBrand.brand_id = netBrand.brand_id
             else:
                 genIdUtil = GenerateIDUtil()
-                dbAdvert.advert_id = str(genIdUtil.getUID())
-            if cate_id:
-                dbAdvert.cate_id = str(cate_id)
-            return dbAdvert
+                dbBrand.brand_id = str(genIdUtil.getUID())
+            dbBrand.brand_name = netBrand.brand_name
+            dbBrand.brand_logo = netBrand.brand_logo
+            return dbBrand
         return None
 
     # =========================== 转换结束 ===================================== #
