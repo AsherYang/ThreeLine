@@ -49,6 +49,9 @@ from handler.ManagerUpdateCateHandler import ManagerUpdateCateHandler
 from handler.ManagerAddGoodsHandler import ManagerAddGoodsHandler
 from handler.ManagerDeleteGoodsHandler import ManagerDeleteGoodsHandler
 from handler.ManagerUpdateGoodsHandler import ManagerUpdateGoodsHandler
+from handler.ManagerAddBrandHandler import ManagerAddBrandHandler
+from handler.ManagerDeleteBrandHandler import ManagerDeleteBrandHandler
+from handler.ManagerUpdateBrandHandler import ManagerUpdateBrandHandler
 
 
 define("debug", default=False, help='Set debug mode', type=bool)

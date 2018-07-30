@@ -27,6 +27,17 @@ class BrandDao:
             return DbUtil.insert(insert)
         return False
 
+    def updateToDb(self, dbBrand):
+        if isinstance(dbBrand, DbBrand):
+            if not dbBrand.brand_id:
+                return False
+            else:
+                update = 'update ffstore_brand set brand_name = "%s", brand_logo = "%s" where brand_id = "%s"; ' \
+                         % (dbBrand.brand_name, dbBrand.brand_logo, dbBrand.brand_id)
+                print 'update brand to db'
+                return DbUtil.update(update)
+        return False
+
     # 根据给定的厂家id 获取该厂家的信息
     def queryBrandById(self, brand_id):
         query = 'SELECT * FROM ffstore_brand WHERE brand_id = "%s" ' % brand_id
@@ -40,3 +51,10 @@ class BrandDao:
         format_str = ','.join(['%s'] * len(brandIdList))
         query = 'SELECT * FROM ffstore_brand WHERE brand_id IN (%s)' % format_str, tuple(brandIdList)
         return DbUtil.query(query)
+
+    # 根据brand_id 删除厂家信息
+    def deleteBrandById(self, brand_id):
+        if brand_id is None:
+            return False
+        delete = 'delete from ffstore_brand where brand_id = "%s" ' % brand_id
+        return DbUtil.delete(delete)

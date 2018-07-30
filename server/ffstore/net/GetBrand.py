@@ -29,44 +29,25 @@ class GetBrand:
         dbBrand = self.convert2DbBrand(netBrand)
         self.brandDao.saveToDb(dbBrand)
 
+    """
+    删除一家厂家
+    """
+    def deleteBrandById(self, brand_id):
+        return self.brandDao.deleteBrandById(brand_id)
+
+    """
+    根据brand_id 查询一家厂商
+    """
+    def queryBrandById(self, brand_id):
+        return self.brandDao.queryBrandById(brand_id)
+
+    """
+    根据brand_id 更新
+    """
+    def updateBrand(self, dbBrand):
+        return self.brandDao.updateToDb(dbBrand=dbBrand)
+
     # =========================== 转换开始 ===================================== #
-
-    # 将数据库查询的结果，对应设置给adverts 实体bean，并将adverts list 集合返回出去
-    def convertDbRow2Adverts(self, dbAdvertsAllRowsResult):
-        if not dbAdvertsAllRowsResult:
-            return None
-        advertsList = []
-        for row in dbAdvertsAllRowsResult:
-            adverts = DbAdverts()
-            row_id = row[0]
-            adverts.advert_id = row[1]
-            adverts.cate_id = row[2]
-            adverts.title = row[3]
-            adverts.pic_url = row[4]
-            adverts.sort = row[5]
-            adverts.create_time = row[6]
-            advertsList.append(adverts)
-        return advertsList
-
-    # 将数据库广告信息，转换为网络api 返回广告集合
-    def convert2NetAdvertsList(self, dbAdvertsList, dbCateList):
-        if not dbAdvertsList:
-            return None
-        if not dbCateList:
-            return dbAdvertsList
-        netAdvertsList = []
-        for dbAdvert in dbAdvertsList:
-            netAdverts = NetAdverts()
-            netAdverts.id = dbAdvert.advert_id
-            netAdverts.title = dbAdvert.title
-            netAdverts.sort = dbAdvert.sort
-            netAdverts.picUrl = dbAdvert.pic_url
-            netAdverts.createTime = dbAdvert.create_time
-            for dbCate in dbCateList:
-                if dbCate.cate_id == dbAdvert.cate_id:
-                    netAdverts.advertUrl = adverts_url_prefix + dbCate.cate_code
-            netAdvertsList.append(netAdverts)
-        return netAdvertsList
 
     # 将网络数据转换为数据库数据
     def convert2DbBrand(self, netBrand):
