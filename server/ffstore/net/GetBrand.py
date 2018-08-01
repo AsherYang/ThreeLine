@@ -9,9 +9,9 @@ Desc  : 获取厂商信息，返回网络数据
 """
 from util.GenerateIDUtil import GenerateIDUtil
 from util.LogUtil import LogUtil
-from ffstore.db.BrandDao import BrandDao
-from ffstore.db.DbBrand import DbBrand
-from ffstore.net.NetBrand import NetBrand
+from db.BrandDao import BrandDao
+from db.DbBrand import DbBrand
+from net.NetBrand import NetBrand
 
 
 class GetBrand:

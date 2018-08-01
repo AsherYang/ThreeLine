@@ -20,7 +20,10 @@ from FFStoreJsonEncoder import *
 from mgrsys.PermissionManager import PermissionManager
 from util.GenerateIDUtil import GenerateIDUtil
 from net.GetGoods import GetGoods
+from ffstore.net.GetGoodsPhoto import GetGoodsPhoto
 from db.DbGoods import DbGoods
+from ffstore.db.DbGoodsPhoto import DbGoodsPhoto
+from ffstore.db.DbAttribute import DbAttribute
 from constant import GoodsStatus
 
 
@@ -50,9 +53,9 @@ class ManagerAddGoodsHandler(tornado.web.RequestHandler):
         goods_thum_photo = param['thum_photo']
 
         # goods attribute
-        goods_attr_market_year = param['marketyear']
-        goods_attr_size = param['goodssize']
-        goods_attr_color = param['goodscolor']
+        attr_market_year = param['marketyear']
+        attr_size = param['goodssize']
+        attr_color = param['goodscolor']
 
         permissionMgr = PermissionManager()
         baseResponse = permissionMgr.checkAdminPermissionWithLoginStatus(sign=sign, time=time,
@@ -60,6 +63,8 @@ class ManagerAddGoodsHandler(tornado.web.RequestHandler):
         if baseResponse.code == ResponseCode.success_check_admin_permission:
             genIdUtil = GenerateIDUtil()
             dbGoods = DbGoods()
+            dbGoodsPhoto = DbGoodsPhoto()
+            dbGoodsAttr = DbAttribute()
             dbGoods.goods_id = genIdUtil.getUID()
             if cate_id:
                 dbGoods.cate_id = str(cate_id)
@@ -87,9 +92,28 @@ class ManagerAddGoodsHandler(tornado.web.RequestHandler):
                 dbGoods.thum_logo = str(thum_logo)
             if keywords:
                 dbGoods.keywords = str(keywords.encode('utf-8'))
+            #  photo
+            if goods_photos:
+                dbGoodsPhoto.photo = goods_photos
+            if goods_thum_photo:
+                dbGoodsPhoto.thum_photo = goods_thum_photo
+            dbGoodsPhoto.goods_id = dbGoods.goods_id
+            # attr
+            if attr_market_year:
+                dbGoodsAttr.attr_market_year = attr_market_year
+            if attr_size:
+                dbGoodsAttr.attr_size = attr_size
+            if attr_color:
+                dbGoodsAttr.attr_color = attr_color
+            # dbGoodsAttr.cate_id =
+            dbGoodsAttr.goods_id = dbGoods.goods_id
+
             getGoods = GetGoods()
+            getPhoto = GetGoodsPhoto()
             saveResult = getGoods.saveOrUpdateToDb(goods=dbGoods)
-            if saveResult:
+            savePhotoResult = getPhoto.addGoodsPhoto(dbGoodsPhoto)
+            # saveAttrResult = todo
+            if saveResult and savePhotoResult:
                 baseResponse.code = ResponseCode.op_success
                 baseResponse.desc = ResponseCode.op_success_desc
             else:
