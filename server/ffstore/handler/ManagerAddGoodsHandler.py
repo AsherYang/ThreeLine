@@ -45,6 +45,15 @@ class ManagerAddGoodsHandler(tornado.web.RequestHandler):
         thum_logo = param['thumlogo']
         keywords = param['keywords']
 
+        # goods picture
+        goods_photos = param['photos']
+        goods_thum_photo = param['thum_photo']
+
+        # goods attribute
+        goods_attr_market_year = param['marketyear']
+        goods_attr_size = param['goodssize']
+        goods_attr_color = param['goodscolor']
+
         permissionMgr = PermissionManager()
         baseResponse = permissionMgr.checkAdminPermissionWithLoginStatus(sign=sign, time=time,
                                                                          admin_tel=admin_tel, sms_pwd=sms_pwd)
