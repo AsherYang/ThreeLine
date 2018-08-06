@@ -21,6 +21,7 @@ from mgrsys.PermissionManager import PermissionManager
 from util.GenerateIDUtil import GenerateIDUtil
 from net.GetGoods import GetGoods
 from ffstore.net.GetGoodsPhoto import GetGoodsPhoto
+from ffstore.net.GetGoodsAttr import GetGoodsAttr
 from db.DbGoods import DbGoods
 from ffstore.db.DbGoodsPhoto import DbGoodsPhoto
 from ffstore.db.DbAttribute import DbAttribute
@@ -110,10 +111,11 @@ class ManagerAddGoodsHandler(tornado.web.RequestHandler):
 
             getGoods = GetGoods()
             getPhoto = GetGoodsPhoto()
+            getAttr = GetGoodsAttr()
             saveResult = getGoods.saveOrUpdateToDb(goods=dbGoods)
             savePhotoResult = getPhoto.addGoodsPhoto(dbGoodsPhoto)
-            # saveAttrResult = todo
-            if saveResult and savePhotoResult:
+            saveAttrResult = getAttr.addGoodsAttr(dbGoodsAttr)
+            if saveResult and savePhotoResult and saveAttrResult:
                 baseResponse.code = ResponseCode.op_success
                 baseResponse.desc = ResponseCode.op_success_desc
             else:
