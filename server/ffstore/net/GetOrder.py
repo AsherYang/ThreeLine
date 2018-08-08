@@ -20,7 +20,7 @@ from db.OrderDao import OrderDao
 from db.DbOrder import DbOrder
 from db.GoodsDao import GoodsDao
 from net.GetGoods import GetGoods
-from ffstore.net.NetOrder import NetOrder
+from net.NetOrder import NetOrder
 
 class GetOrder:
     def __init__(self):

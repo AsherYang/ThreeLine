@@ -13,7 +13,7 @@ import sys
 sys.path.append('../')
 
 from util import DbUtil
-from ffstore.db.DbGoodsPhoto import DbGoodsPhoto
+from db.DbGoodsPhoto import DbGoodsPhoto
 
 class GoodsPhotoDao:
     def __init__(self):

@@ -8,8 +8,8 @@ Date  : 2018/6/26
 Desc  : 操作商品属性(ffstore_attr),返回网络数据
 """
 from util.LogUtil import LogUtil
-from ffstore.db.DbAttribute import DbAttribute
-from ffstore.db.AttributeDao import AttributeDao
+from db.DbAttribute import DbAttribute
+from db.AttributeDao import AttributeDao
 
 
 class GetGoodsAttr:

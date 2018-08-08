@@ -8,9 +8,9 @@ Date  : 2018/6/26
 Desc  : 操作商品图片,返回网络数据
 """
 from util.LogUtil import LogUtil
-from ffstore.net.NetGoodPhoto import NetGoodPhoto
-from ffstore.db.DbGoodsPhoto import DbGoodsPhoto
-from ffstore.db.GoodsPhotoDao import GoodsPhotoDao
+from net.NetGoodPhoto import NetGoodPhoto
+from db.DbGoodsPhoto import DbGoodsPhoto
+from db.GoodsPhotoDao import GoodsPhotoDao
 
 
 class GetGoodsPhoto:

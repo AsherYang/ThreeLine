@@ -20,15 +20,15 @@ from FFStoreJsonEncoder import *
 from mgrsys.PermissionManager import PermissionManager
 from util.GenerateIDUtil import GenerateIDUtil
 from net.GetGoods import GetGoods
-from ffstore.net.GetGoodsPhoto import GetGoodsPhoto
-from ffstore.net.GetGoodsAttr import GetGoodsAttr
+from net.GetGoodsPhoto import GetGoodsPhoto
+from net.GetGoodsAttr import GetGoodsAttr
 from db.DbGoods import DbGoods
-from ffstore.db.DbGoodsPhoto import DbGoodsPhoto
-from ffstore.db.DbAttribute import DbAttribute
+from db.DbGoodsPhoto import DbGoodsPhoto
+from db.DbAttribute import DbAttribute
 from constant import GoodsStatus
 
 
-class ManagerAddGoodsHandler(tornado.web.RequestHandler):
+class   ManagerAddGoodsHandler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
         param = self.request.body.decode('utf-8')
         param = json.loads(param)
