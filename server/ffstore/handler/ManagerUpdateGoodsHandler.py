@@ -19,7 +19,11 @@ from FFStoreJsonEncoder import *
 
 from mgrsys.PermissionManager import PermissionManager
 from net.GetGoods import GetGoods
+from net.GetGoodsPhoto import GetGoodsPhoto
+from net.GetGoodsAttr import GetGoodsAttr
 from db.DbGoods import DbGoods
+from db.DbGoodsPhoto import DbGoodsPhoto
+from db.DbAttribute import DbAttribute
 
 
 class ManagerUpdateGoodsHandler(tornado.web.RequestHandler):
@@ -44,11 +48,22 @@ class ManagerUpdateGoodsHandler(tornado.web.RequestHandler):
         thum_logo = param['thumlogo']
         keywords = param['keywords']
 
+        # goods picture
+        goods_photos = param['photos']
+        goods_thum_photo = param['thum_photo']
+
+        # goods attribute
+        attr_market_year = param['marketyear']
+        attr_size = param['goodssize']
+        attr_color = param['goodscolor']
+
         permissionMgr = PermissionManager()
         baseResponse = permissionMgr.checkAdminPermissionWithLoginStatus(sign=sign, time=time,
                                                                          admin_tel=admin_tel, sms_pwd=sms_pwd)
         if baseResponse.code == ResponseCode.success_check_admin_permission:
             getGoods = GetGoods()
+            getPhoto = GetGoodsPhoto()
+            getAttr = GetGoodsAttr()
             netGoodsDetail = getGoods.getGoodsById(goods_id=goods_id)
             if not netGoodsDetail:
                 baseResponse.code = ResponseCode.fail_goods_not_found
@@ -56,6 +71,8 @@ class ManagerUpdateGoodsHandler(tornado.web.RequestHandler):
             else:
                 # 更新数据
                 dbGoods = DbGoods()
+                dbGoodsPhoto = DbGoodsPhoto()
+                dbGoodsAttr = DbAttribute()
                 dbGoods.goods_id = netGoodsDetail.id
                 if cate_id:
                     dbGoods.cate_id = cate_id
@@ -81,8 +98,23 @@ class ManagerUpdateGoodsHandler(tornado.web.RequestHandler):
                     dbGoods.thum_logo = thum_logo
                 if keywords:
                     dbGoods.keywords = keywords
+                #  photo
+                if goods_photos:
+                    dbGoodsPhoto.photo = goods_photos
+                if goods_thum_photo:
+                    dbGoodsPhoto.thum_photo = goods_thum_photo
+                dbGoodsPhoto.goods_id = dbGoods.goods_id
+                # attr
+                if attr_market_year:
+                    dbGoodsAttr.attr_market_year = attr_market_year
+                if attr_size:
+                    dbGoodsAttr.attr_size = attr_size
+                if attr_color:
+                    dbGoodsAttr.attr_color = attr_color
                 updateResult = getGoods.updateToDb(goods=dbGoods)
-                if updateResult:
+                savePhotoResult = getPhoto.addGoodsPhoto(dbGoodsPhoto)
+                saveAttrResult = getAttr.addGoodsAttr(dbGoodsAttr)
+                if updateResult and savePhotoResult and saveAttrResult:
                     baseResponse.code = ResponseCode.op_success
                     baseResponse.desc = ResponseCode.op_success_desc
                 else:

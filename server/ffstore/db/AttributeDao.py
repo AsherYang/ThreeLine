@@ -13,7 +13,7 @@ import sys
 sys.path.append('../')
 
 from util import DbUtil
-from ffstore.db.DbAttribute import DbAttribute
+from db.DbAttribute import DbAttribute
 
 
 class AttributeDao:
