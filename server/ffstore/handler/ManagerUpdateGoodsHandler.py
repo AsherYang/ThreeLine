@@ -111,6 +111,8 @@ class ManagerUpdateGoodsHandler(tornado.web.RequestHandler):
                     dbGoodsAttr.attr_size = attr_size
                 if attr_color:
                     dbGoodsAttr.attr_color = attr_color
+                dbGoodsAttr.goods_id = dbGoods.goods_id
+                dbGoodsAttr.cate_id = dbGoods.cate_id
                 updateResult = getGoods.updateToDb(goods=dbGoods)
                 savePhotoResult = getPhoto.addGoodsPhoto(dbGoodsPhoto)
                 saveAttrResult = getAttr.addGoodsAttr(dbGoodsAttr)
