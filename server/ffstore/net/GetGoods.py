@@ -23,6 +23,7 @@ from db.DbAttribute import DbAttribute
 from db.DbGoodsPhoto import DbGoodsPhoto
 from net.NetHostGoods import NetHostGoods
 from net.NetGoodsDetail import NetGoodsDetail
+from util.LogUtil import LogUtil
 
 
 class GetGoods:
@@ -32,6 +33,7 @@ class GetGoods:
         self.brandDao = BrandDao()
         self.attrDao = AttributeDao()
         self.photoDao = GoodsPhotoDao()
+        self.logging = LogUtil().getLogging()
 
     # 根据cate_code 获取cate_id, cate_code 是唯一值属性
     def getCateIdByCateCode(self, cate_code):
@@ -265,14 +267,16 @@ class GetGoods:
         if not dbAttrAllRowsResult:
             return None
         attrList = []
-        for row in dbAttrAllRowsResult:
+        # 元组的遍历 {@https://blog.csdn.net/u014267402/article/details/54601125}
+        for i in range(len(dbAttrAllRowsResult)):
             dbAttr = DbAttribute()
-            row_id = row[0]
-            dbAttr.cate_id = row[1]
-            dbAttr.goods_id = row[2]
-            dbAttr.attr_market_year = row[3]
-            dbAttr.attr_size = row[4]
-            dbAttr.attr_color = row[5]
+            singleRow = dbAttrAllRowsResult[i]
+            row_id = singleRow['_id']
+            dbAttr.cate_id = singleRow['cate_id']
+            dbAttr.goods_id = singleRow['goods_id']
+            dbAttr.attr_market_year = singleRow['attr_market_year']
+            dbAttr.attr_size = singleRow['attr_size']
+            dbAttr.attr_color = singleRow['attr_color']
             attrList.append(dbAttr)
         return attrList
 
@@ -281,12 +285,14 @@ class GetGoods:
         if not dbPhotoAllRowsResult:
             return None
         photoList = []
-        for row in dbPhotoAllRowsResult:
+        # 元组的遍历 {@https://blog.csdn.net/u014267402/article/details/54601125}
+        for i in range(len(dbPhotoAllRowsResult)):
             dbGoodsPhoto = DbGoodsPhoto()
-            row_id = row[0]
-            dbGoodsPhoto.goods_id = row[1]
-            dbGoodsPhoto.photo = row[2]
-            dbGoodsPhoto.thum_photo = row[3]
+            singleRow = dbPhotoAllRowsResult[i]
+            row_id = singleRow['_id']
+            dbGoodsPhoto.goods_id = singleRow['goods_id']
+            dbGoodsPhoto.photo = singleRow['photo']
+            dbGoodsPhoto.thum_photo = singleRow['thum_photo']
             photoList.append(dbGoodsPhoto)
         return photoList
 

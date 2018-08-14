@@ -14,10 +14,12 @@ sys.path.append('../')
 
 from util import DbUtil
 from db.DbAttribute import DbAttribute
+from util.LogUtil import LogUtil
 
 
 class AttributeDao:
     def __init__(self):
+        self.logging = LogUtil().getLogging()
         pass
 
     # 插入商品属性
@@ -29,6 +31,23 @@ class AttributeDao:
                         dbGoodsAttr.attr_size, dbGoodsAttr.attr_color)
             return DbUtil.insert(insert)
         return False
+
+    # 批量插入商品属性
+    def saveListToDb(self, dbGoodsAttrList):
+        insert = 'insert into ffstore_attr (cate_id, goods_id, attr_market_year, attr_size, attr_color) values '
+        hasData = False
+        if not dbGoodsAttrList:
+            return False
+        for dbGoodsAttr in dbGoodsAttrList:
+            if isinstance(dbGoodsAttr, DbAttribute):
+                insertTmp = '("%s", "%s", "%s", "%s", "%s"), ' % (dbGoodsAttr.cate_id, dbGoodsAttr.goods_id, dbGoodsAttr.attr_market_year, dbGoodsAttr.attr_size, dbGoodsAttr.attr_color)
+                insert += insertTmp
+                hasData = True
+        if hasData:
+            insert = insert.rstrip(', ')
+            return DbUtil.insert(insert)
+        else:
+            return False
 
     # 根据给定的分类列表获取各个分类的属性描述
     # 返回包含查询分类的属性值集合(多个分类，每个分类可能有多条属性)

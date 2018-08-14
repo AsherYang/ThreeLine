@@ -54,8 +54,7 @@ class ManagerUpdateGoodsHandler(tornado.web.RequestHandler):
 
         # goods attribute
         attr_market_year = param['marketyear']
-        attr_size = param['goodssize']
-        attr_color = param['goodscolor']
+        attr_size_color_list = param['sizecolorlist']
 
         permissionMgr = PermissionManager()
         baseResponse = permissionMgr.checkAdminPermissionWithLoginStatus(sign=sign, time=time,
@@ -72,7 +71,6 @@ class ManagerUpdateGoodsHandler(tornado.web.RequestHandler):
                 # 更新数据
                 dbGoods = DbGoods()
                 dbGoodsPhoto = DbGoodsPhoto()
-                dbGoodsAttr = DbAttribute()
                 dbGoods.goods_id = netGoodsDetail.id
                 if cate_id:
                     dbGoods.cate_id = cate_id
@@ -105,17 +103,23 @@ class ManagerUpdateGoodsHandler(tornado.web.RequestHandler):
                     dbGoodsPhoto.thum_photo = goods_thum_photo
                 dbGoodsPhoto.goods_id = dbGoods.goods_id
                 # attr
-                if attr_market_year:
-                    dbGoodsAttr.attr_market_year = attr_market_year
-                if attr_size:
-                    dbGoodsAttr.attr_size = attr_size
-                if attr_color:
-                    dbGoodsAttr.attr_color = attr_color
-                dbGoodsAttr.goods_id = dbGoods.goods_id
-                dbGoodsAttr.cate_id = dbGoods.cate_id
+                dbGoodsAttrList = []
+                if attr_size_color_list:
+                    # delete first when update
+                    getAttr.deleteGoodsAttr(dbGoods.goods_id)
+                    for attr_size_color in attr_size_color_list:
+                        dbGoodsAttr = DbAttribute()
+                        attr_size = attr_size_color['goodssize']
+                        attr_color = attr_size_color['goodscolor']
+                        dbGoodsAttr.attr_size = attr_size
+                        dbGoodsAttr.attr_color = attr_color
+                        dbGoodsAttr.attr_market_year = attr_market_year
+                        dbGoodsAttr.goods_id = dbGoods.goods_id
+                        dbGoodsAttr.cate_id = dbGoods.cate_id
+                        dbGoodsAttrList.append(dbGoodsAttr)
                 updateResult = getGoods.updateToDb(goods=dbGoods)
                 savePhotoResult = getPhoto.addGoodsPhoto(dbGoodsPhoto)
-                saveAttrResult = getAttr.addGoodsAttr(dbGoodsAttr)
+                saveAttrResult = getAttr.addGoodsAttrList(dbGoodsAttrList)
                 if updateResult and savePhotoResult and saveAttrResult:
                     baseResponse.code = ResponseCode.op_success
                     baseResponse.desc = ResponseCode.op_success_desc
