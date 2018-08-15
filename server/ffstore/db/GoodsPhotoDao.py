@@ -19,13 +19,31 @@ class GoodsPhotoDao:
     def __init__(self):
         pass
 
-    # 插入商品图片集合
+    # 插入商品图片
     def saveToDb(self, dbGoodsPhoto):
         if isinstance(dbGoodsPhoto, DbGoodsPhoto):
             insert = 'insert into ffstore_photo (goods_id, photo, thum_photo) values("%s", "%s", "%s")' \
                      % (dbGoodsPhoto.goods_id, dbGoodsPhoto.photo, dbGoodsPhoto.thum_photo)
             return DbUtil.insert(insert)
         return False
+
+    # 批量插入商品图片
+    def saveListToDb(self, dbGoodsPhotoList):
+        insert = 'insert into ffstore_photo (goods_id, photo, thum_photo) values '
+        hasData = False
+        if not dbGoodsPhotoList:
+            return False
+        for dbGoodsPhoto in dbGoodsPhotoList:
+            if isinstance(dbGoodsPhoto, DbGoodsPhoto):
+                insertTmp = '("%s", "%s", "%s"), ' % (dbGoodsPhoto.goods_id, dbGoodsPhoto.photo, dbGoodsPhoto.thum_photo)
+                insert += insertTmp
+                hasData = True
+        if hasData:
+            insert = insert.rstrip(', ')
+            return DbUtil.insert(insert)
+        else:
+            return False
+
 
     # 查询单个商品图片集合
     def queryPhotoListByGoodsId(self, goods_id):

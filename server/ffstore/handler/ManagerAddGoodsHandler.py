@@ -50,8 +50,7 @@ class   ManagerAddGoodsHandler(tornado.web.RequestHandler):
         keywords = param['keywords']
 
         # goods picture
-        goods_photos = param['photos']
-        goods_thum_photo = param['thum_photo']
+        photo_thum_list = param['photosthumlist']
 
         # goods attribute
         attr_market_year = param['marketyear']
@@ -63,7 +62,6 @@ class   ManagerAddGoodsHandler(tornado.web.RequestHandler):
         if baseResponse.code == ResponseCode.success_check_admin_permission:
             genIdUtil = GenerateIDUtil()
             dbGoods = DbGoods()
-            dbGoodsPhoto = DbGoodsPhoto()
             getGoods = GetGoods()
             getPhoto = GetGoodsPhoto()
             getAttr = GetGoodsAttr()
@@ -95,11 +93,14 @@ class   ManagerAddGoodsHandler(tornado.web.RequestHandler):
             if keywords:
                 dbGoods.keywords = str(keywords.encode('utf-8'))
             #  photo
-            if goods_photos:
-                dbGoodsPhoto.photo = goods_photos
-            if goods_thum_photo:
-                dbGoodsPhoto.thum_photo = goods_thum_photo
-            dbGoodsPhoto.goods_id = dbGoods.goods_id
+            dbPhotoThumList = []
+            if photo_thum_list:
+                for photo_thum in photo_thum_list:
+                    dbGoodsPhoto = DbGoodsPhoto()
+                    dbGoodsPhoto.photo = photo_thum['photos']
+                    dbGoodsPhoto.thum_photo = photo_thum['thum_photo']
+                    dbGoodsPhoto.goods_id = dbGoods.goods_id
+                    dbPhotoThumList.append(dbGoodsPhoto)
             # attr
             dbGoodsAttrList = []
             if attr_size_color_list:
@@ -115,7 +116,7 @@ class   ManagerAddGoodsHandler(tornado.web.RequestHandler):
                     dbGoodsAttrList.append(dbGoodsAttr)
 
             saveResult = getGoods.saveOrUpdateToDb(goods=dbGoods)
-            savePhotoResult = getPhoto.addGoodsPhoto(dbGoodsPhoto)
+            savePhotoResult = getPhoto.addGoodsPhotoList(dbPhotoThumList)
             saveAttrResult = getAttr.addGoodsAttrList(dbGoodsAttrList)
             if saveResult and savePhotoResult and saveAttrResult:
                 baseResponse.code = ResponseCode.op_success

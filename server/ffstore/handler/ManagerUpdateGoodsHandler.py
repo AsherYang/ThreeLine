@@ -49,8 +49,7 @@ class ManagerUpdateGoodsHandler(tornado.web.RequestHandler):
         keywords = param['keywords']
 
         # goods picture
-        goods_photos = param['photos']
-        goods_thum_photo = param['thum_photo']
+        photo_thum_list = param['photosthumlist']
 
         # goods attribute
         attr_market_year = param['marketyear']
@@ -70,7 +69,6 @@ class ManagerUpdateGoodsHandler(tornado.web.RequestHandler):
             else:
                 # 更新数据
                 dbGoods = DbGoods()
-                dbGoodsPhoto = DbGoodsPhoto()
                 dbGoods.goods_id = netGoodsDetail.id
                 if cate_id:
                     dbGoods.cate_id = cate_id
@@ -97,11 +95,16 @@ class ManagerUpdateGoodsHandler(tornado.web.RequestHandler):
                 if keywords:
                     dbGoods.keywords = keywords
                 #  photo
-                if goods_photos:
-                    dbGoodsPhoto.photo = goods_photos
-                if goods_thum_photo:
-                    dbGoodsPhoto.thum_photo = goods_thum_photo
-                dbGoodsPhoto.goods_id = dbGoods.goods_id
+                dbPhotoThumList = []
+                if photo_thum_list:
+                    # delete first when update
+                    getPhoto.deleteGoodsPhotoById(goods_id=dbGoods.goods_id)
+                    for photo_thum in photo_thum_list:
+                        dbGoodsPhoto = DbGoodsPhoto()
+                        dbGoodsPhoto.photo = photo_thum['photos']
+                        dbGoodsPhoto.thum_photo = photo_thum['thum_photo']
+                        dbGoodsPhoto.goods_id = dbGoods.goods_id
+                        dbPhotoThumList.append(dbGoodsPhoto)
                 # attr
                 dbGoodsAttrList = []
                 if attr_size_color_list:
@@ -118,7 +121,7 @@ class ManagerUpdateGoodsHandler(tornado.web.RequestHandler):
                         dbGoodsAttr.cate_id = dbGoods.cate_id
                         dbGoodsAttrList.append(dbGoodsAttr)
                 updateResult = getGoods.updateToDb(goods=dbGoods)
-                savePhotoResult = getPhoto.addGoodsPhoto(dbGoodsPhoto)
+                savePhotoResult = getPhoto.addGoodsPhotoList(dbPhotoThumList)
                 saveAttrResult = getAttr.addGoodsAttrList(dbGoodsAttrList)
                 if updateResult and savePhotoResult and saveAttrResult:
                     baseResponse.code = ResponseCode.op_success

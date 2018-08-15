@@ -32,6 +32,14 @@ class GetGoodsPhoto:
         return self.photoDao.saveToDb(dbGoodsPhoto)
 
     """
+    批量添加商品图片
+    """
+    def addGoodsPhotoList(self, goodsPhotoList):
+        if not goodsPhotoList:
+            return False
+        return self.photoDao.saveListToDb(dbGoodsPhotoList=goodsPhotoList)
+
+    """
     删除商品图片
     """
     def deleteGoodsPhotoById(self, goods_id):
